@@ -70,12 +70,12 @@
 # Σμηλιάνης Σπυρίδων <spirossm@hyperwebhost.net>, 2014
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Plugins\n"
+"Project-Id-Version: Transifex Live\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-03 16:16+1000\n"
-"PO-Revision-Date: 2014-09-03 07:31+0000\n"
-"Last-Translator: ThemeBoy <support@themeboy.com>\n"
-"Language-Team: Greek (http://www.transifex.com/projects/p/wp-plugins/language/el/)\n"
+"PO-Revision-Date: 2014-09-06 22:05+0000\n"
+"Last-Translator: FxB <fxb@wp-translations.org>\n"
+"Language-Team: Greek (http://www.transifex.com/projects/p/transifex-live/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -116,7 +116,7 @@ msgstr "Φόντο"
 
 #: transifex-live.php:95
 msgid "Menu"
-msgstr ""
+msgstr "Μενού"
 
 #: transifex-live.php:99
 msgid "Languages"

@@ -8,12 +8,12 @@
 # pdb <ray12369@gmail.com>, 2014
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Plugins\n"
+"Project-Id-Version: Transifex Live\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-03 16:16+1000\n"
-"PO-Revision-Date: 2014-09-03 07:32+0000\n"
-"Last-Translator: ThemeBoy <support@themeboy.com>\n"
-"Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/wp-plugins/language/zh_TW/)\n"
+"PO-Revision-Date: 2014-09-06 22:05+0000\n"
+"Last-Translator: FxB <fxb@wp-translations.org>\n"
+"Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/transifex-live/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -54,11 +54,11 @@ msgstr "背景"
 
 #: transifex-live.php:95
 msgid "Menu"
-msgstr ""
+msgstr "選單"
 
 #: transifex-live.php:99
 msgid "Languages"
-msgstr ""
+msgstr "Languages"
 
 #: transifex-live.php:132
 msgid "Settings"

@@ -23,12 +23,12 @@
 # محمد الحرقان <malham1@gmail.com>, 2012
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Plugins\n"
+"Project-Id-Version: Transifex Live\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-03 16:16+1000\n"
-"PO-Revision-Date: 2014-09-03 07:32+0000\n"
-"Last-Translator: ThemeBoy <support@themeboy.com>\n"
-"Language-Team: Arabic (http://www.transifex.com/projects/p/wp-plugins/language/ar/)\n"
+"PO-Revision-Date: 2014-09-06 22:05+0000\n"
+"Last-Translator: FxB <fxb@wp-translations.org>\n"
+"Language-Team: Arabic (http://www.transifex.com/projects/p/transifex-live/language/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -69,7 +69,7 @@ msgstr "الخلفية"
 
 #: transifex-live.php:95
 msgid "Menu"
-msgstr ""
+msgstr "القائمة"
 
 #: transifex-live.php:99
 msgid "Languages"

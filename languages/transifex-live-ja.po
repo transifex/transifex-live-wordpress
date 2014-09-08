@@ -7,12 +7,12 @@
 # Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Plugins\n"
+"Project-Id-Version: Transifex Live\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-03 16:16+1000\n"
-"PO-Revision-Date: 2014-09-03 06:16+0000\n"
-"Last-Translator: ThemeBoy <support@themeboy.com>\n"
-"Language-Team: Japanese (http://www.transifex.com/projects/p/wp-plugins/language/ja/)\n"
+"PO-Revision-Date: 2014-09-06 22:05+0000\n"
+"Last-Translator: FxB <fxb@wp-translations.org>\n"
+"Language-Team: Japanese (http://www.transifex.com/projects/p/transifex-live/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -45,23 +45,23 @@ msgstr ""
 
 #: transifex-live.php:87
 msgid "Text"
-msgstr ""
+msgstr "テキスト"
 
 #: transifex-live.php:91
 msgid "Background"
-msgstr ""
+msgstr "背景"
 
 #: transifex-live.php:95
 msgid "Menu"
-msgstr ""
+msgstr "メニュー"
 
 #: transifex-live.php:99
 msgid "Languages"
-msgstr ""
+msgstr "言語"
 
 #: transifex-live.php:132
 msgid "Settings"
-msgstr ""
+msgstr "設定"
 
 #: transifex-live.php:140 transifex-live.php:156
 msgid "Transifex Live"
@@ -107,7 +107,7 @@ msgstr ""
 
 #: transifex-live.php:222
 msgid "Enable"
-msgstr ""
+msgstr "有効"
 
 #~ msgid "Username"
 #~ msgstr "Username"

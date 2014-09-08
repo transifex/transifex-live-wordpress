@@ -10,15 +10,16 @@
 # FxB <fxb@wp-translations.org>, 2013
 # Mohamed-Younès BOUMEDIENE <m-boumediene@live.fr>, 2014
 # Nicolas Maillard <woocommerce@absoluteweb.net>, 2014
+# Sébastien Grillot <sebastien@insidedaweb.fr>, 2014
 # ThemeBoy <support@themeboy.com>, 2014
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Plugins\n"
+"Project-Id-Version: Transifex Live\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-03 16:16+1000\n"
-"PO-Revision-Date: 2014-09-03 07:32+0000\n"
-"Last-Translator: ThemeBoy <support@themeboy.com>\n"
-"Language-Team: French (France) (http://www.transifex.com/projects/p/wp-plugins/language/fr_FR/)\n"
+"PO-Revision-Date: 2014-09-08 11:26+0000\n"
+"Last-Translator: Sébastien Grillot <sebastien@insidedaweb.fr>\n"
+"Language-Team: French (France) (http://www.transifex.com/projects/p/transifex-live/language/fr_FR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -31,23 +32,23 @@ msgstr ""
 
 #: transifex-live.php:74
 msgid "top left"
-msgstr ""
+msgstr "Haut gauche"
 
 #: transifex-live.php:75
 msgid "top right"
-msgstr ""
+msgstr "En haut à droite"
 
 #: transifex-live.php:76
 msgid "bottom left"
-msgstr ""
+msgstr "En bas à gauche"
 
 #: transifex-live.php:77
 msgid "bottom right"
-msgstr ""
+msgstr "En bas à droite"
 
 #: transifex-live.php:83
 msgid "Accent"
-msgstr ""
+msgstr "Accent"
 
 #: transifex-live.php:87
 msgid "Text"
@@ -59,11 +60,11 @@ msgstr "Arrière-plan"
 
 #: transifex-live.php:95
 msgid "Menu"
-msgstr ""
+msgstr "Menu"
 
 #: transifex-live.php:99
 msgid "Languages"
-msgstr ""
+msgstr "Langues"
 
 #: transifex-live.php:132
 msgid "Settings"
@@ -71,41 +72,41 @@ msgstr "Paramètres"
 
 #: transifex-live.php:140 transifex-live.php:156
 msgid "Transifex Live"
-msgstr ""
+msgstr "Transifex Live"
 
 #: transifex-live.php:159
 msgid "Integrate Transifex Live in your webpages and publish translations"
-msgstr ""
+msgstr "Intégrer Transifex Live dans vos pages internet et publier les traductions."
 
 #: transifex-live.php:163
 msgid "API key"
-msgstr ""
+msgstr "Clé API"
 
 #: transifex-live.php:165
 msgid "This field is required."
-msgstr ""
+msgstr "Ce champ est obligatoire"
 
 #: transifex-live.php:169 transifex-live.php:172
 msgid "Auto position"
-msgstr ""
+msgstr "Positionnement automatique"
 
 #: transifex-live.php:185
 msgid "Options"
-msgstr ""
+msgstr "Options"
 
 #: transifex-live.php:188 transifex-live.php:192
 msgid "Auto-detect the browser locale and translate the page."
-msgstr ""
+msgstr "Détecter automatiquement la locale de votre navigateur et traduire la page."
 
 #: transifex-live.php:196 transifex-live.php:200
 msgid "Automatically identify new strings when page content changes."
-msgstr ""
+msgstr "Identifier automatiquement les nouvelles chaînes lorsque le contenu de la page change."
 
 #: transifex-live.php:204
 msgid ""
 "For advanced integration instructions read the <a href=\"%(url)s\" "
 "target=\"_blank\" title=\"API documentation\">API documentation</a>."
-msgstr ""
+msgstr "Pour les intructions d'intégration avancées merci de lire la <a href=\"%(url)s\" target=\"_blank\" title=\"API documentation\">documentation sur l'API</a>."
 
 #: transifex-live.php:210
 msgid "Frontend Styles"
