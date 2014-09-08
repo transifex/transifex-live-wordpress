@@ -4,7 +4,7 @@
  * @version 0.9
  */
 /*
-Plugin Name: Transifex Live
+Plugin Name: Transifex Live Integration
 Plugin URI: http://wordpress.org/plugins/transifex-live/
 Description: Easily integrate Transifex Live (Beta) into your WordPress site.
 Author: ThemeBoy

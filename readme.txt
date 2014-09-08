@@ -1,4 +1,4 @@
-=== Transifex Live ===
+=== Transifex Live Integration ===
 Contributors: ThemeBoy, brianmiyaji
 Tags: transifex, translate, translations, localize, localise, localization, localisation, l10n, i18n, language, switcher, live
 Requires at least: 3.0
@@ -49,6 +49,10 @@ The manual installation method involves downloading the plugin and uploading it 
 = Upgrading =
 
 Automatic updates should work like a charm; as always though, ensure you backup your site just in case.
+
+== Screenshots ==
+
+1. Transifex Live settings with default options.
 
 == Changelog ==
 
