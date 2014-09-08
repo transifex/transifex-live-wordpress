@@ -1,7 +1,8 @@
 [main]
 host = https://www.transifex.com
 
-[wp-plugins.transifex-live]
+[transifex-live.transifex-live]
 file_filter = languages/transifex-live-<lang>.po
-source_file = languages/transifex-live-en_US.po
+source_file = languages/transifex-live.pot
 source_lang = en_US
+type = PO
