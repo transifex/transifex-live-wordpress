@@ -3,7 +3,7 @@ Contributors: ThemeBoy, brianmiyaji
 Tags: transifex, translate, translations, localize, localise, localization, localisation, l10n, i18n, language, switcher, live
 Requires at least: 3.0
 Tested up to: 4.0
-Stable tag: 0.9
+Stable tag: 0.9.1
 License: GPLv2 or later
 
 Easily integrate Transifex Live (Beta) into your WordPress site.
@@ -23,7 +23,7 @@ Requires a Transifex Live API key. [Register for the beta](https://www.transifex
 
 Developers can contribute via the plugin's [GitHub Repository](https://github.com/ThemeBoy/transifex-live).
 
-Translators can contribute new languages to this plugin or our other WordPress plugins through [Transifex](https://www.transifex.com/projects/p/wp-plugins/).
+Translators can contribute new languages to this plugin or our other WordPress plugins through [Transifex](https://www.transifex.com/projects/p/transifex-live/).
 
 == Installation ==
 
@@ -55,6 +55,9 @@ Automatic updates should work like a charm; as always though, ensure you backup 
 1. Transifex Live settings with default options.
 
 == Changelog ==
+
+= 0.9.1 =
+* Documentation - Add link to translation project.
 
 = 0.9 =
 * Beta release.

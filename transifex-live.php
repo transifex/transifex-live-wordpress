@@ -1,14 +1,14 @@
 <?php
 /**
  * @package Transifex_Live
- * @version 0.9
+ * @version 0.9.1
  */
 /*
 Plugin Name: Transifex Live Integration
 Plugin URI: http://wordpress.org/plugins/transifex-live/
 Description: Easily integrate Transifex Live (Beta) into your WordPress site.
 Author: ThemeBoy
-Version: 0.9
+Version: 0.9.1
 Author URI: http://themeboy.com/
 */
 
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * Plugin setup
  *
- * @since 0.9
+ * @since 0.9.1
 */
 class Transifex_Live {
 
@@ -49,7 +49,7 @@ class Transifex_Live {
 	 */
 	private function define_constants() {
 		if ( !defined( 'TRANSIFEX_LIVE_VERSION' ) )
-			define( 'TRANSIFEX_LIVE_VERSION', '0.9' );
+			define( 'TRANSIFEX_LIVE_VERSION', '0.9.1' );
 
 		if ( !defined( 'TRANSIFEX_LIVE_URL' ) )
 			define( 'TRANSIFEX_LIVE_URL', plugin_dir_url( __FILE__ ) );
@@ -227,6 +227,11 @@ class Transifex_Live {
 				</table>
 				<p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary" value="Save Changes"></p>
 			</form>
+			<p>
+				<a href="http://wordpress.org/support/view/plugin-reviews/transifex-live?rate=5#postform">
+					<?php _e( 'Love Transifex Live Integration? Help spread the word by rating us 5★ on WordPress.org', 'transifex-live' ); ?>
+				</a>
+			</p>
 		</div>
 		<?php
 	}
@@ -238,8 +243,8 @@ class Transifex_Live {
 		$screen = get_current_screen();
 
 		if ( 'settings_page_transifex-live' == $screen->id ):
-	    	wp_enqueue_script( 'transifex-live-admin', TRANSIFEX_LIVE_URL . '/js/admin.js', array( 'jquery', 'wp-color-picker', 'iris' ), TRANFIEX_LIVE_VERSION, true );
-			wp_enqueue_style( 'transifex-live-admin', TRANSIFEX_LIVE_URL . '/css/admin.css', array(), TRANFIEX_LIVE_VERSION );
+	    	wp_enqueue_script( 'transifex-live-admin', TRANSIFEX_LIVE_URL . '/js/admin.js', array( 'jquery', 'wp-color-picker', 'iris' ), TRANSIFEX_LIVE_VERSION, true );
+			wp_enqueue_style( 'transifex-live-admin', TRANSIFEX_LIVE_URL . '/css/admin.css', array(), TRANSIFEX_LIVE_VERSION );
 		endif;
 	}
 
