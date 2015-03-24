@@ -1,6 +1,6 @@
 Transifex Live Integration
 
-Copyright 2014 by the contributors
+Copyright 2015 by the contributors
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -22,15 +22,14 @@ permission notices:
   Transifex is released under the GPL
   https://github.com/transifex/transifex/
 
+  Themeboy's Transifex Live Plugin
+  https://github.com/ThemeBoy/transifex-live
+
   HEX to RGB code by c.bavota
   http://bavotasan.com/2011/convert-hex-color-to-rgb-using-php/
 
   Wherever third party code has been used, credit has been given in the code's
-  comments.
-
-and
-
-  ThemeBoy
+  comments and ThemeBoy.
 
   Transifex Live Integration is released under the GPL
 

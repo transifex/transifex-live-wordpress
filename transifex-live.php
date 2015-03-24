@@ -1,16 +1,16 @@
 <?php
 /**
- * @package Transifex_Live
- * @version 0.9.1
+ * Plugin Name: Transifex Live Wordpress Plugin
+ * Plugin URI: http://www.transifex.com
+ * Description: Transifex Live is a new, innovative way to localize your website with one snippet of JavaScript. It eliminates the hassle of extracting phrases from your code for translation, dealing with system integrations, or waiting for the next deployment to take translations live.
+ * Version: 0.9.2
+ * License: GNU General Public License
  */
-/*
-Plugin Name: Transifex Live Integration
-Plugin URI: http://wordpress.org/plugins/transifex-live/
-Description: Easily integrate Transifex Live (Beta) into your WordPress site.
-Author: ThemeBoy
-Version: 0.9.1
-Author URI: http://themeboy.com/
-*/
+
+/**
+ * @package Transifex
+ * @version 0.9.2
+ */
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * Plugin setup
  *
- * @since 0.9.1
+ * @since 0.9.2
 */
 class Transifex_Live {
 
@@ -49,7 +49,7 @@ class Transifex_Live {
 	 */
 	private function define_constants() {
 		if ( !defined( 'TRANSIFEX_LIVE_VERSION' ) )
-			define( 'TRANSIFEX_LIVE_VERSION', '0.9.1' );
+			define( 'TRANSIFEX_LIVE_VERSION', '0.9.2' );
 
 		if ( !defined( 'TRANSIFEX_LIVE_URL' ) )
 			define( 'TRANSIFEX_LIVE_URL', plugin_dir_url( __FILE__ ) );
@@ -66,7 +66,9 @@ class Transifex_Live {
 			'api_key' => null,
 			'picker' => 'bottom-right',
 			'detectlang' => 1,
+			'dynamic' => 1,
 			'autocollect' => 1,
+			'staging' => 0,
 			'enable_frontend_css' => 0,
 		);
 
@@ -156,34 +158,21 @@ class Transifex_Live {
 			<h2><?php _e( 'Transifex Live', 'transifex-live' ); ?></h2>
 			<form method="post" enctype="multipart/form-data">
 				<?php wp_nonce_field( 'transifex_live_settings', 'transifex_live_nonce' ); ?>
-				<p><?php _e( 'Integrate Transifex Live in your webpages and publish translations', 'transifex-live' ); ?></p>
+				<p><?php _e( 'Transifex Live is a new, innovative way to localize your website with one snippet of JavaScript.', 'transifex-live' ); ?><br>
+				   <?php _e( 'It eliminates the hassle of extracting phrases from your code for translation, dealing with system integrations, or waiting for the next deployment to take translations live.', 'transifex-live' ); ?></p>
 				<table class="form-table">
 					<tbody>
+						<!-- API Key -->
 						<tr>
-							<th scope="row"><label for="transifex_live_settings[api_key]"><?php _e( 'API key', 'transifex-live' ); ?></label></th>
+							<th scope="row"><label for="transifex_live_settings[api_key]"><?php _e( 'Transifex API Key', 'transifex-live' ); ?></label></th>
 							<td>
 								<input name="transifex_live_settings[api_key]" type="text" id="transifex_live_settings_api_key" value="<?php echo $settings['api_key']; ?>" class="regular-text" placeholder="<?php _e( 'This field is required.', 'transifex-live' ); ?>">
 							</td>
 						</tr>
 						<tr>
-							<th scope="row"><label for="transifex_live_settings_picker"><?php _e( 'Auto position', 'transifex-live' ); ?></label></th>
-							<td class="forminp forminp-radio">
-								<fieldset>
-									<legend class="screen-reader-text"><span><?php _e( 'Auto position', 'transifex-live' ); ?></span></legend>
-									<ul>
-										<?php foreach ( $this->positions as $key => $label ) { ?>
-											<li>
-												<label>
-													<input name="transifex_live_settings[picker]" value="<?php echo $key; ?>" type="radio" <?php checked( $key, $settings['picker'] ); ?>> <?php echo $label; ?></label>
-											</li>
-										<?php } ?>
-									</ul>
-								</fieldset>
-							</td>
-						</tr>
-						<tr>
-							<th scope="row"><label><?php _e( 'Options', 'transifex-live' ); ?></label></th>
+							<th scope="row"><label><?php _e( 'Plugin Options', 'transifex-live' ); ?></label></th>
 							<td>
+								<!-- Detect lang -->
 								<fieldset>
 									<legend class="screen-reader-text"><span><?php _e( 'Auto-detect the browser locale and translate the page.', 'transifex-live' ); ?></span></legend>
 									<label for="transifex_live_settings_detectlang">
@@ -192,6 +181,7 @@ class Transifex_Live {
 										<?php _e( 'Auto-detect the browser locale and translate the page.', 'transifex-live' ); ?>
 									</label>
 								</fieldset>
+								<!-- Auto collect -->
 								<fieldset>
 									<legend class="screen-reader-text"><span><?php _e( 'Automatically identify new strings when page content changes.', 'transifex-live' ); ?></span></legend>
 									<label for="transifex_live_settings_autocollect">
@@ -200,14 +190,45 @@ class Transifex_Live {
 										<?php _e( 'Automatically identify new strings when page content changes.', 'transifex-live' ); ?>
 									</label>
 								</fieldset>
-								<p class="description">
-									<?php echo str_replace( '%(url)s', 'http://docs.transifex.com/developer/live/api', __( "For advanced integration instructions read the <a href=\"%(url)s\" target=\"_blank\" title=\"API documentation\">API documentation</a>.", 'transifex-live' ) ); ?>
-								</p>
+								<!-- Dynamic -->
+								<fieldset>
+									<legend class="screen-reader-text"><span><?php _e( 'Enable translation of dynamically injected content.', 'transifex-live' ); ?></span></legend>
+									<label for="transifex_live_settings_dynamic">
+										<input name="transifex_live_settings[dynamic]" type="hidden" value="0">
+										<input name="transifex_live_settings[dynamic]" type="checkbox" id="transifex_live_settings_dynamic" value="1" <?php checked( $settings['dynamic'] ); ?>>
+										<?php _e( 'Enable translation of dynamically injected content.', 'transifex-live' ); ?>
+									</label>
+								</fieldset>
+								<!-- Staging -->
+								<fieldset>
+									<legend class="screen-reader-text"><span><?php _e( 'Is this a staging server?', 'transifex-live' ); ?></span></legend>
+									<label for="transifex_live_settings_staging">
+										<input name="transifex_live_settings[staging]" type="hidden" value="0">
+										<input name="transifex_live_settings[staging]" type="checkbox" id="transifex_live_settings_staging" value="1" <?php checked( $settings['staging'] ); ?>>
+										<?php _e( 'Is this a staging server?', 'transifex-live' ); ?>
+									</label>
+								</fieldset>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row"><label for="transifex_live_settings_picker"><?php _e( 'Language Picker Location', 'transifex-live' ); ?></label></th>
+							<td class="forminp forminp-radio">
+								<fieldset>
+									<legend class="screen-reader-text"><span><?php _e( 'Auto position', 'transifex-live' ); ?></span></legend>
+									<ul>
+										<?php foreach ( $this->positions as $key => $label ) { ?>
+										<li>
+											<label>
+											<input name="transifex_live_settings[picker]" value="<?php echo $key; ?>" type="radio" <?php checked( $key, $settings['picker'] ); ?>> <?php echo $label; ?></label>
+										</li>
+										<?php } ?>
+									</ul>
+								</fieldset>
 							</td>
 						</tr>
 						<tr valign="top">
 							<th scope="row" class="titledesc">
-								<?php _e( 'Frontend Styles', 'transifex-live' ); ?>
+								<?php _e( 'Language Picker Styling', 'transifex-live' ); ?>
 							</th>
 							<td class="forminp">
 								<?php
@@ -229,7 +250,7 @@ class Transifex_Live {
 			</form>
 			<p>
 				<a href="http://wordpress.org/support/view/plugin-reviews/transifex-live?rate=5#postform">
-					<?php _e( 'Love Transifex Live Integration? Help spread the word by rating us 5★ on WordPress.org', 'transifex-live' ); ?>
+					<?php _e( 'Thank you for using Transifex!', 'transifex-live' ); ?>
 				</a>
 			</p>
 		</div>
@@ -243,7 +264,7 @@ class Transifex_Live {
 		$screen = get_current_screen();
 
 		if ( 'settings_page_transifex-live' == $screen->id ):
-	    	wp_enqueue_script( 'transifex-live-admin', TRANSIFEX_LIVE_URL . '/js/admin.js', array( 'jquery', 'wp-color-picker', 'iris' ), TRANSIFEX_LIVE_VERSION, true );
+			wp_enqueue_script( 'transifex-live-admin', TRANSIFEX_LIVE_URL . '/js/admin.js', array( 'jquery', 'wp-color-picker', 'iris' ), TRANSIFEX_LIVE_VERSION, true );
 			wp_enqueue_style( 'transifex-live-admin', TRANSIFEX_LIVE_URL . '/css/admin.css', array(), TRANSIFEX_LIVE_VERSION );
 		endif;
 	}
@@ -260,7 +281,7 @@ class Transifex_Live {
 		wp_enqueue_script( 'transifex-live-scripts', TRANSIFEX_LIVE_URL . '/js/scripts.js', array( 'transifex-live' ), TRANSIFEX_LIVE_VERSION, false );
 
 		$settings = array_merge( $this->defaults, $settings );
-		
+
 		wp_localize_script( 'transifex-live-scripts', 'settings', $settings );
 	}
 
@@ -270,7 +291,7 @@ class Transifex_Live {
 	public function custom_css() {
 		$settings = get_option( 'transifex_live_settings', array() );
 		if ( ! isset( $settings['enable_frontend_css'] ) || ! $settings['enable_frontend_css'] ) return;
-		
+
 		$colors = array_map( 'esc_attr', (array) get_option( 'transifex_live_colors', array() ) );
 
 		foreach ( $this->colors as $key => $values ) {
@@ -315,8 +336,8 @@ class Transifex_Live {
 	 */
 	function color_picker( $name, $id, $value ) {
 		echo '<div class="color-box"><strong>' . esc_html( $name ) . '</strong>
-	   		<input name="' . esc_attr( $id ). '" id="' . esc_attr( str_replace( array( '[', ']' ), array( '_', '' ), $id ) ) . '" type="text" value="' . esc_attr( $value ) . '" class="colorpick" /> <div id="colorPickerDiv_' . esc_attr( $id ) . '" class="colorpickdiv"></div>
-	    </div>';
+			<input name="' . esc_attr( $id ). '" id="' . esc_attr( str_replace( array( '[', ']' ), array( '_', '' ), $id ) ) . '" type="text" value="' . esc_attr( $value ) . '" class="colorpick" /> <div id="colorPickerDiv_' . esc_attr( $id ) . '" class="colorpickdiv"></div>
+		</div>';
 	}
 
 	/**

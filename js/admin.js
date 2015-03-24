@@ -19,6 +19,6 @@ jQuery(document).ready(function($){
 	});
 
 	$('.color-box, .colorpick').click(function(event){
-	    event.stopPropagation();
+		event.stopPropagation();
 	});
 });
