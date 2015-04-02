@@ -80,6 +80,7 @@ class Transifex_Live {
 			'top-right' => __( 'top right', 'transifex-live' ),
 			'bottom-left' => __( 'bottom left', 'transifex-live' ),
 			'bottom-right' => __( 'bottom right', 'transifex-live' ),
+			'id' => __('custom id', 'transifex-live'),
 		);
 
 		$this->colors = array(
@@ -240,7 +241,11 @@ class Transifex_Live {
 										<?php foreach ( $this->positions as $key => $label ) { ?>
 										<li>
 											<label>
-											<input name="transifex_live_settings[picker]" value="<?php echo $key; ?>" type="radio" <?php checked( $key, $settings['picker'] ); ?>> <?php echo $label; ?></label>
+											<input name="transifex_live_settings[picker]" value="<?php echo $key; ?>" type="radio" <?php checked( $key, $settings['picker'] ); ?>> <?php echo $label; ?>
+											<?php if ($key == 'id') { ?>
+												<input name="transifex_live_settings[picker]" type="text" id="transifex_live_settings_picker" value="<?php echo $settings['picker']; ?>" class="language_picker_fix" placeholder="<?php _e( 'Would you like to ignore any classes?', 'transifex-live' ); ?>">
+											<?php } ?>
+											</label>
 										</li>
 										<?php } ?>
 									</ul>
@@ -296,7 +301,8 @@ class Transifex_Live {
 	public function scripts() {
 		$settings = get_option( 'transifex_live_settings', array() );
 		$settings = array_filter( $settings, 'strlen' );
-		if ( count( array_diff( array_keys( $this->defaults ), array_keys( $settings ) ) ) > 0 ) return;
+		if ( count( array_diff( array_keys( $this->defaults ), array_keys( $settings ) ) ) > 0 )
+			return;
 
 		$settings['parse_attr'] = (explode(', ', $settings['parse_attr']));
 		$settings['ignore_tags'] = (explode(', ', $settings['ignore_tags']));
