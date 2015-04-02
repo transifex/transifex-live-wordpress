@@ -70,6 +70,9 @@ class Transifex_Live {
 			'autocollect' => 1,
 			'staging' => 0,
 			'enable_frontend_css' => 0,
+			'parse_attr' => array(),
+			'ignore_tags' => array(),
+			'ignore_class' => array(),
 		);
 
 		$this->positions = array(
@@ -208,6 +211,28 @@ class Transifex_Live {
 										<?php _e( 'Is this a staging server?', 'transifex-live' ); ?>
 									</label>
 								</fieldset>
+
+								<!-- Parse attr -->
+								<fieldset>
+									<legend class="screen-reader-text"><span><?php _e( 'Are there any attributes that need to be parsed?', 'transifex-live' ); ?></span></legend>
+									<label for="transifex_live_settings_parse_attr">
+										<input name="transifex_live_settings[parse_attr]" type="text" id="transifex_live_settings_parse_attr" value="<?php echo $settings['parse_attr']; ?>" class="regular-text" placeholder="<?php _e( 'Are there any attributes that need to be parsed?', 'transifex-live' ); ?>">
+									</label>
+								</fieldset>
+								<!-- Ignore tags -->
+								<fieldset>
+									<legend class="screen-reader-text"><span><?php _e( 'Would you like to ignore any tags?', 'transifex-live' ); ?></span></legend>
+									<label for="transifex_live_settings_ignore_tags">
+										<input name="transifex_live_settings[ignore_tags]" type="text" id="transifex_live_settings_ignore_tags" value="<?php echo $settings['ignore_tags']; ?>" class="regular-text" placeholder="<?php _e( 'Would you like to ignore any tags?', 'transifex-live' ); ?>">
+									</label>
+								</fieldset>
+								<!-- Ignore class -->
+								<fieldset>
+									<legend class="screen-reader-text"><span><?php _e( 'Would you like to ignore any classes?', 'transifex-live' ); ?></span></legend>
+									<label for="transifex_live_settings_ignore_class">
+										<input name="transifex_live_settings[ignore_class]" type="text" id="transifex_live_settings_ignore_class" value="<?php echo $settings['ignore_class']; ?>" class="regular-text" placeholder="<?php _e( 'Would you like to ignore any classes?', 'transifex-live' ); ?>">
+									</label>
+								</fieldset>
 							</td>
 						</tr>
 						<tr>
@@ -276,6 +301,10 @@ class Transifex_Live {
 		$settings = get_option( 'transifex_live_settings', array() );
 		$settings = array_filter( $settings, 'strlen' );
 		if ( count( array_diff( array_keys( $this->defaults ), array_keys( $settings ) ) ) > 0 ) return;
+
+		$settings['parse_attr'] = (explode(', ', $settings['parse_attr']));
+		$settings['ignore_tags'] = (explode(', ', $settings['ignore_tags']));
+		$settings['ignore_class'] = (explode(', ', $settings['ignore_class']));
 
 		wp_enqueue_script( 'transifex-live', '//cdn.transifex.com/live.js', array(), null, false );
 		wp_enqueue_script( 'transifex-live-scripts', TRANSIFEX_LIVE_URL . '/js/scripts.js', array( 'transifex-live' ), TRANSIFEX_LIVE_VERSION, false );
