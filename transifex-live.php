@@ -211,27 +211,23 @@ class Transifex_Live {
 										<?php _e( 'Is this a staging server?', 'transifex-live' ); ?>
 									</label>
 								</fieldset>
-
 								<!-- Parse attr -->
 								<fieldset>
 									<legend class="screen-reader-text"><span><?php _e( 'Are there any attributes that need to be parsed?', 'transifex-live' ); ?></span></legend>
-									<label for="transifex_live_settings_parse_attr">
-										<input name="transifex_live_settings[parse_attr]" type="text" id="transifex_live_settings_parse_attr" value="<?php echo $settings['parse_attr']; ?>" class="regular-text" placeholder="<?php _e( 'Are there any attributes that need to be parsed?', 'transifex-live' ); ?>">
-									</label>
+									<label for="transifex_live_settings_parse_attr" class="text_field_fix">Parse attributes</label>
+									<input name="transifex_live_settings[parse_attr]" type="text" id="transifex_live_settings_parse_attr" value="<?php echo $settings['parse_attr']; ?>" class="regular-text" placeholder="<?php _e( 'Are there any attributes that need to be parsed?', 'transifex-live' ); ?>">
 								</fieldset>
 								<!-- Ignore tags -->
 								<fieldset>
 									<legend class="screen-reader-text"><span><?php _e( 'Would you like to ignore any tags?', 'transifex-live' ); ?></span></legend>
-									<label for="transifex_live_settings_ignore_tags">
-										<input name="transifex_live_settings[ignore_tags]" type="text" id="transifex_live_settings_ignore_tags" value="<?php echo $settings['ignore_tags']; ?>" class="regular-text" placeholder="<?php _e( 'Would you like to ignore any tags?', 'transifex-live' ); ?>">
-									</label>
+									<label for="transifex_live_settings_ignore_tags" class="text_field_fix">Ignore tags</label>
+									<input name="transifex_live_settings[ignore_tags]" type="text" id="transifex_live_settings_ignore_tags" value="<?php echo $settings['ignore_tags']; ?>" class="regular-text" placeholder="<?php _e( 'Would you like to ignore any tags?', 'transifex-live' ); ?>">
 								</fieldset>
 								<!-- Ignore class -->
 								<fieldset>
 									<legend class="screen-reader-text"><span><?php _e( 'Would you like to ignore any classes?', 'transifex-live' ); ?></span></legend>
-									<label for="transifex_live_settings_ignore_class">
-										<input name="transifex_live_settings[ignore_class]" type="text" id="transifex_live_settings_ignore_class" value="<?php echo $settings['ignore_class']; ?>" class="regular-text" placeholder="<?php _e( 'Would you like to ignore any classes?', 'transifex-live' ); ?>">
-									</label>
+									<label for="transifex_live_settings_ignore_class" class="text_field_fix">Ignore class</label>
+									<input name="transifex_live_settings[ignore_class]" type="text" id="transifex_live_settings_ignore_class" value="<?php echo $settings['ignore_class']; ?>" class="regular-text" placeholder="<?php _e( 'Would you like to ignore any classes?', 'transifex-live' ); ?>">
 								</fieldset>
 							</td>
 						</tr>

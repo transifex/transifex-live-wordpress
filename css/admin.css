@@ -54,3 +54,7 @@
 	border-radius: 3px;
 	margin: 15px 0 0 -7px;
 }
+
+.text_field_fix {
+	width: 120px;
+}
