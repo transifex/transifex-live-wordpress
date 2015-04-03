@@ -80,11 +80,11 @@ class Transifex_Live {
 		);
 
 		$this->positions = array(
-    		'top-left'      => array( 'location' => 'top-left', 'transifex-live' ),
-    		'top-right'     => array( 'location' => 'top-right', 'transifex-live' ),
-    		'bottom-left'   => array( 'location' => 'bottom-left', 'transifex-live' ),
-		    'bottom-right'  => array( 'location' => 'bottom-right', 'transifex-live' ),
-    		'id'            => array( 'location' => 'custom id', 'transifex-live'),
+			'top-left'      => array( 'location' => 'top-left', 'transifex-live' ),
+			'top-right'     => array( 'location' => 'top-right', 'transifex-live' ),
+			'bottom-left'   => array( 'location' => 'bottom-left', 'transifex-live' ),
+			'bottom-right'  => array( 'location' => 'bottom-right', 'transifex-live' ),
+			'id'            => array( 'location' => 'custom id', 'transifex-live'),
 		);
 
 		$this->colors = array(
