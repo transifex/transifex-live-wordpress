@@ -75,12 +75,16 @@ class Transifex_Live {
 			'ignore_class' => array(),
 		);
 
+		$this->custom_picker = array(
+			'custom_picker_id' => ''
+		);
+
 		$this->positions = array(
-			'top-left' => __( 'top left', 'transifex-live' ),
-			'top-right' => __( 'top right', 'transifex-live' ),
-			'bottom-left' => __( 'bottom left', 'transifex-live' ),
-			'bottom-right' => __( 'bottom right', 'transifex-live' ),
-			'id' => __('custom id', 'transifex-live'),
+    		'top-left'      => array( 'location' => 'top-left', 'transifex-live' ),
+    		'top-right'     => array( 'location' => 'top-right', 'transifex-live' ),
+    		'bottom-left'   => array( 'location' => 'bottom-left', 'transifex-live' ),
+		    'bottom-right'  => array( 'location' => 'bottom-right', 'transifex-live' ),
+    		'id'            => array( 'location' => 'custom id', 'transifex-live'),
 		);
 
 		$this->colors = array(
@@ -238,19 +242,24 @@ class Transifex_Live {
 								<fieldset>
 									<legend class="screen-reader-text"><span><?php _e( 'Auto position', 'transifex-live' ); ?></span></legend>
 									<ul>
-										<?php foreach ( $this->positions as $key => $label ) { ?>
-										<li>
-											<label>
-											<input name="transifex_live_settings[picker]" value="<?php echo $key; ?>" type="radio" <?php checked( $key, $settings['picker'] ); ?>> <?php echo $label; ?>
-											<?php if ($key == 'id') { ?>
-												<input name="transifex_live_settings[picker]" type="text" id="transifex_live_settings_picker" value="<?php echo $settings['picker']; ?>" class="language_picker_fix" placeholder="<?php _e( 'Would you like to ignore any classes?', 'transifex-live' ); ?>">
-											<?php } ?>
-											</label>
-										</li>
+										<?php foreach ( $this->positions as $row ) { ?>
+											<li>
+												<label>
+													<input name="transifex_live_settings[picker]" value="<?php echo $row['location']; ?>" type="radio" <?php checked( $row['location'], $settings['picker'] ); ?>><?php echo $row['location']; ?>
+												</label>
+											</li>
 										<?php } ?>
 									</ul>
 								</fieldset>
 							</td>
+						</tr>
+						<tr>
+						<tr>
+							<th scope="row"><label for="transifex_live_settings[api_key]"><?php _e( 'Language Picker ID', 'transifex-live' ); ?></label></th>
+							<td>
+								<input name="transifex_live_settings[custom_picker_id]" type="text" id="transifex_live_settings_custom_picker_id" value="<?php if ($settings['picker'] == 'custom id'){ echo $settings['custom_picker_id']; } ?>" class="regular-text" placeholder="<?php _e( '', 'transifex-live' ); ?>">
+							</td>
+						</tr>
 						</tr>
 						<tr valign="top">
 							<th scope="row" class="titledesc">
@@ -303,6 +312,12 @@ class Transifex_Live {
 		$settings = array_filter( $settings, 'strlen' );
 		if ( count( array_diff( array_keys( $this->defaults ), array_keys( $settings ) ) ) > 0 )
 			return;
+
+		if ($settings['picker'] == 'custom id') {
+			$settings['picker']  = "#" . $settings['custom_picker_id'];
+		}
+
+		unset($settings['custom_picker_id']);
 
 		$settings['parse_attr'] = (explode(', ', $settings['parse_attr']));
 		$settings['ignore_tags'] = (explode(', ', $settings['ignore_tags']));
