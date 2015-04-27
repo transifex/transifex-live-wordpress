@@ -39,7 +39,7 @@ class Test_Transifex_Live_Wordpress extends WP_UnitTestCase {
 
     function testAdminPlugin() {
         $this->plugin_admin = new Transifex_Live_Wordpress_Admin(
-                $this->plugin->get_plugin_name(), $this->plugin->get_version());
+                $this->plugin->get_plugin_name(), $this->plugin->get_version(), $this->plugin->get_plugin_text_domain());
 
         $this->assertFalse(null == $this->plugin_admin);
         $this->assertFalse(null == $this->plugin_admin->get_defaults());
