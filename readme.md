@@ -10,7 +10,7 @@
 
 == Description ==
 
-In order to use Transifex Live you will need to [sign up here for a FREE account](https://www.transifex.com/signup/?utm_source=github&utm_medium=web&utm_campaign=tx-live-wp-plugin).  This plugin also requires a Transifex Live API key.  More information about how to obtain a key can be found in the [Transifex Live documentation here:](http://docs.transifex.com/developer/live/?utm_source=github&utm_medium=web&utm_campaign=tx-live-wp-plugin) if you don't have one yet.  
+In order to use Transifex Live you will need to [sign up here for a FREE account](https://www.transifex.com/signup/?utm_source=github&utm_medium=web&utm_campaign=tx-live-wp-plugin).  This plugin also requires a Transifex Live API key.  More information about how to obtain a key can be found in the [Transifex Live documentation here](http://docs.transifex.com/developer/live/?utm_source=github&utm_medium=web&utm_campaign=tx-live-wp-plugin), if you don't have a key yet.  
 
 == Features ==
 
