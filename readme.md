@@ -1,22 +1,16 @@
-=== Plugin Name ===
-Name: Transifex Live Wordpress Plugin
-Contributors: ThemeBoy, brianmiyaji, ayebare, matthewjackowski
-Donate link: http://docs.transifex.com/developer/integrations/wordpress
-Tags: transifex, translate, translations, localize, localise, localization, localisation, l10n, i18n, language, switcher, live, translation, translator
-Requires at least: 3.0
-Tested up to: 4.2
-Stable tag: 1.0.0
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+#Transifex Live Wordpress Plugin
 
-[What is Transifex?](https://www.transifex.com/product/)
+
+[What is Transifex?](https://www.transifex.com/product/?utm_source=github&utm_medium=web&utm_campaign=tx-live-wp-plugin)
+
 
 
 [What is Transifex Live?](https://www.transifex.com/product/transifexlive/)
 
+
 == Description ==
 
-In order to use Transifex Live you will need to [sign up here for a FREE account](https://www.transifex.com/signup/).  This plugin also requires a Transifex Live API key.  More information about how to obtain a key can be found in the [Transifex Live documentation here:](http://docs.transifex.com/developer/live/) if you don't have one yet.  
+In order to use Transifex Live you will need to [sign up here for a FREE account](https://www.transifex.com/signup/?utm_source=github&utm_medium=web&utm_campaign=tx-live-wp-plugin).  This plugin also requires a Transifex Live API key.  More information about how to obtain a key can be found in the [Transifex Live documentation here:](http://docs.transifex.com/developer/live/?utm_source=github&utm_medium=web&utm_campaign=tx-live-wp-plugin) if you don't have one yet.  
 
 == Features ==
 
@@ -28,7 +22,7 @@ In order to use Transifex Live you will need to [sign up here for a FREE account
 
 == Get Involved ==
 
-Developers can contribute via the plugin's [GitHub Repository](https://github.com/transifex/transifex-live-wordpress).
+Developers can contribute via this repository.  Please send a Pull Request.
 
 Translators can contribute new languages to this plugin or our other WordPress plugins through [Transifex](https://www.transifex.com/projects/p/transifex-live/).
 
