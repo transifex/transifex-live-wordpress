@@ -1,11 +1,12 @@
-=== Transifex Live Integration ===
-* Contributors: ThemeBoy, brianmiyaji, Transifex
-* Tags: transifex, translate, translations, localize, localise, localization, localisation, l10n, i18n, language, switcher, live, translation, translator
-* Requires at least: 3.0
-* Tested up to: 4.1.1
-* Stable tag: 0.9.2
-* License: GPLv2 or later
-* Easily integrate Transifex Live into your WordPress site.
+=== Plugin Name ===
+Contributors: ThemeBoy, brianmiyaji, Transifex, @mjjacko
+Donate link: http://docs.transifex.com/developer/integrations/wordpress
+Tags: transifex, translate, translations, localize, localise, localization, localisation, l10n, i18n, language, switcher, live, translation, translator
+Requires at least: 3.0
+Tested up to: 4.2
+Stable tag: 1.0.0
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 == What is Transifex? ==
 
@@ -61,6 +62,9 @@ The manual installation method involves downloading the plugin and uploading it 
 Automatic updates should work like a charm; as always though, ensure you backup your site just in case.
 
 == Changelog ==
+
+= 1.0.0 =
+Restructured plugin to follow boilerplate.  Added unit tests.
 
 = 0.9.2 =
 * Updated options - Add extra option for Tx Live.
