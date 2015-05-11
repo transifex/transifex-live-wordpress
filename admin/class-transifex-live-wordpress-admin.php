@@ -195,9 +195,9 @@ class Transifex_Live_Wordpress_Admin {
 		$settings[ 'transifex_live_settings' ][ 'custom_picker_id' ] = ( isset( $settings[ 'transifex_live_settings' ][ 'custom_picker_id' ] )) ? sanitize_text_field( $settings[ 'transifex_live_settings' ][ 'custom_picker_id' ] ) : '';
 		$settings[ 'transifex_live_colors' ][ 'accent' ] = $this->sanitize_hex_color( $settings[ 'transifex_live_colors' ][ 'accent' ] );
 		$settings[ 'transifex_live_colors' ][ 'text' ] = $this->sanitize_hex_color( $settings[ 'transifex_live_colors' ][ 'text' ] );
-		$settings[ 'transifex_live_colors' ][ 'bg' ] = $this->sanitize_hex_color( $settings[ 'transifex_live_colors' ][ 'bg' ] );
+		$settings[ 'transifex_live_colors' ][ 'background' ] = $this->sanitize_hex_color( $settings[ 'transifex_live_colors' ][ 'background' ] );
 		$settings[ 'transifex_live_colors' ][ 'menu' ] = $this->sanitize_hex_color( $settings[ 'transifex_live_colors' ][ 'menu' ] );
-		$settings[ 'transifex_live_colors' ][ 'langs' ] = $this->sanitize_hex_color( $settings[ 'transifex_live_colors' ][ 'langs' ] );
+		$settings[ 'transifex_live_colors' ][ 'languages' ] = $this->sanitize_hex_color( $settings[ 'transifex_live_colors' ][ 'languages' ] );
 		return $settings;
 	}
 
