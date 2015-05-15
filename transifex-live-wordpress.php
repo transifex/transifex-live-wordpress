@@ -8,11 +8,11 @@
  * @wordpress-plugin
  * Plugin Name:       Transifex Live Wordpress Plugin
  * Plugin URI:        http://docs.transifex.com/developer/integrations/wordpress
- * Description: 	  Transifex Live is a new, innovative way to localize your website with one snippet of JavaScript. It eliminates the hassle of extracting phrases from your code for translation, dealing with system integrations, or waiting for the next deployment to take translations live.
+ * Description: 	  The Transifex Live Integration plugin is a new, innovative way to localize your WordPress website or blog.
  * Version: 		  1.0.0
  * License: 		  GNU General Public License
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       transifex-live-wordpress
+ * Text Domain:       transifex-live-integration
  * Domain Path:       /languages
  */
 // Exit if accessed directly
