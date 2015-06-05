@@ -90,7 +90,7 @@ class Transifex_Live_Wordpress_Admin {
 
 		$this->urls = array(
 			'rate_us' => 'https://wordpress.org/support/view/plugin-reviews/' . $this->plugin_name . '?rate=5#postform',
-			'api_key_landing_page' => 'https://www.transifex.com/live/'
+			'api_key_landing_page' => 'https://www.transifex.com/live/?utm_source=liveplugin'
 		);
 	}
 
