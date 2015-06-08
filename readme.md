@@ -57,3 +57,5 @@ Automatic updates should work like a charm; as always though, ensure you backup 
 = 1.0.0 =
 Full relase.  Restructured plugin to follow boilerplate.  Added unit tests.
 
+= 1.0.1
+Minor edits for documentation
