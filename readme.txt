@@ -8,7 +8,7 @@ Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-The Live Translation Plugin uses Transifex Live, Transifex Live WordPress Plugin a new, innovative way to localize your WordPress website or blog.
+The Live Translation Plugin uses Transifex Live, Transifex Live WordPress Plugin is a new, innovative way to localize your WordPress website or blog.
 
 == Description ==
 
