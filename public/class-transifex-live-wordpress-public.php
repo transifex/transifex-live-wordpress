@@ -85,9 +85,9 @@ class Transifex_Live_Wordpress_Public {
     public function enqueue_scripts() {
 
 
-        wp_enqueue_script($this->plugin_name, '//cdn.transifex.com/live.js', array(), null, false);
-        wp_enqueue_script($this->plugin_name . '-scripts', TRANSIFEX_LIVE_PUBLIC_JS . 'transifex-live-wordpress-public.js', array($this->plugin_name), $this->plugin_version, false);
-        wp_localize_script($this->plugin_name . '-scripts', 'settings', $this->settings);
+        wp_enqueue_script($this->plugin_name . '-scripts', TRANSIFEX_LIVE_PUBLIC_JS . 'transifex-live-wordpress-public.js', array(), $this->plugin_version, false);
+        wp_localize_script($this->plugin_name . '-scripts', 'transifex_live_settings', $this->settings);
+        wp_enqueue_script($this->plugin_name, '//cdn.transifex.com/live.js', array($this->plugin_name . '-scripts'), null, false);
     }
 
     function get_settings() {
