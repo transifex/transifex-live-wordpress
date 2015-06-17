@@ -1,0 +1,167 @@
+# Copyright (C) 2015 
+# This file is distributed under the GNU General Public License.
+msgid ""
+msgstr ""
+"Project-Id-Version: Live Translation Plugin 1.0.2\n"
+"Report-Msgid-Bugs-To: http://wp-translations.org/\n"
+"POT-Creation-Date: 2015-06-17 08:44:55+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2015-MO-DA HO:MI+ZONE\n"
+"Last-Translator: WP-Translations <fxb@wp-translations.org>\n"
+"Language-Team: WP-Translations <fxb@wp-translations.org>\n"
+"X-Generator: grunt-wp-i18n 0.5.2\n"
+"X-Poedit-KeywordsList: "
+"__;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;_nx_noop:1,2,3c;esc_"
+"attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;esc_html_x:1,2c;\n"
+"Language: en_US\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Country: United States\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-Bookmarks: \n"
+"X-Textdomain-Support: yes\n"
+
+#: admin/class-transifex-live-wordpress-admin.php:71
+msgid "Accent"
+msgstr ""
+
+#: admin/class-transifex-live-wordpress-admin.php:75
+msgid "Text"
+msgstr ""
+
+#: admin/class-transifex-live-wordpress-admin.php:79
+msgid "Background"
+msgstr ""
+
+#: admin/class-transifex-live-wordpress-admin.php:83
+msgid "Menu"
+msgstr ""
+
+#: admin/class-transifex-live-wordpress-admin.php:87
+msgid "Languages"
+msgstr ""
+
+#: admin/class-transifex-live-wordpress-admin.php:101
+msgid "Transifex Live"
+msgstr ""
+
+#: admin/class-transifex-live-wordpress-admin.php:129
+msgid "Settings"
+msgstr ""
+
+#: admin/class-transifex-live-wordpress-admin.php:174
+msgid "Your changes to the settings have been saved!"
+msgstr ""
+
+#: admin/class-transifex-live-wordpress-admin.php:178
+msgid "Your changes to the colors have been saved!"
+msgstr ""
+
+#: admin/class-transifex-live-wordpress-admin.php:257
+msgid "Transifex Live Wordpress Plugin Settings"
+msgstr ""
+
+#: admin/class-transifex-live-wordpress-admin.php:260
+msgid ""
+"Transifex Live is a new, innovative way to localize your website with one "
+"snippet of JavaScript."
+msgstr ""
+
+#: admin/class-transifex-live-wordpress-admin.php:261
+msgid ""
+"It eliminates the hassle of extracting phrases from your code for "
+"translation, dealing with system integrations, or waiting for the next "
+"deployment to take translations live."
+msgstr ""
+
+#: admin/class-transifex-live-wordpress-admin.php:262
+msgid "This plugin requires a Transifex Live API key."
+msgstr ""
+
+#: admin/class-transifex-live-wordpress-admin.php:262
+msgid "Click here to sign up and get a API key for free."
+msgstr ""
+
+#: admin/class-transifex-live-wordpress-admin.php:267
+msgid "Transifex API Key"
+msgstr ""
+
+#: admin/class-transifex-live-wordpress-admin.php:269
+msgid "This field is required."
+msgstr ""
+
+#: admin/class-transifex-live-wordpress-admin.php:273
+msgid "Plugin Options"
+msgstr ""
+
+#: admin/class-transifex-live-wordpress-admin.php:277
+#: admin/class-transifex-live-wordpress-admin.php:281
+msgid "Auto-detect the browser locale and translate the page."
+msgstr ""
+
+#: admin/class-transifex-live-wordpress-admin.php:286
+#: admin/class-transifex-live-wordpress-admin.php:290
+msgid "Automatically identify new strings when page content changes."
+msgstr ""
+
+#: admin/class-transifex-live-wordpress-admin.php:295
+#: admin/class-transifex-live-wordpress-admin.php:299
+msgid "Enable translation of dynamically injected content."
+msgstr ""
+
+#: admin/class-transifex-live-wordpress-admin.php:304
+#: admin/class-transifex-live-wordpress-admin.php:308
+msgid "Is this a staging server?"
+msgstr ""
+
+#: admin/class-transifex-live-wordpress-admin.php:313
+#: admin/class-transifex-live-wordpress-admin.php:315
+msgid "Are there any attributes that need to be parsed?"
+msgstr ""
+
+#: admin/class-transifex-live-wordpress-admin.php:319
+#: admin/class-transifex-live-wordpress-admin.php:321
+msgid "Would you like to ignore any tags?"
+msgstr ""
+
+#: admin/class-transifex-live-wordpress-admin.php:325
+#: admin/class-transifex-live-wordpress-admin.php:327
+msgid "Would you like to ignore any classes?"
+msgstr ""
+
+#: admin/class-transifex-live-wordpress-admin.php:332
+msgid "Language Picker Location"
+msgstr ""
+
+#: admin/class-transifex-live-wordpress-admin.php:335
+msgid "Auto position"
+msgstr ""
+
+#: admin/class-transifex-live-wordpress-admin.php:350
+msgid "Language Picker ID"
+msgstr ""
+
+#: admin/class-transifex-live-wordpress-admin.php:361
+msgid "Language Picker Styling"
+msgstr ""
+
+#: admin/class-transifex-live-wordpress-admin.php:374
+msgid "Enable"
+msgstr ""
+
+#: admin/class-transifex-live-wordpress-admin.php:380
+msgid "Save Changes"
+msgstr ""
+
+#: admin/class-transifex-live-wordpress-admin.php:389
+msgid "Thank you for using Transifex!"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"The Live Translation Plugin uses Transifex Live, Transifex Live WordPress "
+"Plugin a new, innovative way to localize your WordPress website or blog."
+msgstr ""
