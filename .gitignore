@@ -1,3 +1,5 @@
 /nbproject/
 /bin/
 /node_modules/
+
+tests/_output/*
