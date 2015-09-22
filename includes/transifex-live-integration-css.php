@@ -4,38 +4,38 @@ include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-li
 
 class Transifex_Live_Integration_Css {
 
-    private $settings;
-    private $ok_add_css;
+	private $settings;
+	private $ok_add_css;
 
-    public function __construct($settings) {
-        Plugin_Debug::logTrace();
-        if (isset($settings['enable_frontend_css']) && $settings['enable_frontend_css']) {
-            $this->ok_add_css = true;
-        } else {
-            $this->skip_css = false;
-        }
-        $this->settings = $settings;
-    }
+	public function __construct( $settings ) {
+		Plugin_Debug::logTrace();
+		if ( isset( $settings['enable_frontend_css'] ) && $settings['enable_frontend_css'] ) {
+			$this->ok_add_css = true;
+		} else {
+			$this->skip_css = false;
+		}
+		$this->settings = $settings;
+	}
 
-    function inline_render() {
-        Plugin_Debug::logTrace();
+	function inline_render() {
+		Plugin_Debug::logTrace();
 
-        if ($this->ok_add_css) {
+		if ( $this->ok_add_css ) {
 
-            $colors = array_map('esc_attr', (array) get_option('transifex_live_colors', array()));
-            foreach ($colors as $key => $values) {
-                if (empty($colors[$key])) {
-                    $colors[$key] = $values['default'];
-                }
-            }
+			$colors = array_map( 'esc_attr', (array) get_option( 'transifex_live_colors', array() ) );
+			foreach ($colors as $key => $values) {
+				if ( empty( $colors[$key] ) ) {
+					$colors[$key] = $values['default'];
+				}
+			}
 
-            $background_color = implode(', ', Transifex_Live_Integration_Lib::hex2rgb($colors['background']));
-            $text_color = $colors['text'];
-            $accent_color = $colors['accent'];
-            $menu_color = $colors['menu'];
-            $languages_color = $colors['languages'];
+			$background_color = implode( ', ', Transifex_Live_Integration_Lib::hex2rgb( $colors['background'] ) );
+			$text_color = $colors['text'];
+			$accent_color = $colors['accent'];
+			$menu_color = $colors['menu'];
+			$languages_color = $colors['languages'];
 
-            $css = <<<CSS
+			$css = <<<CSS
         <!-- Transifex Live Custom CSS -->
         <style type="text/css">
             .txlive-langselector {
@@ -61,8 +61,8 @@ class Transifex_Live_Integration_Css {
             }
         </style>
 CSS;
-            Transifex_Live_Integration_Lib::enqueue_inline_styles('transifex-live-integration-css',$css);
-        }
-    }
+			Transifex_Live_Integration_Lib::enqueue_inline_styles( 'transifex-live-integration-css', $css );
+		}
+	}
 
 }
