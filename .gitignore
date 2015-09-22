@@ -1,5 +1,8 @@
-/nbproject/
-/bin/
-/node_modules/
+nbproject/
+bin/
+node_modules/
+grunt/
 
+tests/_data/*
 tests/_output/*
+tests/_support/*

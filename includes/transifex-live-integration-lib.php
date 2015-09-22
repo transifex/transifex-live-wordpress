@@ -1,25 +1,6 @@
 <?php
 
-/**
- * Utility class for stand-alone helper functions
- *
- * @link       http://docs.transifex.com/developer/integrations/wordpress
- *
- * @package    Transifex_Live_Wordpress
- * @subpackage Transifex_Live_Wordpress/util
- */
-
-/**
- * Register all actions and filters for the plugin.
- *
- * Maintain a list of all hooks that are registered throughout
- * the plugin, and register them with the WordPress API. Call the
- * run function to execute the list of actions and filters.
- *
- * @package    Transifex_Live_Wordpress
- * @subpackage Transifex_Live_Wordpress/util
- */
-class Transifex_Live_Wordpress_Util {
+class Transifex_Live_Integration_Lib {
 
     /**
      * Hex to RGB
@@ -29,7 +10,8 @@ class Transifex_Live_Wordpress_Util {
      * @return array $rgb
      * Credit: c.bavota (http://bavotasan.com/2011/convert-hex-color-to-rgb-using-php/)
      */
-    public function hex2rgb($hex) {
+    static public function hex2rgb($hex) {
+        Plugin_Debug::logTrace();
         $hex = str_replace('#', '', $hex);
         if (strlen($hex) == 3) {
             $r = hexdec(substr($hex, 0, 1) . substr($hex, 0, 1));
@@ -42,6 +24,27 @@ class Transifex_Live_Wordpress_Util {
         }
         $rgb = array($r, $g, $b);
         return $rgb; // returns an array with the rgb values
+    }
+
+    /**
+     * Enqueue inline CSS. @see wp_enqueue_style().
+     * 
+     * 
+     * @param string      $handle    Identifying name for script
+     * @param string      $src       The JavaScript codez
+     * 
+     * @return null
+     */
+    static function enqueue_inline_styles($handle, $js) {
+        $cb = function()use( $handle, $js ) {
+            if (wp_script_is($handle, 'done'))
+                return;
+            echo "\n$js\n";
+            global $wp_styles;
+            $wp_styles->done[] = $handle;
+        };
+        $hook =  'wp_print_styles';
+        add_action($hook, $cb);
     }
 
 }
