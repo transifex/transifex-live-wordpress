@@ -21,6 +21,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+register_activation_hook( __FILE__, [ 'Transifex_Live_Integration', 'activation_hook' ] );
+register_deactivation_hook( __FILE__, [ 'Transifex_Live_Integration', 'deactivation_hook' ] );
+
 /**
  * Define constants
  * Check if constant has already been set to allow for overrides coming from wp-config
@@ -58,9 +61,6 @@ if ( ! defined( 'TRANSIFEX_LIVE_INTEGRATION_JAVASCRIPT' ) ) {
 }
 
 include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/plugin-debug.php';
-
-register_activation_hook( __FILE__, [ 'Transifex_Live_Integration', 'activation_hook' ] );
-register_deactivation_hook( __FILE__, [ 'Transifex_Live_Integration', 'deactivation_hook' ] );
 $debug = new Plugin_Debug();
 $version = '1.0.3';
 
@@ -120,14 +120,12 @@ class Transifex_Live_Integration {
 	 * Plugin deactivation stub
 	 */
 	static function deactivation_hook() {
-		Plugin_Debug::logTrace();
 	}
 
 	/**
 	 * Plugin activation stub
 	 */
 	static function activation_hook() {
-		Plugin_Debug::logTrace();
 	}
 
 }
