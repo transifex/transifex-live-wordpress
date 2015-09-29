@@ -1,5 +1,12 @@
 <?php
+/**
+ * Common libraries
+ * @package TransifexLiveIntegration
+ */
 
+/**
+ * Common PHP Libraries from other sources
+ */
 class Transifex_Live_Integration_Lib {
 
 	/**
@@ -26,25 +33,5 @@ class Transifex_Live_Integration_Lib {
 		return $rgb; // returns an array with the rgb values
 	}
 
-	/**
-	 * Enqueue inline CSS. @see wp_enqueue_style().
-	 * 
-	 * 
-	 * @param string      $handle    Identifying name for script
-	 * @param string      $src       The JavaScript codez
-	 * 
-	 * @return null
-	 */
-	static function enqueue_inline_styles( $handle, $js ) {
-		$cb = function()use( $handle, $js ) {
-			if ( wp_script_is( $handle, 'done' ) )
-				return;
-			echo "\n$js\n";
-			global $wp_styles;
-			$wp_styles->done[] = $handle;
-		};
-		$hook = 'wp_print_styles';
-		add_action( $hook, $cb );
-	}
 
 }

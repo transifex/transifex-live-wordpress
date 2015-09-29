@@ -8,4 +8,5 @@ tests/_output/*
 tests/_support/*
 
 languages/
+build/
 tests/_output/*
