@@ -8,9 +8,6 @@
  * Author URI: https://github.com/matthewjackowski/
  * License: GNU General Public License 2.0 (GPL) http://www.gnu.org/licenses/gpl.html
  */
-?>
-
-<?php
 
 class Plugin_Debug {
 
@@ -111,4 +108,3 @@ class Plugin_Debug {
 	}
 
 }
-?>
