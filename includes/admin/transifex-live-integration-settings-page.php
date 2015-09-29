@@ -50,7 +50,7 @@ class Transifex_Live_Integration_Settings_Page {
 			$notice .= '<p>' . __( 'Your changes to the colors have been saved!', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ) . '</p>';
 		}
 
-		echo '<div class="notice">' .  $notice  . '</div>';
+		echo '<div class="notice">' . $notice  . '</div>';
 	}
 
 	static public function sanitize_settings( $settings ) {

@@ -4,8 +4,8 @@
  * Class Name: Plugin Debug
  * Description: An plugin/application error/trace log handler.  It *only* traps info from the plugin, and the display is controllable from "Settings" page
  * Author: Matthew Jackowski
- * Version: 0.2.0
- * Author URI: http://www.linkedin.com/pub/matthew-jackowski/6/6b2/242
+ * Version: 0.2.1
+ * Author URI: https://github.com/matthewjackowski/
  * License: GNU General Public License 2.0 (GPL) http://www.gnu.org/licenses/gpl.html
  */
 ?>
@@ -21,7 +21,7 @@ class Plugin_Debug {
 	 * Define the core functionality of the plugin.
 	 */
 	public function __construct() {
-		self::$debug_mode = true;
+		self::$debug_mode = false;
 		$this->logTrace();
 
 		// Check to see if plugin is in debug mode
@@ -70,43 +70,44 @@ class Plugin_Debug {
 	}
 
 	static function printLogCallback( $value, $key ) {
-		//          $options = get_option('debug_section');
-		echo "*<br/>";
-		if ( array_key_exists( 'file', $value ) )
-			echo ("<b>File: " . basename( $value['file'] ) . "</b> - ");
-		if ( array_key_exists( 'line', $value ) )
-			echo ('<font color="green">Line #: ' . $value['line'] . '</font>');
-		echo "<br/>";
-		if ( array_key_exists( 'class', $value ) )
-			echo ("<b>Class: " . $value['class'] . "</b> - ");
-		if ( array_key_exists( 'function', $value ) )
-			echo ('<font color="green">Function: ' . $value['function'] . '</font>');
-		echo "<br/>";
-		if ( array_key_exists( 'type', $value ) ) {
-			echo ("<b>Type: ");
-			switch ($value['type']) {
-				case "::":
-					echo ("static method call");
-					break;
-				case "->" :
-					echo ("method call");
-					break;
-				default :
-					echo ("function call");
+		if ( self::$debug_mode ) {
+			echo "*<br/>";
+			if ( array_key_exists( 'file', $value ) )
+				echo ("<b>File: " . basename( $value['file'] ) . "</b> - ");
+			if ( array_key_exists( 'line', $value ) )
+				echo ('<font color="green">Line #: ' . $value['line'] . '</font>');
+			echo "<br/>";
+			if ( array_key_exists( 'class', $value ) )
+				echo ("<b>Class: " . $value['class'] . "</b> - ");
+			if ( array_key_exists( 'function', $value ) )
+				echo ('<font color="green">Function: ' . $value['function'] . '</font>');
+			echo "<br/>";
+			if ( array_key_exists( 'type', $value ) ) {
+				echo ("<b>Type: ");
+				switch ($value['type']) {
+					case "::":
+						echo ("static method call");
+						break;
+					case "->" :
+						echo ("method call");
+						break;
+					default :
+						echo ("function call");
+				}
+				echo("</b> - ");
 			}
-			echo("</b> - ");
-		}
-		if ( array_key_exists( 'args', $value ) ) {
-			echo ('<font color="green">Parameters: ');
-			print_r( $value['args'] );
+			if ( array_key_exists( 'args', $value ) ) {
+				echo ('<font color="green">Parameters: ');
+				print_r( $value['args'] );
+				echo ('</font>');
+			}
+			echo "<br/>";
+			if ( array_key_exists( 'message', $value ) && $value['message'] != null )
+				echo ('<font color="red">');
+			print_r( $value['message'] );
 			echo ('</font>');
+			echo "<br/>*";
 		}
-		echo "<br/>";
-		if ( array_key_exists( 'message', $value ) && $value['message'] != null )
-			echo ('<font color="red">');
-		print_r( $value['message'] );
-		echo ('</font>');
-		echo "<br/>*";
 	}
 
 }

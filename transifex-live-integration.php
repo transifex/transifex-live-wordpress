@@ -1,8 +1,9 @@
 <?php
-
 /**
+ * Translates your website using Transifex Live
+ *
  * @link              http://docs.transifex.com/developer/integrations/wordpress
- * @package           Transifex_Live_Integration
+ * @package           TransifexLiveIntegration
  * @version           1.0.3
  *
  * @wordpress-plugin
@@ -61,9 +62,17 @@ include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/plugin-debug
 register_activation_hook( __FILE__, [ 'Transifex_Live_Integration', 'activation_hook' ] );
 register_deactivation_hook( __FILE__, [ 'Transifex_Live_Integration', 'deactivation_hook' ] );
 $debug = new Plugin_Debug();
+$version = '1.0.3';
 
+/**
+ * Main Plugin Class
+ */
 class Transifex_Live_Integration {
-
+	/**
+	 * Main Plugin Function
+	 * @param boolean $is_admin Stores if the plugin is in admin screens.
+	 * @param string  $version Stores current version number.
+	 */
 	static function do_plugin( $is_admin, $version ) {
 		Plugin_Debug::logTrace();
 
@@ -99,20 +108,28 @@ class Transifex_Live_Integration {
 			$css->inline_render();
 		}
 	}
-
+	/**
+	 * Callback function for admin_menu action
+	 */
 	static function admin_menu_hook() {
 		Plugin_Debug::logTrace();
 		add_options_page( 'Transifex Live', 'Transifex Live', 'manage_options', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN, array( 'Transifex_Live_Integration_Settings_Page', 'options_page' ) );
 	}
 
+	/**
+	 * Plugin deactivation stub
+	 */
 	static function deactivation_hook() {
 		Plugin_Debug::logTrace();
 	}
 
+	/**
+	 * Plugin activation stub
+	 */
 	static function activation_hook() {
 		Plugin_Debug::logTrace();
 	}
 
 }
 
-Transifex_Live_Integration::do_plugin( is_admin(), '1.0.3' );
+Transifex_Live_Integration::do_plugin( is_admin(), $version );
