@@ -8,5 +8,5 @@ class_name: AcceptanceTester
 modules:
     enabled:
         - PhpBrowser:
-            url: http://192.168.50.126
+            url: http://192.168.1.17
         - \Helper\Acceptance
