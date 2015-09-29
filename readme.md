@@ -52,6 +52,10 @@ The manual installation method involves downloading the plugin and uploading it 
 
 Automatic updates should work like a charm; as always though, ensure you backup your site just in case.
 
+== Plugin Translations ==
+
+The WP-Translations project for plugin translations can be found [here](https://www.transifex.com/wp-translations/transifex-live/transifex-live/).
+
 == Changelog ==
 
 = 1.0.0 =
@@ -59,3 +63,9 @@ Full relase.  Restructured plugin to follow boilerplate.  Added unit tests.
 
 = 1.0.1
 Minor edits for documentation
+
+=1.0.2
+Code refactor
+
+=1.0.3
+Removed settings that can now be controlled in Transifex Live dashboard
