@@ -2,9 +2,9 @@
 Name: Transifex Live Translation Plugin
 Contributors: txmatthew, ThemeBoy, brooksx
 Tags: transifex, translate, translations, localize, localise, localization, localisation, multilingual, t9n, l10n, i18n, language, switcher, live, translation, translator
-Requires at least: 3.0
-Tested up to: 4.2.2
-Stable tag: 1.0.2
+Requires at least: 3.5.2
+Tested up to: 4.3.1
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,7 +36,7 @@ Translators can contribute new languages to this plugin or our other WordPress p
 
 Minimum Requirements
 
-* WordPress 3.0 or greater
+* WordPress 3.5.2 or greater
 * PHP version 5.2.4 or greater
 * MySQL version 5.0 or greater
 
@@ -75,3 +75,6 @@ Cleaned up readme and notes
 
 = 1.0.2 =
 Fixed brittle js ordering and namespace
+
+= 1.0.3 =
+Removed settings that can now be controlled in Transifex Live dashboard
