@@ -3,10 +3,8 @@ bin/
 node_modules/
 grunt/
 
-tests/_data/*
-tests/_output/*
-tests/_support/*
-
 languages/
 build/
+
+wp-plugin-deploy.sh
 tests/_output/*

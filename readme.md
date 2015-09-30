@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/transifex/transifex-live-wordpress.svg?branch=devel)](https://travis-ci.org/transifex/transifex-live-wordpress)
+
 #Transifex Live Wordpress Plugin
 
 
