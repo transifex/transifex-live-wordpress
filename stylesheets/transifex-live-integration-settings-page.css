@@ -10,6 +10,11 @@
 	text-transform: uppercase;
 }
 
+.transifex-live-settings table.form-table .enable_checkbox {
+        float:left;
+        margin-right: 10px;
+}
+
 .transifex-live-settings table.form-table .color-box {
 	border: 1px solid #ccc;
 	box-shadow: 1px 1px 3px rgba(0,0,0,.2);

@@ -9,7 +9,7 @@
             <tbody>
                 <!-- API Key -->
                 <tr>
-                    <th scope="row"><label for="transifex_live_settings[api_key]"><?php _e( 'Transifex API Key', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></label></th>
+                    <th scope="row"><label for="transifex_live_settings[api_key]"><?php _e( 'Transifex Live API Key', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></label></th>
                     <td>
                         <input required name="transifex_live_settings[api_key]" type="text" id="transifex_live_settings_api_key" value="<?php echo $settings['api_key']; ?>" class="regular-text" placeholder="<?php _e( 'This field is required.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>">
                     </td>
@@ -33,6 +33,11 @@
 						<?php _e( 'Language Picker Styling', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
                     </th>
                     <td class="forminp">
+						<label class="enable_checkbox" for="transifex_live_settings_enable_frontend_css">
+                            <input name="transifex_live_settings[enable_frontend_css]" type="hidden" value="0">
+                            <input name="transifex_live_settings[enable_frontend_css]" id="transifex_live_settings_enable_frontend_css" type="checkbox" value="1" <?php checked( $settings['enable_frontend_css'] ); ?>>
+							<?php _e( 'Enable', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
+                        </label>
 						<?php
 						foreach ($settings['colors'] as $key => $value) {
 							if ( empty( $settings['colors'][$key] ) )
@@ -40,11 +45,6 @@
 							Transifex_Live_Integration_Settings_Util::color_picker( $settings['color_labels'][$key], 'transifex_live_colors[' . $key . ']', $settings['colors'][$key] );
 						}
 						?><br>
-                        <label for="transifex_live_settings_enable_frontend_css">
-                            <input name="transifex_live_settings[enable_frontend_css]" type="hidden" value="0">
-                            <input name="transifex_live_settings[enable_frontend_css]" id="transifex_live_settings_enable_frontend_css" type="checkbox" value="1" <?php checked( $settings['enable_frontend_css'] ); ?>>
-							<?php _e( 'Enable', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
-                        </label>
                     </td>
                 </tr>
             </tbody>
