@@ -8,9 +8,15 @@ class Transifex_Live_Integration_Settings_Page {
 	static function options_page() {
 		Plugin_Debug::logTrace();
 		$db_settings = get_option( 'transifex_live_settings', array() );
+		if (!$db_settings) {
+			$db_settings = Transifex_Live_Integration_Defaults::settings();
+		}
 		Plugin_Debug::logTrace( $db_settings );
 
 		$db_colors = array_map( 'esc_attr', (array) get_option( 'transifex_live_colors', array() ) );
+		if (!$db_colors) {
+			$db_colors = Transifex_Live_Integration_Defaults::settings()['colors'];
+		}
 		Plugin_Debug::logTrace( $db_colors );
 		$colors_colors = ['colors' => $db_colors ];
 		$raw_settings = array_merge( $db_settings, $colors_colors );
