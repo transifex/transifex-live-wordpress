@@ -71,3 +71,6 @@ Fixed brittle js ordering and namespace
 
 = 1.0.3 =
 Removed settings that can now be controlled in Transifex Live dashboard
+
+= 1.0.4 =
+Initial implementation of SEO and lang urls
