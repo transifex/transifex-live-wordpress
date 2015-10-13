@@ -1,6 +1,6 @@
 <?php
 
-include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-defaults.php';
+
 include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/admin/transifex-live-integration-settings-util.php';
 
 class Transifex_Live_Integration_Settings_Page {

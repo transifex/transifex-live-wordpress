@@ -47,6 +47,21 @@
 						?><br>
                     </td>
                 </tr>
+			    <tr valign="top">
+                    <th scope="row" class="titledesc">
+						<?php _e( 'Language URLs', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
+                    </th>
+                    <td class="forminp">
+						<label class="enable_checkbox" for="transifex_live_settings_enable_language_urls">
+                            <input name="transifex_live_settings[enable_language_urls]" type="hidden" value="0">
+                            <input name="transifex_live_settings[enable_language_urls]" id="transifex_live_settings_enable_language_urls" type="checkbox" value="1" <?php checked( $settings['enable_language_urls'] ); ?>>
+							<?php _e( 'Enable', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
+                        </label>
+						<br/>
+						<input name="transifex_live_settings[source_language]" type="text" id="transifex_live_settings_source_language" value="<?php echo $settings['source_language']; ?>" class="regular-text" placeholder="<?php _e( 'Enter source', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>">
+						<input name="transifex_live_settings[language_codes]" type="text" id="transifex_live_settings_language_codes" value="<?php echo $settings['language_codes']; ?>" class="regular-text" placeholder="<?php _e( 'Enter locales', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>">
+                    </td>
+                </tr>
             </tbody>
         </table>
         <p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e( 'Save Changes', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>"></p>
