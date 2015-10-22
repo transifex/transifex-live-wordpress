@@ -47,7 +47,7 @@
 						?><br>
                     </td>
                 </tr>
-			    <tr valign="top">
+			    <!--tr valign="top">
                     <th scope="row" class="titledesc">
 						<?php _e( 'Language URLs', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
                     </th>
@@ -61,7 +61,7 @@
 						<input name="transifex_live_settings[source_language]" type="text" id="transifex_live_settings_source_language" value="<?php echo $settings['source_language']; ?>" class="regular-text" placeholder="<?php _e( 'Enter source', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>">
 						<input name="transifex_live_settings[language_codes]" type="text" id="transifex_live_settings_language_codes" value="<?php echo $settings['language_codes']; ?>" class="regular-text" placeholder="<?php _e( 'Enter locales', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>">
                     </td>
-                </tr>
+                </tr-->
             </tbody>
         </table>
         <p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e( 'Save Changes', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>"></p>

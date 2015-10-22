@@ -5,13 +5,13 @@
  *
  * @link              http://docs.transifex.com/developer/integrations/wordpress
  * @package           TransifexLiveIntegration
- * @version           1.0.4
+ * @version           1.0.5
  *
  * @wordpress-plugin
  * Plugin Name:       Live Translation Plugin
  * Plugin URI:        http://docs.transifex.com/developer/integrations/wordpress
  * Description:       The Live Translation Plugin uses Transifex Live, Transifex Live WordPress Plugin a new, innovative way to localize your WordPress website or blog.
- * Version:           1.0.4
+ * Version:           1.0.5
  * License:           GNU General Public License
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       transifex-live-integration
@@ -64,7 +64,7 @@ define( 'LANG_PARAM', 'lang' );
 
 include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/plugin-debug.php';
 $debug = new Plugin_Debug();
-$version = '1.0.4';
+$version = '1.0.5';
 
 /**
  * Main Plugin Class
@@ -89,10 +89,9 @@ class Transifex_Live_Integration {
 		if ( $rewrite->is_enabled() ) {
 
 			add_action( 'init', array( 'Transifex_Live_Integration', 'init_hook' ) );
-			add_filter( 'query_vars', array( 'Transifex_Live_Integration', 'query_vars_hook'  ));
+			add_filter( 'query_vars', array( 'Transifex_Live_Integration', 'query_vars_hook' ) );
 			add_filter( 'post_link', array( 'Transifex_Live_Integration', 'post_link_hook' ), 10, 2 );
-			add_action('parse_query', array( 'Transifex_Live_Integration', 'parse_query_hook' ));
-
+			add_action( 'parse_query', array( 'Transifex_Live_Integration', 'parse_query_hook' ) );
 		}
 		if ( $is_admin ) {
 			include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/admin/transifex-live-integration-action-links.php';
@@ -117,7 +116,7 @@ class Transifex_Live_Integration {
 		} else {
 
 			include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-javascript.php';
-			$javascript = new Transifex_Live_Integration_Javascript( $settings, $rewrite->is_enabled());
+			$javascript = new Transifex_Live_Integration_Javascript( $settings, $rewrite->is_enabled() );
 			add_action( 'wp_head', [ $javascript, 'render' ], 1 );
 			include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-css.php';
 			$css = new Transifex_Live_Integration_Css( $settings );
@@ -125,25 +124,22 @@ class Transifex_Live_Integration {
 		}
 	}
 
-function query_vars_hook( $vars ){
-	Plugin_Debug::logTrace();
-  //$vars[] = "lang";
-  return $vars;
-}
+	function query_vars_hook( $vars ) {
+		Plugin_Debug::logTrace();
+		//$vars[] = "lang";
+		return $vars;
+	}
 
-	
 	static function init_hook() {
 		Plugin_Debug::logTrace();
 		add_rewrite_tag( '%lang%', '([^&]+)' );
-
-
 	}
 
-	static function parse_query_hook($query ) {
+	static function parse_query_hook( $query ) {
 		Plugin_Debug::logTrace();
 		return $query;
 	}
-	
+
 	static function post_link_hook( $permalink, $post ) {
 		Plugin_Debug::logTrace();
 		if ( false === strpos( $permalink, '%lang%' ) ) {
