@@ -7,6 +7,7 @@
 
 /**
  * Static class for settings defaults
+ * Experimental turned off in production
  */
 class Transifex_Live_Integration_Rewrite {
 
@@ -39,7 +40,9 @@ class Transifex_Live_Integration_Rewrite {
 	}
 	
 	function is_enabled() {
-		return $this->rewrites_ok;
+		return false;
+//TODO future feature turned off
+//		return $this->rewrites_ok;
 	}
 
 	function add_rewrites( $rules ) {
