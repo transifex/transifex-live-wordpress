@@ -1,36 +1,42 @@
 === Plugin Name ===
-Name: Live Translation Plugin
-Contributors: txmatthew, ThemeBoy, brooksx 
-Tags: transifex, translate, translations, localize, localise, localization, localisation, l10n, i18n, language, switcher, live, translation, translator
-Requires at least: 3.0
-Tested up to: 4.2.2
-Stable tag: 1.0.2
+Name: Transifex Live Translation Plugin
+Contributors: txmatthew, ThemeBoy, brooksx
+Tags: transifex, translate, translations, localize, localise, localization, localisation, multilingual, t9n, l10n, i18n, language, switcher, live, translation, translator
+Requires at least: 3.5.2
+Tested up to: 4.3.1
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-The Live Translation Plugin uses Transifex Live, Transifex Live WordPress Plugin is a new, innovative way to localize your WordPress website or blog.
+Translate your WordPress website or blog without the usual complex setups.
 
 == Description ==
 
-In order to use Transifex Live you will need to [sign up here for a FREE account](https://www.transifex.com/signup/?utm_source=liveplugin).  This plugin also requires a Transifex Live API key.  More information about how to obtain a key can be found in the [Transifex Live documentation](http://docs.transifex.com/developer/live/). 
+Transifex Live is a fun, new way to translate your WordPress site. There’s no need to create one language per post, insert language tags, or have multiple WordPress instances. Your site’s content is automatically detected and ready to be saved to the Transifex localization platform, where you can order professional translations or work with your existing translators.
+
+When the translations are done, take them live with the click of a button. The next time someone visits your WordPress site, they’ll automatically see the latest content in their native language.
+
+In order to use Transifex Live you will need to [sign up here for a FREE account](https://www.transifex.com/signup/?utm_source=wp-directory&utm_campaign=int-wp). This plugin also requires a Transifex Live API key. More information about how to obtain a key can be found in the [Transifex Live documentation](http://docs.transifex.com/developer/live/?utm_source=wp-directory&utm_campaign=int-wp).
 
 Features
 
-* Integrates Transifex Live into your WordPress site using your API key.
+* Integrate Transifex Live into your WordPress site using your API key.
 * Display language selector in top left, top right, bottom left, or bottom right corner of your site.
 * Auto-detect the browser locale and translate the page.
 * Automatically identify new strings when page content changes.
 * Customize the language switcher by choosing your own color scheme.
 
+Learn more about the [Transifex Live Translation Plugin](https://www.transifex.com/integrations/wordpress-multilingual-plugin/?utm_source=wp-directory&utm_campaign=int-wp).
+
 Get Involved
 
 Developers can contribute via the plugin's [GitHub Repository](https://github.com/transifex/transifex-live-wordpress).
 
-Translators can contribute new languages to this plugin or our other WordPress plugins through [Transifex](https://www.transifex.com/projects/p/transifex-live/).
+Translators can contribute new languages to this plugin or our other WordPress plugins through [Transifex](https://www.transifex.com/wp-translations/transifex-live/?utm_source=wp-directory&utm_campaign=int-wp).
 
 Minimum Requirements
 
-* WordPress 3.0 or greater
+* WordPress 3.5.2 or greater
 * PHP version 5.2.4 or greater
 * MySQL version 5.0 or greater
 
@@ -70,3 +76,8 @@ Cleaned up readme and notes
 = 1.0.2 =
 Fixed brittle js ordering and namespace
 
+= 1.0.3 =
+Removed settings that can now be controlled in Transifex Live dashboard
+
+= 1.0.4 =
+Initial implementation of SEO and lang urls

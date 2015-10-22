@@ -1,2 +1,10 @@
-/nbproject/
-/bin/
+nbproject/
+bin/
+node_modules/
+grunt/
+
+languages/
+build/
+
+wp-plugin-deploy.sh
+tests/_output/*

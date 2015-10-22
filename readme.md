@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/transifex/transifex-live-wordpress.svg?branch=devel)](https://travis-ci.org/transifex/transifex-live-wordpress)
+
 #Transifex Live Wordpress Plugin
 
 
@@ -28,7 +30,7 @@ Translators can contribute new languages to this plugin or our other WordPress p
 
 == Minimum Requirements ==
 
-* WordPress 3.0 or greater
+* WordPress 3.5.2 or greater
 * PHP version 5.2.4 or greater
 * MySQL version 5.0 or greater
 
@@ -52,6 +54,10 @@ The manual installation method involves downloading the plugin and uploading it 
 
 Automatic updates should work like a charm; as always though, ensure you backup your site just in case.
 
+== Plugin Translations ==
+
+The WP-Translations project for plugin translations can be found [here](https://www.transifex.com/wp-translations/transifex-live/transifex-live/).
+
 == Changelog ==
 
 = 1.0.0 =
@@ -59,3 +65,12 @@ Full relase.  Restructured plugin to follow boilerplate.  Added unit tests.
 
 = 1.0.1
 Minor edits for documentation
+
+= 1.0.2 =
+Fixed brittle js ordering and namespace
+
+= 1.0.3 =
+Removed settings that can now be controlled in Transifex Live dashboard
+
+= 1.0.4 =
+Initial implementation of SEO and lang urls
