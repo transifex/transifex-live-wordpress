@@ -74,3 +74,6 @@ Removed settings that can now be controlled in Transifex Live dashboard
 
 = 1.0.4 =
 Initial implementation of SEO and lang urls
+
+= 1.0.5 =
+SEO and lang urls feature switch set to off
