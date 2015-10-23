@@ -8,9 +8,9 @@
  * @version           1.0.5
  *
  * @wordpress-plugin
- * Plugin Name:       Live Translation Plugin
+ * Plugin Name:       Transifex Live Translation Plugin
  * Plugin URI:        http://docs.transifex.com/developer/integrations/wordpress
- * Description:       The Live Translation Plugin uses Transifex Live, Transifex Live WordPress Plugin a new, innovative way to localize your WordPress website or blog.
+ * Description:       Translate your WordPress website or blog without the usual complex setups.
  * Version:           1.0.5
  * License:           GNU General Public License
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
@@ -165,14 +165,14 @@ class Transifex_Live_Integration {
 	 * Plugin deactivation stub
 	 */
 	static function deactivation_hook() {
-		
+
 	}
 
 	/**
 	 * Plugin activation stub
 	 */
 	static function activation_hook() {
-		
+
 	}
 
 }
