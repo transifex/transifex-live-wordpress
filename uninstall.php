@@ -19,13 +19,14 @@
  * For more information, see the following discussion:
  * https://github.com/tommcfarlin/WordPress-Plugin-Boilerplate/pull/123#issuecomment-28541913
  *
- * @link       http://mjjacko.me
- * @since      1.0.0
- *
- * @package    Transifex_Live_Wordpress
+ * @package    Transifex_Live_Integration
  */
 
 // If uninstall not called from WordPress, then exit.
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
+
+$option_name = 'transifex_live_settings';
+
+delete_option( $option_name );
