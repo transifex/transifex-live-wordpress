@@ -45,6 +45,7 @@ DETECTLANG;
 		$live_settings_string = str_replace('"%function%"', $detectlang, $live_settings_string);
  * 
  */
+		$live_settings_string = json_encode( $this->live_settings );
 		$include = <<<LIVE
 <script type="text/javascript">window.liveSettings=$live_settings_string;</script>
 <script type="text/javascript" src="//cdn.transifex.com/live.js"></script>
