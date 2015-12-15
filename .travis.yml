@@ -30,6 +30,7 @@ before_script:
   - sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
   - sudo cat ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
   - if [ "$(phpenv version-name)" == "7.0.0" ]; then
+      ls -l /home/travis/.phpenv/versions/7.0.0/etc/php-fpm.d/;
       cp /home/travis/.phpenv/versions/7.0.0/etc/php-fpm.d/www.conf.default /home/travis/.phpenv/versions/7.0.0/etc/php-fpm.d/www.conf;
     fi
   - sudo a2enmod rewrite actions fastcgi alias
