@@ -10,7 +10,7 @@ class Transifex_Live_Integration_Settings_Util {
 		$response = wp_remote_get($request_url);
 		$response_code = wp_remote_retrieve_response_code( $response );
 		Plugin_Debug::logTrace($response_code);
-		$api_response = json_decode( wp_remote_retrieve_body( $response ), true );
+		$api_response = wp_remote_retrieve_body( $response );
 		Plugin_Debug::logTrace($api_response);
 		$languages_arr = "{en}";
 		// convert JSON to string array
