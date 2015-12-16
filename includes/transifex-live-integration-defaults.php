@@ -38,9 +38,9 @@ class Transifex_Live_Integration_Defaults {
 				'rate_us' => 'https://wordpress.org/support/view/plugin-reviews/transifex-live-integration?rate=5#postform',
 				'api_key_landing_page' => 'https://www.transifex.com/live/?utm_source=liveplugin',
 			],
-			'add_language_rewrites' => false,
+			'enable_language_urls' => false,
 			'source_language' => null,
-			'languages'=>'[]' // initialize with empty array
+			'languages'=> null
 		);
 	}
 
