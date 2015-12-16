@@ -34,8 +34,9 @@ class Transifex_Live_Integration_Settings_Page {
 		Plugin_Debug::logTrace();
 		if ( isset( $_POST['transifex_live_nonce'] ) && wp_verify_nonce( $_POST['transifex_live_nonce'], 'transifex_live_settings' ) ) {
 			$settings = Transifex_Live_Integration_Settings_Page::sanitize_settings( $_POST );
-			if (isset($settings['enable_language_urls'])){
-				Transifex_Live_Integration_Settings_Util::get_live_languages_list($settings['api_key']);
+			Plugin_Debug::logTrace($settings);
+			if (isset($settings['transifex_live_settings']['enable_language_urls'])){
+				Transifex_Live_Integration_Settings_Util::get_live_languages_list($settings['transifex_live_settings']['api_key']);
 			}
 			
 			if ( isset( $settings['transifex_live_settings'] ) ) {
