@@ -4,6 +4,14 @@ class Transifex_Live_Integration_Settings_Util {
 	
 	static function get_live_languages_list( $api_key ){
 		Plugin_Debug::logTrace();
+		$languages_json_format = "https://cdn.transifex.com/%api_key/latest/languages.jsonp";
+		$request_url = sprintf($languages_json_format, $api_key);
+		Plugin_Debug::logTrace($request_url);
+		$response = wp_remote_get($request_url);
+		$response_code = wp_remote_retrieve_response_code( $response );
+		Plugin_Debug::logTrace($response_code);
+		$api_response = json_decode( wp_remote_retrieve_body( $response ), true );
+		Plugin_Debug::logTrace($api_response);
 		$languages_arr = "{en}";
 		// convert JSON to string array
 		return $languages_arr;

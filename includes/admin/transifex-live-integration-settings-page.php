@@ -22,7 +22,7 @@ class Transifex_Live_Integration_Settings_Page {
 
 		$settings = array_merge( Transifex_Live_Integration_Defaults::settings(), $raw_settings );
 		Plugin_Debug::logTrace( $settings );
-		// TODO: Check if we have an API key, if we do...then update languages
+		
 		ob_start();
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/admin/transifex-live-integration-settings-template.php';
 		$content = ob_get_clean();
@@ -30,10 +30,14 @@ class Transifex_Live_Integration_Settings_Page {
 	}
 
 	public function update_settings() {
+		
 		Plugin_Debug::logTrace();
 		if ( isset( $_POST['transifex_live_nonce'] ) && wp_verify_nonce( $_POST['transifex_live_nonce'], 'transifex_live_settings' ) ) {
 			$settings = Transifex_Live_Integration_Settings_Page::sanitize_settings( $_POST );
-
+			if (isset($settings['enable_language_urls'])){
+				Transifex_Live_Integration_Settings_Util::get_live_languages_list($settings['api_key']);
+			}
+			
 			if ( isset( $settings['transifex_live_settings'] ) ) {
 				update_option( 'transifex_live_settings', $settings['transifex_live_settings'] );
 			}
@@ -41,6 +45,7 @@ class Transifex_Live_Integration_Settings_Page {
 			if ( isset( $settings['transifex_live_colors'] ) ) {
 				update_option( 'transifex_live_colors', $settings['transifex_live_colors'] );
 			}
+			
 			add_action( 'admin_notices', array( 'Transifex_Live_Integration_Settings_Page', 'admin_notices' ) );
 		}
 	}
