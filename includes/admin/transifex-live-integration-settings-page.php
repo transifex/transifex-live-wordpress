@@ -11,7 +11,6 @@ class Transifex_Live_Integration_Settings_Page {
 		if (!$db_settings) {
 			$db_settings = Transifex_Live_Integration_Defaults::settings();
 		}
-		Plugin_Debug::logTrace( $db_settings );
 
 		$db_colors = array_map( 'esc_attr', (array) get_option( 'transifex_live_colors', array() ) );
 		if (!$db_colors) {
@@ -20,10 +19,10 @@ class Transifex_Live_Integration_Settings_Page {
 		Plugin_Debug::logTrace( $db_colors );
 		$colors_colors = ['colors' => $db_colors ];
 		$raw_settings = array_merge( $db_settings, $colors_colors );
-		Plugin_Debug::logTrace( $raw_settings );
 
 		$settings = array_merge( Transifex_Live_Integration_Defaults::settings(), $raw_settings );
 		Plugin_Debug::logTrace( $settings );
+		// TODO: Check if we have an API key, if we do...then update languages
 		ob_start();
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/admin/transifex-live-integration-settings-template.php';
 		$content = ob_get_clean();

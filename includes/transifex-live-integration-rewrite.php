@@ -40,15 +40,12 @@ class Transifex_Live_Integration_Rewrite {
 	}
 	
 	function is_enabled() {
-		return false;
-//TODO future feature turned off
-//		return $this->rewrites_ok;
+		return $this->rewrites_ok;
 	}
 
 	function add_rewrites( $rules ) {
 
-	//	if ( !$this->rewrites_ok ) {
-		if (false){
+		if ( !$this->rewrites_ok ) {
 			return $rules;
 		}
 

@@ -1,6 +1,13 @@
 <?php
 
 class Transifex_Live_Integration_Settings_Util {
+	
+	static function get_live_languages_list( $api_key ){
+		Plugin_Debug::logTrace();
+		$languages_arr = "{en}";
+		// convert JSON to string array
+		return $languages_arr;
+	}
 
 	static function sanitize_list( $list ) {
 		Plugin_Debug::logTrace();
