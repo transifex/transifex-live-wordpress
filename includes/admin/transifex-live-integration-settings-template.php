@@ -64,7 +64,7 @@
                             <legend class="screen-reader-text"><span><?php _e( 'Automatically add language to url?', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></span></legend>
                             <label for="transifex_live_settings_staging">
                                 <input name="transifex_live_settings[add_language_rewrites]" type="hidden" value="0">
-                                <input name="transifex_live_settings[add_language_rewrites]" type="checkbox" id="transifex_live_settings_staging" value="1" <?php checked( $settings['add_language_rewrites'] ); ?>>
+                                <input name="transifex_live_settings[add_language_rewrites]" type="checkbox" id="transifex_live_settings_add_language_rewrites" value="1" <?php checked( $settings['add_language_rewrites'] ); ?>>
 								<?php _e( 'Automatically add language to url?', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
                             </label>
                         </fieldset>
