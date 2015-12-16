@@ -59,12 +59,12 @@
                         </label>
 						<br/>
 						<input name="transifex_live_settings[source_language]" type="text" id="transifex_live_settings_source_language" value="<?php echo $settings['source_language']; ?>" class="regular-text" placeholder="<?php _e( 'Enter source', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>">
-						<input disabled="true" name="transifex_live_settings[languages]" type="text" id="transifex_live_settings_language_codes" value="<?php echo $settings['languages']; ?>" class="regular-text" placeholder="<?php _e( 'Enter languages', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>">
+						<input disabled="true" name="transifex_live_settings[languages]" type="text" id="transifex_live_settings_language_codes" value="<?php echo $settings['languages']; ?>" class="regular-text" placeholder="<?php _e( 'None set', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>">
 						<fieldset>
                             <legend class="screen-reader-text"><span><?php _e( 'Automatically add language to url?', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></span></legend>
                             <label for="transifex_live_settings_staging">
                                 <input name="transifex_live_settings[add_language_rewrites]" type="hidden" value="0">
-                                <input name="transifex_live_settings[add_language_rewrites]" type="checkbox" id="transifex_live_settings_staging" value="1" <?php checked( $settings['add_language_rewrites'] ); ?>>
+                                <input name="transifex_live_settings[add_language_rewrites]" type="checkbox" id="transifex_live_settings_add_language_rewrites" value="1" <?php checked( $settings['add_language_rewrites'] ); ?>>
 								<?php _e( 'Automatically add language to url?', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
                             </label>
                         </fieldset>

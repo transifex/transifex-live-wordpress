@@ -1,12 +1,46 @@
 <?php
 
 class Transifex_Live_Integration_Settings_Util {
-	
-	static function get_live_languages_list( $api_key ){
+
+	static function get_raw_transifex_languages( $api_key ) {
 		Plugin_Debug::logTrace();
-		$languages_arr = "{en}";
-		// convert JSON to string array
-		return $languages_arr;
+		$languages_json_format = "https://cdn.transifex.com/%s/latest/languages.jsonp";
+		$request_url = sprintf( $languages_json_format, $api_key );
+		$response = wp_remote_get( $request_url );
+		$response_code = wp_remote_retrieve_response_code( $response );
+		if ( $response_code == '200' ) {
+			$raw_response = wp_remote_retrieve_body( $response );
+		}
+		return $raw_response;
+	}
+
+	static function get_languages( $raw_transifex_languages ) {
+		Plugin_Debug::logTrace();
+		$reg = '/\s*transifex_languages\(\s*(.+?)\s*\);/';
+		preg_match($reg,$raw_transifex_languages,$m);
+		$tl_array = json_decode($m[1],true);
+		$tl_t_array = $tl_array['translation'];
+    	$language_array = array_column($tl_t_array, 'code');
+		if (isset ($language_array)) {
+			return $language_array;
+		} else {
+			return null;
+		}
+	}
+
+	static function get_source( $raw_transifex_languages ) {
+		Plugin_Debug::logTrace();
+		$reg = '/\s*transifex_languages\(\s*(.+?)\s*\);/';
+		preg_match($reg,$raw_transifex_languages,$m);
+		$tl_array = json_decode($m[1],true);
+		$tl_s_array = $tl_array['source'];
+		$source_string = $tl_s_array['code'];
+		if (isset ($source_string)) {
+			return $source_string;
+		} else {
+			return null;
+		}
+		
 	}
 
 	static function sanitize_list( $list ) {
