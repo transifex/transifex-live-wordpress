@@ -28,11 +28,11 @@ class Transifex_Live_Integration_Rewrite {
 		if ( isset( $settings['enable_language_urls'] ) && $settings['enable_language_urls'] ) {
 			$this->rewrites_ok = true;
 			$this->source_language = $settings['source_language'];
-			$b = strpos( ",", $settings['language_codes'] );
+			$b = strpos( ",", $settings['languages'] );
 			if ( $b === false ) {
-				$this->language_codes = array( $settings['language_codes'] );
+				$this->language_codes = array( $settings['languages'] );
 			} else {
-				$this->language_codes = explode( ",", $settings['language_codes'] );
+				$this->language_codes = explode( ",", $settings['languages'] );
 			}
 		} else {
 			$this->rewrites_ok = false;
@@ -40,15 +40,12 @@ class Transifex_Live_Integration_Rewrite {
 	}
 	
 	function is_enabled() {
-		return false;
-//TODO future feature turned off
-//		return $this->rewrites_ok;
+		return $this->rewrites_ok;
 	}
 
 	function add_rewrites( $rules ) {
 
-	//	if ( !$this->rewrites_ok ) {
-		if (false){
+		if ( !$this->rewrites_ok ) {
 			return $rules;
 		}
 
