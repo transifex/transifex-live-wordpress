@@ -64,7 +64,7 @@ define( 'LANG_PARAM', 'lang' );
 
 include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/plugin-debug.php';
 $debug = new Plugin_Debug();
-$version = '1.0.5';
+$version = '1.0.6';
 
 /**
  * Main Plugin Class
@@ -126,7 +126,7 @@ class Transifex_Live_Integration {
 
 	function query_vars_hook( $vars ) {
 		Plugin_Debug::logTrace();
-		//$vars[] = "lang";
+		$vars[] = "lang";
 		return $vars;
 	}
 
@@ -146,8 +146,6 @@ class Transifex_Live_Integration {
 			return $permalink;
 		}
 		$post_lang = urlencode( 'en' );
-
-
 		$permalink = str_replace( '%lang%', $post_lang, $permalink );
 
 		return $permalink;

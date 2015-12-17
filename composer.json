@@ -1,0 +1,6 @@
+{
+    "require": {
+        "psy/psysh": "@stable",
+        "phpunit/phpunit": "^5.1"
+    }
+}
