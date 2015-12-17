@@ -16,7 +16,7 @@ class Transifex_Live_Integration_Defaults {
 	static function settings() {
 		Plugin_Debug::logTrace();
 		return array(
-			'api_key' => null,
+			'api_key' => null, // This is the only required field and needs to be copied from Live
 			'picker' => 'bottom-right',
 			'staging' => 0,
 			'enable_frontend_css' => 0,
@@ -38,6 +38,10 @@ class Transifex_Live_Integration_Defaults {
 				'rate_us' => 'https://wordpress.org/support/view/plugin-reviews/transifex-live-integration?rate=5#postform',
 				'api_key_landing_page' => 'https://www.transifex.com/live/?utm_source=liveplugin',
 			],
+			'enable_language_urls' => false,
+			'add_language_rewrites' => false,
+			'source_language' => null,
+			'languages'=> null
 		);
 	}
 
