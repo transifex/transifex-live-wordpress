@@ -39,7 +39,7 @@ class Transifex_Live_Integration_Defaults {
 				'api_key_landing_page' => 'https://www.transifex.com/live/?utm_source=liveplugin',
 			],
 			'enable_language_urls' => false,
-			'add_language_rewrites' => false,
+			'add_language_rewrites' => "none",
 			'source_language' => null,
 			'languages'=> null
 		);

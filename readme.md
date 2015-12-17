@@ -31,7 +31,7 @@ Translators can contribute new languages to this plugin or our other WordPress p
 == Minimum Requirements ==
 
 * WordPress 3.5.2 or greater
-* PHP version 5.2.4 or greater
+* PHP version 5.5.0 or greater
 * MySQL version 5.0 or greater
 
 === Installation ===
@@ -77,3 +77,6 @@ Initial implementation of SEO and lang urls
 
 = 1.0.5 =
 SEO and lang urls feature switch set to off
+
+= 1.0.6 =
+SEO and lang urls feature switch set to on

@@ -4,7 +4,7 @@ Contributors: txmatthew, ThemeBoy, brooksx
 Tags: transifex, translate, translations, localize, localise, localization, localisation, multilingual, t9n, l10n, i18n, language, switcher, live, translation, translator
 Requires at least: 3.5.2
 Tested up to: 4.3.1
-Stable tag: 1.0.5
+Stable tag: 1.0.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,7 +37,7 @@ Translators can contribute new languages to this plugin or our other WordPress p
 Minimum Requirements
 
 * WordPress 3.5.2 or greater
-* PHP version 5.2.4 or greater
+* PHP version 5.5.0 or greater
 * MySQL version 5.0 or greater
 
 == Installation ==
@@ -84,3 +84,6 @@ Initial implementation of SEO and lang urls
 
 = 1.0.5 =
 SEO and lang urls feature switch set to off
+
+= 1.0.6 =
+SEO and lang urls feature switched set to on
