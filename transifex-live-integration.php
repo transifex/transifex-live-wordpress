@@ -85,13 +85,17 @@ class Transifex_Live_Integration {
 			$settings = Transifex_Live_Integration_Defaults::settings();
 		}
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-rewrite.php';
-		$rewrite = new Transifex_Live_Integration_Rewrite( $settings );
-		if ( $rewrite->is_enabled() ) {
+		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-generate-rewrite-rules.php';
+		$rewrite = Transifex_Live_Integration_Rewrite::create_rewrite( $settings );
+		($rewrite)?Plugin_Debug::logTrace("rewrite created"):Plugin_Debug::logTrace("rewrite false");;
+		if ( $rewrite ) {
 
-			add_action( 'init', array( 'Transifex_Live_Integration', 'init_hook' ) );
-			add_filter( 'query_vars', array( 'Transifex_Live_Integration', 'query_vars_hook' ) );
-			add_filter( 'post_link', array( 'Transifex_Live_Integration', 'post_link_hook' ), 10, 2 );
-			add_action( 'parse_query', array( 'Transifex_Live_Integration', 'parse_query_hook' ) );
+			add_action( 'init', array( 'Transifex_Live_Integration_Rewrite', 'init_hook' ) );
+			add_filter( 'query_vars', array( 'Transifex_Live_Integration_Rewrite', 'query_vars_hook' ) );
+			add_filter( 'page_rewrite_rules', [ $rewrite, 'page_rewrite_rules_hook' ] );
+			
+//			add_filter( 'post_link', array( 'Transifex_Live_Integration_Rewrite', 'post_link_hook' ), 10, 2 );
+//			add_action( 'parse_query', array( 'Transifex_Live_Integration_Rewrite', 'parse_query_hook' ) );
 		}
 		if ( $is_admin ) {
 			include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/admin/transifex-live-integration-action-links.php';
@@ -116,39 +120,12 @@ class Transifex_Live_Integration {
 		} else {
 
 			include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-javascript.php';
-			$javascript = new Transifex_Live_Integration_Javascript( $settings, $rewrite->is_enabled() );
+			$javascript = new Transifex_Live_Integration_Javascript( $settings, true );
 			add_action( 'wp_head', [ $javascript, 'render' ], 1 );
 			include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-css.php';
 			$css = new Transifex_Live_Integration_Css( $settings );
 			$css->inline_render();
 		}
-	}
-
-	function query_vars_hook( $vars ) {
-		Plugin_Debug::logTrace();
-		$vars[] = "lang";
-		return $vars;
-	}
-
-	static function init_hook() {
-		Plugin_Debug::logTrace();
-		add_rewrite_tag( '%lang%', '([^&]+)' );
-	}
-
-	static function parse_query_hook( $query ) {
-		Plugin_Debug::logTrace();
-		return $query;
-	}
-
-	static function post_link_hook( $permalink, $post ) {
-		Plugin_Debug::logTrace();
-		if ( false === strpos( $permalink, '%lang%' ) ) {
-			return $permalink;
-		}
-		$post_lang = urlencode( 'en' );
-		$permalink = str_replace( '%lang%', $post_lang, $permalink );
-
-		return $permalink;
 	}
 
 	/**
@@ -170,8 +147,23 @@ class Transifex_Live_Integration {
 	 * Plugin activation stub
 	 */
 	static function activation_hook() {
+		/*
+		$settings = get_option( 'transifex_live_settings', array() );
+		if ( isset( $settings['api_key'] ) ) {
+				$raw_api_response = Transifex_Live_Integration_Settings_Util::get_raw_transifex_languages( $settings['api_key'] );
+				if ( isset( $raw_api_response ) ) {
+					$settings['raw_transifex_languages'] = $raw_api_response;
+					$settings['source_language'] = Transifex_Live_Integration_Settings_Util::get_source( $raw_api_response );
+					$settings['languages'] = Transifex_Live_Integration_Settings_Util::get_default_languages( $raw_api_response );
+					$settings['language_lookup'] = Transifex_Live_Integration_Settings_Util::get_language_lookup( $raw_api_response );
+				}
+			}
+		 * 
+		 */
 
 	}
+
+		 
 
 }
 

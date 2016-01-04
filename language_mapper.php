@@ -21,9 +21,6 @@ class StackTest extends PHPUnit_Framework_TestCase
     	foreach ($arr as $i) {
     		preg_match($reg,$i['input'],$m);
     		$tl_array = json_decode($m[1],true);
-    		
-    		$tl_s_array = $tl_array['source'];
-    		$source_string = $tl_s_array['code'];
 
     		$tl_t_array = $tl_array['translation'];
 
@@ -33,12 +30,21 @@ class StackTest extends PHPUnit_Framework_TestCase
                     return $arr; }, 
                     $tl_t_array
                 );
-    		eval(\Psy\sh());
-    		$this->assertEquals($i['expected_source'],$source_string);
-    		$this->assertEquals(ksort($i['expected_languages']),ksort($language_array));
+        }
+        $mapper = "";
+        foreach ($language_array as $item) {
+        $name = $item['name'];
+        $code = $item['code'];
+        $mapper .= <<<MAPPER
+            <input disabled="true" name="transifex_live_settings[languages]" type="text" id="transifex_live_settings_language_codes" value="$code" class="regular-text" placeholder="$name">
+            <input name="transifex_live_settings[languages]" type="text" id="transifex_live_settings_language_codes" value="" class="regular-text" placeholder="$code">
+            <br/>
+MAPPER;
 }
-    		eval(\Psy\sh());
+eval(\Psy\sh());
 }
+
+    		
 }
 
 
