@@ -18,7 +18,7 @@ class Plugin_Debug {
 	 * Define the core functionality of the plugin.
 	 */
 	public function __construct() {
-		self::$debug_mode = false;
+		self::$debug_mode = true;
 		$this->logTrace();
 
 		// Check to see if plugin is in debug mode
@@ -26,6 +26,7 @@ class Plugin_Debug {
 		if ( self::$debug_mode ) {
 			set_error_handler( array( 'Plugin_Debug', 'logError' ) );
 			// Check for admin level if not surpress all debug output hooks
+			//TODO: Reimplement admin check
 			if ( true ) {
 				add_action( 'wp_footer', array( 'Plugin_Debug', 'printLog' ) );
 				add_action( 'admin_footer', array( 'Plugin_Debug', 'printLog' ) );
@@ -35,8 +36,9 @@ class Plugin_Debug {
 
 	public static function logTrace( $message = null ) {
 		if ( self::$debug_mode ) {
-			if ( !is_array( self::$calls ) )
+			if ( !is_array( self::$calls ) ){
 				self::$calls = array();
+			}
 			$call = debug_backtrace( false );
 			$call = (isset( $call[1] )) ? $call[1] : $call[0];
 			$call['message'] = $message;
@@ -46,12 +48,13 @@ class Plugin_Debug {
 
 	public static function logError( $severity, $message, $filename, $lineno ) {
 		if ( self::$debug_mode ) {
-			if ( !is_array( self::$calls ) )
+			if ( !is_array( self::$calls ) ){
 				self::$calls = array();
+			}
 			if ( strpos( $filename, 'transifex-live-integration' ) ) {
 				$call = debug_backtrace( false );
 				$call = (isset( $call[2] )) ? $call[2] : $call[1];
-				$call['message'] = 'File: ' . basename( $filename ) . ' Line: ' . $lineno . ': ' . $message;
+				$call['message'] = 'Severity: '.$severity. ' File: ' . basename( $filename ) . ' Line: ' . $lineno . ': ' . $message;
 				array_push( self::$calls, $call );
 			}
 		}
@@ -99,12 +102,94 @@ class Plugin_Debug {
 				echo ('</font>');
 			}
 			echo "<br/>";
-			if ( array_key_exists( 'message', $value ) && $value['message'] != null )
+			if ( array_key_exists( 'message', $value ) && $value['message'] != null ){
 				echo ('<font color="red">');
+			}
 			print_r( $value['message'] );
 			echo ('</font>');
 			echo "<br/>*";
 		}
 	}
+	
+/**
+ * View any string as a hexdump.
+ *
+ * This is most commonly used to view binary data from streams
+ * or sockets while debugging, but can be used to view any string
+ * with non-viewable characters.
+ *
+ * @version     1.3.2
+ * @author      Aidan Lister <aidan@php.net>
+ * @author      Peter Waller <iridum@php.net>
+ * @link        http://aidanlister.com/2004/04/viewing-binary-data-as-a-hexdump-in-php/
+ * @param       string  $data        The string to be dumped
+ * @param       bool    $htmloutput  Set to false for non-HTML output
+ * @param       bool    $uppercase   Set to true for uppercase hex
+ * @param       bool    $return      Set to true to return the dump
+ */
+static function hexdump ($data, $htmloutput = true, $uppercase = false, $return = false)
+{
+    // Init
+    $hexi   = '';
+    $ascii  = '';
+    $dump   = ($htmloutput === true) ? '<pre>' : '';
+    $offset = 0;
+    $len    = strlen($data);
+ 
+    // Upper or lower case hexadecimal
+    $x = ($uppercase === false) ? 'x' : 'X';
+ 
+    // Iterate string
+    for ($i = $j = 0; $i < $len; $i++)
+    {
+        // Convert to hexidecimal
+        $hexi .= sprintf("%02$x ", ord($data[$i]));
+ 
+        // Replace non-viewable bytes with '.'
+        if (ord($data[$i]) >= 32) {
+            $ascii .= ($htmloutput === true) ?
+                            htmlentities($data[$i]) :
+                            $data[$i];
+        } else {
+            $ascii .= '.';
+        }
+ 
+        // Add extra column spacing
+        if ($j === 7) {
+            $hexi  .= ' ';
+            $ascii .= ' ';
+        }
+ 
+        // Add row
+        if (++$j === 16 || $i === $len - 1) {
+            // Join the hexi / ascii output
+            $dump .= sprintf("%04$x  %-49s  %s", $offset, $hexi, $ascii);
+            
+            // Reset vars
+            $hexi   = $ascii = '';
+            $offset += 16;
+            $j      = 0;
+            
+            // Add newline            
+            if ($i !== $len - 1) {
+                $dump .= "\n";
+            }
+        }
+    }
+ 
+    // Finish dump
+    $dump .= $htmloutput === true ?
+                '</pre>' :
+                '';
+    $dump .= "\n";
+ 
+    // Output method
+    if ($return === false) {
+        echo $dump;
+    } else {
+        return $dump;
+    }
+}
+
 
 }
