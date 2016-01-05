@@ -109,21 +109,48 @@ class Transifex_Live_Integration_Settings_Util {
 		$header_label = __( 'Language URLs', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN );
 		$source_language = $settings['source_language'];
 		$source_label = __('Source Language', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN );
-		$selected_none = selected( $settings['add_language_rewrites'], "none" );
-		$selected_opt1 = selected( $settings['add_language_rewrites'], 1 );
-		$selected_opt2 = selected( $settings['add_language_rewrites'], 2 );
-		$selected_opt3 = selected( $settings['add_language_rewrites'], 3 );
+		ob_start();
+		checked( $settings['add_language_rewrites'], "none" );
+		$selected_none = ob_get_clean();
+		
+		ob_start();
+		checked( $settings['add_language_rewrites'], 1 );
+		$selected_opt1 =  ob_get_clean();
+		
+		ob_start();
+		 checked( $settings['add_language_rewrites'], 2 );
+		$selected_opt2 = ob_get_clean();
+		
+		ob_start();
+		 checked( $settings['add_language_rewrites'], 3 );
+		$selected_opt3 = ob_get_clean();
+		
+
+		$enable_hreflang_label = __( 'Enable HREFLANG?', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN );
+		ob_start();
+		 checked( $settings['hreflang'] );
+		$checked_hreflang = ob_get_clean();
+		 
 		$mapper = <<<SOURCE
 		<th scope="row" class="titledesc">$header_label</th>
         <td class="forminp">
-		<select name="transifex_live_settings[add_language_rewrites]" id="transifex_live_settings_add_language_rewrites">
-			<option value="none" $selected_none>None Selected</option>
-			<option value="1" $selected_opt1>to all URLs</option>
-			<option value="2" $selected_opt2>to pages only</option>
-			<option value="3" $selected_opt3>Custom (Only adds %lang% url pattern)</option>
-		</select>
+		<input type="radio" id="transifex_live_settings_add_language_rewrites" name="transifex_live_settings[add_language_rewrites]" value="none" $selected_none >None Selected
+		<br/>
+        <input disabled="true" type="radio" id="transifex_live_settings_add_language_rewrites" name="transifex_live_settings[add_language_rewrites]" value="1" $selected_opt1>to all URLs
+		<br/>
+		<input type="radio" id="transifex_live_settings_add_language_rewrites" name="transifex_live_settings[add_language_rewrites]" value="2" $selected_opt2>to pages only
+		<br/>
+        <input type="radio" id="transifex_live_settings_add_language_rewrites" name="transifex_live_settings[add_language_rewrites]" value="3" $selected_opt3>Custom (Only adds %lang% url pattern)
 		<br/><br/>
-				
+		<fieldset>
+        <legend class="screen-reader-text"><span>$enable_hreflang_label</span></legend>
+        <label for="transifex_live_settings_hreflang">
+        <input name="transifex_live_settings[hreflang]" type="hidden" value="0">
+        <input name="transifex_live_settings[hreflang]" type="checkbox" id="transifex_live_settings_hreflang" value="1" $checked_hreflang>
+		$enable_hreflang_label
+        </label>
+        </fieldset>
+		<br/><br/>
 		<label class="enable_checkbox" for="transifex_live_settings_source_language">
 		$source_label
 		<input disabled name="transifex_live_settings[source_language]" type="text" id="transifex_live_settings_source_language" value="$source_language" class="regular-text">

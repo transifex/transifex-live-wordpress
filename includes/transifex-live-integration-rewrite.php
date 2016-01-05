@@ -89,14 +89,20 @@ class Transifex_Live_Integration_Rewrite {
 		return $permalink;
 	}
 	
+	function generate_page_permastruct(){
+		Plugin_Debug::logTrace();
+		global $wp_rewrite;
+		$p = $wp_rewrite->get_page_permastruct();
+		$pp = '%lang%/'.$p;
+		return $pp;
+	}
+	
 	function page_rewrite_rules_hook($rules){
 		Plugin_Debug::logTrace();
 		global $wp_rewrite;
 		$wp_rewrite->add_rewrite_tag( '%pagename%', '(.?.+?)', 'pagename=' );
 		$wp_rewrite->add_rewrite_tag( '%lang%', $this->languages_regex, 'lang=' );
-		$p = $wp_rewrite->get_page_permastruct();
-		Plugin_Debug::logTrace($p);
-		$pp = '%lang%/'.$p;
+		$pp = $this->generate_page_permastruct();
 		$this->page_permastruct = $pp;
 		Plugin_Debug::logTrace($pp);
 		$rr = Transifex_Live_Integration_Generate_Rewrite_Rules::generate_rewrite_rules( $pp, EP_PAGES, true, false, false, false );
