@@ -50,7 +50,6 @@
                     </td>
                 </tr>
 			    <tr valign="top">
-						
 						<?php Transifex_Live_Integration_Settings_Util::render_language_mapper($language_lookup,$settings); ?>
                 </tr>
             </tbody>
