@@ -65,7 +65,6 @@ define( 'LANG_PARAM', 'lang' );
 include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/plugin-debug.php';
 $version = '1.0.6b1';
 $debug = new Plugin_Debug();
-Plugin_Debug::logTrace($version);
 
 /**
  * Main Plugin Class
