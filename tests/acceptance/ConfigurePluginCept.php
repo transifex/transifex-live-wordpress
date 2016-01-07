@@ -12,7 +12,6 @@ $I->click('Transifex Live');
 $I->see('Transifex Live Wordpress Plugin Settings','h2');
 $I->seeInFormFields('#settings_form',[ 
 	'transifex_live_settings[api_key]' => '',
-	'transifex_live_settings[staging]' => false,
 	'transifex_live_colors[accent]' => '#006f9f',
 	'transifex_live_colors[text]' => '#ffffff',
 	'transifex_live_colors[background]' => '#000000',
