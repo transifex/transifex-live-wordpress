@@ -63,8 +63,8 @@ if ( !defined( 'TRANSIFEX_LIVE_INTEGRATION_JAVASCRIPT' ) ) {
 define( 'LANG_PARAM', 'lang' );
 
 include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/plugin-debug.php';
+$version = '1.0.6b1';
 $debug = new Plugin_Debug();
-$version = '1.0.6';
 
 /**
  * Main Plugin Class
@@ -87,7 +87,7 @@ class Transifex_Live_Integration {
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-rewrite.php';
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-generate-rewrite-rules.php';
 		$rewrite = Transifex_Live_Integration_Rewrite::create_rewrite( $settings );
-		($rewrite)?Plugin_Debug::logTrace("rewrite created"):Plugin_Debug::logTrace("rewrite false");;
+		($rewrite)?Plugin_Debug::logTrace("rewrite created"):Plugin_Debug::logTrace("rewrite false");
 		if ( $rewrite ) {
 
 			add_action( 'init', array( 'Transifex_Live_Integration_Rewrite', 'init_hook' ) );
@@ -118,10 +118,18 @@ class Transifex_Live_Integration {
 
 			load_plugin_textdomain( TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN, false, TRANSIFEX_LIVE_INTEGRATION_LANGUAGES_PATH );
 		} else {
-
+			include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-hreflang.php';
+			$hreflang = new Transifex_Live_Integration_Hreflang( $settings, true );
+			($hreflang->ok_to_add())?Plugin_Debug::logTrace("adding hreflang"):Plugin_Debug::logTrace("skipping hreflang");
+			if ($hreflang->ok_to_add()){
+				add_action( 'wp_head', [ $hreflang, 'render_hreflang' ], 1 );
+			}
+			
+			
 			include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-javascript.php';
 			$javascript = new Transifex_Live_Integration_Javascript( $settings, true );
 			add_action( 'wp_head', [ $javascript, 'render' ], 1 );
+			
 			include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-css.php';
 			$css = new Transifex_Live_Integration_Css( $settings );
 			$css->inline_render();
