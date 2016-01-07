@@ -77,3 +77,6 @@ Initial implementation of SEO and lang urls
 
 = 1.0.5 =
 SEO and lang urls feature switch set to off
+
+= 1.0.6 =
+Staging option removed, now use Transifex Live to manage staging deploys

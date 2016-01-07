@@ -47,11 +47,7 @@ script:
   - "wget http://codeception.com/codecept.phar"
   - php ./codecept.phar build
   - php ./codecept.phar run
-  - if [ "$TRAVIS_BRANCH" == "master" ]; then
-      echo "$(curl -fsSL https://gist.githubusercontent.com/matthewjackowski/56bdf337d014f2fe0646/raw/wp-plugin-deploy.sh)" | sudo tee ./wp-plugin-deploy.sh > /dev/null;
-      sudo chmod +x ./wp-plugin-deploy.sh;
-      ./wp-plugin-deploy.sh;
-    fi
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then echo "$(curl -fsSL https://gist.githubusercontent.com/matthewjackowski/56bdf337d014f2fe0646/raw/wp-plugin-deploy.sh)" | sudo tee ./wp-plugin-deploy.sh > /dev/null;sudo chmod +x ./wp-plugin-deploy.sh;./wp-plugin-deploy.sh 1>&2;fi
 
 after_failure: 
   - sudo cat /var/log/apache2/error.log

@@ -23,6 +23,7 @@ class Transifex_Live_Integration_Javascript {
 	 */
 	public function __construct( $live_settings, $is_detectlang ) {
 		Plugin_Debug::logTrace();
+		unset($live_settings['staging']); // control for staging deprecated https://github.com/transifex/transifex-live-wordpress/issues/46
 		$this->live_settings = $live_settings;
 		$this->is_detectlang = $is_detectlang;
 	}
