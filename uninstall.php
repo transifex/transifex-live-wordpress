@@ -27,6 +27,10 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
 
-$option_name = 'transifex_live_settings';
+$settings_option_name = 'transifex_live_settings';
 
-delete_option( $option_name );
+delete_option( $settings_option_name );
+
+$colors_option_name = 'transifex_live_colors';
+
+delete_option( $colors_option_name );

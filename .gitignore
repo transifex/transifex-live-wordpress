@@ -13,4 +13,5 @@ languages/
 build/
 
 wp-plugin-deploy.sh
-tests/_output/*
+tests/_*/
+tests/**/_*

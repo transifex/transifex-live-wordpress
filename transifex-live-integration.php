@@ -84,19 +84,35 @@ class Transifex_Live_Integration {
 
 			$settings = Transifex_Live_Integration_Defaults::settings();
 		}
+		
+		add_filter( 'query_vars', array( 'Transifex_Live_Integration', 'query_vars_hook' ) );
+		
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-rewrite.php';
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-generate-rewrite-rules.php';
 		$rewrite = Transifex_Live_Integration_Rewrite::create_rewrite( $settings );
 		($rewrite)?Plugin_Debug::logTrace("rewrite created"):Plugin_Debug::logTrace("rewrite false");
 		if ( $rewrite ) {
-
-			add_action( 'init', array( 'Transifex_Live_Integration_Rewrite', 'init_hook' ) );
-			add_filter( 'query_vars', array( 'Transifex_Live_Integration_Rewrite', 'query_vars_hook' ) );
-			add_filter( 'page_rewrite_rules', [ $rewrite, 'page_rewrite_rules_hook' ] );
-			
+		switch($rewrite->rewrite_option)
+				{
+	case 'none';
+		break;
+    case 'pages';
+		add_filter( 'page_rewrite_rules', [ $rewrite, 'page_rewrite_rules_hook' ] );
+		add_action( 'parse_query',  [$rewrite, 'parse_query_hook' ] );
+		break;
+    case 'all';
+		add_filter( 'root_rewrite_rules', [ $rewrite, 'root_rewrite_rules_hook' ] );
+		add_action( 'parse_query',  [$rewrite, 'parse_query_hook' ] );
+    break;
+    default;
+        add_action( 'init', [$rewrite, 'init_hook' ] );
+		add_action( 'parse_query',  [$rewrite, 'parse_query_hook' ] );
+    break;
+}
 //			add_filter( 'post_link', array( 'Transifex_Live_Integration_Rewrite', 'post_link_hook' ), 10, 2 );
-//			add_action( 'parse_query', array( 'Transifex_Live_Integration_Rewrite', 'parse_query_hook' ) );
+
 		}
+		
 		if ( $is_admin ) {
 			include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/admin/transifex-live-integration-action-links.php';
 			add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( 'Transifex_Live_Integration_Action_Links', 'action_links' ) );
@@ -127,13 +143,19 @@ class Transifex_Live_Integration {
 			
 			
 			include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-javascript.php';
-			$javascript = new Transifex_Live_Integration_Javascript( $settings, true );
+			$javascript = new Transifex_Live_Integration_Javascript( $settings, $rewrite?true:false );
 			add_action( 'wp_head', [ $javascript, 'render' ], 1 );
 			
 			include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-css.php';
 			$css = new Transifex_Live_Integration_Css( $settings );
 			$css->inline_render();
 		}
+	}
+	
+	static function query_vars_hook( $vars ) {
+		Plugin_Debug::logTrace();
+		$vars[] = "lang";
+		return $vars;
 	}
 
 	/**

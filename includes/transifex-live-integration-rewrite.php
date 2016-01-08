@@ -19,7 +19,14 @@ class Transifex_Live_Integration_Rewrite {
 	private $language_codes;
 	private $languages_regex;
 	private $page_permastruct;
+	public $rewrite_option;
 	const REGEX_PATTERN_CHECK_PATTERN = '/\(.*\|.*\)/';
+	private $REWRITE_OPTIONS = [ // not a const for backward compat
+		'0' => 'none',
+		'1' => 'pages',
+		'2' => 'all',
+		'3' => 'set tag only'
+		];
 
 	/**
 	 * Public constructor, initializes local vars based on settings
@@ -29,6 +36,7 @@ class Transifex_Live_Integration_Rewrite {
 		Plugin_Debug::logTrace();
 		$this->languages_regex = $settings['languages_regex'];
 		$this->source_language = $settings['source_language'];
+		$this->rewrite_option = $this->REWRITE_OPTIONS[$settings['add_language_rewrites']];
 		$b = strpos( ",", $settings['languages'] );
 		if ( $b === false ) {
 			$this->language_codes = array( $settings['languages'] );
@@ -62,22 +70,18 @@ class Transifex_Live_Integration_Rewrite {
 		return new Transifex_Live_Integration_Rewrite($settings);
 	}
 	
-	function query_vars_hook( $vars ) {
-		Plugin_Debug::logTrace();
-		$vars[] = "lang";
-		return $vars;
-	}
-
 	function init_hook() {
 		Plugin_Debug::logTrace();
-//		add_rewrite_tag( '%lang%', '([^&]+)' );
+		add_rewrite_tag( '%lang%', $this->languages_regex, 'lang=' );
 	}
-
-	function parse_query_hook( $query ) {
+	
+	static function parse_query_hook( $query ) {
 		Plugin_Debug::logTrace();
+		$query->query_vars['lang'] = isset($query->query_vars['lang'])?$$query->query_vars['lang']:$this->source_language;
 		return $query;
 	}
 
+/**
 	function post_link_hook( $permalink, $post ) {
 		Plugin_Debug::logTrace();
 		if ( false === strpos( $permalink, '%lang%' ) ) {
@@ -88,7 +92,7 @@ class Transifex_Live_Integration_Rewrite {
 
 		return $permalink;
 	}
-	
+	*/
 	function generate_page_permastruct(){
 		Plugin_Debug::logTrace();
 		global $wp_rewrite;
@@ -109,6 +113,24 @@ class Transifex_Live_Integration_Rewrite {
 		Plugin_Debug::logTrace($rr);
 		$rewrite = array_merge( $rr, $rules);
 		return $rewrite;
-	} 
+	}
+	
+		function generate_root_permastruct(){
+		Plugin_Debug::logTrace();
+		global $wp_rewrite;
+		return '%lang%/'.$wp_rewrite->root.'/';
+	}
+	
+	function root_rewrite_rules_hook($rules){
+		Plugin_Debug::logTrace();
+		global $wp_rewrite;
+		$wp_rewrite->add_rewrite_tag( '%lang%', $this->languages_regex, 'lang=' );
+		$pp = $this->generate_root_permastruct();
+		$rr = Transifex_Live_Integration_Generate_Rewrite_Rules::generate_rewrite_rules( $pp, EP_ROOT);
+		Plugin_Debug::logTrace($rr);
+		$rewrite = array_merge( $rr, $rules);
+		return $rewrite;
+	}
+	
 	
 }
