@@ -107,7 +107,6 @@ class Transifex_Live_Integration_Settings_Page {
 	static public function sanitize_settings( $settings ) {
 		Plugin_Debug::logTrace();
 		$settings['transifex_live_settings']['api_key'] = ( isset( $settings['transifex_live_settings']['api_key'] )) ? sanitize_text_field( $settings['transifex_live_settings']['api_key'] ) : '';
-		$settings['transifex_live_settings']['staging'] = ( $settings['transifex_live_settings']['staging'] ) ? 1 : 0;
 		$settings['transifex_live_settings']['enable_frontend_css'] = ( $settings['transifex_live_settings']['enable_frontend_css'] ) ? 1 : 0;
 		$settings['transifex_live_settings']['custom_picker_id'] = ( isset( $settings['transifex_live_settings']['custom_picker_id'] )) ? sanitize_text_field( $settings['transifex_live_settings']['custom_picker_id'] ) : '';
 		$settings['transifex_live_settings']['raw_transifex_languages'] = ( isset( $settings['transifex_live_settings']['raw_transifex_languages'] )) ? sanitize_text_field( $settings['transifex_live_settings']['raw_transifex_languages'] ) : '';
