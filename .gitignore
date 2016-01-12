@@ -16,4 +16,7 @@ wp-plugin-deploy.sh
 tests/_*/
 tests/**/_*
 
-tests/_output/*
+codeception.yml
+tests/acceptance.suite.yml
+tests/functional.suite.yml
+tests/unit.suite.yml
