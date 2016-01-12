@@ -16,20 +16,6 @@
                         <input required name="transifex_live_settings[api_key]" type="text" id="transifex_live_settings_api_key" value="<?php echo $settings['api_key']; ?>" class="regular-text" placeholder="<?php _e( 'This field is required.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>">
                     </td>
                 </tr>
-                <tr>
-                    <th scope="row"><label><?php _e( 'Plugin Options', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></label></th>
-                    <td>
-                        <!-- Staging -->
-                        <fieldset>
-                            <legend class="screen-reader-text"><span><?php _e( 'Is this a staging server?', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></span></legend>
-                            <label for="transifex_live_settings_staging">
-                                <input name="transifex_live_settings[staging]" type="hidden" value="0">
-                                <input name="transifex_live_settings[staging]" type="checkbox" id="transifex_live_settings_staging" value="1" <?php checked( $settings['staging'] ); ?>>
-								<?php _e( 'Is this a staging server?', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
-                            </label>
-                        </fieldset>
-                    </td>
-                </tr>
                 <tr valign="top">
                     <th scope="row" class="titledesc">
 						<?php _e( 'Language Picker Styling', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>

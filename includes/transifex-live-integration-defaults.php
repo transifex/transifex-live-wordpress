@@ -18,7 +18,6 @@ class Transifex_Live_Integration_Defaults {
 		return array(
 			'api_key' => null, // This is the only required field and needs to be copied from Live
 			'picker' => 'bottom-right',
-			'staging' => 0,
 			'enable_frontend_css' => 0,
 			'colors' => [
 				'accent' => '#006f9f',

@@ -136,7 +136,7 @@ class Transifex_Live_Integration_Settings_Util {
         <td class="forminp">
 		<input type="radio" id="transifex_live_settings_add_language_rewrites" name="transifex_live_settings[add_language_rewrites]" value="none" $selected_none >None Selected
 		<br/>
-        <input disabled="true" type="radio" id="transifex_live_settings_add_language_rewrites" name="transifex_live_settings[add_language_rewrites]" value="1" $selected_opt1>to all URLs
+        <input type="radio" id="transifex_live_settings_add_language_rewrites" name="transifex_live_settings[add_language_rewrites]" value="1" $selected_opt1>to all URLs
 		<br/>
 		<input type="radio" id="transifex_live_settings_add_language_rewrites" name="transifex_live_settings[add_language_rewrites]" value="2" $selected_opt2>to pages only
 		<br/>

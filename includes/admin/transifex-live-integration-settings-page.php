@@ -12,7 +12,7 @@ class Transifex_Live_Integration_Settings_Page {
 		}
 		
 		$db_colors = array_map( 'esc_attr', (array) get_option( 'transifex_live_colors', array() ) );
-		if ( !isset($db_colors)) {
+		if ( empty($db_colors)) {
 			$db_colors = Transifex_Live_Integration_Defaults::settings()['colors'];
 		}
 		$colors_colors = ['colors' => $db_colors ];
