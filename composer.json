@@ -1,6 +1,6 @@
 {
     "require": {
         "psy/psysh": "@stable",
-        "codeception/codeception": "@stable"
+        "codeception/codeception": "^2.1"
     }
 }
