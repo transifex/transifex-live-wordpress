@@ -15,3 +15,5 @@ build/
 wp-plugin-deploy.sh
 tests/_*/
 tests/**/_*
+
+tests/_output/*
