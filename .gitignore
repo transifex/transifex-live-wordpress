@@ -13,9 +13,4 @@ languages/
 build/
 
 wp-plugin-deploy.sh
-tests/_*/
-tests/**/_*
-
-codeception.yml
-tests/functional.suite.yml
-tests/unit.suite.yml
+tests/_output/*
