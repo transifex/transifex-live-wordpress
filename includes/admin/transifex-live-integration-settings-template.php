@@ -1,10 +1,9 @@
 <div class="wrap transifex-live-settings">
-    <h2><?php _e( 'Transifex Live Wordpress Plugin Settings', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></h2>
+    <h2><?php _e( 'Transifex Live WordPress Plugin Settings', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></h2>
     <form id="settings_form" method="post" enctype="multipart/form-data">
 		<?php wp_nonce_field( 'transifex_live_settings', 'transifex_live_nonce' ); ?>
-        <p><?php _e( 'Transifex Live is a new, innovative way to localize your website with one snippet of JavaScript.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?><br>
-			<?php _e( 'It eliminates the hassle of extracting phrases from your code for translation, dealing with system integrations, or waiting for the next deployment to take translations live.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
-        <p><?php _e( 'This plugin requires a Transifex Live API key.' ); ?>&nbsp;&nbsp;<a href="<?php echo $settings['urls']['api_key_landing_page']; ?>"><?php _e( 'Click here to sign up and get a API key for free.' ) ?></a> 
+        <p><?php _e( 'Transifex Live makes it easy to translate WordPress sites. There’s no need to create one language per post, insert language tags, or have multiple WordPress instances.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
+        <p><?php _e( 'Before using this plugin, be sure you have a Transifex Live API key.' ); ?>&nbsp;<a href="<?php echo $settings['urls']['api_key_landing_page']; ?>"><?php _e( 'Click here to sign up and get a API key for free.' ) ?></a>
         <table class="form-table">
             <tbody>
                 <!-- API Key -->

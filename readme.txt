@@ -12,29 +12,29 @@ Translate your WordPress website or blog without the usual complex setups.
 
 == Description ==
 
-Transifex Live is a fun, new way to translate your WordPress site. There’s no need to create one language per post, insert language tags, or have multiple WordPress instances. Your site’s content is automatically detected and ready to be saved to the Transifex localization platform, where you can order professional translations or work with your existing translators.
+Transifex Live makes it easy to translate WordPress sites. There’s no need to create one language per post, insert language tags, or have multiple WordPress instances. Your site’s content is automatically detected and ready to be saved to the Transifex localization platform, where you can translate with the help of your existing translators, or order professional translations from Transifex partners.
 
-When the translations are done, take them live with the click of a button. The next time someone visits your WordPress site, they’ll automatically see the latest content in their native language.
+When the translations are done, take them live with the click of a button, just like you would with a blog post. The next time someone visits your WordPress site, they’ll automatically see the latest content in their native language.
 
 In order to use Transifex Live you will need to [sign up here for a FREE account](https://www.transifex.com/signup/?utm_source=wp-directory&utm_campaign=int-wp). This plugin also requires a Transifex Live API key. More information about how to obtain a key can be found in the [Transifex Live documentation](http://docs.transifex.com/developer/live/?utm_source=wp-directory&utm_campaign=int-wp).
 
-Features
+Features:
 
-* Integrate Transifex Live into your WordPress site using your API key.
-* Display language selector in top left, top right, bottom left, or bottom right corner of your site.
+* Simple installation of Transifex Live.
+* Show a language selector on your site.
 * Auto-detect the browser locale and translate the page.
-* Automatically identify new strings when page content changes.
+* Automatically identify new or changed content on your site.
 * Customize the language switcher by choosing your own color scheme.
 
 Learn more about the [Transifex Live Translation Plugin](https://www.transifex.com/integrations/wordpress-multilingual-plugin/?utm_source=wp-directory&utm_campaign=int-wp).
 
-Get Involved
+Get Involved:
 
 Developers can contribute via the plugin's [GitHub Repository](https://github.com/transifex/transifex-live-wordpress).
 
 Translators can contribute new languages to this plugin or our other WordPress plugins through [Transifex](https://www.transifex.com/wp-translations/transifex-live/?utm_source=wp-directory&utm_campaign=int-wp).
 
-Minimum Requirements
+Minimum Requirements:
 
 * WordPress 3.5.2 or greater
 * PHP version 5.2.4 or greater
