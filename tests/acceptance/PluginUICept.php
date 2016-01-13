@@ -1,7 +1,9 @@
 <?php 
 date_default_timezone_set('America/New_York');
 
-ini_set('xdebug.max_nesting_level', 1500);
+ini_set('xdebug.max_nesting_level', 100);
+
+if(function_exists('xdebug_disable')) { xdebug_disable(); };
 
 $I = new AcceptanceTester($scenario);
 
