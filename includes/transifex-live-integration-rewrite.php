@@ -77,7 +77,7 @@ class Transifex_Live_Integration_Rewrite {
 	
 	static function parse_query_hook( $query ) {
 		Plugin_Debug::logTrace();
-		$query->query_vars['lang'] = isset($query->query_vars['lang'])?$$query->query_vars['lang']:$this->source_language;
+		$query->query_vars['lang'] = isset($query->query_vars['lang'])?$query->query_vars['lang']:$this->source_language;
 		return $query;
 	}
 

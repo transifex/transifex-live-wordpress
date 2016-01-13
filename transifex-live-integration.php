@@ -63,7 +63,7 @@ if ( !defined( 'TRANSIFEX_LIVE_INTEGRATION_JAVASCRIPT' ) ) {
 define( 'LANG_PARAM', 'lang' );
 
 include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/plugin-debug.php';
-$version = '1.1.0b1';
+$version = '1.1.0b2';
 $debug = new Plugin_Debug();
 
 /**
@@ -84,7 +84,6 @@ class Transifex_Live_Integration {
 
 			$settings = Transifex_Live_Integration_Defaults::settings();
 		}
-		
 		add_filter( 'query_vars', array( 'Transifex_Live_Integration', 'query_vars_hook' ) );
 		
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-rewrite.php';
@@ -109,7 +108,6 @@ class Transifex_Live_Integration {
 		add_action( 'parse_query',  [$rewrite, 'parse_query_hook' ] );
     break;
 }
-//			add_filter( 'post_link', array( 'Transifex_Live_Integration_Rewrite', 'post_link_hook' ), 10, 2 );
 
 		}
 		
@@ -121,6 +119,8 @@ class Transifex_Live_Integration {
 			add_action( 'admin_menu', array( 'Transifex_Live_Integration', 'admin_menu_hook' ) );
 			add_filter( 'admin_init', array( 'Transifex_Live_Integration_Settings_Page', 'update_settings' ) );
 
+			add_action( 'admin_notices', array( 'Transifex_Live_Integration_Settings_Page', 'admin_notices_hook' ) );
+			
 			include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-static-files-handler.php';
 			$handler = new Transifex_Live_Integration_Static_Files_Handler();
 			$handler->add_css_file( $version, TRANSIFEX_LIVE_INTEGRATION_STYLESHEETS . '/transifex-live-integration-settings-page.css' );
@@ -131,6 +131,7 @@ class Transifex_Live_Integration {
 			add_action( 'admin_enqueue_scripts', [ $handler, 'render_css' ] );
 			add_action( 'admin_enqueue_scripts', [ $handler, 'render_js' ] );
 			add_action( 'admin_enqueue_scripts', [ $handler, 'render_iris_color_picker' ] );
+			
 
 			load_plugin_textdomain( TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN, false, TRANSIFEX_LIVE_INTEGRATION_LANGUAGES_PATH );
 		} else {

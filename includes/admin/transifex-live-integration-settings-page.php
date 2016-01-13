@@ -86,22 +86,37 @@ class Transifex_Live_Integration_Settings_Page {
 			if ( isset( $settings['transifex_live_colors'] ) ) {
 				update_option( 'transifex_live_colors', $settings['transifex_live_colors'] );
 			}
-
-			add_action( 'admin_notices', array( 'Transifex_Live_Integration_Settings_Page', 'admin_notices' ) );
 		}
 	}
 
-	public function admin_notices() {
+	public function admin_notices_hook() {
+		$is_admin_page_notice = false;
+		
+		//TODO: refactor this DB call to a better place
+		$settings = get_option( 'transifex_live_settings', array() );
+		//TODO: might need to trap the state here when indices api_key or raw_transifex_languages are missing
+		$is_admin_dashboard_notice = Transifex_Live_Integration_Settings_Util::check_raw_transifex_languages($settings['api_key'],$settings['raw_transifex_languages']);
+		
 		$notice = '';
 		if ( isset( $_POST['transifex_live_settings'] ) ) {
+			$is_admin_page_notice = true;
 			$notice = '<p>' . __( 'Your changes to the settings have been saved!', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ) . '</p>';
 		}
 
 		if ( isset( $_POST['transifex_live_colors'] ) ) {
+			$is_admin_page_notice = true;
 			$notice .= '<p>' . __( 'Your changes to the colors have been saved!', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ) . '</p>';
 		}
-
+		
+		if ( $is_admin_dashboard_notice) {
+			$notice .= '<p>' .__('You should really update to achieve some awesome instead of bummer', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ).'</p>';
+		}
+	if ($is_admin_page_notice) {
 		echo '<div class="notice">' . $notice . '</div>';
+	}
+	if ($is_admin_dashboard_notice) {
+		echo '<div class="update-nag">' . $notice . '</div>';
+	}
 	}
 
 	static public function sanitize_settings( $settings ) {

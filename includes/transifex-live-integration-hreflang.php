@@ -33,11 +33,6 @@ class Transifex_Live_Integration_Hreflang {
 	 */
 	public function render_hreflang() {
 		Plugin_Debug::logTrace();
-		Plugin_Debug::logTrace(get_permalink());
-		Plugin_Debug::logTrace(_get_page_link());
-		Plugin_Debug::logTrace($this->_get_page_link());
-		Plugin_Debug::logTrace(get_query_var('lang'));
-		Plugin_Debug::logTrace($this->settings['source_language']);
 
 		$url = get_page_link();
 		$source = $this->settings['source_language'];
@@ -52,7 +47,6 @@ SOURCE;
 		foreach($xa as $i) {
 			$u = $y[$i];
 			$s = str_replace('%lang%',$u,$pp);
-			Plugin_Debug::logTrace($s);
 			$hreflang .= <<<HREFLANG
 				<link rel="alternate" href="$s" hreflang="$i"/>
 HREFLANG;
