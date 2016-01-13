@@ -39,6 +39,7 @@ before_script:
   - git clone https://github.com/Seravo/wordpress-test-template wordpress-test-template
   - echo "$(curl -fsSL https://gist.githubusercontent.com/matthewjackowski/3b26061241545564ae8d/raw/install-wp-tests.sh)" | sudo tee ./install-wp-tests.sh > /dev/null
   - bash ./install-wp-tests.sh test root '' localhost $WP_VERSION
+  - sudo php5dismod xdebug
   - sudo service apache2 restart
 
 
