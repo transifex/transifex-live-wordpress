@@ -1,6 +1,8 @@
 <?php 
 date_default_timezone_set('America/New_York');
 
+ini_set('xdebug.max_nesting_level', 500);
+
 $I = new AcceptanceTester($scenario);
 
 $I->amOnPage('/wp-login.php');
