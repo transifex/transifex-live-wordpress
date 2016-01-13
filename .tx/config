@@ -1,8 +1,0 @@
-[main]
-host = https://www.transifex.com
-
-[transifex-live.transifex-live]
-file_filter = languages/transifex-live-integration-<lang>.po
-source_file = languages/transifex-live-integration.pot
-source_lang = en_US
-type = PO
