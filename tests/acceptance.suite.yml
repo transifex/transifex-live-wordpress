@@ -11,4 +11,4 @@ modules:
     - \Helper\Acceptance 
   config:
     PhpBrowser:
-       url: 'http://192.168.99.100:32770'
+       url: 'http://localhost:80'
