@@ -30,9 +30,6 @@ before_script:
   - sudo cat ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
   - sudo a2enmod rewrite actions fastcgi alias
   - echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  - echo >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  - echo "xdebug.max_nesting_level=500" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  - sudo cat ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
   # configure apache virtual hosts
   - cd ..
@@ -47,7 +44,6 @@ before_script:
 
 script:
   - pwd
-  - php -i
   - "wget http://codeception.com/codecept.phar"
   - php ./codecept.phar build
   - php ./codecept.phar run
