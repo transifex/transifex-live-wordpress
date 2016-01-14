@@ -89,7 +89,8 @@ class Transifex_Live_Integration_Rewrite {
 			return false;
 		}
 		if ( ! preg_match( self::REGEX_PATTERN_CHECK_PATTERN, $settings['languages_regex'] ) ) {
-			Plugin_Debug::logTrace( 'settings[languages_regex failed pattern check' );
+			Plugin_Debug::logTrace( 'settings[languages_regex] failed pattern check' );
+			Plugin_Debug::logTrace($settings['languages_regex']);
 			return false;
 		}
 		return new Transifex_Live_Integration_Rewrite( $settings );
