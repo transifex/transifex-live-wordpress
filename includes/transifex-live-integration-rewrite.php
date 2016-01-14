@@ -20,7 +20,7 @@ class Transifex_Live_Integration_Rewrite {
 	private $languages_regex;
 	private $page_permastruct;
 	public $rewrite_option;
-	const REGEX_PATTERN_CHECK_PATTERN = '/\(.*\|.*\)/';
+	const REGEX_PATTERN_CHECK_PATTERN = '/\(.*\?|.*\)/';
 	private $REWRITE_OPTIONS = [ // not a const for backward compat
 		'0' => 'none',
 		'1' => 'pages',
