@@ -1,0 +1,26 @@
+
+FILE: ...ordpress/transifex-live-wordpress/transifex-live-integration.php
+----------------------------------------------------------------------
+FOUND 11 ERRORS AFFECTING 7 LINES
+----------------------------------------------------------------------
+  93 | ERROR | [x] No space after opening parenthesis is prohibited
+  93 | ERROR | [x] No space before closing parenthesis is prohibited
+  94 | ERROR | [x] No space after opening parenthesis is prohibited
+  94 | ERROR | [x] No space before closing parenthesis is prohibited
+ 132 | ERROR | [x] Functions must not contain multiple empty lines in
+     |       |     a row; found 2 empty lines
+ 142 | ERROR | [x] Functions must not contain multiple empty lines in
+     |       |     a row; found 2 empty lines
+ 156 | ERROR | [ ] Parameter comment must end with a full stop
+ 176 | ERROR | [ ] Inline comments must start with a capital letter
+ 176 | ERROR | [ ] Inline comments must end in full-stops,
+     |       |     exclamation marks, or question marks
+ 183 | ERROR | [ ] Inline comments must start with a capital letter
+ 183 | ERROR | [ ] Inline comments must end in full-stops,
+     |       |     exclamation marks, or question marks
+----------------------------------------------------------------------
+PHPCBF CAN FIX THE 6 MARKED SNIFF VIOLATIONS AUTOMATICALLY
+----------------------------------------------------------------------
+
+Time: 106ms; Memory: 6.75Mb
+

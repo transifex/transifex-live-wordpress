@@ -10,7 +10,7 @@
  * Experimental turned off in production
  */
 class Transifex_Live_Integration_Generate_Rewrite_Rules {
-	
+
 	/**
 	 * Generates rewrite rules from a permalink structure.
 	 *
@@ -39,13 +39,15 @@ class Transifex_Live_Integration_Generate_Rewrite_Rules {
 	 *                                    Default true.
 	 * @return array Rewrite rule list.
 	 */
-	static public function generate_rewrite_rules($permalink_structure, $ep_mask = EP_NONE, $paged = true, $feed = true, $forcomments = false, $walk_dirs = true, $endpoints = true) {
+	static public function generate_rewrite_rules( $permalink_structure,
+			$ep_mask = EP_NONE, $paged = true, $feed = true, $forcomments = false,
+			$walk_dirs = true, $endpoints = true ) {
 		global $wp_rewrite;
 		// Build a regex to match the feed section of URLs, something like (feed|atom|rss|rss2)/?
 		$feedregex2 = '';
-		foreach ( (array) $wp_rewrite->feeds as $feed_name)
+		foreach ((array) $wp_rewrite->feeds as $feed_name)
 			$feedregex2 .= $feed_name . '|';
-		$feedregex2 = '(' . trim($feedregex2, '|') . ')/?$';
+		$feedregex2 = '(' . trim( $feedregex2, '|' ) . ')/?$';
 		/*
 		 * $feedregex is identical but with /feed/ added on as well, so URLs like <permalink>/feed/atom
 		 * and <permalink>/atom are both possible
@@ -58,20 +60,20 @@ class Transifex_Live_Integration_Generate_Rewrite_Rules {
 		$embedregex = 'embed/?$';
 		// Build up an array of endpoint regexes to append => queries to append.
 		if ( $endpoints ) {
-			$ep_query_append = array ();
-			foreach ( (array) $wp_rewrite->endpoints as $endpoint) {
+			$ep_query_append = array();
+			foreach ((array) $wp_rewrite->endpoints as $endpoint) {
 				// Match everything after the endpoint name, but allow for nothing to appear there.
 				$epmatch = $endpoint[1] . '(/(.*))?/?$';
 				// This will be appended on to the rest of the query for each dir.
 				$epquery = '&' . $endpoint[2] . '=';
-				$ep_query_append[$epmatch] = array ( $endpoint[0], $epquery );
+				$ep_query_append[$epmatch] = array( $endpoint[0], $epquery );
 			}
 		}
 		// Get everything up to the first rewrite tag.
-		$front = substr($permalink_structure, 0, strpos($permalink_structure, '%'));
+		$front = substr( $permalink_structure, 0, strpos( $permalink_structure, '%' ) );
 		// Build an array of the tags (note that said array ends up being in $tokens[0]).
-		preg_match_all('/%.+?%/', $permalink_structure, $tokens);
-		$num_tokens = count($tokens[0]);
+		preg_match_all( '/%.+?%/', $permalink_structure, $tokens );
+		$num_tokens = count( $tokens[0] );
 		$index = $wp_rewrite->index; //probably 'index.php'
 		$feedindex = $index;
 		$trackbackindex = $index;
@@ -81,46 +83,46 @@ class Transifex_Live_Integration_Generate_Rewrite_Rules {
 		 * like tagname=$matches[i] where i is the current $i.
 		 */
 		$queries = array();
-		for ( $i = 0; $i < $num_tokens; ++$i ) {
+		for ($i = 0; $i < $num_tokens; ++$i) {
 			if ( 0 < $i )
 				$queries[$i] = $queries[$i - 1] . '&';
 			else
 				$queries[$i] = '';
-			$query_token = str_replace($wp_rewrite->rewritecode, $wp_rewrite->queryreplace, $tokens[0][$i]) . $wp_rewrite->preg_index($i+1);
+			$query_token = str_replace( $wp_rewrite->rewritecode, $wp_rewrite->queryreplace, $tokens[0][$i] ) . $wp_rewrite->preg_index( $i + 1 );
 			$queries[$i] .= $query_token;
 		}
 		// Get the structure, minus any cruft (stuff that isn't tags) at the front.
 		$structure = $permalink_structure;
 		if ( $front != '/' )
-			$structure = str_replace($front, '', $structure);
+			$structure = str_replace( $front, '', $structure );
 		/*
 		 * Create a list of dirs to walk over, making rewrite rules for each level
 		 * so for example, a $structure of /%year%/%monthnum%/%postname% would create
 		 * rewrite rules for /%year%/, /%year%/%monthnum%/ and /%year%/%monthnum%/%postname%
 		 */
-		$structure = trim($structure, '/');
-		$dirs = $walk_dirs ? explode('/', $structure) : array( $structure );
-		$num_dirs = count($dirs);
+		$structure = trim( $structure, '/' );
+		$dirs = $walk_dirs ? explode( '/', $structure ) : array( $structure );
+		$num_dirs = count( $dirs );
 		// Strip slashes from the front of $front.
-		$front = preg_replace('|^/+|', '', $front);
+		$front = preg_replace( '|^/+|', '', $front );
 		// The main workhorse loop.
 		$post_rewrite = array();
 		$struct = $front;
-		for ( $j = 0; $j < $num_dirs; ++$j ) {
+		for ($j = 0; $j < $num_dirs; ++$j) {
 			// Get the struct for this dir, and trim slashes off the front.
 			$struct .= $dirs[$j] . '/'; // Accumulate. see comment near explode('/', $structure) above.
-			$struct = ltrim($struct, '/');
+			$struct = ltrim( $struct, '/' );
 			// Replace tags with regexes.
-			$match = str_replace($wp_rewrite->rewritecode, $wp_rewrite->rewritereplace, $struct);
-			Plugin_Debug::logTrace($match);
+			$match = str_replace( $wp_rewrite->rewritecode, $wp_rewrite->rewritereplace, $struct );
+			Plugin_Debug::logTrace( $match );
 			// Make a list of tags, and store how many there are in $num_toks.
-			$num_toks = preg_match_all('/%.+?%/', $struct, $toks);
-			Plugin_Debug::logTrace($num_toks);
+			$num_toks = preg_match_all( '/%.+?%/', $struct, $toks );
+			Plugin_Debug::logTrace( $num_toks );
 			// Get the 'tagname=$matches[i]'.
-			$query = ( ! empty( $num_toks ) && isset( $queries[$num_toks - 1] ) ) ? $queries[$num_toks - 1] : '';
-			Plugin_Debug::logTrace($query);
+			$query = (!empty( $num_toks ) && isset( $queries[$num_toks - 1] ) ) ? $queries[$num_toks - 1] : '';
+			Plugin_Debug::logTrace( $query );
 			// Set up $ep_mask_specific which is used to match more specific URL types.
-			switch ( $dirs[$j] ) {
+			switch ($dirs[$j]) {
 				case '%year%':
 					$ep_mask_specific = EP_YEAR;
 					break;
@@ -135,21 +137,21 @@ class Transifex_Live_Integration_Generate_Rewrite_Rules {
 			}
 			// Create query for /page/xx.
 			$pagematch = $match . $pageregex;
-			$pagequery = $index . '?' . $query . '&paged=' . $wp_rewrite->preg_index($num_toks + 1);
+			$pagequery = $index . '?' . $query . '&paged=' . $wp_rewrite->preg_index( $num_toks + 1 );
 			// Create query for /comment-page-xx.
 			$commentmatch = $match . $commentregex;
-			$commentquery = $index . '?' . $query . '&cpage=' . $wp_rewrite->preg_index($num_toks + 1);
-			if ( get_option('page_on_front') ) {
+			$commentquery = $index . '?' . $query . '&cpage=' . $wp_rewrite->preg_index( $num_toks + 1 );
+			if ( get_option( 'page_on_front' ) ) {
 				// Create query for Root /comment-page-xx.
 				$rootcommentmatch = $match . $commentregex;
-				$rootcommentquery = $index . '?' . $query . '&page_id=' . get_option('page_on_front') . '&cpage=' . $wp_rewrite->preg_index($num_toks + 1);
+				$rootcommentquery = $index . '?' . $query . '&page_id=' . get_option( 'page_on_front' ) . '&cpage=' . $wp_rewrite->preg_index( $num_toks + 1 );
 			}
 			// Create query for /feed/(feed|atom|rss|rss2|rdf).
 			$feedmatch = $match . $feedregex;
-			$feedquery = $feedindex . '?' . $query . '&feed=' . $wp_rewrite->preg_index($num_toks + 1);
+			$feedquery = $feedindex . '?' . $query . '&feed=' . $wp_rewrite->preg_index( $num_toks + 1 );
 			// Create query for /(feed|atom|rss|rss2|rdf) (see comment near creation of $feedregex).
 			$feedmatch2 = $match . $feedregex2;
-			$feedquery2 = $feedindex . '?' . $query . '&feed=' . $wp_rewrite->preg_index($num_toks + 1);
+			$feedquery2 = $feedindex . '?' . $query . '&feed=' . $wp_rewrite->preg_index( $num_toks + 1 );
 			// If asked to, turn the feed queries into comment feed ones.
 			if ( $forcomments ) {
 				$feedquery .= '&withcomments=1';
@@ -167,16 +169,16 @@ class Transifex_Live_Integration_Generate_Rewrite_Rules {
 			}
 			// Only on pages with comments add ../comment-page-xx/.
 			if ( EP_PAGES & $ep_mask || EP_PERMALINK & $ep_mask ) {
-				$rewrite = array_merge($rewrite, array($commentmatch => $commentquery));
-			} elseif ( EP_ROOT & $ep_mask && get_option('page_on_front') ) {
-				$rewrite = array_merge($rewrite, array($rootcommentmatch => $rootcommentquery));
+				$rewrite = array_merge( $rewrite, array( $commentmatch => $commentquery ) );
+			} elseif ( EP_ROOT & $ep_mask && get_option( 'page_on_front' ) ) {
+				$rewrite = array_merge( $rewrite, array( $rootcommentmatch => $rootcommentquery ) );
 			}
 			// Do endpoints.
 			if ( $endpoints ) {
-				foreach ( (array) $ep_query_append as $regex => $ep) {
+				foreach ((array) $ep_query_append as $regex => $ep) {
 					// Add the endpoints on if the mask fits.
 					if ( $ep[0] & $ep_mask || $ep[0] & $ep_mask_specific )
-						$rewrite[$match . $regex] = $index . '?' . $query . $ep[1] . $wp_rewrite->preg_index($num_toks + 2);
+						$rewrite[$match . $regex] = $index . '?' . $query . $ep[1] . $wp_rewrite->preg_index( $num_toks + 2 );
 				}
 			}
 			// If we've got some tags in this dir.
@@ -189,19 +191,16 @@ class Transifex_Live_Integration_Generate_Rewrite_Rules {
 				 * 2) post ID, 3) page name, 4) timestamp (year, month, day, hour, second and
 				 * minute all present). Set these flags now as we need them for the endpoints.
 				 */
-				if ( strpos($struct, '%postname%') !== false
-						|| strpos($struct, '%post_id%') !== false
-						|| strpos($struct, '%pagename%') !== false
-						|| (strpos($struct, '%year%') !== false && strpos($struct, '%monthnum%') !== false && strpos($struct, '%day%') !== false && strpos($struct, '%hour%') !== false && strpos($struct, '%minute%') !== false && strpos($struct, '%second%') !== false)
-						) {
+				if ( strpos( $struct, '%postname%' ) !== false || strpos( $struct, '%post_id%' ) !== false || strpos( $struct, '%pagename%' ) !== false || (strpos( $struct, '%year%' ) !== false && strpos( $struct, '%monthnum%' ) !== false && strpos( $struct, '%day%' ) !== false && strpos( $struct, '%hour%' ) !== false && strpos( $struct, '%minute%' ) !== false && strpos( $struct, '%second%' ) !== false)
+				) {
 					$post = true;
-					if ( strpos($struct, '%pagename%') !== false )
+					if ( strpos( $struct, '%pagename%' ) !== false )
 						$page = true;
 				}
-				if ( ! $post ) {
+				if ( !$post ) {
 					// For custom post types, we need to add on endpoints as well.
-					foreach ( get_post_types( array('_builtin' => false ) ) as $ptype ) {
-						if ( strpos($struct, "%$ptype%") !== false ) {
+					foreach (get_post_types( array( '_builtin' => false ) ) as $ptype) {
+						if ( strpos( $struct, "%$ptype%" ) !== false ) {
 							$post = true;
 							// This is for page style attachment URLs.
 							$page = is_post_type_hierarchical( $ptype );
@@ -209,8 +208,8 @@ class Transifex_Live_Integration_Generate_Rewrite_Rules {
 						}
 					}
 				}
-				Plugin_Debug::logTrace('post check');
-				Plugin_Debug::logTrace($post);
+				Plugin_Debug::logTrace( 'post check' );
+				Plugin_Debug::logTrace( $post );
 				// If creating rules for a permalink, do all the endpoints like attachments etc.
 				if ( $post ) {
 					// Create query and regex for trackback.
@@ -220,12 +219,12 @@ class Transifex_Live_Integration_Generate_Rewrite_Rules {
 					$embedmatch = $match . $embedregex;
 					$embedquery = $embedindex . '?' . $query . '&embed=true';
 					// Trim slashes from the end of the regex for this dir.
-					$match = rtrim($match, '/');
+					$match = rtrim( $match, '/' );
 					// Get rid of brackets.
-					$submatchbase_org = str_replace( array('(', ')'), '', $match);
-					$submatchbase = str_replace( '(', '(?:', $match); // Replace with non capturing group
-					Plugin_Debug::logTrace($submatchbase_org);
-					Plugin_Debug::logTrace($submatchbase);
+					$submatchbase_org = str_replace( array( '(', ')' ), '', $match );
+					$submatchbase = str_replace( '(', '(?:', $match ); // Replace with non capturing group
+					Plugin_Debug::logTrace( $submatchbase_org );
+					Plugin_Debug::logTrace( $submatchbase );
 					// Add a rule for at attachments, which take the form of <permalink>/some-text.
 					$sub1 = $submatchbase . '/([^/]+)/';
 					// Add trackback regex <permalink>/trackback/...
@@ -254,17 +253,17 @@ class Transifex_Live_Integration_Generate_Rewrite_Rules {
 					// And <permalink>/embed/...
 					$sub2embed = $sub2 . $embedregex;
 					// Create queries for these extra tag-ons we've just dealt with.
-					$subquery = $index . '?attachment=' . $wp_rewrite->preg_index(1);
+					$subquery = $index . '?attachment=' . $wp_rewrite->preg_index( 1 );
 					$subtbquery = $subquery . '&tb=1';
-					$subfeedquery = $subquery . '&feed=' . $wp_rewrite->preg_index(2);
-					$subcommentquery = $subquery . '&cpage=' . $wp_rewrite->preg_index(2);
+					$subfeedquery = $subquery . '&feed=' . $wp_rewrite->preg_index( 2 );
+					$subcommentquery = $subquery . '&cpage=' . $wp_rewrite->preg_index( 2 );
 					$subembedquery = $subquery . '&embed=true';
 					// Do endpoints for attachments.
-					if ( !empty($endpoints) ) {
-						foreach ( (array) $ep_query_append as $regex => $ep ) {
+					if ( !empty( $endpoints ) ) {
+						foreach ((array) $ep_query_append as $regex => $ep) {
 							if ( $ep[0] & EP_ATTACHMENT ) {
-								$rewrite[$sub1 . $regex] = $subquery . $ep[1] . $wp_rewrite->preg_index(3);
-								$rewrite[$sub2 . $regex] = $subquery . $ep[1] . $wp_rewrite->preg_index(3);
+								$rewrite[$sub1 . $regex] = $subquery . $ep[1] . $wp_rewrite->preg_index( 3 );
+								$rewrite[$sub2 . $regex] = $subquery . $ep[1] . $wp_rewrite->preg_index( 3 );
 							}
 						}
 					}
@@ -281,8 +280,8 @@ class Transifex_Live_Integration_Generate_Rewrite_Rules {
 					 * When cast to int, returned 0.
 					 */
 					$match = $match . '(?:/([0-9]+))?/?$';
-					$query = $index . '?' . $query . '&page=' . $wp_rewrite->preg_index($num_toks + 1);
-				// Not matching a permalink so this is a lot simpler.
+					$query = $index . '?' . $query . '&page=' . $wp_rewrite->preg_index( $num_toks + 1 );
+					// Not matching a permalink so this is a lot simpler.
 				} else {
 					// Close the match and finalise the query.
 					$match .= '?$';
@@ -293,34 +292,33 @@ class Transifex_Live_Integration_Generate_Rewrite_Rules {
 				 * only contains rules/queries for trackback, pages etc) to the main regex/query for
 				 * this dir
 				 */
-				$rewrite = array_merge($rewrite, array($match => $query));
+				$rewrite = array_merge( $rewrite, array( $match => $query ) );
 				// If we're matching a permalink, add those extras (attachments etc) on.
 				if ( $post ) {
 					// Add trackback.
-					$rewrite = array_merge(array($trackbackmatch => $trackbackquery), $rewrite);
+					$rewrite = array_merge( array( $trackbackmatch => $trackbackquery ), $rewrite );
 					// Add embed.
 					$rewrite = array_merge( array( $embedmatch => $embedquery ), $rewrite );
 					// Add regexes/queries for attachments, attachment trackbacks and so on.
-					if ( ! $page ) {
+					if ( !$page ) {
 						// Require <permalink>/attachment/stuff form for pages because of confusion with subpages.
 						$rewrite = array_merge( $rewrite, array(
-							$sub1        => $subquery,
-							$sub1tb      => $subtbquery,
-							$sub1feed    => $subfeedquery,
-							$sub1feed2   => $subfeedquery,
+							$sub1 => $subquery,
+							$sub1tb => $subtbquery,
+							$sub1feed => $subfeedquery,
+							$sub1feed2 => $subfeedquery,
 							$sub1comment => $subcommentquery,
-							$sub1embed   => $subembedquery
-						) );
+							$sub1embed => $subembedquery
+								) );
 					}
 					$rewrite = array_merge( array( $sub2 => $subquery, $sub2tb => $subtbquery, $sub2feed => $subfeedquery, $sub2feed2 => $subfeedquery, $sub2comment => $subcommentquery, $sub2embed => $subembedquery ), $rewrite );
 				}
 			}
 			// Add the rules for this dir to the accumulating $post_rewrite.
-			$post_rewrite = array_merge($rewrite, $post_rewrite);
+			$post_rewrite = array_merge( $rewrite, $post_rewrite );
 		}
 		// The finished rules. phew!
 		return $post_rewrite;
 	}
 
-	
 }

@@ -1,9 +1,9 @@
 <?php
 
 class Transifex_Live_Integration_Settings_Util {
-	
+
 	const EMPTY_TRANSIFEX_LANGUAGES_PATTERN = "/^transifex_languages\(\{\"timestamp\":\".*\"\}\);/";
-	
+
 	static function get_raw_transifex_languages( $api_key ) {
 		Plugin_Debug::logTrace();
 
@@ -12,25 +12,24 @@ class Transifex_Live_Integration_Settings_Util {
 		$response = wp_remote_get( $request_url );
 		$response_body = null;
 		$response_code = wp_remote_retrieve_response_code( $response );
-		
+
 		if ( $response_code == '200' ) {
 			$response_body = wp_remote_retrieve_body( $response );
-			if (preg_match(self::EMPTY_TRANSIFEX_LANGUAGES_PATTERN,$response_body)) {
+			if ( preg_match( self::EMPTY_TRANSIFEX_LANGUAGES_PATTERN, $response_body ) ) {
 				return false;
-		}	
+			}
 			return $response_body;
 		}
 
 		return false;
 	}
-	
-		static function check_raw_transifex_languages( $api_key, $raw_transifex_languages ) {
+
+	static function check_raw_transifex_languages( $api_key,
+			$raw_transifex_languages ) {
 		Plugin_Debug::logTrace();
-		$s = self::get_raw_transifex_languages($api_key);
-		return strcmp($s,$raw_transifex_languages)==0?true:false;
+		$s = self::get_raw_transifex_languages( $api_key );
+		return strcmp( $s, $raw_transifex_languages ) == 0 ? true : false;
 	}
-	
-	
 
 	static function get_default_languages( $raw_transifex_languages ) {
 		Plugin_Debug::logTrace();
@@ -110,35 +109,35 @@ class Transifex_Live_Integration_Settings_Util {
 	static function render_language_mapper( $language_array, $settings ) {
 		Plugin_Debug::logTrace();
 
-		if ( !isset( $language_array ) || ! count($language_array) > 0 ) {
+		if ( !isset( $language_array ) || !count( $language_array ) > 0 ) {
 			Plugin_Debug::logTrace( "$language_array not valid" );
 			return false;
 		}
 		$header_label = __( 'Language URLs', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN );
 		$source_language = $settings['source_language'];
-		$source_label = __('Source Language', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN );
+		$source_label = __( 'Source Language', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN );
 		ob_start();
 		checked( $settings['add_language_rewrites'], "none" );
 		$selected_none = ob_get_clean();
-		
+
 		ob_start();
 		checked( $settings['add_language_rewrites'], 1 );
-		$selected_opt1 =  ob_get_clean();
-		
+		$selected_opt1 = ob_get_clean();
+
 		ob_start();
-		 checked( $settings['add_language_rewrites'], 2 );
+		checked( $settings['add_language_rewrites'], 2 );
 		$selected_opt2 = ob_get_clean();
-		
+
 		ob_start();
-		 checked( $settings['add_language_rewrites'], 3 );
+		checked( $settings['add_language_rewrites'], 3 );
 		$selected_opt3 = ob_get_clean();
-		
+
 
 		$enable_hreflang_label = __( 'Enable HREFLANG?', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN );
 		ob_start();
-		 checked( $settings['hreflang'] );
+		checked( $settings['hreflang'] );
 		$checked_hreflang = ob_get_clean();
-		 
+
 		$mapper = <<<SOURCE
 		<th scope="row" class="titledesc">$header_label</th>
         <td class="forminp">
@@ -166,11 +165,11 @@ class Transifex_Live_Integration_Settings_Util {
 		</label>
 	    <br/><br/>
 SOURCE;
-			
+
 		foreach ($language_array as $item) {
 			$name = $item['name'];
 			$code = $item['code'];
-			$value = (isset($settings['wp_language_'.$item['code']]))?$settings['wp_language_'.$item['code']] :$item['code'];
+			$value = (isset( $settings['wp_language_' . $item['code']] )) ? $settings['wp_language_' . $item['code']] : $item['code'];
 			$mapper .= <<<MAPPER
 			<input disabled="true" type="text" class="regular-text" style="width:200px" name="transifex_live_settings[tx_language_$code]" value="$name" />
             <input type="text" name="transifex_live_settings[wp_language_$code]" id="transifex_live_settings_wp_language_$code" value="$value" class="regular-text">
