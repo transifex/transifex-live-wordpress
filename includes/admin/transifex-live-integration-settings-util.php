@@ -23,6 +23,14 @@ class Transifex_Live_Integration_Settings_Util {
 
 		return false;
 	}
+	
+		static function check_raw_transifex_languages( $api_key, $raw_transifex_languages ) {
+		Plugin_Debug::logTrace();
+		$s = self::get_raw_transifex_languages($api_key);
+		return strcmp($s,$raw_transifex_languages)==0?true:false;
+	}
+	
+	
 
 	static function get_default_languages( $raw_transifex_languages ) {
 		Plugin_Debug::logTrace();
