@@ -22,8 +22,24 @@ class Transifex_Live_Integration_Settings_Page {
 		$raw_settings = array_merge( $db_settings, $colors_colors );
 		$settings = array_merge( Transifex_Live_Integration_Defaults::settings(), $raw_settings );
 
+		$is_update_transifex_languages = false;
 		if ( isset( $settings['api_key'] ) && // Initialize Live languages after API key is setup.
 				( '' === $settings['raw_transifex_languages'] ) ) { // TODO: This seems brittle add more safety.
+			Plugin_Debug::logTrace("initial api_key set...updating transifex languages");
+			$is_update_transifex_languages = true;
+				}
+		
+		if (isset($settings['sync'])) {
+			Plugin_Debug::logTrace("sync button...updating transifex languages");
+			$is_update_transifex_languages = true;
+		}
+		
+		if (strcmp($settings['api_key'],$settings['previous_api_key'] )!==0){
+			Plugin_Debug::logTrace("api_key updated...updating transifex languages");
+			$is_update_transifex_languages = true;
+		}
+				
+		if ($is_update_transifex_languages) {	 
 			$raw_api_response_check = Transifex_Live_Integration_Settings_Util::get_raw_transifex_languages( $settings['api_key'] );
 			$raw_api_response = $raw_api_response_check ? $raw_api_response_check : null;
 			if ( isset( $raw_api_response ) ) {
@@ -98,12 +114,25 @@ class Transifex_Live_Integration_Settings_Page {
 	 */
 	public function admin_notices_hook() {
 		$is_admin_page_notice = false;
-
+		
+		$is_admin_dashboard_notice = false;
+		
 		// TODO: refactor this DB call to a better place.
 		$settings = get_option( 'transifex_live_settings', array() );
 		// TODO: might need to trap the state here when indices api_key or raw_transifex_languages are missing.
-		$is_admin_dashboard_notice = Transifex_Live_Integration_Settings_Util::check_raw_transifex_languages( $settings['api_key'], $settings['raw_transifex_languages'] );
-
+		
+		$is_api_key_set_notice = (!isset($settings['api_key']))?true:false;
+		
+		$is_transifex_languages_set_notice = false;
+		$is_transifex_languages_match = false;
+		if ( ! $is_api_key_set_notice ) {
+			$is_transifex_languages_set_notice = (!isset($settings['raw_transifex_languages']))?true:false;
+			if (isset($settings['raw_transifex_languages'])) {
+			$is_transifex_languages_match = Transifex_Live_Integration_Settings_Util::check_raw_transifex_languages( $settings['api_key'], $settings['raw_transifex_languages'] );
+			}
+			
+			}
+		
 		$notice = '';
 		if ( isset( $_POST['transifex_live_settings'] ) ) {
 			$is_admin_page_notice = true;
@@ -115,15 +144,28 @@ class Transifex_Live_Integration_Settings_Page {
 			$notice .= '<p>' . __( 'Your changes to the colors have been saved!', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ) . '</p>';
 		}
 
-		if ( $is_admin_dashboard_notice ) {
-			$notice .= '<p>' . __( 'You should really update to achieve some awesome instead of bummer', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ) . '</p>';
+		if ( $is_transifex_languages_set_notice ) {
+			$is_admin_dashboard_notice = true;
+			$notice .= '<p>*Yoda voice* A problem with the Transifex Live plugin, there was. A transmission [to us send], and happy to assist you we would be. https://www.transifex.com/contact/</p>';
 		}
+		
+		if ( $is_api_key_set_notice ){
+			$is_admin_dashboard_notice = true;
+			$notice .= "<p><strong>Thanks for installing the Transifex Live WordPress plugin!</strong> [Add your API key] to make translations live for your site.</p>";
+		}
+		
+		if ( $is_transifex_languages_match ) {
+			$is_admin_dashboard_notice = true;
+			$notice .= "<p>Looks like there were some changes to your published languages. Please reinstall the Transifex Live plugin.</p>";
+		}
+		
 		if ( $is_admin_page_notice ) {
-			echo '<div class="notice">' . $notice . '</div>';
+			echo '<div class="notice is-dismissable">' . $notice . '</div>';
 		}
 		if ( $is_admin_dashboard_notice ) {
-			echo '<div class="update-nag">' . $notice . '</div>';
+			echo '<div class="update-nag is-dismissable">' . $notice . '</div>';
 		}
+		
 	}
 
 	/**

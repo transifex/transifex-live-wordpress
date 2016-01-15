@@ -12,20 +12,20 @@ class Transifex_Live_Integration_Settings_Util {
 		Plugin_Debug::logTrace();
 
 		// TODO: move this url to the plugin constants.
-		$languages_json_format = 'https://cdn.transifex.com/%s/latest/languages.jsonp';
+		$languages_json_format = "https://cdn.transifex.com/%s/latest/languages.jsonp";
 		$request_url = sprintf( $languages_json_format, $api_key );
 		$response = wp_remote_get( $request_url ); // TODO: switch to vip_safe_wp_remote_get.
 		$response_body = null;
 		$response_code = wp_remote_retrieve_response_code( $response );
-
-		if ( '200' === $response_code ) {
+		if ( 200 === $response_code ) {
 			$response_body = wp_remote_retrieve_body( $response );
 			if ( preg_match( self::EMPTY_TRANSIFEX_LANGUAGES_PATTERN, $response_body ) ) {
+				Plugin_Debug::logTrace("empty transifex languages file...skipping");
 				return false;
 			}
 			return $response_body;
 		}
-
+		Plugin_Debug::logTrace("did not get a 200 getting transifex languages");
 		return false;
 	}
 
@@ -47,7 +47,7 @@ class Transifex_Live_Integration_Settings_Util {
 	 */
 	static function get_default_languages( $raw_transifex_languages ) {
 		Plugin_Debug::logTrace();
-		$reg = '/\s*transifex_languages\(\s*(.+?)\s*\);/';
+		$reg = "/\s*transifex_languages\(\s*(.+?)\s*\);/";
 		preg_match( $reg, $raw_transifex_languages, $m );
 		$tl_array = json_decode( $m[1], true );
 		$tl_t_array = $tl_array['translation'];
@@ -65,7 +65,7 @@ class Transifex_Live_Integration_Settings_Util {
 	 */
 	static function get_language_lookup( $raw_transifex_languages ) {
 		Plugin_Debug::logTrace();
-		$reg = '/\s*transifex_languages\(\s*(.+?)\s*\);/';
+		$reg = "/\s*transifex_languages\(\s*(.+?)\s*\);/";
 		preg_match( $reg, $raw_transifex_languages, $m );
 		$tl_array = json_decode( $m[1], true );
 		$tl_t_array = $tl_array['translation'];
@@ -86,7 +86,7 @@ class Transifex_Live_Integration_Settings_Util {
 	 */
 	static function get_source( $raw_transifex_languages ) {
 		Plugin_Debug::logTrace();
-		$reg = '/\s*transifex_languages\(\s*(.+?)\s*\);/';
+		$reg = "/\s*transifex_languages\(\s*(.+?)\s*\);/";
 		preg_match( $reg, $raw_transifex_languages, $m );
 		$tl_array = json_decode( $m[1], true );
 		$tl_s_array = $tl_array['source'];
@@ -219,6 +219,7 @@ SOURCE;
 MAPPER;
 		}
 		$mapper .= <<<FOOTER
+				<p class="submit"><input type="submit" name="sync" id="sync" class="button button-primary" value="Sync"></p>
 				</td>
 FOOTER;
 		echo $mapper;

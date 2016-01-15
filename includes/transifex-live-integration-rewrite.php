@@ -40,7 +40,7 @@ class Transifex_Live_Integration_Rewrite {
 	 */
 	public $rewrite_option;
 	
-	const REGEX_PATTERN_CHECK_PATTERN = '/\(.*\?|.*\)/';
+	const REGEX_PATTERN_CHECK_PATTERN = "/\(.*\?|.*\)/";
 
 	private $REWRITE_OPTIONS = [ // not a const for backward compat.
 		'0' => 'none',
