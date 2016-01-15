@@ -1,40 +1,53 @@
 <?php
 
 class Transifex_Live_Integration_Settings_Util {
-	
-	const EMPTY_TRANSIFEX_LANGUAGES_PATTERN = "/^transifex_languages\(\{\"timestamp\":\".*\"\}\);/";
-	
+
+	const EMPTY_TRANSIFEX_LANGUAGES_PATTERN = '/^transifex_languages\(\{\"timestamp\":\".*\"\}\);/';
+
+	/**
+	 * Function to retrieve transifex_languages javascript
+	 * @param string $api_key API key entered by user.
+	 */
 	static function get_raw_transifex_languages( $api_key ) {
 		Plugin_Debug::logTrace();
 
+		// TODO: move this url to the plugin constants.
 		$languages_json_format = "https://cdn.transifex.com/%s/latest/languages.jsonp";
 		$request_url = sprintf( $languages_json_format, $api_key );
-		$response = wp_remote_get( $request_url );
+		$response = wp_remote_get( $request_url ); // TODO: switch to vip_safe_wp_remote_get.
 		$response_body = null;
 		$response_code = wp_remote_retrieve_response_code( $response );
-		
-		if ( $response_code == '200' ) {
+		if ( 200 === $response_code ) {
 			$response_body = wp_remote_retrieve_body( $response );
-			if (preg_match(self::EMPTY_TRANSIFEX_LANGUAGES_PATTERN,$response_body)) {
+			if ( preg_match( self::EMPTY_TRANSIFEX_LANGUAGES_PATTERN, $response_body ) ) {
+				Plugin_Debug::logTrace("empty transifex languages file...skipping");
 				return false;
-		}	
+			}
 			return $response_body;
 		}
-
+		Plugin_Debug::logTrace("did not get a 200 getting transifex languages");
 		return false;
 	}
-	
-		static function check_raw_transifex_languages( $api_key, $raw_transifex_languages ) {
-		Plugin_Debug::logTrace();
-		$s = self::get_raw_transifex_languages($api_key);
-		return strcmp($s,$raw_transifex_languages)==0?true:false;
-	}
-	
-	
 
+	/**
+	 * Function to validate transifex_languages javascript
+	 * @param string $api_key API key entered by user.
+	 * @param string $raw_transifex_languages string to compare.
+	 */
+	static function check_raw_transifex_languages( $api_key,
+			$raw_transifex_languages ) {
+		Plugin_Debug::logTrace();
+		$s = self::get_raw_transifex_languages( $api_key );
+		return strcmp( $s, $raw_transifex_languages ) === 0 ? true : false;
+	}
+
+	/**
+	 * Function to parse out languages array
+	 * @param string $raw_transifex_languages string to parse.
+	 */
 	static function get_default_languages( $raw_transifex_languages ) {
 		Plugin_Debug::logTrace();
-		$reg = '/\s*transifex_languages\(\s*(.+?)\s*\);/';
+		$reg = "/\s*transifex_languages\(\s*(.+?)\s*\);/";
 		preg_match( $reg, $raw_transifex_languages, $m );
 		$tl_array = json_decode( $m[1], true );
 		$tl_t_array = $tl_array['translation'];
@@ -46,27 +59,34 @@ class Transifex_Live_Integration_Settings_Util {
 		}
 	}
 
+	/**
+	 * Function to parse out an assoc array of language mapping
+	 * @param string $raw_transifex_languages string to parse.
+	 */
 	static function get_language_lookup( $raw_transifex_languages ) {
 		Plugin_Debug::logTrace();
-		$reg = '/\s*transifex_languages\(\s*(.+?)\s*\);/';
+		$reg = "/\s*transifex_languages\(\s*(.+?)\s*\);/";
 		preg_match( $reg, $raw_transifex_languages, $m );
 		$tl_array = json_decode( $m[1], true );
 		$tl_t_array = $tl_array['translation'];
-		$language_array = array_map(
-				function($x) {
-			return ["code" => $x['code'], "name" => $x['tx_name'] ];
-		}, $tl_t_array
-		);
+		$f = function( $x ) { 
+			return ['code' => $x['code'], 'name' => $x['tx_name'] ];
+		};
+		$language_array = array_map( $f, $tl_t_array );
 		if ( isset( $language_array ) ) {
 			return $language_array;
 		} else {
 			return null;
 		}
 	}
-
+	
+	/**
+	 * Function to parse out source language
+	 * @param string $raw_transifex_languages string to parse.
+	 */
 	static function get_source( $raw_transifex_languages ) {
 		Plugin_Debug::logTrace();
-		$reg = '/\s*transifex_languages\(\s*(.+?)\s*\);/';
+		$reg = "/\s*transifex_languages\(\s*(.+?)\s*\);/";
 		preg_match( $reg, $raw_transifex_languages, $m );
 		$tl_array = json_decode( $m[1], true );
 		$tl_s_array = $tl_array['source'];
@@ -78,6 +98,12 @@ class Transifex_Live_Integration_Settings_Util {
 		}
 	}
 
+	/**
+	 * Type checking function for lists
+	 * @param array $list array to sanitize.
+	 * 
+	 * TODO This feels like wheel re-invention...look for a library
+	 */
 	static function sanitize_list( $list ) {
 		Plugin_Debug::logTrace();
 		$list_arr = explode( ',', $list );
@@ -86,59 +112,74 @@ class Transifex_Live_Integration_Settings_Util {
 			'';
 		}
 
-		for ($i = 0; $i < count( $list_arr ); $i++) {
-			$list_arr[$i] = sanitize_html_class( $list_arr[$i] );
+		$count = count( $list_arr );
+		for ( $i = 0; $i < $count; $i++ ) {
+			$list_arr[ $i ] = sanitize_html_class( $list_arr[$i] );
 		}
 
 		$list_arr = array_filter( $list_arr );
 		return implode( ',', $list_arr );
 	}
 
+	/**
+	 * Type checking function for colors
+	 * @param string $color value to check.
+	 * 
+	 * TODO This feels like wheel re-invention...look for a library
+	 */
 	static function sanitize_hex_color( $color ) {
 		Plugin_Debug::logTrace();
 
-		if ( '' === $color )
+		if ( '' === $color ) {
 			return '';
+		}
 
 		// 3 or 6 hex digits, or the empty string.
-		if ( preg_match( '|^#([A-Fa-f0-9]{3}){1,2}$|', $color ) )
+		if ( preg_match( '|^#([A-Fa-f0-9]{3}){1,2}$|', $color ) ) {
 			return $color;
+		}
 
 		return null;
 	}
 
+	/**
+	 * Admin template helper function for rendering Language UI
+	 * @param array $language_array list of languages.
+	 * @param array $settings all plugin settings.
+	 * 
+	 * TODO This needs to be moved to a template file.
+	 */
 	static function render_language_mapper( $language_array, $settings ) {
 		Plugin_Debug::logTrace();
 
-		if ( !isset( $language_array ) || ! count($language_array) > 0 ) {
+		if ( ! isset( $language_array ) || ! count( $language_array ) > 0 ) {
 			Plugin_Debug::logTrace( "$language_array not valid" );
 			return false;
 		}
 		$header_label = __( 'Language URLs', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN );
 		$source_language = $settings['source_language'];
-		$source_label = __('Source Language', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN );
+		$source_label = __( 'Source Language', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN );
 		ob_start();
-		checked( $settings['add_language_rewrites'], "none" );
+		checked( $settings['add_language_rewrites'], 'none' );
 		$selected_none = ob_get_clean();
-		
+
 		ob_start();
 		checked( $settings['add_language_rewrites'], 1 );
-		$selected_opt1 =  ob_get_clean();
-		
+		$selected_opt1 = ob_get_clean();
+
 		ob_start();
-		 checked( $settings['add_language_rewrites'], 2 );
+		checked( $settings['add_language_rewrites'], 2 );
 		$selected_opt2 = ob_get_clean();
-		
+
 		ob_start();
-		 checked( $settings['add_language_rewrites'], 3 );
+		checked( $settings['add_language_rewrites'], 3 );
 		$selected_opt3 = ob_get_clean();
-		
 
 		$enable_hreflang_label = __( 'Enable HREFLANG?', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN );
 		ob_start();
-		 checked( $settings['hreflang'] );
+		checked( $settings['hreflang'] );
 		$checked_hreflang = ob_get_clean();
-		 
+
 		$mapper = <<<SOURCE
 		<th scope="row" class="titledesc">$header_label</th>
         <td class="forminp">
@@ -166,11 +207,11 @@ class Transifex_Live_Integration_Settings_Util {
 		</label>
 	    <br/><br/>
 SOURCE;
-			
-		foreach ($language_array as $item) {
+
+		foreach ( $language_array as $item ) {
 			$name = $item['name'];
 			$code = $item['code'];
-			$value = (isset($settings['wp_language_'.$item['code']]))?$settings['wp_language_'.$item['code']] :$item['code'];
+			$value = (isset( $settings['wp_language_' . $item['code']] )) ? $settings['wp_language_' . $item['code']] : $item['code'];
 			$mapper .= <<<MAPPER
 			<input disabled="true" type="text" class="regular-text" style="width:200px" name="transifex_live_settings[tx_language_$code]" value="$name" />
             <input type="text" name="transifex_live_settings[wp_language_$code]" id="transifex_live_settings_wp_language_$code" value="$value" class="regular-text">
@@ -178,12 +219,21 @@ SOURCE;
 MAPPER;
 		}
 		$mapper .= <<<FOOTER
+				<p class="submit"><input type="submit" name="sync" id="sync" class="button button-primary" value="Sync"></p>
 				</td>
 FOOTER;
 		echo $mapper;
 		return true;
 	}
 
+	/**
+	 * Admin template helper function for color picker
+	 * @param string $name HTML 'name'.
+	 * @param string $id HTML 'id'.
+	 * @param string $value HTML current value.
+	 * 
+	 * TODO This needs to be moved to a template file.
+	 */
 	static function color_picker( $name, $id, $value ) {
 		Plugin_Debug::logTrace();
 		$header_name = esc_html( $name );

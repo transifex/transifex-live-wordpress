@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Defaults for plugin settings
  * @package TransifexLiveIntegration
@@ -40,8 +41,8 @@ class Transifex_Live_Integration_Defaults {
 			'enable_language_urls' => false,
 			'add_language_rewrites' => "none",
 			'source_language' => null,
-			'languages'=> null,
-			'hreflang'=>false
+			'languages' => null,
+			'hreflang' => false
 		);
 	}
 

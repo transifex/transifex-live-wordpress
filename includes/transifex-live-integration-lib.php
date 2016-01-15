@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Common libraries
  * @package TransifexLiveIntegration
@@ -32,6 +33,5 @@ class Transifex_Live_Integration_Lib {
 		$rgb = array( $r, $g, $b );
 		return $rgb; // returns an array with the rgb values
 	}
-
 
 }

@@ -63,7 +63,7 @@ The WP-Translations project for plugin translations can be found [here](https://
 = 1.0.0 =
 Full relase.  Restructured plugin to follow boilerplate.  Added unit tests.
 
-= 1.0.1
+= 1.0.1 =
 Minor edits for documentation
 
 = 1.0.2 =
