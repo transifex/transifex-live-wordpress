@@ -107,7 +107,7 @@ class Transifex_Live_Integration_Rewrite {
 	 * Callback function to the WP parse_query hook
 	 * @param array $query WP query object.
 	 */
-	static function parse_query_hook( $query ) {
+	function parse_query_hook( $query ) {
 		Plugin_Debug::logTrace();
 		$query->query_vars['lang'] = isset( $query->query_vars['lang'] ) ? $query->query_vars['lang'] : $this->source_language;
 		return $query;
