@@ -14,13 +14,7 @@ class Transifex_Live_Integration_Settings_Page {
 			$db_settings = Transifex_Live_Integration_Defaults::settings();
 		}
 
-		$db_colors = array_map( 'esc_attr', (array) get_option( 'transifex_live_colors', array() ) );
-		if ( empty( $db_colors ) ) {
-			$db_colors = Transifex_Live_Integration_Defaults::settings()['colors'];
-		}
-		$colors_colors = [ 'colors' => $db_colors ];
-		$raw_settings = array_merge( $db_settings, $colors_colors );
-		$settings = array_merge( Transifex_Live_Integration_Defaults::settings(), $raw_settings );
+		$settings = array_merge( Transifex_Live_Integration_Defaults::settings(), $db_settings );
 
 		$is_update_transifex_languages = false;
 		if ( isset( $settings['api_key'] ) && // Initialize Live languages after API key is setup.
@@ -102,10 +96,6 @@ class Transifex_Live_Integration_Settings_Page {
 			if ( isset( $settings['transifex_live_settings'] ) ) {
 				update_option( 'transifex_live_settings', $settings['transifex_live_settings'] );
 			}
-
-			if ( isset( $settings['transifex_live_colors'] ) ) {
-				update_option( 'transifex_live_colors', $settings['transifex_live_colors'] );
-			}
 		}
 	}
 
@@ -139,10 +129,6 @@ class Transifex_Live_Integration_Settings_Page {
 			$notice = '<p>' . __( 'Your changes to the settings have been saved!', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ) . '</p>';
 		}
 
-		if ( isset( $_POST['transifex_live_colors'] ) ) {
-			$is_admin_page_notice = true;
-			$notice .= '<p>' . __( 'Your changes to the colors have been saved!', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ) . '</p>';
-		}
 
 		if ( $is_transifex_languages_set_notice ) {
 			$is_admin_dashboard_notice = true;
@@ -175,18 +161,9 @@ class Transifex_Live_Integration_Settings_Page {
 	static public function sanitize_settings( $settings ) {
 		Plugin_Debug::logTrace();
 		$settings['transifex_live_settings']['api_key'] = ( isset( $settings['transifex_live_settings']['api_key'] )) ? sanitize_text_field( $settings['transifex_live_settings']['api_key'] ) : '';
-		$settings['transifex_live_settings']['enable_frontend_css'] = ( $settings['transifex_live_settings']['enable_frontend_css'] ) ? 1 : 0;
-		$settings['transifex_live_settings']['custom_picker_id'] = ( isset( $settings['transifex_live_settings']['custom_picker_id'] )) ? sanitize_text_field( $settings['transifex_live_settings']['custom_picker_id'] ) : '';
 		$settings['transifex_live_settings']['raw_transifex_languages'] = ( isset( $settings['transifex_live_settings']['raw_transifex_languages'] )) ? sanitize_text_field( $settings['transifex_live_settings']['raw_transifex_languages'] ) : '';
 		$settings['transifex_live_settings']['languages'] = ( isset( $settings['transifex_live_settings']['languages'] )) ? sanitize_text_field( $settings['transifex_live_settings']['languages'] ) : '';
 		$settings['transifex_live_settings']['language_lookup'] = ( isset( $settings['transifex_live_settings']['language_lookup'] )) ? sanitize_text_field( $settings['transifex_live_settings']['language_lookup'] ) : '';
-
-		$settings['transifex_live_colors']['accent'] = Transifex_Live_Integration_Settings_Util::sanitize_hex_color( $settings['transifex_live_colors']['accent'] );
-		$settings['transifex_live_colors']['text'] = Transifex_Live_Integration_Settings_Util::sanitize_hex_color( $settings['transifex_live_colors']['text'] );
-		$settings['transifex_live_colors']['background'] = Transifex_Live_Integration_Settings_Util::sanitize_hex_color( $settings['transifex_live_colors']['background'] );
-		$settings['transifex_live_colors']['menu'] = Transifex_Live_Integration_Settings_Util::sanitize_hex_color( $settings['transifex_live_colors']['menu'] );
-		$settings['transifex_live_colors']['languages'] = Transifex_Live_Integration_Settings_Util::sanitize_hex_color( $settings['transifex_live_colors']['languages'] );
-
 		return $settings;
 	}
 

@@ -1,24 +1,9 @@
-jQuery(document).ready(function($){
-	// Color picker
-	$('.colorpick').iris( {
-		change: function(event, ui){
-			$(this).css( { backgroundColor: ui.color.toString() } );
-		},
-		hide: true,
-		border: true
-	} ).each( function() {
-		$(this).css( { backgroundColor: $(this).val() } );
-	})
-	.click(function(){
-		$('.iris-picker').hide();
-		$(this).closest('.color-box, td').find('.iris-picker').show();
-	});
-
-	$('body').click(function() {
-		$('.iris-picker').hide();
-	});
-
-	$('.color-box, .colorpick').click(function(event){
-		event.stopPropagation();
-	});
-});
+(function ($) {
+    console.log('do js hide');
+    var parent = $('#transifex_live_settings_custom_urls'),
+            children = $('.custom-urls-settings');
+    parent.change(function () {
+        children.toggleClass('hide-if-js', !this.checked);
+        console.log('toggle hide');
+    });
+})(jQuery);

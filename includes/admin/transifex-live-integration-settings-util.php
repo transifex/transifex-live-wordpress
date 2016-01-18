@@ -160,52 +160,81 @@ class Transifex_Live_Integration_Settings_Util {
 		$source_language = $settings['source_language'];
 		$source_label = __( 'Source Language', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN );
 		ob_start();
-		checked( $settings['add_language_rewrites'], 'none' );
-		$selected_none = ob_get_clean();
+		checked( $settings['add_rewrites_date'] );
+		$checked_add_rewrites_date = ob_get_clean();
 
 		ob_start();
-		checked( $settings['add_language_rewrites'], 1 );
-		$selected_opt1 = ob_get_clean();
-
-		ob_start();
-		checked( $settings['add_language_rewrites'], 2 );
-		$selected_opt2 = ob_get_clean();
-
-		ob_start();
-		checked( $settings['add_language_rewrites'], 3 );
-		$selected_opt3 = ob_get_clean();
+		checked( $settings['add_rewrites_page'] );
+		$checked_add_rewrites_page = ob_get_clean();
+		
+				ob_start();
+		checked( $settings['add_rewrites_author'] );
+		$checked_add_rewrites_author = ob_get_clean();
+		
+				ob_start();
+		checked( $settings['add_rewrites_tag'] );
+		$checked_add_rewrites_tag = ob_get_clean();
+		
+				ob_start();
+		checked( $settings['add_rewrites_category'] );
+		$checked_add_rewrites_category = ob_get_clean();
+		
+						ob_start();
+		checked( $settings['add_rewrites_search'] );
+		$checked_add_rewrites_search = ob_get_clean();
+		
+				ob_start();
+		checked( $settings['add_rewrites_feed'] );
+		$checked_add_rewrites_feed = ob_get_clean();
 
 		$enable_hreflang_label = __( 'Enable HREFLANG?', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN );
 		ob_start();
 		checked( $settings['hreflang'] );
 		$checked_hreflang = ob_get_clean();
 
+		$enable_custom_urls_label = __( 'Custom URLs', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN );
+		ob_start();
+		checked( $settings['enable_custom_urls'] );
+		$checked_custom_urls = ob_get_clean();
+		$hide_custom_urls_css = ($settings['enable_custom_urls'])?'':' hide-if-js';
+		
 		$mapper = <<<SOURCE
 		<th scope="row" class="titledesc">$header_label</th>
         <td class="forminp">
-		<input type="radio" id="transifex_live_settings_add_language_rewrites" name="transifex_live_settings[add_language_rewrites]" value="none" $selected_none >None Selected
-		<br/>
-        <input type="radio" id="transifex_live_settings_add_language_rewrites" name="transifex_live_settings[add_language_rewrites]" value="1" $selected_opt1>to all URLs
-		<br/>
-		<input type="radio" id="transifex_live_settings_add_language_rewrites" name="transifex_live_settings[add_language_rewrites]" value="2" $selected_opt2>to pages only
-		<br/>
-        <input type="radio" id="transifex_live_settings_add_language_rewrites" name="transifex_live_settings[add_language_rewrites]" value="3" $selected_opt3>Custom (Only adds %lang% url pattern)
-		<br/><br/>
-		<fieldset>
-        <legend class="screen-reader-text"><span>$enable_hreflang_label</span></legend>
-        <label for="transifex_live_settings_hreflang">
-        <input name="transifex_live_settings[hreflang]" type="hidden" value="0">
-        <input name="transifex_live_settings[hreflang]" type="checkbox" id="transifex_live_settings_hreflang" value="1" $checked_hreflang>
-		$enable_hreflang_label
+	    <label class="enable_checkbox" for="transifex_live_settings_enable_custom_urls">
+        <input name="transifex_live_settings[enable_custom_urls]" type="hidden" value="0">
+        <input name="transifex_live_settings[enable_custom_urls]" id="transifex_live_settings_custom_urls" type="checkbox" value="1" $checked_custom_urls>
+		$enable_custom_urls_label
         </label>
-        </fieldset>
-		<br/><br/>
-		<label class="enable_checkbox" for="transifex_live_settings_source_language">
-		$source_label
+		</td></tr>
+		<tr class="custom-urls-settings$hide_custom_urls_css">
+		<th scope="row" class="titledesc">URLs Affected</th>
+		<td>
+		<input type="checkbox" id="transifex_live_settings_add_rewrites_date" name="transifex_live_settings[add_rewrites_date]" value="1" $checked_add_rewrites_date >Posts(Date)
+		<br/>
+        <input type="checkbox" id="transifex_live_settings_add_rewrites_page" name="transifex_live_settings[add_rewrites_page]" value="1" $checked_add_rewrites_page>Pages
+		<br/>
+		<input type="checkbox" id="transifex_live_settings_add_rewrites_author" name="transifex_live_settings[add_rewrites_author]" value="1" $checked_add_rewrites_author>Authors
+		<br/>
+        <input type="checkbox" id="transifex_live_settings_add_rewrites_tag" name="transifex_live_settings[add_rewrites_tag]" value="1" $checked_add_rewrites_tag>Tags
+		<br/>
+        <input type="checkbox" id="transifex_live_settings_add_rewrites_category" name="transifex_live_settings[add_rewrites_category]" value="1" $checked_add_rewrites_category>Categories
+		<br/>
+        <input type="checkbox" id="transifex_live_settings_add_rewrites_search" name="transifex_live_settings[add_rewrites_search]" value="1" $checked_add_rewrites_search>Search
+		<br/>
+        <input type="checkbox" id="transifex_live_settings_add_rewrites_feed" name="transifex_live_settings[add_rewrites_feed]" value="1" $checked_add_rewrites_feed>Feeds
+
+
+	    </td></tr>
+		<tr class="custom-urls-settings$hide_custom_urls_css">
+		<th scope="row" class="titledesc">Source Language</th>
+		<td>
 		<input disabled name="transifex_live_settings[source_language]" type="text" id="transifex_live_settings_source_language" value="$source_language" class="regular-text">
 		<input type="hidden" value="$source_language" name="transifex_live_settings[source_language]" id="transifex_live_settings_source_language" />
-		</label>
-	    <br/><br/>
+	    </td></tr>
+		<tr class="custom-urls-settings$hide_custom_urls_css">
+		<th scope="row" class="titledesc">URL Structure</th>
+		<td>
 SOURCE;
 
 		foreach ( $language_array as $item ) {
@@ -219,8 +248,20 @@ SOURCE;
 MAPPER;
 		}
 		$mapper .= <<<FOOTER
-				<p class="submit"><input type="submit" name="sync" id="sync" class="button button-primary" value="Sync"></p>
-				</td>
+		<p class="submit"><input type="submit" name="sync" id="sync" class="button button-primary" value="Sync"></p>
+        </td></tr>
+	    <tr class="custom-urls-settings$hide_custom_urls_css">
+		<th scope="row" class="titledesc">URL Structure</th>
+		<td>
+        <fieldset>
+        <legend class="screen-reader-text"><span>$enable_hreflang_label</span></legend>
+        <label for="transifex_live_settings_hreflang">
+        <input name="transifex_live_settings[hreflang]" type="hidden" value="0">
+        <input name="transifex_live_settings[hreflang]" type="checkbox" id="transifex_live_settings_hreflang" value="1" $checked_hreflang>
+		$enable_hreflang_label
+        </label>
+        </fieldset>
+		</td>
 FOOTER;
 		echo $mapper;
 		return true;
