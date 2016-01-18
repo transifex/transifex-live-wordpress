@@ -17,25 +17,6 @@
 						<input type="hidden" value="<?php echo $settings['api_key']; ?>" name="transifex_live_settings[previous_api_key]" id="transifex_live_settings_raw_transifex_previous_api_key" />
 					</td>
                 </tr>
-                <tr valign="top">
-                    <th scope="row" class="titledesc">
-						<?php _e( 'Language Picker Styling', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
-                    </th>
-                    <td class="forminp">
-						<label class="enable_checkbox" for="transifex_live_settings_enable_frontend_css">
-                            <input name="transifex_live_settings[enable_frontend_css]" type="hidden" value="0">
-                            <input name="transifex_live_settings[enable_frontend_css]" id="transifex_live_settings_enable_frontend_css" type="checkbox" value="1" <?php checked( $settings['enable_frontend_css'] ); ?>>
-							<?php _e( 'Enable', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
-                        </label>
-						<?php
-						foreach ($settings['colors'] as $key => $value) {
-							if ( empty( $settings['colors'][$key] ) )
-								$settings['colors'][$key] = $value;
-							Transifex_Live_Integration_Settings_Util::color_picker( $settings['color_labels'][$key], 'transifex_live_colors[' . $key . ']', $settings['colors'][$key] );
-						}
-						?><br>
-                    </td>
-                </tr>
 				<tr valign="top">
 					<?php Transifex_Live_Integration_Settings_Util::render_language_mapper( $language_lookup, $settings ); ?>
                 </tr>

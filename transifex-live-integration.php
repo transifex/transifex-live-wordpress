@@ -5,13 +5,13 @@
  *
  * @link    http://docs.transifex.com/developer/integrations/wordpress
  * @package TransifexLiveIntegration
- * @version 1.1.0b3
+ * @version 1.1.0b4
  *
  * @wordpress-plugin
  * Plugin Name:       Transifex Live Translation Plugin
  * Plugin URI:        http://docs.transifex.com/developer/integrations/wordpress
  * Description:       Translate your WordPress website or blog without the usual complex setups.
- * Version:           1.1.0b3
+ * Version:           1.1.0b4
  * License:           GNU General Public License
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       transifex-live-integration
@@ -63,7 +63,7 @@ if ( !defined( 'TRANSIFEX_LIVE_INTEGRATION_JAVASCRIPT' ) ) {
 define( 'LANG_PARAM', 'lang' );
 
 require_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/plugin-debug.php';
-$version = '1.1.0b3';
+$version = '1.1.0b4';
 $debug = new Plugin_Debug();
 
 /**
@@ -91,21 +91,41 @@ class Transifex_Live_Integration {
 		$rewrite = Transifex_Live_Integration_Rewrite::create_rewrite( $settings );
 		($rewrite) ? Plugin_Debug::logTrace( 'rewrite created' ) : Plugin_Debug::logTrace( 'rewrite false' );
 		if ( $rewrite ) {
-			switch ($rewrite->rewrite_option) {
-				case 'none';
+			foreach ($rewrite->rewrite_options as $option) {
+			switch ($option) {
+				case 'date';
+					add_filter( 'date_rewrite_rules', [ $rewrite, 'date_rewrite_rules_hook' ] );
+					add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
 					break;
-				case 'pages';
+				case 'page';
 					add_filter( 'page_rewrite_rules', [ $rewrite, 'page_rewrite_rules_hook' ] );
 					add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
 					break;
-				case 'all';
-					add_filter( 'root_rewrite_rules', [ $rewrite, 'root_rewrite_rules_hook' ] );
+				case 'author';
+					add_filter( 'author_rewrite_rules', [ $rewrite, 'author_rewrite_rules_hook' ] );
+					add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
+					break;
+				case 'tag';
+					add_filter( 'tag_rewrite_rules', [ $rewrite, 'tag_rewrite_rules_hook' ] );
+					add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
+					break;
+				case 'category';
+					add_filter( 'category_rewrite_rules', [ $rewrite, 'category_rewrite_rules_hook' ] );
+					add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
+					break;
+				case 'search';
+					add_filter( 'search_rewrite_rules', [ $rewrite, 'search_rewrite_rules_hook' ] );
+					add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
+					break;
+				case 'feed';
+					add_filter( 'feed_rewrite_rules', [ $rewrite, 'feed_rewrite_rules_hook' ] );
 					add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
 					break;
 				default;
 					add_action( 'init', [ $rewrite, 'init_hook' ] );
 					add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
 					break;
+			}
 			}
 		}
 
@@ -142,10 +162,6 @@ class Transifex_Live_Integration {
 			include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-javascript.php';
 			$javascript = new Transifex_Live_Integration_Javascript( $settings, $rewrite ? true : false );
 			add_action( 'wp_head', [ $javascript, 'render' ], 1 );
-
-			include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-css.php';
-			$css = new Transifex_Live_Integration_Css( $settings );
-			$css->inline_render();
 		}
 	}
 
