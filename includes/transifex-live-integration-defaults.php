@@ -34,7 +34,10 @@ class Transifex_Live_Integration_Defaults {
 			'add_rewrites_tag' => 0,
 			'add_rewrites_category' => 0,
 			'add_rewrites_search' => 0,
-			'add_rewrites_feed' => 0
+			'add_rewrites_feed' => 0,
+			'add_rewrites_post' => 0,
+			'add_rewrites_root' => 0,
+			'add_rewrites_all' => 0
 		);
 	}
 

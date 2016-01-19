@@ -5,13 +5,13 @@
  *
  * @link    http://docs.transifex.com/developer/integrations/wordpress
  * @package TransifexLiveIntegration
- * @version 1.1.0b4
+ * @version 1.1.0rc1
  *
  * @wordpress-plugin
  * Plugin Name:       Transifex Live Translation Plugin
  * Plugin URI:        http://docs.transifex.com/developer/integrations/wordpress
  * Description:       Translate your WordPress website or blog without the usual complex setups.
- * Version:           1.1.0b4
+ * Version:           1.1.0rc1
  * License:           GNU General Public License
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       transifex-live-integration
@@ -63,7 +63,7 @@ if ( !defined( 'TRANSIFEX_LIVE_INTEGRATION_JAVASCRIPT' ) ) {
 define( 'LANG_PARAM', 'lang' );
 
 require_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/plugin-debug.php';
-$version = '1.1.0b4';
+$version = '1.1.0rc1';
 $debug = new Plugin_Debug();
 
 /**
@@ -84,6 +84,7 @@ class Transifex_Live_Integration {
 
 			$settings = Transifex_Live_Integration_Defaults::settings();
 		}
+		
 		add_filter( 'query_vars', array( 'Transifex_Live_Integration', 'query_vars_hook' ) );
 
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-rewrite.php';
@@ -91,6 +92,7 @@ class Transifex_Live_Integration {
 		$rewrite = Transifex_Live_Integration_Rewrite::create_rewrite( $settings );
 		($rewrite) ? Plugin_Debug::logTrace( 'rewrite created' ) : Plugin_Debug::logTrace( 'rewrite false' );
 		if ( $rewrite ) {
+			Plugin_Debug::logTrace($rewrite->rewrite_options);
 			foreach ($rewrite->rewrite_options as $option) {
 			switch ($option) {
 				case 'date';
@@ -119,6 +121,14 @@ class Transifex_Live_Integration {
 					break;
 				case 'feed';
 					add_filter( 'feed_rewrite_rules', [ $rewrite, 'feed_rewrite_rules_hook' ] );
+					add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
+					break;
+				case 'post';
+					add_filter( 'post_rewrite_rules', [ $rewrite, 'post_rewrite_rules_hook' ] );
+					add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
+					break;
+				case 'root';
+					add_filter( 'root_rewrite_rules', [ $rewrite, 'root_rewrite_rules_hook' ] );
 					add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
 					break;
 				default;

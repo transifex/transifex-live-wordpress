@@ -156,7 +156,7 @@ class Transifex_Live_Integration_Settings_Util {
 			Plugin_Debug::logTrace( "$language_array not valid" );
 			return false;
 		}
-		$header_label = __( 'Language URLs', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN );
+		$header_label = __( 'Language/region-specific URLs', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN );
 		$source_language = $settings['source_language'];
 		$source_label = __( 'Source Language', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN );
 		ob_start();
@@ -179,27 +179,38 @@ class Transifex_Live_Integration_Settings_Util {
 		checked( $settings['add_rewrites_category'] );
 		$checked_add_rewrites_category = ob_get_clean();
 		
-						ob_start();
+		ob_start();
 		checked( $settings['add_rewrites_search'] );
 		$checked_add_rewrites_search = ob_get_clean();
 		
-				ob_start();
+		ob_start();
 		checked( $settings['add_rewrites_feed'] );
 		$checked_add_rewrites_feed = ob_get_clean();
-
-		$enable_hreflang_label = __( 'Enable HREFLANG?', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN );
+		
 		ob_start();
-		checked( $settings['hreflang'] );
-		$checked_hreflang = ob_get_clean();
+		checked( $settings['add_rewrites_post'] );
+		$checked_add_rewrites_post = ob_get_clean();
+		
+				ob_start();
+		checked( $settings['add_rewrites_root'] );
+		$checked_add_rewrites_root = ob_get_clean();
+		
+						ob_start();
+		checked( $settings['add_rewrites_all'] );
+		$checked_add_rewrites_all = ob_get_clean();
 
-		$enable_custom_urls_label = __( 'Custom URLs', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN );
+		$enable_custom_urls_label = __( 'Enable language/region-specific URLs', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN );
 		ob_start();
 		checked( $settings['enable_custom_urls'] );
 		$checked_custom_urls = ob_get_clean();
 		$hide_custom_urls_css = ($settings['enable_custom_urls'])?'':' hide-if-js';
 		
 		$mapper = <<<SOURCE
-		<th scope="row" class="titledesc">$header_label</th>
+		</tr></table>
+		<h2 class="title">Advanced SEO Settings</h2>
+		<p>The Transifex Live WordPress Plugin lets you set unique, language/region-specific URLs for your site. For example, if the home page of your English site was <code>http://www.example.com/</code>, you could set <code>www.example.com/fr</code> as the home page for the French version of the site. New URLs will be generated when you enable this option, so please proceed with caution.</p>
+		<table class="form-table"><tr>	
+		<th scope="row">$header_label</th>
         <td class="forminp">
 	    <label class="enable_checkbox" for="transifex_live_settings_enable_custom_urls">
         <input name="transifex_live_settings[enable_custom_urls]" type="hidden" value="0">
@@ -208,33 +219,34 @@ class Transifex_Live_Integration_Settings_Util {
         </label>
 		</td></tr>
 		<tr class="custom-urls-settings$hide_custom_urls_css">
-		<th scope="row" class="titledesc">URLs Affected</th>
+		<th scope="row">Use Language/region-specific URLs For</th>
 		<td>
-		<input type="checkbox" id="transifex_live_settings_add_rewrites_date" name="transifex_live_settings[add_rewrites_date]" value="1" $checked_add_rewrites_date >Posts(Date)
+		<input type="checkbox" id="transifex_live_settings_add_rewrites_all" name="transifex_live_settings[add_rewrites_all]" value="1" $checked_add_rewrites_all>All
 		<br/>
-        <input type="checkbox" id="transifex_live_settings_add_rewrites_page" name="transifex_live_settings[add_rewrites_page]" value="1" $checked_add_rewrites_page>Pages
+		<input type="checkbox" id="transifex_live_settings_add_rewrites_page" class="all_selector" name="transifex_live_settings[add_rewrites_page]" value="1" $checked_add_rewrites_page>Pages
 		<br/>
-		<input type="checkbox" id="transifex_live_settings_add_rewrites_author" name="transifex_live_settings[add_rewrites_author]" value="1" $checked_add_rewrites_author>Authors
+		<input type="checkbox" id="transifex_live_settings_add_rewrites_post" class="all_selector" name="transifex_live_settings[add_rewrites_post]" value="1" $checked_add_rewrites_post >Posts
 		<br/>
-        <input type="checkbox" id="transifex_live_settings_add_rewrites_tag" name="transifex_live_settings[add_rewrites_tag]" value="1" $checked_add_rewrites_tag>Tags
+        <input type="checkbox" id="transifex_live_settings_add_rewrites_tag" class="all_selector" name="transifex_live_settings[add_rewrites_tag]" value="1" $checked_add_rewrites_tag>Tags
 		<br/>
-        <input type="checkbox" id="transifex_live_settings_add_rewrites_category" name="transifex_live_settings[add_rewrites_category]" value="1" $checked_add_rewrites_category>Categories
+        <input type="checkbox" id="transifex_live_settings_add_rewrites_category" class="all_selector" name="transifex_live_settings[add_rewrites_category]" value="1" $checked_add_rewrites_category>Categories
 		<br/>
-        <input type="checkbox" id="transifex_live_settings_add_rewrites_search" name="transifex_live_settings[add_rewrites_search]" value="1" $checked_add_rewrites_search>Search
+		<input type="checkbox" id="transifex_live_settings_add_rewrites_author" class="all_selector" name="transifex_live_settings[add_rewrites_author]" value="1" $checked_add_rewrites_author>Authors
 		<br/>
-        <input type="checkbox" id="transifex_live_settings_add_rewrites_feed" name="transifex_live_settings[add_rewrites_feed]" value="1" $checked_add_rewrites_feed>Feeds
-
-
+        <input type="checkbox" id="transifex_live_settings_add_rewrites_search" class="all_selector" name="transifex_live_settings[add_rewrites_search]" value="1" $checked_add_rewrites_search>Search
+		<br/>
+        <input type="checkbox" id="transifex_live_settings_add_rewrites_feed" class="all_selector" name="transifex_live_settings[add_rewrites_feed]" value="1" $checked_add_rewrites_feed>Feeds
+		<br/>		
+		<input type="checkbox" id="transifex_live_settings_add_rewrites_date" class="all_selector" name="transifex_live_settings[add_rewrites_date]" value="1" $checked_add_rewrites_date >Date
+		<br/>		
+		<input type="checkbox" id="transifex_live_settings_add_rewrites_root" class="all_selector" name="transifex_live_settings[add_rewrites_root]" value="1" $checked_add_rewrites_root >Root
 	    </td></tr>
 		<tr class="custom-urls-settings$hide_custom_urls_css">
-		<th scope="row" class="titledesc">Source Language</th>
+		<th scope="row" class="titledesc">Language/region Codes</th>
 		<td>
-		<input disabled name="transifex_live_settings[source_language]" type="text" id="transifex_live_settings_source_language" value="$source_language" class="regular-text">
-		<input type="hidden" value="$source_language" name="transifex_live_settings[source_language]" id="transifex_live_settings_source_language" />
-	    </td></tr>
-		<tr class="custom-urls-settings$hide_custom_urls_css">
-		<th scope="row" class="titledesc">URL Structure</th>
-		<td>
+		<p>You can customize the language or region code used in your language/region-specific URLs. The code you choose will always appear 
+immediately after the your domain. So if you use <code>fr</code> for your French pages, the URL for your Product page would look something like <code>www.example.com/fr/product/</code>.</p>
+<br/>
 SOURCE;
 
 		foreach ( $language_array as $item ) {
@@ -248,19 +260,9 @@ SOURCE;
 MAPPER;
 		}
 		$mapper .= <<<FOOTER
-		<p class="submit"><input type="submit" name="sync" id="sync" class="button button-primary" value="Sync"></p>
-        </td></tr>
-	    <tr class="custom-urls-settings$hide_custom_urls_css">
-		<th scope="row" class="titledesc">URL Structure</th>
-		<td>
-        <fieldset>
-        <legend class="screen-reader-text"><span>$enable_hreflang_label</span></legend>
-        <label for="transifex_live_settings_hreflang">
-        <input name="transifex_live_settings[hreflang]" type="hidden" value="0">
-        <input name="transifex_live_settings[hreflang]" type="checkbox" id="transifex_live_settings_hreflang" value="1" $checked_hreflang>
-		$enable_hreflang_label
-        </label>
-        </fieldset>
+		<input type="hidden" value="$source_language" name="transifex_live_settings[source_language]" id="transifex_live_settings_source_language" />
+		<p class="submit"><input type="submit" name="sync" id="sync" class="button button-primary" value="Refresh Languages List"></p>
+        <p>Having trouble getting language/region-specific URLs working? Visit the <a href="/wp-admin/options-permalink.php">Permalinks Settings</a> then return here to refresh, or <a href="https://www.transifex.com/contact/">contact us</a>.</p>
 		</td>
 FOOTER;
 		echo $mapper;
