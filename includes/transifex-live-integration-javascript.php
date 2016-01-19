@@ -14,7 +14,7 @@ class Transifex_Live_Integration_Javascript {
 	 * Stores current plugin settings.
 	 * @var array
 	 */
-	private $live_settings_keys = array( 'api_key', 'enable_frontend_css', 'custom_picker_id' );
+	private $live_settings_keys = array( 'api_key');
 	private $live_settings;
 	private $is_detectlang;
 	private $tx_langs;

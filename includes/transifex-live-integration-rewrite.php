@@ -28,31 +28,10 @@ class Transifex_Live_Integration_Rewrite {
 	 */
 	private $languages_regex;
 
-	/**
-	 * Permastruct format for WP page objects
-	 * @var string
-	 */
-	private $page_permastruct;
-
-	/**
-	 * Which rewrite option selected in the plugin
-	 * @var string
-	 */
-	public $rewrite_option;
-	
 	public $rewrite_options;
 	
 	const REGEX_PATTERN_CHECK_PATTERN = "/\(.*\?|.*\)/";
 
-	private $REWRITE_OPTIONS = [ // not a const for backward compat.
-		'0' => 'date',
-		'1' => 'page',
-		'2' => 'author',
-		'3' => 'tag',
-		'4' => 'category',
-		'5' => 'search',
-		'6' => 'feed',
-	];
 
 	/**
 	 * Private constructor, initializes local vars based on settings
@@ -63,12 +42,23 @@ class Transifex_Live_Integration_Rewrite {
 		$this->rewrite_options = [];
 		$this->languages_regex = $settings['languages_regex'];
 		$this->source_language = $settings['source_language'];
+		if (isset ($settings['add_rewrites_post']))
+		$this->rewrite_options[] = ($settings['add_rewrites_post'])?'post':'';
+		if (isset ($settings['add_rewrites_root']))
+		$this->rewrite_options[] = ($settings['add_rewrites_root'])?'root':'';
+		if (isset ($settings['add_rewrites_date']))
 		$this->rewrite_options[] = ($settings['add_rewrites_date'])?'date':'';
+		if (isset ($settings['add_rewrites_page']))
 		$this->rewrite_options[] = ($settings['add_rewrites_page'])?'page':'';
+		if (isset ($settings['add_rewrites_author']))
 		$this->rewrite_options[] = ($settings['add_rewrites_author'])?'author':'';
+		if (isset ($settings['add_rewrites_tag']))
 		$this->rewrite_options[] = ($settings['add_rewrites_tag'])?'tag':'';
+		if (isset ($settings['add_rewrites_category']))
 		$this->rewrite_options[] = ($settings['add_rewrites_category'])?'category':'';
+		if (isset ($settings['add_rewrites_search']))
 		$this->rewrite_options[] = ($settings['add_rewrites_search'])?'search':'';
+		if (isset ($settings['add_rewrites_feed']))
 		$this->rewrite_options[] = ($settings['add_rewrites_feed'])?'feed':'';
 		$b = strpos( ',', $settings['languages'] );
 		if ( false === $b ) {
@@ -118,6 +108,32 @@ class Transifex_Live_Integration_Rewrite {
 		return $query;
 	}
 	
+			/**
+	 * Function to build page permastructs
+	 */
+	function generate_post_permastruct() {
+		Plugin_Debug::logTrace();
+		global $wp_rewrite;
+		$p = $wp_rewrite->permalink_structure;
+		$pp = '%lang%' . $p;
+		return $pp;
+	}
+
+	/**
+	 * Callback function to the WP page_rewrite_rules
+	 * @param array $rules Associative array of rewrite rules in WP.
+	 */
+	function post_rewrite_rules_hook( $rules ) {
+		Plugin_Debug::logTrace();
+		global $wp_rewrite;
+		$wp_rewrite->add_rewrite_tag( '%lang%', $this->languages_regex, 'lang=' );
+		$pp = $this->generate_post_permastruct();
+		$this->post_permastruct = $pp;
+		$rr = Transifex_Live_Integration_Generate_Rewrite_Rules::generate_rewrite_rules( $pp, EP_PERMALINK, true, false, false, false );
+		$rewrite = array_merge( $rr, $rules );
+		return $rewrite;
+	}
+	
 		/**
 	 * Function to build page permastructs
 	 */
@@ -125,7 +141,7 @@ class Transifex_Live_Integration_Rewrite {
 		Plugin_Debug::logTrace();
 		global $wp_rewrite;
 		$p = $wp_rewrite->get_date_permastruct();
-		$pp = '%lang%/' . $p;
+		$pp = '%lang%' . $p;
 		return $pp;
 	}
 
@@ -136,11 +152,9 @@ class Transifex_Live_Integration_Rewrite {
 	function date_rewrite_rules_hook( $rules ) {
 		Plugin_Debug::logTrace();
 		global $wp_rewrite;
-		// TODO figure this out $wp_rewrite->add_rewrite_tag( '%pagename%', '(.?.+?)', 'pagename=' );
 		$wp_rewrite->add_rewrite_tag( '%lang%', $this->languages_regex, 'lang=' );
 		$pp = $this->generate_date_permastruct();
-		$this->date_permastruct = $pp;
-		$rr = Transifex_Live_Integration_Generate_Rewrite_Rules::generate_rewrite_rules( $pp, EP_PAGES, true, false, false, false );
+		$rr = Transifex_Live_Integration_Generate_Rewrite_Rules::generate_rewrite_rules( $pp, EP_DATE, true, false, false, false );
 		$rewrite = array_merge( $rr, $rules );
 		return $rewrite;
 	}
@@ -166,7 +180,6 @@ class Transifex_Live_Integration_Rewrite {
 		$wp_rewrite->add_rewrite_tag( '%pagename%', '(.?.+?)', 'pagename=' );
 		$wp_rewrite->add_rewrite_tag( '%lang%', $this->languages_regex, 'lang=' );
 		$pp = $this->generate_page_permastruct();
-		$this->page_permastruct = $pp;
 		$rr = Transifex_Live_Integration_Generate_Rewrite_Rules::generate_rewrite_rules( $pp, EP_PAGES, true, false, false, false );
 		$rewrite = array_merge( $rr, $rules );
 		return $rewrite;
@@ -179,7 +192,7 @@ class Transifex_Live_Integration_Rewrite {
 		Plugin_Debug::logTrace();
 		global $wp_rewrite;
 		$p = $wp_rewrite->get_author_permastruct();
-		$pp = '%lang%/' . $p;
+		$pp = '%lang%' . $p;
 		return $pp;
 	}
 
@@ -190,11 +203,9 @@ class Transifex_Live_Integration_Rewrite {
 	function author_rewrite_rules_hook( $rules ) {
 		Plugin_Debug::logTrace();
 		global $wp_rewrite;
-		// TODO figure this out $wp_rewrite->add_rewrite_tag( '%pagename%', '(.?.+?)', 'pagename=' );
 		$wp_rewrite->add_rewrite_tag( '%lang%', $this->languages_regex, 'lang=' );
 		$pp = $this->generate_author_permastruct();
-		$this->author_permastruct = $pp;
-		$rr = Transifex_Live_Integration_Generate_Rewrite_Rules::generate_rewrite_rules( $pp, EP_PAGES, true, false, false, false );
+		$rr = Transifex_Live_Integration_Generate_Rewrite_Rules::generate_rewrite_rules( $pp, EP_AUTHORS, true, false, false, false );
 		$rewrite = array_merge( $rr, $rules );
 		return $rewrite;
 	}
@@ -206,7 +217,7 @@ class Transifex_Live_Integration_Rewrite {
 		Plugin_Debug::logTrace();
 		global $wp_rewrite;
 		$p = $wp_rewrite->get_tag_permastruct();
-		$pp = '%lang%/' . $p;
+		$pp = '%lang%' . $p;
 		return $pp;
 	}
 
@@ -217,11 +228,9 @@ class Transifex_Live_Integration_Rewrite {
 	function tag_rewrite_rules_hook( $rules ) {
 		Plugin_Debug::logTrace();
 		global $wp_rewrite;
-		$wp_rewrite->add_rewrite_tag( '%pagename%', '(.?.+?)', 'pagename=' );
-		// TODO figure this out $wp_rewrite->add_rewrite_tag( '%lang%', $this->languages_regex, 'lang=' );
+		$wp_rewrite->add_rewrite_tag( '%lang%', $this->languages_regex, 'lang=' );
 		$pp = $this->generate_tag_permastruct();
-		$this->tag_permastruct = $pp;
-		$rr = Transifex_Live_Integration_Generate_Rewrite_Rules::generate_rewrite_rules( $pp, EP_PAGES, true, false, false, false );
+		$rr = Transifex_Live_Integration_Generate_Rewrite_Rules::generate_rewrite_rules( $pp, EP_TAGS, true, false, false, false );
 		$rewrite = array_merge( $rr, $rules );
 		return $rewrite;
 	}
@@ -233,7 +242,7 @@ class Transifex_Live_Integration_Rewrite {
 		Plugin_Debug::logTrace();
 		global $wp_rewrite;
 		$p = $wp_rewrite->get_category_permastruct();
-		$pp = '%lang%/' . $p;
+		$pp = '%lang%' . $p;
 		return $pp;
 	}
 
@@ -244,11 +253,9 @@ class Transifex_Live_Integration_Rewrite {
 	function category_rewrite_rules_hook( $rules ) {
 		Plugin_Debug::logTrace();
 		global $wp_rewrite;
-		//TODO figure this out $wp_rewrite->add_rewrite_tag( '%pagename%', '(.?.+?)', 'pagename=' );
 		$wp_rewrite->add_rewrite_tag( '%lang%', $this->languages_regex, 'lang=' );
 		$pp = $this->generate_category_permastruct();
-		$this->page_permastruct = $pp;
-		$rr = Transifex_Live_Integration_Generate_Rewrite_Rules::generate_rewrite_rules( $pp, EP_PAGES, true, false, false, false );
+		$rr = Transifex_Live_Integration_Generate_Rewrite_Rules::generate_rewrite_rules( $pp, EP_CATEGORIES, true, false, false, false );
 		$rewrite = array_merge( $rr, $rules );
 		return $rewrite;
 	}
@@ -260,7 +267,7 @@ class Transifex_Live_Integration_Rewrite {
 		Plugin_Debug::logTrace();
 		global $wp_rewrite;
 		$p = $wp_rewrite->get_search_permastruct();
-		$pp = '%lang%/' . $p;
+		$pp = '%lang%' . $p;
 		return $pp;
 	}
 
@@ -271,11 +278,9 @@ class Transifex_Live_Integration_Rewrite {
 	function search_rewrite_rules_hook( $rules ) {
 		Plugin_Debug::logTrace();
 		global $wp_rewrite;
-		$wp_rewrite->add_rewrite_tag( '%pagename%', '(.?.+?)', 'pagename=' );
-		//TODO figure this out $wp_rewrite->add_rewrite_tag( '%lang%', $this->languages_regex, 'lang=' );
+		$wp_rewrite->add_rewrite_tag( '%lang%', $this->languages_regex, 'lang=' );
 		$pp = $this->generate_page_permastruct();
-		$this->search_permastruct = $pp;
-		$rr = Transifex_Live_Integration_Generate_Rewrite_Rules::generate_rewrite_rules( $pp, EP_PAGES, true, false, false, false );
+		$rr = Transifex_Live_Integration_Generate_Rewrite_Rules::generate_rewrite_rules( $pp, EP_SEARCH, true, false, false, false );
 		$rewrite = array_merge( $rr, $rules );
 		return $rewrite;
 	}
@@ -287,7 +292,7 @@ class Transifex_Live_Integration_Rewrite {
 		Plugin_Debug::logTrace();
 		global $wp_rewrite;
 		$p = $wp_rewrite->get_feed_permastruct();
-		$pp = '%lang%/' . $p;
+		$pp = '%lang%' . $p;
 		return $pp;
 	}
 
@@ -298,11 +303,9 @@ class Transifex_Live_Integration_Rewrite {
 	function feed_rewrite_rules_hook( $rules ) {
 		Plugin_Debug::logTrace();
 		global $wp_rewrite;
-		//TODO figure this out $wp_rewrite->add_rewrite_tag( '%pagename%', '(.?.+?)', 'pagename=' );
 		$wp_rewrite->add_rewrite_tag( '%lang%', $this->languages_regex, 'lang=' );
 		$pp = $this->generate_feed_permastruct();
-		$this->feed_permastruct = $pp;
-		$rr = Transifex_Live_Integration_Generate_Rewrite_Rules::generate_rewrite_rules( $pp, EP_PAGES, true, false, false, false );
+		$rr = Transifex_Live_Integration_Generate_Rewrite_Rules::generate_rewrite_rules( $pp, EP_NONE, true, false, false, false );
 		$rewrite = array_merge( $rr, $rules );
 		return $rewrite;
 	}
@@ -313,7 +316,7 @@ class Transifex_Live_Integration_Rewrite {
 	function generate_root_permastruct() {
 		Plugin_Debug::logTrace();
 		global $wp_rewrite;
-		return '%lang%/' . $wp_rewrite->root . '/';
+		return '%lang%' . $wp_rewrite->root . '/';
 	}
 
 	/**

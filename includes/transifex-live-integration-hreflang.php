@@ -26,8 +26,22 @@ class Transifex_Live_Integration_Hreflang {
 	}
 
 	public function ok_to_add() {
-		$r = ($this->settings['hreflang']) ? true : false;
-		return $r;
+		if ( ! isset( $this->settings['api_key'] ) ){
+			Plugin_Debug::logTrace( 'settings[api_key] not set...skipping hreflang' );
+			return false;
+		}
+		if ( ! isset( $this->settings['languages'] ) ) {
+			Plugin_Debug::logTrace( 'settings[languages] not set...skipping hreflang' );
+			return false;
+		}
+		if (! isset ($this->settings['add_rewrites_date']) && ( ! isset ($this->settings['add_rewrites_page'])) &&
+				(! isset ($this->settings['add_rewrites_author'])) && (! isset ($this->settings['add_rewrites_tag']))
+				&& (! isset ($this->settings['add_rewrites_category'])) && (! isset ($this->settings['add_rewrites_search']))
+				&& (! isset ($this->settings['add_rewrites_feed']))) {
+			Plugin_Debug::logTrace( 'no rewrite option set...skipping hreflang' );
+			return false;
+		}
+		return true;
 	}
 
 	/**
