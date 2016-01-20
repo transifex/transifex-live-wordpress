@@ -34,10 +34,11 @@ class Transifex_Live_Integration_Hreflang {
 			Plugin_Debug::logTrace( 'settings[languages] not set...skipping hreflang' );
 			return false;
 		}
-		if (! isset ($this->settings['add_rewrites_date']) && ( ! isset ($this->settings['add_rewrites_page'])) &&
+		if ((! isset ($this->settings['add_rewrites_date'])) && ( ! isset ($this->settings['add_rewrites_page'])) &&
 				(! isset ($this->settings['add_rewrites_author'])) && (! isset ($this->settings['add_rewrites_tag']))
 				&& (! isset ($this->settings['add_rewrites_category'])) && (! isset ($this->settings['add_rewrites_search']))
-				&& (! isset ($this->settings['add_rewrites_feed']))) {
+				&& (! isset ($this->settings['add_rewrites_feed'])) && (! isset ($this->settings['add_rewrites_root']))
+				&& (! isset ($this->settings['add_rewrites_post'])) ){
 			Plugin_Debug::logTrace( 'no rewrite option set...skipping hreflang' );
 			return false;
 		}
@@ -49,16 +50,26 @@ class Transifex_Live_Integration_Hreflang {
 	 */
 	public function render_hreflang() {
 		Plugin_Debug::logTrace();
-
-		$url = get_page_link();
+		global $wp;
+		$raw_url = home_url( $wp->request );
+		if ('/' !== substr($raw_url, -1)) {
+			$raw_url = $raw_url.'/';
+		}
+		if ($this->settings['source_language'] == get_query_var( 'lang')  ) {
+			$array_url = explode("/",$raw_url);
+			$array_url[2] = get_query_var( 'lang') . '/' . $array_url[2];
+			$raw_url = implode('/',$array_url);
+		}
+		$base_url = str_replace( '/'.get_query_var( 'lang') , "", $raw_url);
+		$token_url = str_replace( get_query_var( 'lang') , "%lang%", $raw_url);
 		$source = $this->settings['source_language'];
 		$hreflang = <<<SOURCE
-		<link rel="alternate" href="$url" hreflang="$source"/>		
+		<link rel="alternate" href="$base_url" hreflang="$source"/>		
 SOURCE;
 		$a = $this->settings['transifex_languages'];
 
 		$y = json_decode( html_entity_decode( $this->settings['languages_map'] ), true );
-		$pp = $this->_get_page_link();
+		$pp = $token_url;
 		$xa = explode( ",", $a );
 		foreach ($xa as $i) {
 			$u = $y[$i];
@@ -69,39 +80,6 @@ HREFLANG;
 		}
 		echo $hreflang;
 		return true;
-	}
-
-	/**
-	 * Retrieve the page permalink.
-	 *
-	 * Ignores page_on_front. Internal use only.
-	 *
-	 * @since 2.1.0
-	 * @access private
-	 *
-	 * @global WP_Rewrite $wp_rewrite
-	 *
-	 * @param int|object $post      Optional. Post ID or object.
-	 * @param bool       $leavename Optional. Leave name.
-	 * @param bool       $sample    Optional. Sample permalink.
-	 * @return string The page permalink.
-	 */
-	function _get_page_link( $post = false, $leavename = false, $sample = false ) {
-		global $wp_rewrite;
-		$post = get_post( $post );
-		$draft_or_pending = in_array( $post->post_status, array( 'draft', 'pending', 'auto-draft' ) );
-		$link = $wp_rewrite->get_page_permastruct();
-		$link = '%lang%/' . $link;
-		if ( !empty( $link ) && ( ( isset( $post->post_status ) && !$draft_or_pending ) || $sample ) ) {
-			if ( !$leavename ) {
-				$link = str_replace( '%pagename%', get_page_uri( $post ), $link );
-			}
-			$link = home_url( $link );
-			$link = user_trailingslashit( $link, 'page' );
-		} else {
-			$link = home_url( '?page_id=' . $post->ID );
-		}
-		return $link;
 	}
 
 }
