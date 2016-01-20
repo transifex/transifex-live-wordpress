@@ -26,6 +26,7 @@ class Plugin_Debug {
 		if ( self::$debug_mode ) {
 			set_error_handler( array( 'Plugin_Debug', 'logError' ) );
 			// Check for admin level if not surpress all debug output hooks
+			//TODO: Reimplement admin check
 			if ( true ) {
 				add_action( 'wp_footer', array( 'Plugin_Debug', 'printLog' ) );
 				add_action( 'admin_footer', array( 'Plugin_Debug', 'printLog' ) );
@@ -35,8 +36,9 @@ class Plugin_Debug {
 
 	public static function logTrace( $message = null ) {
 		if ( self::$debug_mode ) {
-			if ( !is_array( self::$calls ) )
+			if ( !is_array( self::$calls ) ){
 				self::$calls = array();
+			}
 			$call = debug_backtrace( false );
 			$call = (isset( $call[1] )) ? $call[1] : $call[0];
 			$call['message'] = $message;
@@ -46,12 +48,13 @@ class Plugin_Debug {
 
 	public static function logError( $severity, $message, $filename, $lineno ) {
 		if ( self::$debug_mode ) {
-			if ( !is_array( self::$calls ) )
+			if ( !is_array( self::$calls ) ){
 				self::$calls = array();
+			}
 			if ( strpos( $filename, 'transifex-live-integration' ) ) {
 				$call = debug_backtrace( false );
 				$call = (isset( $call[2] )) ? $call[2] : $call[1];
-				$call['message'] = 'File: ' . basename( $filename ) . ' Line: ' . $lineno . ': ' . $message;
+				$call['message'] = 'Severity: '.$severity. ' File: ' . basename( $filename ) . ' Line: ' . $lineno . ': ' . $message;
 				array_push( self::$calls, $call );
 			}
 		}
@@ -99,12 +102,13 @@ class Plugin_Debug {
 				echo ('</font>');
 			}
 			echo "<br/>";
-			if ( array_key_exists( 'message', $value ) && $value['message'] != null )
+			if ( array_key_exists( 'message', $value ) && $value['message'] != null ){
 				echo ('<font color="red">');
+			}
 			print_r( $value['message'] );
 			echo ('</font>');
 			echo "<br/>*";
 		}
 	}
-
+	
 }

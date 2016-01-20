@@ -31,7 +31,7 @@ Translators can contribute new languages to this plugin or our other WordPress p
 == Minimum Requirements ==
 
 * WordPress 3.5.2 or greater
-* PHP version 5.2.4 or greater
+* PHP version 5.5.0 or greater
 * MySQL version 5.0 or greater
 
 === Installation ===
@@ -63,7 +63,7 @@ The WP-Translations project for plugin translations can be found [here](https://
 = 1.0.0 =
 Full relase.  Restructured plugin to follow boilerplate.  Added unit tests.
 
-= 1.0.1
+= 1.0.1 =
 Minor edits for documentation
 
 = 1.0.2 =
@@ -79,4 +79,4 @@ Initial implementation of SEO and lang urls
 SEO and lang urls feature switch set to off
 
 = 1.0.6 =
-Staging option removed, now use Transifex Live to manage staging deploys
+SEO and lang urls feature switch set to on
