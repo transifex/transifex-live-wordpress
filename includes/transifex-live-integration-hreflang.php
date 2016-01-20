@@ -55,6 +55,11 @@ class Transifex_Live_Integration_Hreflang {
 		if ('/' !== substr($raw_url, -1)) {
 			$raw_url = $raw_url.'/';
 		}
+		if ($this->settings['source_language'] == get_query_var( 'lang')  ) {
+			$array_url = explode("/",$raw_url);
+			$array_url[2] = get_query_var( 'lang') . '/' . $array_url[2];
+			$raw_url = implode('/',$array_url);
+		}
 		$base_url = str_replace( '/'.get_query_var( 'lang') , "", $raw_url);
 		$token_url = str_replace( get_query_var( 'lang') , "%lang%", $raw_url);
 		$source = $this->settings['source_language'];
