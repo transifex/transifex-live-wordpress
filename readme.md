@@ -79,4 +79,8 @@ Initial implementation of SEO and lang urls
 SEO and lang urls feature switch set to off
 
 = 1.0.6 =
-SEO and lang urls feature switch set to on
+Staging option removed (use Transifex Live Dashboard)
+
+= 1.1.0 =
+SEO and lang urls and HREFLANGs available
+Language widget customizations removed

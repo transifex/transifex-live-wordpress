@@ -3,8 +3,8 @@ Name: Transifex Live Translation Plugin
 Contributors: txmatthew, ThemeBoy, brooksx
 Tags: transifex, translate, translations, localize, localise, localization, localisation, multilingual, t9n, l10n, i18n, language, switcher, live, translation, translator
 Requires at least: 3.5.2
-Tested up to: 4.3.1
-Stable tag: 1.1.0b3
+Tested up to: 4.4.1
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -86,4 +86,8 @@ Initial implementation of SEO and lang urls
 SEO and lang urls feature switch set to off
 
 = 1.0.6 =
-SEO and lang urls feature switched set to on
+Staging option removed (use Transifex Live Dashboard)
+
+= 1.1.0 =
+SEO and lang urls and HREFLANGs available
+Language widget customizations removed
