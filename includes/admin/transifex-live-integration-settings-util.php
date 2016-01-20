@@ -21,7 +21,7 @@ class Transifex_Live_Integration_Settings_Util {
 		Plugin_Debug::logTrace(get_bloginfo( 'version', 'raw' ));
 		$response_code = wp_remote_retrieve_response_code( $response );
 		Plugin_Debug::logTrace($response_code);
-		if ( 200 === $response_code ) {
+		if ( 200 == $response_code ) {
 			$response_body = wp_remote_retrieve_body( $response );
 			if ( preg_match( self::EMPTY_TRANSIFEX_LANGUAGES_PATTERN, $response_body ) ) {
 				Plugin_Debug::logTrace("empty transifex languages file...skipping");
