@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/transifex/transifex-live-wordpress.svg?branch=devel)](https://travis-ci.org/transifex/transifex-live-wordpress)
 
-#Transifex Live Wordpress Plugin
+#Transifex Live Translation Plugin
 
 
 [What is Transifex?](https://www.transifex.com/product/?utm_source=github&utm_medium=web&utm_campaign=tx-live-wp-plugin)
