@@ -1,24 +1,17 @@
-jQuery(document).ready(function($){
-	// Color picker
-	$('.colorpick').iris( {
-		change: function(event, ui){
-			$(this).css( { backgroundColor: ui.color.toString() } );
-		},
-		hide: true,
-		border: true
-	} ).each( function() {
-		$(this).css( { backgroundColor: $(this).val() } );
-	})
-	.click(function(){
-		$('.iris-picker').hide();
-		$(this).closest('.color-box, td').find('.iris-picker').show();
-	});
+(function ($) {
+    var parent = $('#transifex_live_settings_custom_urls'),
+            children = $('.custom-urls-settings');
+    parent.change(function () {
+        children.toggleClass('hide-if-js', !this.checked);
+    });
+})(jQuery);
 
-	$('body').click(function() {
-		$('.iris-picker').hide();
-	});
-
-	$('.color-box, .colorpick').click(function(event){
-		event.stopPropagation();
-	});
-});
+(function ($) {
+    console.log('checker');
+    var parent = $('#transifex_live_settings_add_rewrites_all'),
+            children = $('.all_selector');
+    parent.change(function () {
+        console.log('check all');
+        children.prop("checked", this.checked);
+    });
+})(jQuery);

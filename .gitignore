@@ -3,6 +3,7 @@ composer.lock
 composer.phar
 phpunit
 psysh
+codecept
 nbproject/
 bin/
 node_modules/
