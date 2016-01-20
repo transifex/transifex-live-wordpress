@@ -5,13 +5,13 @@
  *
  * @link    http://docs.transifex.com/developer/integrations/wordpress
  * @package TransifexLiveIntegration
- * @version 1.1.0rc1
+ * @version 1.1.0
  *
  * @wordpress-plugin
  * Plugin Name:       Transifex Live Translation Plugin
  * Plugin URI:        http://docs.transifex.com/developer/integrations/wordpress
  * Description:       Translate your WordPress website or blog without the usual complex setups.
- * Version:           1.1.0rc1
+ * Version:           1.1.0
  * License:           GNU General Public License
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       transifex-live-integration
@@ -63,7 +63,7 @@ if ( !defined( 'TRANSIFEX_LIVE_INTEGRATION_JAVASCRIPT' ) ) {
 define( 'LANG_PARAM', 'lang' );
 
 require_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/plugin-debug.php';
-$version = '1.1.0rc1';
+$version = '1.1.0';
 $debug = new Plugin_Debug();
 
 /**
@@ -84,58 +84,60 @@ class Transifex_Live_Integration {
 
 			$settings = Transifex_Live_Integration_Defaults::settings();
 		}
-		
-		add_filter( 'query_vars', array( 'Transifex_Live_Integration', 'query_vars_hook' ) );
 
+		add_filter( 'query_vars', array( 'Transifex_Live_Integration', 'query_vars_hook' ) );
+		
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-rewrite.php';
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-generate-rewrite-rules.php';
 		$rewrite = Transifex_Live_Integration_Rewrite::create_rewrite( $settings );
 		($rewrite) ? Plugin_Debug::logTrace( 'rewrite created' ) : Plugin_Debug::logTrace( 'rewrite false' );
 		if ( $rewrite ) {
-			Plugin_Debug::logTrace($rewrite->rewrite_options);
+			if (isset($settings['add_rewrites_post'])){
+				add_filter( 'pre_post_link', [$rewrite , 'pre_post_link_hook' ], 10, 3);
+			}	
 			foreach ($rewrite->rewrite_options as $option) {
-			switch ($option) {
-				case 'date';
-					add_filter( 'date_rewrite_rules', [ $rewrite, 'date_rewrite_rules_hook' ] );
-					add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
-					break;
-				case 'page';
-					add_filter( 'page_rewrite_rules', [ $rewrite, 'page_rewrite_rules_hook' ] );
-					add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
-					break;
-				case 'author';
-					add_filter( 'author_rewrite_rules', [ $rewrite, 'author_rewrite_rules_hook' ] );
-					add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
-					break;
-				case 'tag';
-					add_filter( 'tag_rewrite_rules', [ $rewrite, 'tag_rewrite_rules_hook' ] );
-					add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
-					break;
-				case 'category';
-					add_filter( 'category_rewrite_rules', [ $rewrite, 'category_rewrite_rules_hook' ] );
-					add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
-					break;
-				case 'search';
-					add_filter( 'search_rewrite_rules', [ $rewrite, 'search_rewrite_rules_hook' ] );
-					add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
-					break;
-				case 'feed';
-					add_filter( 'feed_rewrite_rules', [ $rewrite, 'feed_rewrite_rules_hook' ] );
-					add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
-					break;
-				case 'post';
-					add_filter( 'post_rewrite_rules', [ $rewrite, 'post_rewrite_rules_hook' ] );
-					add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
-					break;
-				case 'root';
-					add_filter( 'root_rewrite_rules', [ $rewrite, 'root_rewrite_rules_hook' ] );
-					add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
-					break;
-				default;
-					add_action( 'init', [ $rewrite, 'init_hook' ] );
-					add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
-					break;
-			}
+				switch ($option) {
+					case 'date';
+						add_filter( 'date_rewrite_rules', [ $rewrite, 'date_rewrite_rules_hook' ] );
+						add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
+						break;
+					case 'page';
+						add_filter( 'page_rewrite_rules', [ $rewrite, 'page_rewrite_rules_hook' ] );
+						add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
+						break;
+					case 'author';
+						add_filter( 'author_rewrite_rules', [ $rewrite, 'author_rewrite_rules_hook' ] );
+						add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
+						break;
+					case 'tag';
+						add_filter( 'tag_rewrite_rules', [ $rewrite, 'tag_rewrite_rules_hook' ] );
+						add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
+						break;
+					case 'category';
+						add_filter( 'category_rewrite_rules', [ $rewrite, 'category_rewrite_rules_hook' ] );
+						add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
+						break;
+					case 'search';
+						add_filter( 'search_rewrite_rules', [ $rewrite, 'search_rewrite_rules_hook' ] );
+						add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
+						break;
+					case 'feed';
+						add_filter( 'feed_rewrite_rules', [ $rewrite, 'feed_rewrite_rules_hook' ] );
+						add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
+						break;
+					case 'post';
+						add_filter( 'post_rewrite_rules', [ $rewrite, 'post_rewrite_rules_hook' ] );
+						add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
+						break;
+					case 'root';
+						add_filter( 'root_rewrite_rules', [ $rewrite, 'root_rewrite_rules_hook' ] );
+						add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
+						break;
+					default;
+						add_action( 'init', [ $rewrite, 'init_hook' ] );
+						add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
+						break;
+				}
 			}
 		}
 
@@ -158,10 +160,11 @@ class Transifex_Live_Integration {
 
 			add_action( 'admin_enqueue_scripts', [ $handler, 'render_css' ] );
 			add_action( 'admin_enqueue_scripts', [ $handler, 'render_js' ] );
-			add_action( 'admin_enqueue_scripts', [ $handler, 'render_iris_color_picker' ] );
 
 			load_plugin_textdomain( TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN, false, TRANSIFEX_LIVE_INTEGRATION_LANGUAGES_PATH );
 		} else {
+			
+
 			include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-hreflang.php';
 			$hreflang = new Transifex_Live_Integration_Hreflang( $settings, true );
 			($hreflang->ok_to_add()) ? Plugin_Debug::logTrace( 'adding hreflang' ) : Plugin_Debug::logTrace( 'skipping hreflang' );
@@ -170,7 +173,7 @@ class Transifex_Live_Integration {
 			}
 
 			include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-javascript.php';
-			$javascript = new Transifex_Live_Integration_Javascript( $settings, $rewrite ? true : false );
+			$javascript = new Transifex_Live_Integration_Javascript( $settings, $rewrite ? true : false  );
 			add_action( 'wp_head', [ $javascript, 'render' ], 1 );
 		}
 	}
