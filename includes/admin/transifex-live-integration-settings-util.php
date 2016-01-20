@@ -69,7 +69,7 @@ class Transifex_Live_Integration_Settings_Util {
 		preg_match( $reg, $raw_transifex_languages, $m );
 		$tl_array = json_decode( $m[1], true );
 		$tl_t_array = $tl_array['translation'];
-		$f = function( $x ) { 
+		$f = function( $x ) {
 			return ['code' => $x['code'], 'name' => $x['tx_name'] ];
 		};
 		$language_array = array_map( $f, $tl_t_array );
@@ -79,7 +79,7 @@ class Transifex_Live_Integration_Settings_Util {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Function to parse out source language
 	 * @param string $raw_transifex_languages string to parse.
@@ -101,7 +101,7 @@ class Transifex_Live_Integration_Settings_Util {
 	/**
 	 * Type checking function for lists
 	 * @param array $list array to sanitize.
-	 * 
+	 *
 	 * TODO This feels like wheel re-invention...look for a library
 	 */
 	static function sanitize_list( $list ) {
@@ -124,7 +124,7 @@ class Transifex_Live_Integration_Settings_Util {
 	/**
 	 * Type checking function for colors
 	 * @param string $color value to check.
-	 * 
+	 *
 	 * TODO This feels like wheel re-invention...look for a library
 	 */
 	static function sanitize_hex_color( $color ) {
@@ -146,7 +146,7 @@ class Transifex_Live_Integration_Settings_Util {
 	 * Admin template helper function for rendering Language UI
 	 * @param array $language_array list of languages.
 	 * @param array $settings all plugin settings.
-	 * 
+	 *
 	 * TODO This needs to be moved to a template file.
 	 */
 	static function render_language_mapper( $language_array, $settings ) {
@@ -166,35 +166,35 @@ class Transifex_Live_Integration_Settings_Util {
 		ob_start();
 		checked( $settings['add_rewrites_page'] );
 		$checked_add_rewrites_page = ob_get_clean();
-		
+
 				ob_start();
 		checked( $settings['add_rewrites_author'] );
 		$checked_add_rewrites_author = ob_get_clean();
-		
+
 				ob_start();
 		checked( $settings['add_rewrites_tag'] );
 		$checked_add_rewrites_tag = ob_get_clean();
-		
+
 				ob_start();
 		checked( $settings['add_rewrites_category'] );
 		$checked_add_rewrites_category = ob_get_clean();
-		
+
 		ob_start();
 		checked( $settings['add_rewrites_search'] );
 		$checked_add_rewrites_search = ob_get_clean();
-		
+
 		ob_start();
 		checked( $settings['add_rewrites_feed'] );
 		$checked_add_rewrites_feed = ob_get_clean();
-		
+
 		ob_start();
 		checked( $settings['add_rewrites_post'] );
 		$checked_add_rewrites_post = ob_get_clean();
-		
+
 				ob_start();
 		checked( $settings['add_rewrites_root'] );
 		$checked_add_rewrites_root = ob_get_clean();
-		
+
 						ob_start();
 		checked( $settings['add_rewrites_all'] );
 		$checked_add_rewrites_all = ob_get_clean();
@@ -204,12 +204,12 @@ class Transifex_Live_Integration_Settings_Util {
 		checked( $settings['enable_custom_urls'] );
 		$checked_custom_urls = ob_get_clean();
 		$hide_custom_urls_css = ($settings['enable_custom_urls'])?'':' hide-if-js';
-		
+
 		$mapper = <<<SOURCE
 		</tr></table>
 		<h2 class="title">Advanced SEO Settings</h2>
-		<p>The Transifex Live WordPress Plugin lets you set unique, language/region-specific URLs for your site. For example, if the home page of your English site was <code>http://www.example.com/</code>, you could set <code>www.example.com/fr</code> as the home page for the French version of the site. New URLs will be generated when you enable this option, so please proceed with caution.</p>
-		<table class="form-table"><tr>	
+		<p>The Transifex Live WordPress Plugin lets you set unique, language/region-specific URLs for your site. For example, if the home page of your English site was <code>http://www.example.com/</code>, you can set <code>www.example.com/fr</code> as the home page URL for the French version of your site. New URLs will be generated when you enable this option, so please proceed with caution.</p>
+		<table class="form-table"><tr>
 		<th scope="row">$header_label</th>
         <td class="forminp">
 	    <label class="enable_checkbox" for="transifex_live_settings_enable_custom_urls">
@@ -236,16 +236,15 @@ class Transifex_Live_Integration_Settings_Util {
         <input type="checkbox" id="transifex_live_settings_add_rewrites_search" class="all_selector" name="transifex_live_settings[add_rewrites_search]" value="1" $checked_add_rewrites_search>Search
 		<br/>
         <input type="checkbox" id="transifex_live_settings_add_rewrites_feed" class="all_selector" name="transifex_live_settings[add_rewrites_feed]" value="1" $checked_add_rewrites_feed>Feeds
-		<br/>		
+		<br/>
 		<input type="checkbox" id="transifex_live_settings_add_rewrites_date" class="all_selector" name="transifex_live_settings[add_rewrites_date]" value="1" $checked_add_rewrites_date >Date
-		<br/>		
+		<br/>
 		<input type="checkbox" id="transifex_live_settings_add_rewrites_root" class="all_selector" name="transifex_live_settings[add_rewrites_root]" value="1" $checked_add_rewrites_root >Root
 	    </td></tr>
 		<tr class="custom-urls-settings$hide_custom_urls_css">
 		<th scope="row" class="titledesc">Language/region Codes</th>
 		<td>
-		<p>You can customize the language or region code used in your language/region-specific URLs. The code you choose will always appear 
-immediately after the your domain. So if you use <code>fr</code> for your French pages, the URL for your Product page would look something like <code>www.example.com/fr/product/</code>.</p>
+		<p>You can customize the language or region code used in your language/region-specific URLs. The code you choose will always appear immediately after your domain. So if you use <code>fr</code> for your French pages, the URL for your Product page will look something like <code>www.example.com/fr/product/</code>.</p>
 <br/>
 SOURCE;
 
@@ -262,7 +261,7 @@ MAPPER;
 		$mapper .= <<<FOOTER
 		<input type="hidden" value="$source_language" name="transifex_live_settings[source_language]" id="transifex_live_settings_source_language" />
 		<p class="submit"><input type="submit" name="sync" id="sync" class="button button-primary" value="Refresh Languages List"></p>
-        <p>Having trouble getting language/region-specific URLs working? Visit the <a href="/wp-admin/options-permalink.php">Permalinks Settings</a> then return here to refresh, or <a href="https://www.transifex.com/contact/">contact us</a>.</p>
+        <p>Having trouble getting language/region-specific URLs working? Visit the <a href="/wp-admin/options-permalink.php">Permalinks Settings</a> then return here to clear the WordPress cache, or <a href="https://www.transifex.com/contact/">contact us</a>.</p>
 		</td>
 FOOTER;
 		echo $mapper;
@@ -274,7 +273,7 @@ FOOTER;
 	 * @param string $name HTML 'name'.
 	 * @param string $id HTML 'id'.
 	 * @param string $value HTML current value.
-	 * 
+	 *
 	 * TODO This needs to be moved to a template file.
 	 */
 	static function color_picker( $name, $id, $value ) {
