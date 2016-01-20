@@ -27,11 +27,9 @@ class Transifex_Live_Integration_Rewrite {
 	 * @var string
 	 */
 	private $languages_regex;
-
 	public $rewrite_options;
-	
-	const REGEX_PATTERN_CHECK_PATTERN = "/\(.*\?|.*\)/";
 
+	const REGEX_PATTERN_CHECK_PATTERN = "/\(.*\?|.*\)/";
 
 	/**
 	 * Private constructor, initializes local vars based on settings
@@ -39,32 +37,34 @@ class Transifex_Live_Integration_Rewrite {
 	 */
 	private function __construct( $settings ) {
 		Plugin_Debug::logTrace();
-		$this->rewrite_options = [];
+		$this->rewrite_options = [ ];
 		$this->languages_regex = $settings['languages_regex'];
 		$this->source_language = $settings['source_language'];
-		if (isset ($settings['add_rewrites_post']))
-		$this->rewrite_options[] = ($settings['add_rewrites_post'])?'post':'';
-		if (isset ($settings['add_rewrites_root']))
-		$this->rewrite_options[] = ($settings['add_rewrites_root'])?'root':'';
-		if (isset ($settings['add_rewrites_date']))
-		$this->rewrite_options[] = ($settings['add_rewrites_date'])?'date':'';
-		if (isset ($settings['add_rewrites_page']))
-		$this->rewrite_options[] = ($settings['add_rewrites_page'])?'page':'';
-		if (isset ($settings['add_rewrites_author']))
-		$this->rewrite_options[] = ($settings['add_rewrites_author'])?'author':'';
-		if (isset ($settings['add_rewrites_tag']))
-		$this->rewrite_options[] = ($settings['add_rewrites_tag'])?'tag':'';
-		if (isset ($settings['add_rewrites_category']))
-		$this->rewrite_options[] = ($settings['add_rewrites_category'])?'category':'';
-		if (isset ($settings['add_rewrites_search']))
-		$this->rewrite_options[] = ($settings['add_rewrites_search'])?'search':'';
-		if (isset ($settings['add_rewrites_feed']))
-		$this->rewrite_options[] = ($settings['add_rewrites_feed'])?'feed':'';
-		$b = strpos( ',', $settings['languages'] );
-		if ( false === $b ) {
-			$this->language_codes = array( $settings['languages'] );
-		} else {
-			$this->language_codes = explode( ',', $settings['languages'] );
+		if ( isset( $settings['add_rewrites_post'] ) )
+			$this->rewrite_options[] = ($settings['add_rewrites_post']) ? 'post' : '';
+		if ( isset( $settings['add_rewrites_root'] ) )
+			$this->rewrite_options[] = ($settings['add_rewrites_root']) ? 'root' : '';
+		if ( isset( $settings['add_rewrites_date'] ) )
+			$this->rewrite_options[] = ($settings['add_rewrites_date']) ? 'date' : '';
+		if ( isset( $settings['add_rewrites_page'] ) )
+			$this->rewrite_options[] = ($settings['add_rewrites_page']) ? 'page' : '';
+		if ( isset( $settings['add_rewrites_author'] ) )
+			$this->rewrite_options[] = ($settings['add_rewrites_author']) ? 'author' : '';
+		if ( isset( $settings['add_rewrites_tag'] ) )
+			$this->rewrite_options[] = ($settings['add_rewrites_tag']) ? 'tag' : '';
+		if ( isset( $settings['add_rewrites_category'] ) )
+			$this->rewrite_options[] = ($settings['add_rewrites_category']) ? 'category' : '';
+		if ( isset( $settings['add_rewrites_search'] ) )
+			$this->rewrite_options[] = ($settings['add_rewrites_search']) ? 'search' : '';
+		if ( isset( $settings['add_rewrites_feed'] ) )
+			$this->rewrite_options[] = ($settings['add_rewrites_feed']) ? 'feed' : '';
+		if ( ! empty($settings['languages']  )) {
+			$b = strpos( ',', $settings['languages'] );
+			if ( false === $b ) {
+				$this->language_codes = array( $settings['languages'] );
+			} else {
+				$this->language_codes = explode( ',', $settings['languages'] );
+			}
 		}
 	}
 
@@ -74,16 +74,16 @@ class Transifex_Live_Integration_Rewrite {
 	 */
 	static function create_rewrite( $settings ) {
 		Plugin_Debug::logTrace();
-		if ( ! isset( $settings['languages'] ) ) {
+		if ( !isset( $settings['languages'] ) ) {
 			Plugin_Debug::logTrace( 'settings[languages] not set' );
 			return false;
 		}
-		if ( ! isset( $settings['languages_regex'] ) ) {
+		if ( !isset( $settings['languages_regex'] ) ) {
 			Plugin_Debug::logTrace( 'settings[languages_regex] not set' );
 			return false;
 		}
-		
-		if ( ! preg_match( self::REGEX_PATTERN_CHECK_PATTERN, $settings['languages_regex'] ) ) {
+
+		if ( !preg_match( self::REGEX_PATTERN_CHECK_PATTERN, $settings['languages_regex'] ) ) {
 			Plugin_Debug::logTrace( 'settings[languages_regex] failed pattern check' );
 			return false;
 		}
@@ -108,7 +108,17 @@ class Transifex_Live_Integration_Rewrite {
 		return $query;
 	}
 	
-			/**
+	
+	function pre_post_link_hook( $permalink, $post, $leavename) {
+		Plugin_Debug::logTrace();
+		$p = $permalink;
+		if (get_query_var('lang' ,false )){
+			$p = ($this->source_language !== get_query_var('lang' )) ? get_query_var('lang'). $permalink : $permalink;
+		}
+		return $p;
+	}
+
+	/**
 	 * Function to build page permastructs
 	 */
 	function generate_post_permastruct() {
@@ -133,8 +143,8 @@ class Transifex_Live_Integration_Rewrite {
 		$rewrite = array_merge( $rr, $rules );
 		return $rewrite;
 	}
-	
-		/**
+
+	/**
 	 * Function to build page permastructs
 	 */
 	function generate_date_permastruct() {
@@ -184,8 +194,8 @@ class Transifex_Live_Integration_Rewrite {
 		$rewrite = array_merge( $rr, $rules );
 		return $rewrite;
 	}
-	
-		/**
+
+	/**
 	 * Function to build page permastructs
 	 */
 	function generate_author_permastruct() {
@@ -209,8 +219,8 @@ class Transifex_Live_Integration_Rewrite {
 		$rewrite = array_merge( $rr, $rules );
 		return $rewrite;
 	}
-	
-		/**
+
+	/**
 	 * Function to build page permastructs
 	 */
 	function generate_tag_permastruct() {
@@ -234,8 +244,8 @@ class Transifex_Live_Integration_Rewrite {
 		$rewrite = array_merge( $rr, $rules );
 		return $rewrite;
 	}
-	
-		/**
+
+	/**
 	 * Function to build page permastructs
 	 */
 	function generate_category_permastruct() {
@@ -259,8 +269,8 @@ class Transifex_Live_Integration_Rewrite {
 		$rewrite = array_merge( $rr, $rules );
 		return $rewrite;
 	}
-	
-		/**
+
+	/**
 	 * Function to build page permastructs
 	 */
 	function generate_search_permastruct() {
@@ -285,7 +295,7 @@ class Transifex_Live_Integration_Rewrite {
 		return $rewrite;
 	}
 
-		/**
+	/**
 	 * Function to build page permastructs
 	 */
 	function generate_feed_permastruct() {
@@ -309,7 +319,7 @@ class Transifex_Live_Integration_Rewrite {
 		$rewrite = array_merge( $rr, $rules );
 		return $rewrite;
 	}
-	
+
 	/**
 	 * Function to build 'all' = root permastructs
 	 */

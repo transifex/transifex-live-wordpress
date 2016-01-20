@@ -23,9 +23,10 @@ class Transifex_Live_Integration_Settings_Page {
 			$is_update_transifex_languages = true;
 				}
 
-		if (isset($settings['sync'])) {
+		if (isset($settings['transifex_languages_refresh'])) {
 			Plugin_Debug::logTrace("sync button...updating transifex languages");
 			$is_update_transifex_languages = true;
+			unset($settings['transifex_live_settings']['transifex_languages_refresh']);
 		}
 
 		if (strcmp($settings['api_key'],$settings['previous_api_key'] )!==0){
@@ -71,6 +72,12 @@ class Transifex_Live_Integration_Settings_Page {
 		// TODO: Revisit use of Global POST object...maybe there is a WP API that can be used?
 		if ( isset( $_POST['transifex_live_nonce'] ) && wp_verify_nonce( $_POST['transifex_live_nonce'], 'transifex_live_settings' ) ) {
 			$settings = Transifex_Live_Integration_Settings_Page::sanitize_settings( $_POST );
+			
+			
+			if (isset($settings['sync'])) {
+				$settings['transifex_live_settings']['transifex_languages_refresh'] = true;
+			}
+			
 			$transifex_languages = explode( ',', $settings['transifex_live_settings']['transifex_languages'] );
 			$languages_regex = '';
 			$languages_map = [ ];
@@ -106,6 +113,8 @@ class Transifex_Live_Integration_Settings_Page {
 		$is_admin_page_notice = false;
 
 		$is_admin_dashboard_notice = false;
+		
+		$is_admin_languages_refresh_notice = false;
 
 		// TODO: refactor this DB call to a better place.
 		$settings = get_option( 'transifex_live_settings', array() );
@@ -115,6 +124,11 @@ class Transifex_Live_Integration_Settings_Page {
 
 		$is_transifex_languages_set_notice = false;
 		$is_transifex_languages_match = false;
+
+		if (isset($settings['transifex_languages_refresh'])) {
+			$is_admin_languages_refresh_notice = true;
+		}
+		
 		if ( ! $is_api_key_set_notice ) {
 			$is_transifex_languages_set_notice = (!isset($settings['raw_transifex_languages']))?true:false;
 			if (isset($settings['raw_transifex_languages'])) {
@@ -124,11 +138,15 @@ class Transifex_Live_Integration_Settings_Page {
 			}
 
 		$notice = '';
-		if ( isset( $_POST['transifex_live_settings'] ) ) {
+		if ( isset( $_POST['transifex_live_settings'] ) && !$is_admin_languages_refresh_notice) {
 			$is_admin_page_notice = true;
 			$notice = '<p>' . __( 'Your changes to the settings have been saved!', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ) . '</p>';
 		}
 
+		if ( $is_admin_languages_refresh_notice ) {
+			$is_admin_page_notice = true;
+			$notice .= '<p>Languages list updated!</p>';
+		}
 
 		if ( $is_transifex_languages_set_notice ) {
 			$is_admin_dashboard_notice = true;
