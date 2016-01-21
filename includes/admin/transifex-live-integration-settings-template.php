@@ -19,6 +19,7 @@
                 </tr>
             </tbody>
         </table>
+		<input type="hidden" value="<?php echo htmlentities( $settings['subdomain_pattern'] ) ?>" name="transifex_live_settings[subdomain_pattern]" id="transifex_live_settings_subdomain_pattern" />
 		<input type="hidden" value="<?php echo htmlentities( $raw_transifex_languages ) ?>" name="transifex_live_settings[raw_transifex_languages]" id="transifex_live_settings_raw_transifex_languages" />
 		<input type="hidden" value="<?php echo implode( ",", $languages ) ?>" name="transifex_live_settings[transifex_languages]" id="transifex_live_settings_transifex_languages" />
 		<input type="hidden" value="<?php echo htmlentities( json_encode( $language_lookup ) ) ?>" name="transifex_live_settings[language_lookup]" id="transifex_live_settings_language_lookup" />
