@@ -17,7 +17,7 @@ class Transifex_Live_Integration_Settings_Util {
 		$response = wp_remote_get( $request_url ); // TODO: switch to vip_safe_wp_remote_get.
 		$response_body = null;
 		$response_code = wp_remote_retrieve_response_code( $response );
-		if ( 200 === $response_code ) {
+		if ( 200 == $response_code ) {
 			$response_body = wp_remote_retrieve_body( $response );
 			if ( preg_match( self::EMPTY_TRANSIFEX_LANGUAGES_PATTERN, $response_body ) ) {
 				Plugin_Debug::logTrace("empty transifex languages file...skipping");

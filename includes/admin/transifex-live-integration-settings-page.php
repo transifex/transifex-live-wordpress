@@ -167,6 +167,7 @@ class Transifex_Live_Integration_Settings_Page {
 			echo '<div class="notice is-dismissable">' . $notice . '</div>';
 		}
 		if ( $is_admin_dashboard_notice ) {
+			echo '<div class="clear"></div>';
 			echo '<div class="update-nag is-dismissable">' . $notice . '</div>';
 		}
 
