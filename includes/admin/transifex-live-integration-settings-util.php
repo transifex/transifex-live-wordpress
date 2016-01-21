@@ -14,13 +14,9 @@ class Transifex_Live_Integration_Settings_Util {
 		// TODO: move this url to the plugin constants.
 		$languages_json_format = "https://cdn.transifex.com/%s/latest/languages.jsonp";
 		$request_url = sprintf( $languages_json_format, $api_key );
-		Plugin_Debug::logTrace($request_url);
 		$response = wp_remote_get( $request_url ); // TODO: switch to vip_safe_wp_remote_get.
-		Plugin_Debug::logTrace($response);
 		$response_body = null;
-		Plugin_Debug::logTrace(get_bloginfo( 'version', 'raw' ));
 		$response_code = wp_remote_retrieve_response_code( $response );
-		Plugin_Debug::logTrace($response_code);
 		if ( 200 == $response_code ) {
 			$response_body = wp_remote_retrieve_body( $response );
 			if ( preg_match( self::EMPTY_TRANSIFEX_LANGUAGES_PATTERN, $response_body ) ) {
