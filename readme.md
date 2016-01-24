@@ -84,3 +84,7 @@ Removing staging option (use Transifex dashboard to control it)
 = 1.1.0 =
 SEO and lang urls and HREFLANG enabled
 Custom language picker color options removed
+
+= 1.2.0 =
+Added support for subdomains
+Added reverse lookups for many link types

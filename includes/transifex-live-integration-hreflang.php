@@ -26,23 +26,37 @@ class Transifex_Live_Integration_Hreflang {
 	}
 
 	public function ok_to_add() {
-		if ( ! isset( $this->settings['api_key'] ) ){
+		if ( !isset( $this->settings['api_key'] ) ) {
 			Plugin_Debug::logTrace( 'settings[api_key] not set...skipping hreflang' );
 			return false;
 		}
-		if ( ! isset( $this->settings['languages'] ) ) {
+		if ( !isset( $this->settings['languages'] ) ) {
 			Plugin_Debug::logTrace( 'settings[languages] not set...skipping hreflang' );
 			return false;
 		}
-		if ((! isset ($this->settings['add_rewrites_date'])) && ( ! isset ($this->settings['add_rewrites_page'])) &&
-				(! isset ($this->settings['add_rewrites_author'])) && (! isset ($this->settings['add_rewrites_tag']))
-				&& (! isset ($this->settings['add_rewrites_category'])) && (! isset ($this->settings['add_rewrites_search']))
-				&& (! isset ($this->settings['add_rewrites_feed'])) && (! isset ($this->settings['add_rewrites_root']))
-				&& (! isset ($this->settings['add_rewrites_post'])) ){
-			Plugin_Debug::logTrace( 'no rewrite option set...skipping hreflang' );
+		if ( $this->settings['url_options'] == '1' ) {
+			Plugin_Debug::logTrace( 'url option set to none...skipping hreflang' );
 			return false;
 		}
 		return true;
+	}
+
+	private function generate_languages_hreflang( $raw_url, $languages, $lang,
+			$language_map ) {
+		Plugin_Debug::logTrace();
+		$ret = [ ];
+		$tokenized_url = str_replace( $lang, "%lang%", $raw_url, $count );
+		if ( $count !== 0 ) {
+			foreach ($languages as $language) {
+				$arr = [ ];
+				$hreflang_code = $language_map[$language];
+				$language_url = str_replace( '%lang%', $hreflang_code, $tokenized_url );
+				$arr['href'] = $language_url;
+				$arr['hreflang'] = $hreflang_code;
+				array_push( $ret, $arr );
+			}
+		}
+		return $ret;
 	}
 
 	/**
@@ -52,33 +66,43 @@ class Transifex_Live_Integration_Hreflang {
 		Plugin_Debug::logTrace();
 		global $wp;
 		$raw_url = home_url( $wp->request );
-		if ('/' !== substr($raw_url, -1)) {
-			$raw_url = $raw_url.'/';
+		if ( '/' !== substr( $raw_url, -1 ) ) {
+			$raw_url = $raw_url . '/';
 		}
-		if ($this->settings['source_language'] == get_query_var( 'lang')  ) {
-			$array_url = explode("/",$raw_url);
-			$array_url[2] = get_query_var( 'lang') . '/' . $array_url[2];
-			$raw_url = implode('/',$array_url);
+		$base_url = $raw_url;
+		if ( $this->settings['source_language'] == get_query_var( 'lang' ) ) {
+			$array_url = explode( "/", $raw_url );
+			if ($this->settings['url_options'] == '3') {
+				$array_url[2] = get_query_var( 'lang' ) . '/' . $array_url[2];
+			}
+			if ($this->settings['url_options'] == '2') {
+				$array_domain = explode( ".", $array_url[2]);
+				$array_domain[0] = get_query_var( 'lang' );
+				$array_url[2] =  implode('.',$array_domain);
+			}
+			
+			$raw_url = implode( '/', $array_url );
+			
+		} else {
+			$base_url = str_replace( '/' . get_query_var( 'lang' ), "", $raw_url );
 		}
-		$base_url = str_replace( '/'.get_query_var( 'lang') , "", $raw_url);
-		$token_url = str_replace( get_query_var( 'lang') , "%lang%", $raw_url);
 		$source = $this->settings['source_language'];
-		$hreflang = <<<SOURCE
+		$hreflang_out = '';
+		$hreflang_out .= <<<SOURCE
 		<link rel="alternate" href="$base_url" hreflang="$source"/>		
 SOURCE;
-		$a = $this->settings['transifex_languages'];
-
-		$y = json_decode( html_entity_decode( $this->settings['languages_map'] ), true );
-		$pp = $token_url;
-		$xa = explode( ",", $a );
-		foreach ($xa as $i) {
-			$u = $y[$i];
-			$s = str_replace( '%lang%', $u, $pp );
-			$hreflang .= <<<HREFLANG
-				<link rel="alternate" href="$s" hreflang="$i"/>
+		$languages = explode( ",", $this->settings['transifex_languages'] );
+		$lang = get_query_var( 'lang' );
+		$language_map = json_decode( html_entity_decode( $this->settings['languages_map'] ), true );
+		$hreflangs = $this->generate_languages_hreflang( $raw_url, $languages, $lang, $language_map );
+		foreach ($hreflangs as $hreflang) {
+			$href_attr = $hreflang['href'];
+			$hreflang_attr = $hreflang['hreflang'];
+			$hreflang_out .= <<<HREFLANG
+				<link rel="alternate" href="$href_attr" hreflang="$hreflang_attr"/>
 HREFLANG;
 		}
-		echo $hreflang;
+		echo $hreflang_out;
 		return true;
 	}
 
