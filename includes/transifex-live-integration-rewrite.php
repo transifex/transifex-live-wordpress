@@ -183,6 +183,12 @@ class Transifex_Live_Integration_Rewrite {
 		$retlink = $this->reverse_hard_link( get_query_var( 'lang' ), $link, $this->languages_map, $this->source_language );
 		return $retlink;
 	}
+	
+	function home_url_hook ( $url, $path, $orig_scheme, $blog_id ) {
+		Plugin_Debug::logTrace();
+		$retlink = $this->reverse_hard_link( get_query_var( 'lang' ), $url, $this->languages_map, $this->source_language );
+		return $retlink;
+	}
 
 	/**
 	 * Function to build page permastructs

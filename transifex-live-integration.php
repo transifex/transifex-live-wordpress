@@ -5,13 +5,13 @@
  *
  * @link    http://docs.transifex.com/developer/integrations/wordpress
  * @package TransifexLiveIntegration
- * @version 1.2.0
+ * @version 1.2.1
  *
  * @wordpress-plugin
  * Plugin Name:       Transifex Live Translation Plugin
  * Plugin URI:        http://docs.transifex.com/developer/integrations/wordpress
  * Description:       Translate your WordPress website or blog without the usual complex setups.
- * Version:           1.2.0
+ * Version:           1.2.1
  * License:           GNU General Public License
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       transifex-live-integration
@@ -63,7 +63,7 @@ if ( !defined( 'TRANSIFEX_LIVE_INTEGRATION_JAVASCRIPT' ) ) {
 define( 'LANG_PARAM', 'lang' );
 
 require_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/plugin-debug.php';
-$version = '1.2.0';
+$version = '1.2.1';
 $debug = new Plugin_Debug();
 
 /**
@@ -108,6 +108,7 @@ class Transifex_Live_Integration {
 				add_filter( 'day_link', [$rewrite , 'day_link_hook' ], 10 , 4);
 				add_filter( 'month_link', [$rewrite , 'month_link_hook' ], 10 , 3);
 				add_filter( 'year_link', [$rewrite , 'year_link_hook' ], 10 , 2);
+				add_filter( 'home_url', [$rewrite , 'home_url_hook' ], 10 , 4);
 			}
 			foreach ($rewrite->rewrite_options as $option) {
 				Plugin_Debug::logTrace($option);

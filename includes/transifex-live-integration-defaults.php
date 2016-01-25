@@ -18,6 +18,11 @@ class Transifex_Live_Integration_Defaults {
 		Plugin_Debug::logTrace();
 		return array(
 			'api_key' => null, // This is the only required field and needs to be copied from Live
+			'previous_api_key' => null,
+			'raw_transifex_languages' => null,
+			'transifex_languages' => null,
+			'language_lookup' => null,
+			
 			'enable_custom_urls' => 0,
 			'urls' => [
 				'rate_us' => 'https://wordpress.org/support/view/plugin-reviews/transifex-live-integration?rate=5#postform',
@@ -28,19 +33,51 @@ class Transifex_Live_Integration_Defaults {
 			'source_language' => null,
 			'languages' => null,
 			'hreflang' => false,
-			'add_rewrites_date' => 0,
-			'add_rewrites_page' => 0,
-			'add_rewrites_author' => 0,
-			'add_rewrites_tag' => 0,
-			'add_rewrites_category' => 0,
-			'add_rewrites_search' => 0,
-			'add_rewrites_feed' => 0,
-			'add_rewrites_post' => 0,
-			'add_rewrites_root' => 0,
-			'add_rewrites_all' => 0,
-			'url_options' => 1,
+			'url_options' => 2,
 			'subdomain_pattern' => '',
-			'add_rewrites_reverse_template_links' => 0
+			'rewrite_options' => [
+				'add_rewrites_post' => [
+					'text' => 'Post',
+					'value' => 0
+				],
+				'add_rewrites_page' => [
+					'text' => 'Pages',
+					'value' => 0
+				],
+				'add_rewrites_author' => [
+					'text' => 'Authors',
+					'value' => 0
+				],
+				'add_rewrites_date' => [
+					'text' => 'Date',
+					'value' => 0
+				],
+				'add_rewrites_tag' => [
+					'text' => 'Tags',
+					'value' => 0
+				],
+				'add_rewrites_category' => [
+					'text' => 'Categories',
+					'value' => 0
+				],
+				'add_rewrites_search' => [
+					'text' => 'Search',
+					'value' => 0
+				],
+				'add_rewrites_feed' => [
+					'text' => 'Feed',
+					'value' => 0
+				],
+				'add_rewrites_root' => [
+					'text' => 'Root',
+					'value' => 0
+				],
+				'add_rewrites_reverse_template_links' => [
+					'text' => 'Reverse Template Links',
+					'value' => 0
+				]
+			]
+			
 		);
 	}
 

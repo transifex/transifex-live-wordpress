@@ -16,25 +16,39 @@ class Transifex_Live_Integration_Settings_Page {
 
 		$settings = array_merge( Transifex_Live_Integration_Defaults::settings(), $db_settings );
 
+		$rewrite_options_array = [ ];
+		$rewrite_options = $settings['rewrite_options'];
+		Plugin_Debug::logTrace( $rewrite_options );
+		foreach ($rewrite_options as $key => $option) {
+			$arr = [ ];
+			$arr['checked'] = $option['value'];
+			$arr['text'] = $option['text'];
+			$arr['id'] = 'transifex_live_settings_' . $key;
+			$arr['name'] = 'transifex_live_settings[' . $key . ']';
+			array_push( $rewrite_options_array, $arr );
+		}
+
+		Plugin_Debug::logTrace( $rewrite_options_array );
+
 		$is_update_transifex_languages = false;
 		if ( isset( $settings['api_key'] ) && // Initialize Live languages after API key is setup.
 				( '' === $settings['raw_transifex_languages'] ) ) { // TODO: This seems brittle add more safety.
-			Plugin_Debug::logTrace("initial api_key set...updating transifex languages");
-			$is_update_transifex_languages = true;
-				}
-
-		if (isset($settings['transifex_languages_refresh'])) {
-			Plugin_Debug::logTrace("sync button...updating transifex languages");
-			$is_update_transifex_languages = true;
-			unset($settings['transifex_live_settings']['transifex_languages_refresh']);
-		}
-
-		if (strcmp($settings['api_key'],$settings['previous_api_key'] )!==0){
-			Plugin_Debug::logTrace("api_key updated...updating transifex languages");
+			Plugin_Debug::logTrace( "initial api_key set...updating transifex languages" );
 			$is_update_transifex_languages = true;
 		}
 
-		if ($is_update_transifex_languages) {
+		if ( isset( $settings['transifex_languages_refresh'] ) ) {
+			Plugin_Debug::logTrace( "sync button...updating transifex languages" );
+			$is_update_transifex_languages = true;
+			unset( $settings['transifex_live_settings']['transifex_languages_refresh'] );
+		}
+
+		if ( strcmp( $settings['api_key'], $settings['previous_api_key'] ) !== 0 ) {
+			Plugin_Debug::logTrace( "api_key updated...updating transifex languages" );
+			$is_update_transifex_languages = true;
+		}
+
+		if ( $is_update_transifex_languages ) {
 			$raw_api_response_check = Transifex_Live_Integration_Settings_Util::get_raw_transifex_languages( $settings['api_key'] );
 			$raw_api_response = $raw_api_response_check ? $raw_api_response_check : null;
 			if ( isset( $raw_api_response ) ) {
@@ -45,6 +59,7 @@ class Transifex_Live_Integration_Settings_Page {
 				$language_lookup = Transifex_Live_Integration_Settings_Util::get_language_lookup( $raw_api_response );
 			}
 		}
+		Plugin_Debug::logTrace( "tracing 1" );
 		// TODO Thesee are used in the template below should be refactored.
 		if ( !isset( $raw_transifex_languages ) ) {
 			$raw_transifex_languages = stripslashes( $settings['raw_transifex_languages'] );
@@ -55,7 +70,45 @@ class Transifex_Live_Integration_Settings_Page {
 
 		if ( !isset( $language_lookup ) ) {
 			$language_lookup = json_decode( stripslashes( $settings['language_lookup'] ), true );
+			Plugin_Debug::logTrace( $language_lookup );
+			if ( !isset( $language_lookup ) ) {
+				$language_lookup = [ ];
+			}
 		}
+
+
+		if ( !isset( $language_lookup ) || !count( $language_lookup ) > 0 ) {
+			Plugin_Debug::logTrace( "language_lookup not valid" );
+		}
+		$source_language = $settings['source_language'];
+
+		ob_start();
+		checked( $settings['enable_custom_urls'] );
+		$checked_custom_urls = ob_get_clean();
+		$hide_custom_urls_css = ($settings['enable_custom_urls']) ? '' : ' hide-if-js';
+		switch ($settings['url_options']) {
+			case "1":
+				$hide_add_rewrites = ' hide-if-js';
+				break;
+			case "2":
+				$hide_add_rewrites = ' hide-if-js';
+				break;
+			case "3":
+				$hide_add_rewrites = '';
+				break;
+		}
+
+		ob_start();
+		selected( $settings['url_options'], 2 );
+		$url_options_subdomain = ob_get_clean();
+		ob_start();
+		selected( $settings['url_options'], 3 );
+		$url_options_subdirectory = ob_get_clean();
+		$site_url = site_url();
+		$site_url_subdirectory_example = $site_url . '/fr';
+		$site_url_array = explode( '/', $site_url );
+		$site_url_array[2] = 'fr.' . $site_url_array[2];
+		$site_url_subdomain_example = implode( '/', $site_url_array );
 
 		ob_start();
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/admin/transifex-live-integration-settings-template.php';
@@ -72,12 +125,12 @@ class Transifex_Live_Integration_Settings_Page {
 		// TODO: Revisit use of Global POST object...maybe there is a WP API that can be used?
 		if ( isset( $_POST['transifex_live_nonce'] ) && wp_verify_nonce( $_POST['transifex_live_nonce'], 'transifex_live_settings' ) ) {
 			$settings = Transifex_Live_Integration_Settings_Page::sanitize_settings( $_POST );
-			
-			
-			if (isset($settings['sync'])) {
+
+
+			if ( isset( $settings['sync'] ) ) {
 				$settings['transifex_live_settings']['transifex_languages_refresh'] = true;
 			}
-			
+
 			$transifex_languages = explode( ',', $settings['transifex_live_settings']['transifex_languages'] );
 			$languages_regex = '';
 			$languages_map = [ ];
@@ -86,6 +139,9 @@ class Transifex_Live_Integration_Settings_Page {
 			foreach ($transifex_languages as $lang) {
 				$trim = true;
 				$k = 'wp_language_' . $lang;
+				if ( !isset( $settings['transifex_live_settings'][$k] ) ) {
+					break;
+				}
 				$languages .= $settings['transifex_live_settings'][$k];
 				$languages .= ',';
 				$languages_regex .= $settings['transifex_live_settings'][$k];
@@ -97,16 +153,15 @@ class Transifex_Live_Integration_Settings_Page {
 			$languages_regex = '(' . $languages_regex . ')';
 			$languages_map_string = htmlentities( json_encode( $languages_map ) ); // TODO: Switch to wp_json_encode.
 
-						Plugin_Debug::logTrace('check');
-			if (isset($languages_regex)){
-				Plugin_Debug::logTrace('regex exists');
-			$array_url = explode( "/", site_url() );
-			$array_domain = explode( ".", $array_url[2]);
-			$array_domain[0] = $languages_regex;
-			$array_url[2] =  implode('.',$array_domain);
-			$subdomain_pattern = implode( '/', $array_url );
+			if ( isset( $languages_regex ) ) {
+				Plugin_Debug::logTrace( 'regex exists' );
+				$array_url = explode( "/", site_url() );
+				$array_domain = explode( ".", $array_url[2] );
+				$array_domain[0] = $languages_regex;
+				$array_url[2] = implode( '.', $array_domain );
+				$subdomain_pattern = implode( '/', $array_url );
 			}
-			
+
 			$settings['transifex_live_settings']['subdomain_pattern'] = $subdomain_pattern;
 			$settings['transifex_live_settings']['languages_map'] = $languages_map_string;
 			$settings['transifex_live_settings']['languages_regex'] = $languages_regex;
@@ -124,32 +179,31 @@ class Transifex_Live_Integration_Settings_Page {
 		$is_admin_page_notice = false;
 
 		$is_admin_dashboard_notice = false;
-		
+
 		$is_admin_languages_refresh_notice = false;
 
 		// TODO: refactor this DB call to a better place.
 		$settings = get_option( 'transifex_live_settings', array() );
 		// TODO: might need to trap the state here when indices api_key or raw_transifex_languages are missing.
 
-		$is_api_key_set_notice = (!isset($settings['api_key']))?true:false;
+		$is_api_key_set_notice = (!isset( $settings['api_key'] )) ? true : false;
 
 		$is_transifex_languages_set_notice = false;
 		$is_transifex_languages_match = false;
 
-		if (isset($settings['transifex_languages_refresh'])) {
+		if ( isset( $settings['transifex_languages_refresh'] ) ) {
 			$is_admin_languages_refresh_notice = true;
 		}
-		
-		if ( ! $is_api_key_set_notice ) {
-			$is_transifex_languages_set_notice = (!isset($settings['raw_transifex_languages']))?true:false;
-			if (isset($settings['raw_transifex_languages'])) {
-			$is_transifex_languages_match = Transifex_Live_Integration_Settings_Util::check_raw_transifex_languages( $settings['api_key'], $settings['raw_transifex_languages'] );
-			}
 
+		if ( !$is_api_key_set_notice ) {
+			$is_transifex_languages_set_notice = (!isset( $settings['raw_transifex_languages'] )) ? true : false;
+			if ( isset( $settings['raw_transifex_languages'] ) ) {
+				$is_transifex_languages_match = Transifex_Live_Integration_Settings_Util::check_raw_transifex_languages( $settings['api_key'], $settings['raw_transifex_languages'] );
 			}
+		}
 
 		$notice = '';
-		if ( isset( $_POST['transifex_live_settings'] ) && !$is_admin_languages_refresh_notice) {
+		if ( isset( $_POST['transifex_live_settings'] ) && !$is_admin_languages_refresh_notice ) {
 			$is_admin_page_notice = true;
 			$notice = '<p>' . __( 'Your changes to the settings have been saved!', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ) . '</p>';
 		}
@@ -164,7 +218,7 @@ class Transifex_Live_Integration_Settings_Page {
 			$notice .= '<p>There was a problem syncing with Transifex Live. Please try again in a bit, or <a href="https://www.transifex.com/contact/" target="_blank">contact us</a> if the issue persists.</p>';
 		}
 
-		if ( $is_api_key_set_notice ){
+		if ( $is_api_key_set_notice ) {
 			$is_admin_dashboard_notice = true;
 			$notice .= "<p><strong>Thanks for installing the Transifex Live WordPress plugin!</strong> Add your API key to make translations live for your site.</p>";
 		}
@@ -181,7 +235,6 @@ class Transifex_Live_Integration_Settings_Page {
 			echo '<div class="clear"></div>';
 			echo '<div class="update-nag is-dismissable">' . $notice . '</div>';
 		}
-
 	}
 
 	/**
@@ -194,7 +247,7 @@ class Transifex_Live_Integration_Settings_Page {
 		$settings['transifex_live_settings']['raw_transifex_languages'] = ( isset( $settings['transifex_live_settings']['raw_transifex_languages'] )) ? sanitize_text_field( $settings['transifex_live_settings']['raw_transifex_languages'] ) : '';
 		$settings['transifex_live_settings']['languages'] = ( isset( $settings['transifex_live_settings']['languages'] )) ? sanitize_text_field( $settings['transifex_live_settings']['languages'] ) : '';
 		$settings['transifex_live_settings']['language_lookup'] = ( isset( $settings['transifex_live_settings']['language_lookup'] )) ? sanitize_text_field( $settings['transifex_live_settings']['language_lookup'] ) : '';
-		
+
 		return $settings;
 	}
 
