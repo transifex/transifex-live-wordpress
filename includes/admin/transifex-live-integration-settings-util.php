@@ -17,15 +17,15 @@ class Transifex_Live_Integration_Settings_Util {
 		$response = wp_remote_get( $request_url ); // TODO: switch to vip_safe_wp_remote_get.
 		$response_body = null;
 		$response_code = wp_remote_retrieve_response_code( $response );
-		if ( 200 === $response_code ) {
+		if ( 200 == $response_code ) {
 			$response_body = wp_remote_retrieve_body( $response );
 			if ( preg_match( self::EMPTY_TRANSIFEX_LANGUAGES_PATTERN, $response_body ) ) {
-				Plugin_Debug::logTrace("empty transifex languages file...skipping");
+				Plugin_Debug::logTrace( "empty transifex languages file...skipping" );
 				return false;
 			}
 			return $response_body;
 		}
-		Plugin_Debug::logTrace("did not get a 200 getting transifex languages");
+		Plugin_Debug::logTrace( "did not get a 200 getting transifex languages" );
 		return false;
 	}
 
@@ -113,8 +113,8 @@ class Transifex_Live_Integration_Settings_Util {
 		}
 
 		$count = count( $list_arr );
-		for ( $i = 0; $i < $count; $i++ ) {
-			$list_arr[ $i ] = sanitize_html_class( $list_arr[$i] );
+		for ($i = 0; $i < $count; $i++) {
+			$list_arr[$i] = sanitize_html_class( $list_arr[$i] );
 		}
 
 		$list_arr = array_filter( $list_arr );
@@ -152,7 +152,7 @@ class Transifex_Live_Integration_Settings_Util {
 	static function render_language_mapper( $language_array, $settings ) {
 		Plugin_Debug::logTrace();
 
-		if ( ! isset( $language_array ) || ! count( $language_array ) > 0 ) {
+		if ( !isset( $language_array ) || !count( $language_array ) > 0 ) {
 			Plugin_Debug::logTrace( "$language_array not valid" );
 			return false;
 		}
@@ -167,15 +167,15 @@ class Transifex_Live_Integration_Settings_Util {
 		checked( $settings['add_rewrites_page'] );
 		$checked_add_rewrites_page = ob_get_clean();
 
-				ob_start();
+		ob_start();
 		checked( $settings['add_rewrites_author'] );
 		$checked_add_rewrites_author = ob_get_clean();
 
-				ob_start();
+		ob_start();
 		checked( $settings['add_rewrites_tag'] );
 		$checked_add_rewrites_tag = ob_get_clean();
 
-				ob_start();
+		ob_start();
 		checked( $settings['add_rewrites_category'] );
 		$checked_add_rewrites_category = ob_get_clean();
 
@@ -191,11 +191,15 @@ class Transifex_Live_Integration_Settings_Util {
 		checked( $settings['add_rewrites_post'] );
 		$checked_add_rewrites_post = ob_get_clean();
 
-				ob_start();
+		ob_start();
 		checked( $settings['add_rewrites_root'] );
 		$checked_add_rewrites_root = ob_get_clean();
 
-						ob_start();
+		ob_start();
+		checked( $settings['add_rewrites_reverse_template_links'] );
+		$checked_add_rewrites_reverse_template_links = ob_get_clean();
+
+		ob_start();
 		checked( $settings['add_rewrites_all'] );
 		$checked_add_rewrites_all = ob_get_clean();
 
@@ -203,12 +207,40 @@ class Transifex_Live_Integration_Settings_Util {
 		ob_start();
 		checked( $settings['enable_custom_urls'] );
 		$checked_custom_urls = ob_get_clean();
-		$hide_custom_urls_css = ($settings['enable_custom_urls'])?'':' hide-if-js';
+		$hide_custom_urls_css = ($settings['enable_custom_urls']) ? '' : ' hide-if-js';
+		switch ($settings['url_options']) {
+			case "1":
+				$hide_add_rewrites = ' hide-if-js';
+				break;
+			case "2":
+				$hide_add_rewrites = ' hide-if-js';
+				break;
+			case "3":
+				$hide_add_rewrites = '';
+				break;
+		}
 
+		ob_start();
+		selected( $settings['url_options'], 1 );
+		$url_options_do_not_use = ob_get_clean();
+
+		ob_start();
+		selected( $settings['url_options'], 2 );
+		$url_options_subdomain = ob_get_clean();
+
+		ob_start();
+		selected( $settings['url_options'], 3 );
+		$url_options_subdirectory = ob_get_clean();
+
+		$site_url = site_url();
+		$site_url_subdirectory_example = $site_url . '/fr';
+		$site_url_array = explode( '/', $site_url );
+		$site_url_array[2] = 'fr.' . $site_url_array[2];
+		$site_url_subdomain_example = implode( '/', $site_url_array );
 		$mapper = <<<SOURCE
 		</tr></table>
 		<h2 class="title">Advanced SEO Settings</h2>
-		<p>The Transifex Live WordPress Plugin lets you set unique, language/region-specific URLs for your site. For example, if the home page of your English site was <code>http://www.example.com/</code>, you can set <code>www.example.com/fr</code> as the home page URL for the French version of your site. New URLs will be generated when you enable this option, so please proceed with caution.</p>
+		<p>The Transifex Live WordPress Plugin lets you set unique, language/region-specific URLs for your site. For example, if the home page of your English site was <code>$site_url</code>, you can set <code>$site_url_subdirectory_example</code> as the home page URL for the French version of your site. New URLs will be generated when you enable this option, so please proceed with caution.</p>
 		<table class="form-table"><tr>
 		<th scope="row">$header_label</th>
         <td class="forminp">
@@ -220,7 +252,15 @@ class Transifex_Live_Integration_Settings_Util {
 		</td></tr>
 		<tr class="custom-urls-settings$hide_custom_urls_css">
 		<th scope="row">Use Language/region-specific URLs For</th>
-		<td>
+	    <td>
+		<select id="transifex_live_settings_url_options" name="transifex_live_settings[url_options]">
+		<option value="1" $url_options_do_not_use>Do not use language URLs</option>
+		<option value="2" $url_options_subdomain>Subdomain ($site_url_subdomain_example)</option>
+		<option value="3" $url_options_subdirectory>Subdirectory ($site_url_subdirectory_example)</option>
+		</select>
+		<br/>
+		<br/>
+		<div class="adds-rewrites$hide_add_rewrites">
 		<input type="checkbox" id="transifex_live_settings_add_rewrites_all" name="transifex_live_settings[add_rewrites_all]" value="1" $checked_add_rewrites_all>All
 		<br/>
 		<input type="checkbox" id="transifex_live_settings_add_rewrites_page" class="all_selector" name="transifex_live_settings[add_rewrites_page]" value="1" $checked_add_rewrites_page>Pages
@@ -240,15 +280,18 @@ class Transifex_Live_Integration_Settings_Util {
 		<input type="checkbox" id="transifex_live_settings_add_rewrites_date" class="all_selector" name="transifex_live_settings[add_rewrites_date]" value="1" $checked_add_rewrites_date >Date
 		<br/>
 		<input type="checkbox" id="transifex_live_settings_add_rewrites_root" class="all_selector" name="transifex_live_settings[add_rewrites_root]" value="1" $checked_add_rewrites_root >Root
-	    </td></tr>
+        <br/>
+		<input type="checkbox" id="transifex_live_settings_add_rewrites_reverse_template_links" class="all_selector" name="transifex_live_settings[add_rewrites_reverse_template_links]" value="1" $checked_add_rewrites_reverse_template_links >Reverse Template Links
+		</div>
+		</td></tr>
 		<tr class="custom-urls-settings$hide_custom_urls_css">
 		<th scope="row" class="titledesc">Language/region Codes</th>
 		<td>
-		<p>You can customize the language or region code used in your language/region-specific URLs. The code you choose will always appear immediately after your domain. So if you use <code>fr</code> for your French pages, the URL for your Product page will look something like <code>www.example.com/fr/product/</code>.</p>
+		<p>You can customize the language or region code used in your language/region-specific URLs. The code you choose will always appear immediately after your domain. So if you use <code>fr</code> for your French pages, the URL for your Product page will look something like <code>$site_url_subdirectory_example/product/</code>.</p>
 <br/>
 SOURCE;
 
-		foreach ( $language_array as $item ) {
+		foreach ($language_array as $item) {
 			$name = $item['name'];
 			$code = $item['code'];
 			$value = (isset( $settings['wp_language_' . $item['code']] )) ? $settings['wp_language_' . $item['code']] : $item['code'];
@@ -266,30 +309,6 @@ MAPPER;
 FOOTER;
 		echo $mapper;
 		return true;
-	}
-
-	/**
-	 * Admin template helper function for color picker
-	 * @param string $name HTML 'name'.
-	 * @param string $id HTML 'id'.
-	 * @param string $value HTML current value.
-	 *
-	 * TODO This needs to be moved to a template file.
-	 */
-	static function color_picker( $name, $id, $value ) {
-		Plugin_Debug::logTrace();
-		$header_name = esc_html( $name );
-		$input_name = esc_attr( $id );
-		$input_id = esc_attr( str_replace( array( '[', ']' ), array( '_', '' ), $id ) );
-		$input_value = esc_attr( $value );
-		$div_id = 'colorPickerDiv_' . esc_attr( $id );
-		$picker = <<<PICKER
-            <div class="color-box"><strong>$header_name</strong>
-				<input name="$input_name" id="$input_id" type="text" value="$input_value" class="colorpick" />
-				<div id="$div_id" class="colorpickdiv"></div>
-			</div>
-PICKER;
-		echo $picker;
 	}
 
 }

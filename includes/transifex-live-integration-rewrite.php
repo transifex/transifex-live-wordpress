@@ -27,6 +27,7 @@ class Transifex_Live_Integration_Rewrite {
 	 * @var string
 	 */
 	private $languages_regex;
+	private $languages_map;
 	public $rewrite_options;
 
 	const REGEX_PATTERN_CHECK_PATTERN = "/\(.*\?|.*\)/";
@@ -40,6 +41,7 @@ class Transifex_Live_Integration_Rewrite {
 		$this->rewrite_options = [ ];
 		$this->languages_regex = $settings['languages_regex'];
 		$this->source_language = $settings['source_language'];
+		$this->languages_map = json_decode( html_entity_decode( $settings['languages_map'] ), true );
 		if ( isset( $settings['add_rewrites_post'] ) )
 			$this->rewrite_options[] = ($settings['add_rewrites_post']) ? 'post' : '';
 		if ( isset( $settings['add_rewrites_root'] ) )
@@ -58,7 +60,7 @@ class Transifex_Live_Integration_Rewrite {
 			$this->rewrite_options[] = ($settings['add_rewrites_search']) ? 'search' : '';
 		if ( isset( $settings['add_rewrites_feed'] ) )
 			$this->rewrite_options[] = ($settings['add_rewrites_feed']) ? 'feed' : '';
-		if ( ! empty($settings['languages']  )) {
+		if ( !empty( $settings['languages'] ) ) {
 			$b = strpos( ',', $settings['languages'] );
 			if ( false === $b ) {
 				$this->language_codes = array( $settings['languages'] );
@@ -80,6 +82,11 @@ class Transifex_Live_Integration_Rewrite {
 		}
 		if ( !isset( $settings['languages_regex'] ) ) {
 			Plugin_Debug::logTrace( 'settings[languages_regex] not set' );
+			return false;
+		}
+
+		if ( $settings['url_options'] != '3' ) {
+			Plugin_Debug::logTrace( 'settings[url_options] not subdirectory' );
 			return false;
 		}
 
@@ -107,15 +114,74 @@ class Transifex_Live_Integration_Rewrite {
 		$query->query_vars['lang'] = isset( $query->query_vars['lang'] ) ? $query->query_vars['lang'] : $this->source_language;
 		return $query;
 	}
-	
-	
-	function pre_post_link_hook( $permalink, $post, $leavename) {
+
+	function pre_post_link_hook( $permalink, $post, $leavename ) {
 		Plugin_Debug::logTrace();
 		$p = $permalink;
-		if (get_query_var('lang' ,false )){
-			$p = ($this->source_language !== get_query_var('lang' )) ? get_query_var('lang'). $permalink : $permalink;
+		if ( get_query_var( 'lang', false ) ) {
+			$p = ($this->source_language !== get_query_var( 'lang' )) ? get_query_var( 'lang' ) . $permalink : $permalink;
 		}
 		return $p;
+	}
+
+	private function reverse_hard_link( $lang, $link, $languages_map, $source_lang ) {
+		Plugin_Debug::logTrace();
+		$modified_link = $link;
+		$reverse_url = true;
+
+		$reverse_url = ($reverse_url) ? (isset( $lang )) : false;
+		$reverse_url = ($reverse_url) ? (!strpos( $modified_link, $lang )) : false;
+		$reverse_url = ($reverse_url) ? (array_key_exists( $lang, $languages_map )) : false;
+		$reverse_url = ($reverse_url) ? (!($source_lang == $lang)) : false;
+
+		if ( $reverse_url ) {
+			$array_url = explode( '/', $link );
+			$array_url[3] = $languages_map[$lang] . '/' . $array_url[3];
+			$modified_link = implode( '/', $array_url );
+		}
+		return $modified_link;
+	}
+
+	function term_link_hook( $termlink, $term, $taxonomy ) {
+		Plugin_Debug::logTrace();
+		$retlink = $this->reverse_hard_link( get_query_var( 'lang' ), $termlink, $this->languages_map, $this->source_language );
+		return $retlink;
+	}
+
+	function post_link_hook( $permalink, $post, $leavename ) {
+		Plugin_Debug::logTrace();
+		$retlink = $this->reverse_hard_link( get_query_var( 'lang' ), $permalink, $this->languages_map, $this->source_language );
+		return $retlink;
+	}
+
+	function post_type_archive_link_hook( $link, $post_type ) {
+		Plugin_Debug::logTrace();
+		$retlink = $this->reverse_hard_link( get_query_var( 'lang' ), $link, $this->languages_map, $this->source_language );
+		return $retlink;
+	}
+
+	function day_link_hook( $daylink, $year, $month, $day ) {
+		Plugin_Debug::logTrace();
+		$retlink = $this->reverse_hard_link( get_query_var( 'lang' ), $daylink, $this->languages_map, $this->source_language );
+		return $retlink;
+	}
+
+	function month_link_hook( $monthlink, $year, $month ) {
+		Plugin_Debug::logTrace();
+		$retlink = $this->reverse_hard_link( get_query_var( 'lang' ), $monthlink, $this->languages_map, $this->source_language );
+		return $retlink;
+	}
+
+	function year_link_hook( $yearlink, $year ) {
+		Plugin_Debug::logTrace();
+		$retlink = $this->reverse_hard_link( get_query_var( 'lang' ), $yearlink, $this->languages_map, $this->source_language );
+		return $retlink;
+	}
+
+	function page_link_hook( $link, $id, $sample ) {
+		Plugin_Debug::logTrace();
+		$retlink = $this->reverse_hard_link( get_query_var( 'lang' ), $link, $this->languages_map, $this->source_language );
+		return $retlink;
 	}
 
 	/**

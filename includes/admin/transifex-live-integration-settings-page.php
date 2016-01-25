@@ -97,6 +97,17 @@ class Transifex_Live_Integration_Settings_Page {
 			$languages_regex = '(' . $languages_regex . ')';
 			$languages_map_string = htmlentities( json_encode( $languages_map ) ); // TODO: Switch to wp_json_encode.
 
+						Plugin_Debug::logTrace('check');
+			if (isset($languages_regex)){
+				Plugin_Debug::logTrace('regex exists');
+			$array_url = explode( "/", site_url() );
+			$array_domain = explode( ".", $array_url[2]);
+			$array_domain[0] = $languages_regex;
+			$array_url[2] =  implode('.',$array_domain);
+			$subdomain_pattern = implode( '/', $array_url );
+			}
+			
+			$settings['transifex_live_settings']['subdomain_pattern'] = $subdomain_pattern;
 			$settings['transifex_live_settings']['languages_map'] = $languages_map_string;
 			$settings['transifex_live_settings']['languages_regex'] = $languages_regex;
 			$settings['transifex_live_settings']['languages'] = $languages;
@@ -167,6 +178,7 @@ class Transifex_Live_Integration_Settings_Page {
 			echo '<div class="notice is-dismissable">' . $notice . '</div>';
 		}
 		if ( $is_admin_dashboard_notice ) {
+			echo '<div class="clear"></div>';
 			echo '<div class="update-nag is-dismissable">' . $notice . '</div>';
 		}
 
@@ -182,6 +194,7 @@ class Transifex_Live_Integration_Settings_Page {
 		$settings['transifex_live_settings']['raw_transifex_languages'] = ( isset( $settings['transifex_live_settings']['raw_transifex_languages'] )) ? sanitize_text_field( $settings['transifex_live_settings']['raw_transifex_languages'] ) : '';
 		$settings['transifex_live_settings']['languages'] = ( isset( $settings['transifex_live_settings']['languages'] )) ? sanitize_text_field( $settings['transifex_live_settings']['languages'] ) : '';
 		$settings['transifex_live_settings']['language_lookup'] = ( isset( $settings['transifex_live_settings']['language_lookup'] )) ? sanitize_text_field( $settings['transifex_live_settings']['language_lookup'] ) : '';
+		
 		return $settings;
 	}
 
