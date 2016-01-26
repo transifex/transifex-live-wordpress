@@ -34,10 +34,6 @@ class Transifex_Live_Integration_Hreflang {
 			Plugin_Debug::logTrace( 'settings[languages] not set...skipping hreflang' );
 			return false;
 		}
-		if ( $this->settings['url_options'] == '1' ) {
-			Plugin_Debug::logTrace( 'url option set to none...skipping hreflang' );
-			return false;
-		}
 		return true;
 	}
 
