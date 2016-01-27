@@ -24,7 +24,7 @@ Features:
 * Automatically identify new or changed content on your site.
 * Translate your website in context.
 * Easily set unique language or region-specific URLs.
-* Add hreflang tags to your pages.
+* Add hreflang tags to your pages and tell search engines what language a page is in.
 
 Learn more about the [Transifex Live Translation Plugin](https://www.transifex.com/integrations/wordpress-multilingual-plugin/?utm_source=wp-directory&utm_campaign=int-wp).
 

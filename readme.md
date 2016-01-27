@@ -20,7 +20,7 @@ In order to use Transifex Live, you will need to [sign up here for an account](h
 * Automatically identify new or changed content on your site.
 * Translate your website in context.
 * Easily set unique language or region-specific URLs.
-* Add hreflang tags to your pages.
+* Add hreflang tags to your pages and tell search engines what language a page is in.
 
 == Get Involved ==
 
