@@ -45,7 +45,7 @@
         <th scope="row" class="titledesc">Subdomain Names</th>
 				<td>
 					<p>You can customize the language or region code used in your language/region-specific URLs. The code you choose will always appear immediately after your domain. So if you use <code>fr</code> for your French pages, the URL for your Product page will look something like <code><?php echo $site_url_subdirectory_example?>/product/</code>.</p>
-					<p>If you've already set up language subdomains on your site (this has to be done outside of the plugin), enter the language subdomain names below. So if <code>fr.example.com</code> is the subdomain for your French site, put in <code>fr</code>. When the hreflang tags are automatically added to your site’s header, they will point to each of your language subdomains. </p>
+					<p>If you've already set up language subdomains on your site (this has to be done outside of the plugin), enter the language subdomain names below. So if <code>fr.example.com</code> is the subdomain for your French site, put in <code>fr</code>. When the hreflang tags are automatically added to your site’s header, they will point to each of your language subdomains.</p>
 					<br/>
 					<?php Transifex_Live_Integration_Settings_Util::render_languages( $language_lookup ); ?>
 					<input type="hidden" value="$source_language" name="transifex_live_settings[source_language]" id="transifex_live_settings_source_language" />
