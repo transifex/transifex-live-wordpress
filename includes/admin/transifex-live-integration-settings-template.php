@@ -37,6 +37,7 @@
 					<br/>
 					<br/>
 					<div class="adds-rewrites<?php echo $hide_add_rewrites ?>">
+            <p>Use language/region-specific URLs for:</p>
 						<?php Transifex_Live_Integration_Settings_Util::render_url_options( $rewrite_options_array ); ?>
 					</div>
 				</td></tr>
