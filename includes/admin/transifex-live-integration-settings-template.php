@@ -17,34 +17,36 @@
 				<tr valign="top">
 				</tr></table>
 		<h2 class="title">Advanced SEO Settings</h2>
-		<p>The Transifex Live WordPress Plugin lets you set unique, language/region-specific URLs for your site. For example, if the home page of your English site was <code><?php echo $site_url ?></code>, you can set <code><?php echo $site_url_subdirectory_example ?></code> as the home page URL for the French version of your site. New URLs will be generated when you enable this option, so please proceed with caution.</p>
+		<p>The Transifex Live Translation Plugin lets you set unique, language/region-specific URLs for your site and tell search engines what language a page is in. This is done by creating new language subdirectories through the plugin, or by pointing to existing language subdomains. When you enable language/region-specific URLs, the plugin will automatically add hreflang tags to the header of your site.</p>
 		<table class="form-table"><tr>
 				<th scope="row"><?php _e( 'Language/region-specific URLs', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></th>
 				<td class="forminp">
 					<label class="enable_checkbox" for="transifex_live_settings_enable_custom_urls">
 						<input name="transifex_live_settings[enable_custom_urls]" type="hidden" value="0">
 						<input name="transifex_live_settings[enable_custom_urls]" id="transifex_live_settings_custom_urls" type="checkbox" value="1" <?php echo $checked_custom_urls ?>>
-						<?php _e( 'Enable language/region-specific URLs', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
+						<?php _e( 'Use language/region-specific URLs', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
 					</label>
 				</td></tr>
 			<tr class="custom-urls-settings<?php echo $hide_custom_urls_css ?>">
-				<th scope="row">Use Language/region-specific URLs For</th>
+				<th scope="row">URL Structure</th>
 				<td>
 					<select id="transifex_live_settings_url_options" name="transifex_live_settings[url_options]">
-						<option value="2" <?php echo $url_options_subdomain ?>>Subdomain (<?php echo $site_url_subdomain_example ?>)</option>
 						<option value="3" <?php echo $url_options_subdirectory ?>>Subdirectory (<?php echo $site_url_subdirectory_example ?>)</option>
+            <option value="2" <?php echo $url_options_subdomain ?>>Subdomain (<?php echo $site_url_subdomain_example ?>)</option>
 					</select>
 					<br/>
 					<br/>
 					<div class="adds-rewrites<?php echo $hide_add_rewrites ?>">
+            <p>Use language/region-specific URLs for:</p>
 						<?php Transifex_Live_Integration_Settings_Util::render_url_options( $rewrite_options_array ); ?>
 					</div>
 				</td></tr>
 			<tr class="custom-urls-settings<?php echo $hide_custom_urls_css ?>">
 				<th scope="row" class="titledesc">Language/region Codes</th>
+        <th scope="row" class="titledesc">Subdomain Names</th>
 				<td>
 					<p>You can customize the language or region code used in your language/region-specific URLs. The code you choose will always appear immediately after your domain. So if you use <code>fr</code> for your French pages, the URL for your Product page will look something like <code><?php echo $site_url_subdirectory_example?>/product/</code>.</p>
-					<p>Sam put subdomain text here</p>	
+					<p>If you've already set up language subdomains on your site (this has to be done outside of the plugin), enter the language subdomain names below. So if <code>fr.example.com</code> is the subdomain for your French site, put in <code>fr</code>. When the hreflang tags are automatically added to your site’s header, they will point to each of your language subdomains.</p>
 					<br/>
 					<?php Transifex_Live_Integration_Settings_Util::render_languages( $language_lookup ); ?>
 					<input type="hidden" value="$source_language" name="transifex_live_settings[source_language]" id="transifex_live_settings_source_language" />
