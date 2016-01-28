@@ -98,3 +98,4 @@ Added reverse lookups for many link types
 
 = 1.2.1 =
 Improved admin UI
+Added support for static page for the front page

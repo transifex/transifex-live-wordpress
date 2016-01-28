@@ -85,33 +85,39 @@ class Transifex_Live_Integration {
 			$settings = Transifex_Live_Integration_Defaults::settings();
 		}
 
+		$rewrite_options = get_option( 'transifex_live_options', array() );
+		if ( !$rewrite_options ) {
+
+			$rewrite_options = Transifex_Live_Integration_Defaults::options_values();
+		}
+
 		add_filter( 'query_vars', array( 'Transifex_Live_Integration', 'query_vars_hook' ) );
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-subdomain.php';
 		$subdomain = Transifex_Live_Integration_Subdomain::create_subdomains( $settings );
 		($subdomain) ? Plugin_Debug::logTrace( 'subdomains created' ) : Plugin_Debug::logTrace( 'subdomains skipped' );
-		if ($subdomain) {
+		if ( $subdomain ) {
 			add_action( 'parse_query', [ $subdomain, 'parse_query_hook' ] );
 		}
-		
+
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-rewrite.php';
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-generate-rewrite-rules.php';
-		$rewrite = Transifex_Live_Integration_Rewrite::create_rewrite( $settings );
+		$rewrite = Transifex_Live_Integration_Rewrite::create_rewrite( $settings, $rewrite_options );
 		($rewrite) ? Plugin_Debug::logTrace( 'rewrite created' ) : Plugin_Debug::logTrace( 'rewrite skipped' );
 		if ( $rewrite ) {
-			if (isset($settings['add_rewrites_reverse_template_links'])) {
-				Plugin_Debug::logTrace();
-				add_filter( 'pre_post_link', [$rewrite , 'pre_post_link_hook' ], 10, 3);
-				add_filter( 'term_link', [$rewrite , 'term_link_hook' ], 10 , 3 );
-				add_filter( 'post_link', [$rewrite , 'term_link_hook' ], 10 , 3 );
-				add_filter( 'post_type_archive_link', [$rewrite , 'post_type_archive_link_hook' ], 10 , 2 );
-				add_filter( 'page_link', [$rewrite , 'page_link_hook' ], 10 , 3);
-				add_filter( 'day_link', [$rewrite , 'day_link_hook' ], 10 , 4);
-				add_filter( 'month_link', [$rewrite , 'month_link_hook' ], 10 , 3);
-				add_filter( 'year_link', [$rewrite , 'year_link_hook' ], 10 , 2);
-				add_filter( 'home_url', [$rewrite , 'home_url_hook' ], 10 , 4);
+			if ( isset( $rewrite_options['add_rewrites_reverse_template_links'] ) ) {
+				Plugin_Debug::logTrace( 'adding reverse template links' );
+				add_filter( 'pre_post_link', [$rewrite, 'pre_post_link_hook' ], 10, 3 );
+				add_filter( 'term_link', [$rewrite, 'term_link_hook' ], 10, 3 );
+				add_filter( 'post_link', [$rewrite, 'term_link_hook' ], 10, 3 );
+				add_filter( 'post_type_archive_link', [$rewrite, 'post_type_archive_link_hook' ], 10, 2 );
+				add_filter( 'page_link', [$rewrite, 'page_link_hook' ], 10, 3 );
+				add_filter( 'day_link', [$rewrite, 'day_link_hook' ], 10, 4 );
+				add_filter( 'month_link', [$rewrite, 'month_link_hook' ], 10, 3 );
+				add_filter( 'year_link', [$rewrite, 'year_link_hook' ], 10, 2 );
+				add_filter( 'home_url', [$rewrite, 'home_url_hook' ] );
 			}
 			foreach ($rewrite->rewrite_options as $option) {
-				Plugin_Debug::logTrace($option);
+				Plugin_Debug::logTrace( $option );
 				switch ($option) {
 					case 'date';
 						add_filter( 'date_rewrite_rules', [ $rewrite, 'date_rewrite_rules_hook' ] );
@@ -150,7 +156,7 @@ class Transifex_Live_Integration {
 						add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
 						break;
 					default;
-						Plugin_Debug::logTrace('default');
+						Plugin_Debug::logTrace( 'default' );
 						add_action( 'init', [ $rewrite, 'init_hook' ] );
 						add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
 						break;
@@ -163,10 +169,10 @@ class Transifex_Live_Integration {
 			add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( 'Transifex_Live_Integration_Action_Links', 'action_links' ) );
 
 			include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/admin/transifex-live-integration-settings-page.php';
-			add_action( 'admin_menu', array( 'Transifex_Live_Integration', 'admin_menu_hook' ) );
-			add_filter( 'admin_init', array( 'Transifex_Live_Integration_Settings_Page', 'update_settings' ) );
+			add_action( 'admin_menu', [ 'Transifex_Live_Integration', 'admin_menu_hook' ] );
+			add_action( 'admin_init', [ 'Transifex_Live_Integration_Settings_Page', 'admin_init_hook' ] );
 
-			add_action( 'admin_notices', array( 'Transifex_Live_Integration_Settings_Page', 'admin_notices_hook' ) );
+			add_action( 'admin_notices', [ 'Transifex_Live_Integration_Settings_Page', 'admin_notices_hook' ] );
 
 			include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-static-files-handler.php';
 			$handler = new Transifex_Live_Integration_Static_Files_Handler();
@@ -180,7 +186,7 @@ class Transifex_Live_Integration {
 
 			load_plugin_textdomain( TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN, false, TRANSIFEX_LIVE_INTEGRATION_LANGUAGES_PATH );
 		} else {
-			
+
 
 			include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-hreflang.php';
 			$hreflang = new Transifex_Live_Integration_Hreflang( $settings, true );
