@@ -110,6 +110,9 @@ class Transifex_Live_Integration_Rewrite {
 	 * @param array $query WP query object.
 	 */
 	function parse_query_hook( $query ) {
+		if ( !Transifex_Live_Integration_Validators::is_query_ok( $query ) ) {
+			return $query;
+		}
 		$qv = &$query->query_vars;
 		$qv['lang'] = isset( $query->query_vars['lang'] ) ? $query->query_vars['lang'] : $this->source_language;
 		if ( $query->is_home && 'page' == get_option( 'show_on_front' ) && get_option( 'page_on_front' ) ) {
@@ -126,7 +129,9 @@ class Transifex_Live_Integration_Rewrite {
 	}
 
 	function pre_post_link_hook( $permalink, $post, $leavename ) {
-		Plugin_Debug::logTrace();
+		if ( !Transifex_Live_Integration_Validators::is_permalink_ok( $permalink ) ) {
+			return $permalink;
+		}
 		$p = $permalink;
 		if ( get_query_var( 'lang', false ) ) {
 			$p = ($this->source_language !== get_query_var( 'lang' )) ? get_query_var( 'lang' ) . $permalink : $permalink;
@@ -146,6 +151,7 @@ class Transifex_Live_Integration_Rewrite {
 		$reverse_url = ($reverse_url) ? (array_key_exists( $lang, $languages_map )) : false;
 		$reverse_url = ($reverse_url) ? (!($source_lang == $lang)) : false;
 
+		//TODO  This can be dep'd 
 		if ( $reverse_url && (3 <= substr_count( $link, '/' )) ) {
 			$array_url = explode( '/', $link );
 			$array_url[3] = $languages_map[$lang] . '/' . $array_url[3];
@@ -155,49 +161,65 @@ class Transifex_Live_Integration_Rewrite {
 	}
 
 	function term_link_hook( $termlink, $term, $taxonomy ) {
-		Plugin_Debug::logTrace();
+		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $termlink ) ) {
+			return $termlink;
+		}
 		$retlink = $this->reverse_hard_link( get_query_var( 'lang' ), $termlink, $this->languages_map, $this->source_language );
 		return $retlink;
 	}
 
 	function post_link_hook( $permalink, $post, $leavename ) {
-		Plugin_Debug::logTrace();
+		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $permalink ) ) {
+			return $permalink;
+		}
 		$retlink = $this->reverse_hard_link( get_query_var( 'lang' ), $permalink, $this->languages_map, $this->source_language );
 		return $retlink;
 	}
 
 	function post_type_archive_link_hook( $link, $post_type ) {
-		Plugin_Debug::logTrace();
+		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $link ) ) {
+			return $link;
+		}
 		$retlink = $this->reverse_hard_link( get_query_var( 'lang' ), $link, $this->languages_map, $this->source_language );
 		return $retlink;
 	}
 
 	function day_link_hook( $daylink, $year, $month, $day ) {
-		Plugin_Debug::logTrace();
+		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $daylink ) ) {
+			return $daylink;
+		}
 		$retlink = $this->reverse_hard_link( get_query_var( 'lang' ), $daylink, $this->languages_map, $this->source_language );
 		return $retlink;
 	}
 
 	function month_link_hook( $monthlink, $year, $month ) {
-		Plugin_Debug::logTrace();
+		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $monthlink ) ) {
+			return $monthlink;
+		}
 		$retlink = $this->reverse_hard_link( get_query_var( 'lang' ), $monthlink, $this->languages_map, $this->source_language );
 		return $retlink;
 	}
 
 	function year_link_hook( $yearlink, $year ) {
-		Plugin_Debug::logTrace();
+		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $yearlink ) ) {
+			return $yearlink;
+		}
 		$retlink = $this->reverse_hard_link( get_query_var( 'lang' ), $yearlink, $this->languages_map, $this->source_language );
 		return $retlink;
 	}
 
 	function page_link_hook( $link, $id, $sample ) {
-		Plugin_Debug::logTrace();
+		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $link ) ) {
+			return $link;
+		}
 		$retlink = $this->reverse_hard_link( get_query_var( 'lang' ), $link, $this->languages_map, $this->source_language );
 		return $retlink;
 	}
 
 	function home_url_hook( $url ) {
-		Plugin_Debug::logTrace();
+		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $url ) ) {
+			return $url;
+		}
 		$retlink = $this->reverse_hard_link( get_query_var( 'lang' ), $url, $this->languages_map, $this->source_language );
 		return $retlink;
 	}
@@ -218,7 +240,9 @@ class Transifex_Live_Integration_Rewrite {
 	 * @param array $rules Associative array of rewrite rules in WP.
 	 */
 	function post_rewrite_rules_hook( $rules ) {
-		Plugin_Debug::logTrace();
+		if ( !Transifex_Live_Integration_Validators::is_rules_ok( $rules ) ) {
+			return $rules;
+		}
 		global $wp_rewrite;
 		$wp_rewrite->add_rewrite_tag( '%lang%', $this->languages_regex, 'lang=' );
 		$pp = $this->generate_post_permastruct();
@@ -244,7 +268,9 @@ class Transifex_Live_Integration_Rewrite {
 	 * @param array $rules Associative array of rewrite rules in WP.
 	 */
 	function date_rewrite_rules_hook( $rules ) {
-		Plugin_Debug::logTrace();
+		if ( !Transifex_Live_Integration_Validators::is_rules_ok( $rules ) ) {
+			return $rules;
+		}
 		global $wp_rewrite;
 		$wp_rewrite->add_rewrite_tag( '%lang%', $this->languages_regex, 'lang=' );
 		$pp = $this->generate_date_permastruct();
@@ -269,7 +295,9 @@ class Transifex_Live_Integration_Rewrite {
 	 * @param array $rules Associative array of rewrite rules in WP.
 	 */
 	function page_rewrite_rules_hook( $rules ) {
-		Plugin_Debug::logTrace();
+		if ( !Transifex_Live_Integration_Validators::is_rules_ok( $rules ) ) {
+			return $rules;
+		}
 		global $wp_rewrite;
 		$wp_rewrite->add_rewrite_tag( '%pagename%', '(.?.+?)', 'pagename=' );
 		$wp_rewrite->add_rewrite_tag( '%lang%', $this->languages_regex, 'lang=' );
@@ -295,7 +323,9 @@ class Transifex_Live_Integration_Rewrite {
 	 * @param array $rules Associative array of rewrite rules in WP.
 	 */
 	function author_rewrite_rules_hook( $rules ) {
-		Plugin_Debug::logTrace();
+		if ( !Transifex_Live_Integration_Validators::is_rules_ok( $rules ) ) {
+			return $rules;
+		}
 		global $wp_rewrite;
 		$wp_rewrite->add_rewrite_tag( '%lang%', $this->languages_regex, 'lang=' );
 		$pp = $this->generate_author_permastruct();
@@ -320,7 +350,9 @@ class Transifex_Live_Integration_Rewrite {
 	 * @param array $rules Associative array of rewrite rules in WP.
 	 */
 	function tag_rewrite_rules_hook( $rules ) {
-		Plugin_Debug::logTrace();
+		if ( !Transifex_Live_Integration_Validators::is_rules_ok( $rules ) ) {
+			return $rules;
+		}
 		global $wp_rewrite;
 		$wp_rewrite->add_rewrite_tag( '%lang%', $this->languages_regex, 'lang=' );
 		$pp = $this->generate_tag_permastruct();
@@ -345,7 +377,9 @@ class Transifex_Live_Integration_Rewrite {
 	 * @param array $rules Associative array of rewrite rules in WP.
 	 */
 	function category_rewrite_rules_hook( $rules ) {
-		Plugin_Debug::logTrace();
+		if ( !Transifex_Live_Integration_Validators::is_rules_ok( $rules ) ) {
+			return $rules;
+		}
 		global $wp_rewrite;
 		$wp_rewrite->add_rewrite_tag( '%lang%', $this->languages_regex, 'lang=' );
 		$pp = $this->generate_category_permastruct();
@@ -370,7 +404,9 @@ class Transifex_Live_Integration_Rewrite {
 	 * @param array $rules Associative array of rewrite rules in WP.
 	 */
 	function search_rewrite_rules_hook( $rules ) {
-		Plugin_Debug::logTrace();
+		if ( !Transifex_Live_Integration_Validators::is_rules_ok( $rules ) ) {
+			return $rules;
+		}
 		global $wp_rewrite;
 		$wp_rewrite->add_rewrite_tag( '%lang%', $this->languages_regex, 'lang=' );
 		$pp = $this->generate_page_permastruct();
@@ -395,7 +431,9 @@ class Transifex_Live_Integration_Rewrite {
 	 * @param array $rules Associative array of rewrite rules in WP.
 	 */
 	function feed_rewrite_rules_hook( $rules ) {
-		Plugin_Debug::logTrace();
+		if ( !Transifex_Live_Integration_Validators::is_rules_ok( $rules ) ) {
+			return $rules;
+		}
 		global $wp_rewrite;
 		$wp_rewrite->add_rewrite_tag( '%lang%', $this->languages_regex, 'lang=' );
 		$pp = $this->generate_feed_permastruct();
@@ -418,7 +456,9 @@ class Transifex_Live_Integration_Rewrite {
 	 * @param array $rules Associative array of rewrite rules in WP.
 	 */
 	function root_rewrite_rules_hook( $rules ) {
-		Plugin_Debug::logTrace();
+		if ( !Transifex_Live_Integration_Validators::is_rules_ok( $rules ) ) {
+			return $rules;
+		}
 		global $wp_rewrite;
 		$wp_rewrite->add_rewrite_tag( '%lang%', $this->languages_regex, 'lang=' );
 		$pp = $this->generate_root_permastruct();

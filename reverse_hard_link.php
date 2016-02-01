@@ -9,7 +9,7 @@ class StackTest extends PHPUnit_Framework_TestCase
         $source = 'en';
         $lang = 'en';
         $languages = ['ko','de_DE','zh_CN'];
-        $link = 'http://192.168.99.100:32770/category/uncategorized/';
+        $link = 'https://192.168.99.100/wp-json';
         $languages_map = ["zh_CN" => "zh_CN","de_DE" => "de_DE","ko" => "ko"];
 
         $modified_link = $link;

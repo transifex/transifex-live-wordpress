@@ -84,21 +84,4 @@ class Transifex_Live_Integration_Static_Files_Handler {
 		}
 	}
 
-	/**
-	 * Tries to use existing Wordpress color picker js, otherwise load from admin
-	 * @return none
-	 */
-	public function render_iris_color_picker() {
-		Plugin_Debug::logTrace();
-		if ( isset( $wp_scripts->registered['iris'] ) ) {
-			return;
-		}
-
-		// Thanks to http://wordpress.stackexchange.com/questions/82718/how-do-i-implement-the-wordpress-iris-picker-into-my-plugin-on-the-front-end.
-		wp_enqueue_style( 'wp-color-picker' );
-		wp_enqueue_script(
-			'iris', admin_url( 'js/iris.min.js' ), array( 'jquery-ui-draggable', 'jquery-ui-slider', 'jquery-touch-punch' ), false, 'wp-color-picker', admin_url( 'js/color-picker.min.js' ), array( 'iris' ), false, 1
-		);
-	}
-
 }
