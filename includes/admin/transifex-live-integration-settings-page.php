@@ -16,19 +16,27 @@ class Transifex_Live_Integration_Settings_Page {
 
 		$settings = array_merge( Transifex_Live_Integration_Defaults::settings(), $db_settings );
 
-		$rewrite_options_array = [ ];
-		$rewrite_options = $settings['rewrite_options'];
-		Plugin_Debug::logTrace( $rewrite_options );
-		foreach ($rewrite_options as $key => $option) {
+		$db_opt_settings = get_option( 'transifex_live_options', array() );
+		if ( !$db_opt_settings  ) {
+			
+			$opt_settings  = Transifex_Live_Integration_Defaults::options_values();
+		}
+		
+		$opt_settings = array_merge( Transifex_Live_Integration_Defaults::options_values(), $db_opt_settings );
+		Plugin_Debug::logTrace('debug options');
+		Plugin_Debug::logTrace( $db_opt_settings );
+		Plugin_Debug::logTrace( $opt_settings );
+
+		$rewrite_options_array = [];
+		foreach ($opt_settings as $key => $value) {
 			$arr = [ ];
-			$arr['checked'] = $option['value'];
-			$arr['text'] = $option['text'];
-			$arr['id'] = 'transifex_live_settings_' . $key;
-			$arr['name'] = 'transifex_live_settings[' . $key . ']';
+			$arr['checked'] = $value;
+			$arr['text'] = Transifex_Live_Integration_Defaults::get_options_text( $key );
+			$arr['id'] = 'transifex_live_options_' . $key;
+			$arr['name'] = 'transifex_live_options[' . $key . ']';
 			array_push( $rewrite_options_array, $arr );
 		}
 
-		Plugin_Debug::logTrace( $rewrite_options_array );
 
 		$is_update_transifex_languages = false;
 		if ( isset( $settings['api_key'] ) && // Initialize Live languages after API key is setup.
@@ -59,7 +67,7 @@ class Transifex_Live_Integration_Settings_Page {
 				$language_lookup = Transifex_Live_Integration_Settings_Util::get_language_lookup( $raw_api_response );
 			}
 		}
-		Plugin_Debug::logTrace( "tracing 1" );
+
 		// TODO Thesee are used in the template below should be refactored.
 		if ( !isset( $raw_transifex_languages ) ) {
 			$raw_transifex_languages = stripslashes( $settings['raw_transifex_languages'] );
@@ -109,6 +117,8 @@ class Transifex_Live_Integration_Settings_Page {
 		$site_url_array = explode( '/', $site_url );
 		$site_url_array[2] = 'fr.' . $site_url_array[2];
 		$site_url_subdomain_example = implode( '/', $site_url_array );
+		
+		$show_advanced_seo = (isset( $settings['api_key']))?'':' hide-if-js';
 
 		ob_start();
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/admin/transifex-live-integration-settings-template.php';
@@ -116,17 +126,18 @@ class Transifex_Live_Integration_Settings_Page {
 		echo $content;
 	}
 
+	public function admin_init_hook() {
+		Plugin_Debug::logTrace();
+		if ( isset( $_POST['transifex_live_nonce'] ) && wp_verify_nonce( $_POST['transifex_live_nonce'], 'transifex_live_settings' ) ) {
+			self::update_settings(self::sanitize_settings( $_POST ));
+		}
+	}
+	
 	/**
 	 * Function that handles saving the setting data and sanitization.
 	 */
-	public function update_settings() {
-
+	static public function update_settings($settings) {
 		Plugin_Debug::logTrace();
-		// TODO: Revisit use of Global POST object...maybe there is a WP API that can be used?
-		if ( isset( $_POST['transifex_live_nonce'] ) && wp_verify_nonce( $_POST['transifex_live_nonce'], 'transifex_live_settings' ) ) {
-			$settings = Transifex_Live_Integration_Settings_Page::sanitize_settings( $_POST );
-
-
 			if ( isset( $settings['sync'] ) ) {
 				$settings['transifex_live_settings']['transifex_languages_refresh'] = true;
 			}
@@ -169,7 +180,12 @@ class Transifex_Live_Integration_Settings_Page {
 			if ( isset( $settings['transifex_live_settings'] ) ) {
 				update_option( 'transifex_live_settings', $settings['transifex_live_settings'] );
 			}
-		}
+
+			if ( isset( $settings['transifex_live_options'] ) ) {
+				Plugin_Debug::logTrace($settings['transifex_live_options']);
+				update_option( 'transifex_live_options', $settings['transifex_live_options'] );
+			}
+		
 	}
 
 	/**

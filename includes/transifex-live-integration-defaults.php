@@ -10,6 +10,38 @@
  */
 class Transifex_Live_Integration_Defaults {
 
+	
+	static function options_values() {
+		Plugin_Debug::logTrace();
+		return [
+				'add_rewrites_post' => 0,
+				'add_rewrites_page' => 0,
+				'add_rewrites_author' => 0,
+				'add_rewrites_date' => 0,
+				'add_rewrites_tag' => 0,
+				'add_rewrites_category' => 0,
+				'add_rewrites_search' => 0,
+				'add_rewrites_root' => 0,
+				'add_rewrites_reverse_template_links' => 0
+			];
+	}
+	
+	static function get_options_text($key) {
+		Plugin_Debug::logTrace();
+		$arr = [
+				'add_rewrites_post' => 'Posts',
+				'add_rewrites_page' => 'Pages',
+				'add_rewrites_author' => 'Authors',
+				'add_rewrites_date' => 'Date',
+				'add_rewrites_tag' => 'Tags',
+				'add_rewrites_category' => 'Categories',
+				'add_rewrites_search' => 'Search',
+				'add_rewrites_root' => 'Root',
+				'add_rewrites_reverse_template_links' => 'Reverse Template Links'
+			];
+		return $arr[$key]; 
+		
+	}
 	/**
 	 * Static function for settings defaults
 	 * @return array Returns the settings array
@@ -33,50 +65,8 @@ class Transifex_Live_Integration_Defaults {
 			'source_language' => null,
 			'languages' => null,
 			'hreflang' => false,
-			'url_options' => 2,
-			'subdomain_pattern' => '',
-			'rewrite_options' => [
-				'add_rewrites_post' => [
-					'text' => 'Post',
-					'value' => 0
-				],
-				'add_rewrites_page' => [
-					'text' => 'Pages',
-					'value' => 0
-				],
-				'add_rewrites_author' => [
-					'text' => 'Authors',
-					'value' => 0
-				],
-				'add_rewrites_date' => [
-					'text' => 'Date',
-					'value' => 0
-				],
-				'add_rewrites_tag' => [
-					'text' => 'Tags',
-					'value' => 0
-				],
-				'add_rewrites_category' => [
-					'text' => 'Categories',
-					'value' => 0
-				],
-				'add_rewrites_search' => [
-					'text' => 'Search',
-					'value' => 0
-				],
-				'add_rewrites_feed' => [
-					'text' => 'Feed',
-					'value' => 0
-				],
-				'add_rewrites_root' => [
-					'text' => 'Root',
-					'value' => 0
-				],
-				'add_rewrites_reverse_template_links' => [
-					'text' => 'Reverse Template Links',
-					'value' => 0
-				]
-			]
+			'url_options' => 3,
+			'subdomain_pattern' => ''
 			
 		);
 	}

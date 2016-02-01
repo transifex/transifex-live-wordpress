@@ -36,30 +36,30 @@ class Transifex_Live_Integration_Rewrite {
 	 * Private constructor, initializes local vars based on settings
 	 * @param array $settings Associative array used to store plugin settings.
 	 */
-	private function __construct( $settings ) {
+	private function __construct( $settings, $rewrite_options ) {
 		Plugin_Debug::logTrace();
 		$this->rewrite_options = [ ];
 		$this->languages_regex = $settings['languages_regex'];
 		$this->source_language = $settings['source_language'];
 		$this->languages_map = json_decode( html_entity_decode( $settings['languages_map'] ), true );
-		if ( isset( $settings['add_rewrites_post'] ) )
-			$this->rewrite_options[] = ($settings['add_rewrites_post']) ? 'post' : '';
-		if ( isset( $settings['add_rewrites_root'] ) )
-			$this->rewrite_options[] = ($settings['add_rewrites_root']) ? 'root' : '';
-		if ( isset( $settings['add_rewrites_date'] ) )
-			$this->rewrite_options[] = ($settings['add_rewrites_date']) ? 'date' : '';
-		if ( isset( $settings['add_rewrites_page'] ) )
-			$this->rewrite_options[] = ($settings['add_rewrites_page']) ? 'page' : '';
-		if ( isset( $settings['add_rewrites_author'] ) )
-			$this->rewrite_options[] = ($settings['add_rewrites_author']) ? 'author' : '';
-		if ( isset( $settings['add_rewrites_tag'] ) )
-			$this->rewrite_options[] = ($settings['add_rewrites_tag']) ? 'tag' : '';
-		if ( isset( $settings['add_rewrites_category'] ) )
-			$this->rewrite_options[] = ($settings['add_rewrites_category']) ? 'category' : '';
-		if ( isset( $settings['add_rewrites_search'] ) )
-			$this->rewrite_options[] = ($settings['add_rewrites_search']) ? 'search' : '';
-		if ( isset( $settings['add_rewrites_feed'] ) )
-			$this->rewrite_options[] = ($settings['add_rewrites_feed']) ? 'feed' : '';
+		if ( isset( $rewrite_options['add_rewrites_post'] ) )
+			$this->rewrite_options[] = ($rewrite_options['add_rewrites_post']) ? 'post' : '';
+		if ( isset( $rewrite_options['add_rewrites_root'] ) )
+			$this->rewrite_options[] = ($rewrite_options['add_rewrites_root']) ? 'root' : '';
+		if ( isset( $rewrite_options['add_rewrites_date'] ) )
+			$this->rewrite_options[] = ($rewrite_options['add_rewrites_date']) ? 'date' : '';
+		if ( isset( $rewrite_options['add_rewrites_page'] ) )
+			$this->rewrite_options[] = ($rewrite_options['add_rewrites_page']) ? 'page' : '';
+		if ( isset( $rewrite_options['add_rewrites_author'] ) )
+			$this->rewrite_options[] = ($rewrite_options['add_rewrites_author']) ? 'author' : '';
+		if ( isset( $rewrite_options['add_rewrites_tag'] ) )
+			$this->rewrite_options[] = ($rewrite_options['add_rewrites_tag']) ? 'tag' : '';
+		if ( isset( $rewrite_options['add_rewrites_category'] ) )
+			$this->rewrite_options[] = ($rewrite_options['add_rewrites_category']) ? 'category' : '';
+		if ( isset( $rewrite_options['add_rewrites_search'] ) )
+			$this->rewrite_options[] = ($rewrite_options['add_rewrites_search']) ? 'search' : '';
+		if ( isset( $rewrite_options['add_rewrites_feed'] ) )
+			$this->rewrite_options[] = ($rewrite_options['add_rewrites_feed']) ? 'feed' : '';
 		if ( !empty( $settings['languages'] ) ) {
 			$b = strpos( ',', $settings['languages'] );
 			if ( false === $b ) {
@@ -74,7 +74,7 @@ class Transifex_Live_Integration_Rewrite {
 	 * Factory function to create a rewrite object
 	 * @param array $settings Associative array used to store plugin settings.
 	 */
-	static function create_rewrite( $settings ) {
+	static function create_rewrite( $settings, $rewrite_options ) {
 		Plugin_Debug::logTrace();
 		if ( !isset( $settings['languages'] ) ) {
 			Plugin_Debug::logTrace( 'settings[languages] not set' );
@@ -94,7 +94,7 @@ class Transifex_Live_Integration_Rewrite {
 			Plugin_Debug::logTrace( 'settings[languages_regex] failed pattern check' );
 			return false;
 		}
-		return new Transifex_Live_Integration_Rewrite( $settings );
+		return new Transifex_Live_Integration_Rewrite( $settings, $rewrite_options );
 	}
 
 	/**
@@ -110,8 +110,18 @@ class Transifex_Live_Integration_Rewrite {
 	 * @param array $query WP query object.
 	 */
 	function parse_query_hook( $query ) {
-		Plugin_Debug::logTrace();
-		$query->query_vars['lang'] = isset( $query->query_vars['lang'] ) ? $query->query_vars['lang'] : $this->source_language;
+		$qv = &$query->query_vars;
+		$qv['lang'] = isset( $query->query_vars['lang'] ) ? $query->query_vars['lang'] : $this->source_language;
+		if ( $query->is_home && 'page' == get_option( 'show_on_front' ) && get_option( 'page_on_front' ) ) {
+			$query->is_page = true;
+			$query->is_home = false;
+			$qv['page_id'] = get_option( 'page_on_front' );
+			// Correct <!--nextpage--> for page_on_front
+			if ( !empty( $qv['paged'] ) ) {
+				$qv['page'] = $qv['paged'];
+				unset( $qv['paged'] );
+			}
+		}
 		return $query;
 	}
 
@@ -130,11 +140,13 @@ class Transifex_Live_Integration_Rewrite {
 		$reverse_url = true;
 
 		$reverse_url = ($reverse_url) ? (isset( $lang )) : false;
-		$reverse_url = ($reverse_url) ? (!strpos( $modified_link, $lang )) : false;
+		if ( !empty( $lang ) ) {
+			$reverse_url = ($reverse_url) ? (!strpos( $modified_link, $lang )) : false;
+		}
 		$reverse_url = ($reverse_url) ? (array_key_exists( $lang, $languages_map )) : false;
 		$reverse_url = ($reverse_url) ? (!($source_lang == $lang)) : false;
 
-		if ( $reverse_url ) {
+		if ( $reverse_url && (3 <= substr_count( $link, '/' )) ) {
 			$array_url = explode( '/', $link );
 			$array_url[3] = $languages_map[$lang] . '/' . $array_url[3];
 			$modified_link = implode( '/', $array_url );
@@ -183,8 +195,8 @@ class Transifex_Live_Integration_Rewrite {
 		$retlink = $this->reverse_hard_link( get_query_var( 'lang' ), $link, $this->languages_map, $this->source_language );
 		return $retlink;
 	}
-	
-	function home_url_hook ( $url, $path, $orig_scheme, $blog_id ) {
+
+	function home_url_hook( $url ) {
 		Plugin_Debug::logTrace();
 		$retlink = $this->reverse_hard_link( get_query_var( 'lang' ), $url, $this->languages_map, $this->source_language );
 		return $retlink;

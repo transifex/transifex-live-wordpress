@@ -10,12 +10,20 @@
     var parent = $('#transifex_live_settings_url_options'),
             children = $('.adds-rewrites');
     parent.change(function () {
-        children.toggleClass('hide-if-js',this.value!=='3');
+        children.toggleClass('hide-if-js');
     });
 })(jQuery);
 
 (function ($) {
-    var parent = $('#transifex_live_settings_add_rewrites_all'),
+    var parent = $('#transifex_live_settings_url_options'),
+            children = $('.adds-rewrites-subdomain');
+    parent.change(function () {
+        children.toggleClass('hide-if-js');
+    });
+})(jQuery);
+
+(function ($) {
+    var parent = $('#transifex_live_options_all'),
             children = $('.all_selector');
     parent.change(function () {
         children.prop("checked", this.checked);
