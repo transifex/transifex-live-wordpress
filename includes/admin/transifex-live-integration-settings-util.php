@@ -126,11 +126,24 @@ class Transifex_Live_Integration_Settings_Util {
 		$list_arr = array_filter( $list_arr );
 		return implode( ',', $list_arr );
 	}
+	
+	static function render_source_language( $source_language ) {
+		$html = '';
+		if (empty($source_langauge)) {
+			$html = "No source language published!!!! Please please please publish something!!!!";
+		} else {
+		$html .= <<<HTML_TEMPLATE
+		<input type="hidden" value="<?php echo $source_language ?>" name="transifex_live_settings[source_language]" id="transifex_live_settings_source_language" />
+HTML_TEMPLATE;
+		}
+		}
 
 	static function render_languages( $languages ) {
 
-		$html = '';
-		
+		$html = '<div id="transifex_live_languages">';
+		if (empty($languages)) {
+			$html .= '<span id="transifex_live_languages_message">No languages published!!!! Please please please publish something!!!!</span>';
+		}
 		foreach ($languages as $language) {
 			$name = $language['name'];
 			$code = $language['code'];
@@ -141,7 +154,7 @@ class Transifex_Live_Integration_Settings_Util {
             <br/>
 HTML_TEMPLATE;
 		}
-		echo $html;
+		echo $html.'</div>';
 	}
 
 	static function render_url_options( $options ) {

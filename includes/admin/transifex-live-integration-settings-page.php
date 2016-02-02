@@ -4,31 +4,36 @@ include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/admin/transi
 
 class Transifex_Live_Integration_Settings_Page {
 
-	/**
-	 * Function that handles loading setting data and displaying the admin page.
-	 */
-	static function options_page() {
+
+	static function load_settings() {
 		Plugin_Debug::logTrace();
 		$db_settings = get_option( 'transifex_live_settings', array() );
 		if ( !$db_settings ) {
 			$db_settings = Transifex_Live_Integration_Defaults::settings();
 		}
 
-		$settings = array_merge( Transifex_Live_Integration_Defaults::settings(), $db_settings );
-
+		return array_merge( Transifex_Live_Integration_Defaults::settings(), $db_settings );
+		
+	}
+	
+	static function load_rewrite_options() {
+		
 		$db_opt_settings = get_option( 'transifex_live_options', array() );
 		if ( !$db_opt_settings  ) {
 			
 			$opt_settings  = Transifex_Live_Integration_Defaults::options_values();
 		}
 		
-		$opt_settings = array_merge( Transifex_Live_Integration_Defaults::options_values(), $db_opt_settings );
-		Plugin_Debug::logTrace('debug options');
-		Plugin_Debug::logTrace( $db_opt_settings );
-		Plugin_Debug::logTrace( $opt_settings );
+		return array_merge( Transifex_Live_Integration_Defaults::options_values(), $db_opt_settings );
+	}
+	
+	static function options_page() {
+		
+		$settings = self::load_settings();
+		$rewrite_options = self::load_rewrite_options();
 
 		$rewrite_options_array = [];
-		foreach ($opt_settings as $key => $value) {
+		foreach ($rewrite_options as $key => $value) {
 			$arr = [ ];
 			$arr['checked'] = $value;
 			$arr['text'] = Transifex_Live_Integration_Defaults::get_options_text( $key );
@@ -37,58 +42,13 @@ class Transifex_Live_Integration_Settings_Page {
 			array_push( $rewrite_options_array, $arr );
 		}
 
-
-		$is_update_transifex_languages = false;
-		if ( isset( $settings['api_key'] ) && // Initialize Live languages after API key is setup.
-				( '' === $settings['raw_transifex_languages'] ) ) { // TODO: This seems brittle add more safety.
-			Plugin_Debug::logTrace( "initial api_key set...updating transifex languages" );
-			$is_update_transifex_languages = true;
-		}
-
-		if ( isset( $settings['transifex_languages_refresh'] ) ) {
-			Plugin_Debug::logTrace( "sync button...updating transifex languages" );
-			$is_update_transifex_languages = true;
-			unset( $settings['transifex_live_settings']['transifex_languages_refresh'] );
-		}
-
-		if ( strcmp( $settings['api_key'], $settings['previous_api_key'] ) !== 0 ) {
-			Plugin_Debug::logTrace( "api_key updated...updating transifex languages" );
-			$is_update_transifex_languages = true;
-		}
-
-		if ( $is_update_transifex_languages ) {
-			$raw_api_response_check = Transifex_Live_Integration_Settings_Util::get_raw_transifex_languages( $settings['api_key'] );
-			$raw_api_response = $raw_api_response_check ? $raw_api_response_check : null;
-			if ( isset( $raw_api_response ) ) {
-				// TODO Thesee are used in the template below should be refactored.
-				$raw_transifex_languages = $raw_api_response;
-				$settings['source_language'] = Transifex_Live_Integration_Settings_Util::get_source( $raw_api_response );
-				$languages = Transifex_Live_Integration_Settings_Util::get_default_languages( $raw_api_response );
-				$language_lookup = Transifex_Live_Integration_Settings_Util::get_language_lookup( $raw_api_response );
-			}
-		}
-
-		// TODO Thesee are used in the template below should be refactored.
-		if ( !isset( $raw_transifex_languages ) ) {
-			$raw_transifex_languages = stripslashes( $settings['raw_transifex_languages'] );
-		}
-		if ( !isset( $languages ) ) {
-			$languages = explode( ",", $settings['transifex_languages'] );
-		}
-
-		if ( !isset( $language_lookup ) ) {
-			$language_lookup = json_decode( stripslashes( $settings['language_lookup'] ), true );
-			Plugin_Debug::logTrace( $language_lookup );
-			if ( !isset( $language_lookup ) ) {
-				$language_lookup = [ ];
-			}
-		}
-
-
-		if ( !isset( $language_lookup ) || !count( $language_lookup ) > 0 ) {
-			Plugin_Debug::logTrace( "language_lookup not valid" );
-		}
+		$settings['source_language'] = 'en';
 		$source_language = $settings['source_language'];
+		$settings['transifex_languages']  = "ko,de_DE";
+		$languages = explode( ",", $settings['transifex_languages']);
+		$settings['language_lookup'] = '[{\"code\":\"zh_CN\",\"name\":\"Chinese (China)\"},{\"code\":\"de\",\"name\":\"German\"},{\"code\":\"de_DE\",\"name\":\"German (Germany)\"},{\"code\":\"ko\",\"name\":\"Korean\"}]';
+		$language_lookup = json_decode( stripslashes( $settings['language_lookup'] ), true );
+		$language_lookup = [];
 
 		ob_start();
 		checked( $settings['enable_custom_urls'] );
@@ -118,7 +78,6 @@ class Transifex_Live_Integration_Settings_Page {
 		$site_url_array[2] = 'fr.' . $site_url_array[2];
 		$site_url_subdomain_example = implode( '/', $site_url_array );
 		
-		$show_advanced_seo = (isset( $settings['api_key']))?'':' hide-if-js';
 
 		ob_start();
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/admin/transifex-live-integration-settings-template.php';

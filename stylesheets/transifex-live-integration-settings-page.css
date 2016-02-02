@@ -67,3 +67,12 @@
 .language_picker_fix {
 	width: 200px;
 }
+
+input#transifex_live_settings_api_key.validating {
+    disabled: true;
+}
+
+input#transifex_live_settings_api_key.valid {
+    disabled: false;
+    background-color: #00fe1e;
+}
