@@ -138,24 +138,6 @@ HTML_TEMPLATE;
 		}
 		}
 
-	static function render_languages( $languages ) {
-
-		$html = '<div id="transifex_live_languages">';
-		if (empty($languages)) {
-			$html .= '<span id="transifex_live_languages_message">No languages published!!!! Please please please publish something!!!!</span>';
-		}
-		foreach ($languages as $language) {
-			$name = $language['name'];
-			$code = $language['code'];
-			$value = (isset( $settings['wp_language_' . $language['code']] )) ? $settings['wp_language_' . $language['code']] : $language['code'];
-			$html .= <<<HTML_TEMPLATE
-			<input disabled="true" type="text" class="regular-text" style="width:200px" name="transifex_live_settings[tx_language_$code]" value="$name" />
-            <input type="text" name="transifex_live_settings[wp_language_$code]" id="transifex_live_settings_wp_language_$code" value="$value" class="regular-text">
-            <br/>
-HTML_TEMPLATE;
-		}
-		echo $html.'</div>';
-	}
 
 	static function render_url_options( $options ) {
 		$html = '';
@@ -172,7 +154,7 @@ HTML_TEMPLATE;
 			$html .= <<<HTML
 		<input class="all_selector" type="checkbox" id="$id" name="$name" value="1" $checked>$text
 HTML;
-			if ( $i % 1 == 0 ) {
+			if ( $i % 3 == 0 ) {
 				$html .= <<<NEWLINE
 				<br/>
 NEWLINE;

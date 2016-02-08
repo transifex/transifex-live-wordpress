@@ -54,6 +54,8 @@ class Transifex_Live_Integration_Defaults {
 			'raw_transifex_languages' => null,
 			'transifex_languages' => null,
 			'language_lookup' => null,
+			'language_map' => null,
+			'languages_regex' => null,
 			
 			'enable_custom_urls' => 0,
 			'urls' => [
@@ -63,9 +65,9 @@ class Transifex_Live_Integration_Defaults {
 			'enable_language_urls' => false,
 			'add_language_rewrites' => 'none selected',
 			'source_language' => '',
-			'languages' => null,
+			'languages' => '',
 			'hreflang' => false,
-			'url_options' => 3,
+			'url_options' => 1,
 			'subdomain_pattern' => ''
 			
 		);
