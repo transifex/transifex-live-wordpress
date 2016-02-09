@@ -41,31 +41,36 @@ class Transifex_Live_Integration_Settings_Page {
 			$arr['name'] = 'transifex_live_options[' . $key . ']';
 			array_push( $rewrite_options_array, $arr );
 		}
-
-		$settings['source_language'] = 'en';
-		$source_language = $settings['source_language'];
-		$settings['transifex_languages']  = "ko,de_DE";
-		$languages = explode( ",", $settings['transifex_languages']);
-		$settings['language_lookup'] = '[{\"code\":\"zh_CN\",\"name\":\"Chinese (China)\"},{\"code\":\"de\",\"name\":\"German\"},{\"code\":\"de_DE\",\"name\":\"German (Germany)\"},{\"code\":\"ko\",\"name\":\"Korean\"}]';
-		$language_lookup = json_decode( stripslashes( $settings['language_lookup'] ), true );
-		$language_lookup = [];
-
-		ob_start();
-		checked( $settings['enable_custom_urls'] );
-		$checked_custom_urls = ob_get_clean();
-		$hide_custom_urls_css = ($settings['enable_custom_urls']) ? '' : ' hide-if-js';
-		switch ($settings['url_options']) {
-			case "1":
-				$hide_add_rewrites = ' hide-if-js';
-				break;
-			case "2":
-				$hide_add_rewrites = ' hide-if-js';
-				break;
-			case "3":
-				$hide_add_rewrites = '';
-				break;
+		
+		Plugin_Debug::logTrace($settings['source_language']);
+		$source_language = '';
+		if ($settings['source_language'] !== '' ){
+			$source_language = $settings['source_language'];
+		}
+		
+		Plugin_Debug::logTrace($settings['transifex_languages']);
+		$languages = [];
+		if ($settings['transifex_languages'] !== '' ){
+			$languages = $settings['transifex_languages'];
 		}
 
+		Plugin_Debug::logTrace($settings['language_lookup'] );
+		$language_lookup = [];
+		if ($settings['language_lookup'] !== '' ){
+			$language_lookup = $settings['language_lookup'];
+		}
+		
+		Plugin_Debug::logTrace($settings['language_map'] );
+		$language_map = [];
+		if ($settings['language_map'] !== '' ){
+			$language_map = $settings['language_map'];
+		}
+
+		$checked_custom_urls = ($settings['enable_custom_urls'] === "1")?"1":"0";
+		
+		ob_start();
+		selected( $settings['url_options'], 1 );
+		$url_options_none = ob_get_clean();
 		ob_start();
 		selected( $settings['url_options'], 2 );
 		$url_options_subdomain = ob_get_clean();
@@ -73,9 +78,9 @@ class Transifex_Live_Integration_Settings_Page {
 		selected( $settings['url_options'], 3 );
 		$url_options_subdirectory = ob_get_clean();
 		$site_url = site_url();
-		$site_url_subdirectory_example = $site_url . '/fr';
+		$site_url_subdirectory_example = $site_url . '/%lang%';
 		$site_url_array = explode( '/', $site_url );
-		$site_url_array[2] = 'fr.' . $site_url_array[2];
+		$site_url_array[2] = '%lang%.' . $site_url_array[2];
 		$site_url_subdomain_example = implode( '/', $site_url_array );
 		
 
@@ -97,34 +102,21 @@ class Transifex_Live_Integration_Settings_Page {
 	 */
 	static public function update_settings($settings) {
 		Plugin_Debug::logTrace();
-			if ( isset( $settings['sync'] ) ) {
-				$settings['transifex_live_settings']['transifex_languages_refresh'] = true;
-			}
 
 			$transifex_languages = explode( ',', $settings['transifex_live_settings']['transifex_languages'] );
-			$languages_regex = '';
-			$languages_map = [ ];
-			$languages = '';
+			$languages_regex = $settings['transifex_live_settings']['languages_regex'];
+			$languages_map = $settings['transifex_live_settings']['language_map'];
+			$languages = $settings['transifex_live_settings']['transifex_languages'];
+			$languages_map_string = $languages_map; // TODO: Switch to wp_json_encode.
+			
 			$trim = false;
-			foreach ($transifex_languages as $lang) {
-				$trim = true;
-				$k = 'wp_language_' . $lang;
-				if ( !isset( $settings['transifex_live_settings'][$k] ) ) {
-					break;
-				}
-				$languages .= $settings['transifex_live_settings'][$k];
-				$languages .= ',';
-				$languages_regex .= $settings['transifex_live_settings'][$k];
-				$languages_regex .= '|';
-				$languages_map [$lang] = $settings['transifex_live_settings'][$k];
-			}
+
 			$languages = ($trim) ? rtrim( $languages, ',' ) : '';
 			$languages_regex = ($trim) ? rtrim( $languages_regex, '|' ) : '';
 			$languages_regex = '(' . $languages_regex . ')';
-			$languages_map_string = htmlentities( json_encode( $languages_map ) ); // TODO: Switch to wp_json_encode.
+			
 
 			if ( isset( $languages_regex ) ) {
-				Plugin_Debug::logTrace( 'regex exists' );
 				$array_url = explode( "/", site_url() );
 				$array_domain = explode( ".", $array_url[2] );
 				$array_domain[0] = $languages_regex;
@@ -133,7 +125,7 @@ class Transifex_Live_Integration_Settings_Page {
 			}
 
 			$settings['transifex_live_settings']['subdomain_pattern'] = $subdomain_pattern;
-			$settings['transifex_live_settings']['languages_map'] = $languages_map_string;
+			$settings['transifex_live_settings']['language_map'] = $languages_map_string;
 			$settings['transifex_live_settings']['languages_regex'] = $languages_regex;
 			$settings['transifex_live_settings']['languages'] = $languages;
 			if ( isset( $settings['transifex_live_settings'] ) ) {
