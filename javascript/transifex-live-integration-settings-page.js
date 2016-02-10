@@ -69,12 +69,13 @@ function addTransifexLanguages(obj) {
             jQuery('#transifex-integration-live-'+o.code).change(function(){console.log(jQuery(this).val());});
         });
     } else {
+    var language_fields = '<table><tr><th scope="row">Language</th><th scope="row">Code</th></tr>';
     jQuery.each(transifex_language_fields['html'], function (i, o) {
-        jQuery('#transifex_live_languages').append('<input disabled="true" type="'+o.type+'" style="width:200px" name="dummy" value="'+o.caption+'" />');
-        jQuery('#transifex_live_languages').append('<input type="'+o.type+'" style="width:100px" name="'+o.name+'" id="'+o.id+'" value="'+o.value+'" />');
-        jQuery('#transifex_live_languages').append('<br/>');
-        jQuery('#'+o.id).change(function(){console.log(jQuery(this).val());});
+        language_fields = language_fields + '<tr><td style="padding:0px"><span>'+o.caption+'</span></td><td style="padding:0px"><input type="'+o.type+'" style="width:100px" name="'+o.name+'" id="'+o.id+'" value="'+o.value+'" /></td></tr>';
+//        jQuery('#'+o.id).change(function(){console.log(jQuery(this).val());});
     });
+    language_fields = language_fields + '</table>';
+    jQuery('#transifex_live_languages').append(language_fields);
     jQuery('#transifex_live_settings_transifex_languages').val(JSON.stringify(transifex_languages));
     jQuery('#transifex_live_settings_language_lookup').val(JSON.stringify(language_lookup));
     jQuery('#transifex_live_settings_language_map').val(JSON.stringify(language_map));
@@ -215,6 +216,7 @@ function addTransifexLanguages(obj) {
                 $('.url-structure-subdirectory').toggleClass('hide-if-js',false);
                 $('.url-structure-subdomain').toggleClass('hide-if-js',true);
                 $('.custom-urls-settings').toggleClass('hide-if-js',false);
+                $('#transifex_live_options_all').trigger('activate');
             },
             events: {change: function() { return (this.val() === "2")?'subdomain':'none'}}
         },
@@ -225,42 +227,36 @@ function addTransifexLanguages(obj) {
                 $('.url-structure-subdirectory').toggleClass('hide-if-js',true);
                 $('.url-structure-subdomain').toggleClass('hide-if-js',false);
                 $('.custom-urls-settings').toggleClass('hide-if-js',false);
+                $('#transifex_live_options_all').trigger('activate');
             },
             events: {change: function() { return (this.val() === "3")?'subdirectory':'none'}}
         }
     }, {setClass: true});
 })(jQuery);
 
-/*
- (function ($) {
- var parent = $('#transifex_live_settings_custom_urls'),
- children = $('.custom-urls-settings');
- parent.change(function () {
- children.toggleClass('hide-if-js', !this.checked);
- });
- })(jQuery);
- 
- (function ($) {
- var parent = $('#transifex_live_settings_url_options'),
- children = $('.adds-rewrites');
- parent.change(function () {
- children.toggleClass('hide-if-js');
- });
- })(jQuery);
- 
- (function ($) {
- var parent = $('#transifex_live_settings_url_options'),
- children = $('.adds-rewrites-subdomain');
- parent.change(function () {
- children.toggleClass('hide-if-js');
- });
- })(jQuery);
- 
- (function ($) {
- var parent = $('#transifex_live_options_all'),
- children = $('.all_selector');
- parent.change(function () {
- children.prop("checked", this.checked);
- });
- })(jQuery);
- */
+
+(function ($) {
+    $('#transifex_live_options_all').machine({
+        defaultState: {
+            onEnter: function () {
+                console.log('transifex_live_options_all::defaultState::onEnter');
+                this.prop("checked", true);
+            },
+            events: {activate: 'on'}
+        },
+        on: {
+            onEnter: function () {
+                console.log('transifex_live_settings_api_key_button::on::onEnter');
+                $('.all_selector').prop("checked", true);
+            },
+             events: {click: 'off'}
+        },
+        off: {
+            onEnter: function () {
+                console.log('transifex_live_settings_api_key_button::off::onEnter');
+                $('.all_selector').prop("checked", false);
+            },
+           events: {click: 'on'} 
+        }
+    }, {setClass: true});
+})(jQuery);
