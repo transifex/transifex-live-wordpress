@@ -4,7 +4,6 @@ include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/admin/transi
 
 class Transifex_Live_Integration_Settings_Page {
 
-
 	static function load_settings() {
 		Plugin_Debug::logTrace();
 		$db_settings = get_option( 'transifex_live_settings', array() );
@@ -13,26 +12,25 @@ class Transifex_Live_Integration_Settings_Page {
 		}
 
 		return array_merge( Transifex_Live_Integration_Defaults::settings(), $db_settings );
-		
 	}
-	
+
 	static function load_rewrite_options() {
-		
+
 		$db_opt_settings = get_option( 'transifex_live_options', array() );
-		if ( !$db_opt_settings  ) {
-			
-			$opt_settings  = Transifex_Live_Integration_Defaults::options_values();
+		if ( !$db_opt_settings ) {
+
+			$opt_settings = Transifex_Live_Integration_Defaults::options_values();
 		}
-		
+
 		return array_merge( Transifex_Live_Integration_Defaults::options_values(), $db_opt_settings );
 	}
-	
+
 	static function options_page() {
-		
+
 		$settings = self::load_settings();
 		$rewrite_options = self::load_rewrite_options();
 
-		$rewrite_options_array = [];
+		$rewrite_options_array = [ ];
 		foreach ($rewrite_options as $key => $value) {
 			$arr = [ ];
 			$arr['checked'] = $value;
@@ -41,33 +39,37 @@ class Transifex_Live_Integration_Settings_Page {
 			$arr['name'] = 'transifex_live_options[' . $key . ']';
 			array_push( $rewrite_options_array, $arr );
 		}
-		
-		Plugin_Debug::logTrace($settings['source_language']);
+
+		ob_start();
+		checked( $settings['rewrite_option_all'], '1' );
+		$checked_rewrite_option_all = ob_get_clean();
+
+		Plugin_Debug::logTrace( $settings['source_language'] );
 		$source_language = '';
-		if ($settings['source_language'] !== '' ){
+		if ( $settings['source_language'] !== '' ) {
 			$source_language = $settings['source_language'];
 		}
-		
-		Plugin_Debug::logTrace($settings['transifex_languages']);
-		$languages = [];
-		if ($settings['transifex_languages'] !== '' ){
+
+		Plugin_Debug::logTrace( $settings['transifex_languages'] );
+		$languages = [ ];
+		if ( $settings['transifex_languages'] !== '' ) {
 			$languages = $settings['transifex_languages'];
 		}
 
-		Plugin_Debug::logTrace($settings['language_lookup'] );
-		$language_lookup = [];
-		if ($settings['language_lookup'] !== '' ){
+		Plugin_Debug::logTrace( $settings['language_lookup'] );
+		$language_lookup = [ ];
+		if ( $settings['language_lookup'] !== '' ) {
 			$language_lookup = $settings['language_lookup'];
 		}
-		
-		Plugin_Debug::logTrace($settings['language_map'] );
-		$language_map = [];
-		if ($settings['language_map'] !== '' ){
+
+		Plugin_Debug::logTrace( $settings['language_map'] );
+		$language_map = [ ];
+		if ( $settings['language_map'] !== '' ) {
 			$language_map = $settings['language_map'];
 		}
 
-		$checked_custom_urls = ($settings['enable_custom_urls'] === "1")?"1":"0";
-		
+		$checked_custom_urls = ($settings['enable_custom_urls'] === "1") ? "1" : "0";
+
 		ob_start();
 		selected( $settings['url_options'], 1 );
 		$url_options_none = ob_get_clean();
@@ -82,7 +84,7 @@ class Transifex_Live_Integration_Settings_Page {
 		$site_url_array = explode( '/', $site_url );
 		$site_url_array[2] = '%lang%.' . $site_url_array[2];
 		$site_url_subdomain_example = implode( '/', $site_url_array );
-		
+
 
 		ob_start();
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/admin/transifex-live-integration-settings-template.php';
@@ -93,50 +95,49 @@ class Transifex_Live_Integration_Settings_Page {
 	public function admin_init_hook() {
 		Plugin_Debug::logTrace();
 		if ( isset( $_POST['transifex_live_nonce'] ) && wp_verify_nonce( $_POST['transifex_live_nonce'], 'transifex_live_settings' ) ) {
-			self::update_settings(self::sanitize_settings( $_POST ));
+			self::update_settings( self::sanitize_settings( $_POST ) );
 		}
 	}
-	
+
 	/**
 	 * Function that handles saving the setting data and sanitization.
 	 */
-	static public function update_settings($settings) {
+	static public function update_settings( $settings ) {
 		Plugin_Debug::logTrace();
 
-			$transifex_languages = explode( ',', $settings['transifex_live_settings']['transifex_languages'] );
-			$languages_regex = $settings['transifex_live_settings']['languages_regex'];
-			$languages_map = $settings['transifex_live_settings']['language_map'];
-			$languages = $settings['transifex_live_settings']['transifex_languages'];
-			$languages_map_string = $languages_map; // TODO: Switch to wp_json_encode.
-			
-			$trim = false;
+		$transifex_languages = explode( ',', $settings['transifex_live_settings']['transifex_languages'] );
+		$languages_regex = $settings['transifex_live_settings']['languages_regex'];
+		$languages_map = $settings['transifex_live_settings']['language_map'];
+		$languages = $settings['transifex_live_settings']['transifex_languages'];
+		$languages_map_string = $languages_map; // TODO: Switch to wp_json_encode.
 
-			$languages = ($trim) ? rtrim( $languages, ',' ) : '';
-			$languages_regex = ($trim) ? rtrim( $languages_regex, '|' ) : '';
-			$languages_regex = '(' . $languages_regex . ')';
-			
+		$trim = false;
 
-			if ( isset( $languages_regex ) ) {
-				$array_url = explode( "/", site_url() );
-				$array_domain = explode( ".", $array_url[2] );
-				$array_domain[0] = $languages_regex;
-				$array_url[2] = implode( '.', $array_domain );
-				$subdomain_pattern = implode( '/', $array_url );
-			}
+		$languages = ($trim) ? rtrim( $languages, ',' ) : '';
+		$languages_regex = ($trim) ? rtrim( $languages_regex, '|' ) : '';
+		$languages_regex = '(' . $languages_regex . ')';
 
-			$settings['transifex_live_settings']['subdomain_pattern'] = $subdomain_pattern;
-			$settings['transifex_live_settings']['language_map'] = $languages_map_string;
-			$settings['transifex_live_settings']['languages_regex'] = $languages_regex;
-			$settings['transifex_live_settings']['languages'] = $languages;
-			if ( isset( $settings['transifex_live_settings'] ) ) {
-				update_option( 'transifex_live_settings', $settings['transifex_live_settings'] );
-			}
 
-			if ( isset( $settings['transifex_live_options'] ) ) {
-				Plugin_Debug::logTrace($settings['transifex_live_options']);
-				update_option( 'transifex_live_options', $settings['transifex_live_options'] );
-			}
-		
+		if ( isset( $languages_regex ) ) {
+			$array_url = explode( "/", site_url() );
+			$array_domain = explode( ".", $array_url[2] );
+			$array_domain[0] = $languages_regex;
+			$array_url[2] = implode( '.', $array_domain );
+			$subdomain_pattern = implode( '/', $array_url );
+		}
+
+		$settings['transifex_live_settings']['subdomain_pattern'] = $subdomain_pattern;
+		$settings['transifex_live_settings']['language_map'] = $languages_map_string;
+		$settings['transifex_live_settings']['languages_regex'] = $languages_regex;
+		$settings['transifex_live_settings']['languages'] = $languages;
+		if ( isset( $settings['transifex_live_settings'] ) ) {
+			update_option( 'transifex_live_settings', $settings['transifex_live_settings'] );
+		}
+
+		if ( isset( $settings['transifex_live_options'] ) ) {
+			Plugin_Debug::logTrace( $settings['transifex_live_options'] );
+			update_option( 'transifex_live_options', $settings['transifex_live_options'] );
+		}
 	}
 
 	/**

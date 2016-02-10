@@ -59,7 +59,7 @@
 				<th>Subdirectory Options</th>
 				<td>
 					<p>These options allow for fine-grained control over which WordPress objects will allow language permalinks.  <a href=""><b>Learn more</b></a></p>
-					<p><input id="transifex_live_options_all" name="transifex_live_options[all]" value="1" type="checkbox">All</p>
+					<p><input id="transifex_live_settings_rewrite_option_all" name="transifex_live_settings[rewrite_option_all]" value="1" type="checkbox" <?php echo $checked_rewrite_option_all ?>>All</p>
 					<p><?php Transifex_Live_Integration_Settings_Util::render_url_options( $rewrite_options_array ); ?></p>
 					<p class="description" id="tagline-description">Pick which WordPress objects to add rewrites to.</p>
 					</div>
