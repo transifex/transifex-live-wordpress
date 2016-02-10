@@ -31,20 +31,20 @@
 						</select></label>
 					<p class="description" id="tagline-description">Add localized urls to your website.</p>
 					<br/>
-					<p><b>Disabled</b> - In this mode the plugin will simply add the Transifex Live Javascript snippet to every page on your site.<a href="">Learn more</a></p>
+					<p><b>Disabled</b> - In this mode the plugin will simply add the Transifex Live Javascript snippet to every page on your site.  <a href=""><b>Learn more</b></a></p>
 					<br/>
 					<p><b>Subdirectory</b> - In this mode the plugin will add localized rewrites to your url path based on the languages published in Transifex Live.</p>
 					<br/>
 					<p><b>Subdomain</b> - In this mode the plugin will integrate with existing localized subdomain urls.</p>
 					<br/>
-					<p><b>Note:</b>  When Advanced SEO modes are enabled, the plugin will automatically add hreflang tags to the header of your site. <a href="">Learn more</a></p>
+					<p><b>Note:</b>  When Advanced SEO modes are enabled, the plugin will automatically add hreflang tags to the header of your site.  <a href=""><b>Learn more</b></a></p>
 				</td></tr></table>
 		<table class="form-table">
 			<tr class="custom-urls-settings">
 				<th scope="row" class="titledesc adds-rewrites">Published Languages</th>
 				<td>
-					<p class="url-structure-subdirectory">The plugin has loaded your language codes based off your published languages from Transifex Live.  Your urls will follow this pattern: <code><?php echo $site_url_subdirectory_example ?></code>.  <a href="">Learn more</a></p>
-					<p class="url-structure-subdomain">The plugin has loaded your language codes based off your published languages from Transifex Live.  You will need to setup your subdomains to match the following pattern: <code><?php echo $site_url_subdomain_example ?></code>.  <a href="">Learn more</a></p>
+					<p class="url-structure-subdirectory">The plugin has loaded your language codes based off your published languages from Transifex Live.  Your urls will follow this pattern: <code><?php echo $site_url_subdirectory_example ?></code>  <a href=""><b>Learn more</b></a></p>
+					<p class="url-structure-subdomain">The plugin has loaded your language codes based off your published languages from Transifex Live.  You will need to setup your subdomains to match the following pattern: <code><?php echo $site_url_subdomain_example ?></code>  <a href=""><b>Learn more</b></a></p>
 					<br/>
 					<?php Transifex_Live_Integration_Settings_Util::render_source_language( $source_language ); ?>
 					<p id="transifex_live_languages">
@@ -58,6 +58,7 @@
 			<tr class="url-structure-subdirectory">
 				<th>Subdirectory Options</th>
 				<td>
+					<p>These options allow for fine-grained control over which WordPress objects will allow language permalinks.  <a href=""><b>Learn more</b></a></p>
 					<p><input id="transifex_live_options_all" name="transifex_live_options[all]" value="1" type="checkbox">All</p>
 					<p><?php Transifex_Live_Integration_Settings_Util::render_url_options( $rewrite_options_array ); ?></p>
 					<p class="description" id="tagline-description">Pick which WordPress objects to add rewrites to.</p>

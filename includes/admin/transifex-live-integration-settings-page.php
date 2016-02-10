@@ -147,27 +147,11 @@ class Transifex_Live_Integration_Settings_Page {
 
 		$is_admin_dashboard_notice = false;
 
-		$is_admin_languages_refresh_notice = false;
-
 		// TODO: refactor this DB call to a better place.
 		$settings = get_option( 'transifex_live_settings', array() );
 		// TODO: might need to trap the state here when indices api_key or raw_transifex_languages are missing.
 
 		$is_api_key_set_notice = (!isset( $settings['api_key'] )) ? true : false;
-
-		$is_transifex_languages_set_notice = false;
-		$is_transifex_languages_match = false;
-
-		if ( isset( $settings['transifex_languages_refresh'] ) ) {
-			$is_admin_languages_refresh_notice = true;
-		}
-
-		if ( !$is_api_key_set_notice ) {
-			$is_transifex_languages_set_notice = (!isset( $settings['raw_transifex_languages'] )) ? true : false;
-			if ( isset( $settings['raw_transifex_languages'] ) ) {
-				$is_transifex_languages_match = Transifex_Live_Integration_Settings_Util::check_raw_transifex_languages( $settings['api_key'], $settings['raw_transifex_languages'] );
-			}
-		}
 
 		$notice = '';
 		if ( isset( $_POST['transifex_live_settings'] ) && !$is_admin_languages_refresh_notice ) {
@@ -175,24 +159,9 @@ class Transifex_Live_Integration_Settings_Page {
 			$notice = '<p>' . __( 'Your changes to the settings have been saved!', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ) . '</p>';
 		}
 
-		if ( $is_admin_languages_refresh_notice ) {
-			$is_admin_page_notice = true;
-			$notice .= '<p>Languages list updated!</p>';
-		}
-
-		if ( $is_transifex_languages_set_notice ) {
-			$is_admin_dashboard_notice = true;
-			$notice .= '<p>There was a problem syncing with Transifex Live. Please try again in a bit, or <a href="https://www.transifex.com/contact/" target="_blank">contact us</a> if the issue persists.</p>';
-		}
-
 		if ( $is_api_key_set_notice ) {
 			$is_admin_dashboard_notice = true;
 			$notice .= "<p><strong>Thanks for installing the Transifex Live WordPress plugin!</strong> Add your API key to make translations live for your site.</p>";
-		}
-
-		if ( $is_transifex_languages_match ) {
-			$is_admin_dashboard_notice = true;
-			$notice .= "<p>Looks like there were some changes to your published languages. Click the <strong>Refresh Languages List<strong> button to update list of languages.</p>";
 		}
 
 		if ( $is_admin_page_notice ) {
