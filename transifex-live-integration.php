@@ -156,8 +156,7 @@ class Transifex_Live_Integration {
 						add_filter( 'root_rewrite_rules', [ $rewrite, 'root_rewrite_rules_hook' ] );
 						add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
 						break;
-					default;
-						Plugin_Debug::logTrace( 'default' );
+					case 'permalink_tag';
 						add_action( 'init', [ $rewrite, 'init_hook' ] );
 						add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
 						break;

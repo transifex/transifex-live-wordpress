@@ -41,7 +41,7 @@ class Transifex_Live_Integration_Rewrite {
 		$this->rewrite_options = [ ];
 		$this->languages_regex = $settings['languages_regex'];
 		$this->source_language = $settings['source_language'];
-		$this->languages_map = json_decode( html_entity_decode( $settings['languages_map'] ), true );
+		$this->languages_map = json_decode( stripslashes( $settings['language_map'] ), true );
 		if ( isset( $rewrite_options['add_rewrites_post'] ) )
 			$this->rewrite_options[] = ($rewrite_options['add_rewrites_post']) ? 'post' : '';
 		if ( isset( $rewrite_options['add_rewrites_root'] ) )
@@ -59,7 +59,9 @@ class Transifex_Live_Integration_Rewrite {
 		if ( isset( $rewrite_options['add_rewrites_search'] ) )
 			$this->rewrite_options[] = ($rewrite_options['add_rewrites_search']) ? 'search' : '';
 		if ( isset( $rewrite_options['add_rewrites_feed'] ) )
-			$this->rewrite_options[] = ($rewrite_options['add_rewrites_feed']) ? 'feed' : '';
+			$this->rewrite_options[] = ($rewrite_options['add_rewrites_feed']) ? 'feed' : '';		
+		if ( isset( $rewrite_options['add_rewrites_feed'] ) )
+			$this->rewrite_options[] = ($rewrite_options['add_rewrites_permalink_tag']) ? 'permalink_tag' : '';
 		if ( !empty( $settings['languages'] ) ) {
 			$b = strpos( ',', $settings['languages'] );
 			if ( false === $b ) {

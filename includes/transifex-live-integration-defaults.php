@@ -22,7 +22,8 @@ class Transifex_Live_Integration_Defaults {
 				'add_rewrites_category' => 0,
 				'add_rewrites_search' => 0,
 				'add_rewrites_root' => 0,
-				'add_rewrites_reverse_template_links' => 0
+				'add_rewrites_reverse_template_links' => 0,
+				'add_rewrites_permalink_tag' => 0
 			];
 	}
 	
@@ -37,7 +38,8 @@ class Transifex_Live_Integration_Defaults {
 				'add_rewrites_category' => 'Categories',
 				'add_rewrites_search' => 'Search',
 				'add_rewrites_root' => 'Root',
-				'add_rewrites_reverse_template_links' => 'Reverse Template Links'
+				'add_rewrites_reverse_template_links' => 'Reverse Template Links',
+				'add_rewrites_permalink_tag' => 'Permalink Tag'
 			];
 		return $arr[$key]; 
 		
