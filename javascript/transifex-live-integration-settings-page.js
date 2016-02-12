@@ -138,7 +138,7 @@ function addTransifexLanguages(obj) {
         },
         wait: {
             onEnter: function () {
-                console.log('transifex_live_settings_api_key_button::checking::onEnter');
+                console.log('transifex_live_settings_api_key_button::wait::onEnter');
                 $('#transifex_live_settings_api_key').trigger('validating');
             },
              events: {save: 'save',click: 'checking'}
@@ -172,7 +172,8 @@ function addTransifexLanguages(obj) {
             onEnter: function () {
                 console.log('transifex_live_settings_api_key:defaultState:onEnter');
                 this.trigger('validating');
-            }
+            },
+        events: {validating: 'validating'}
         },
         validating: {
             onEnter: function () {
