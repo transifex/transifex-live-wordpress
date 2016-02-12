@@ -132,8 +132,16 @@ function addTransifexLanguages(obj) {
         defaultState: {
             onEnter: function () {
                 console.log('transifex_live_settings_api_key_button::defaultState::onEnter');
+                ($('#transifex_live_settings_api_key').val()!=='')?this.trigger('hiddencheck'):this.trigger('waitforclick');
             },
-            events: {click: 'checking'}
+            events: {waitforclick: 'wait', hiddencheck:'hidden'}
+        },
+        wait: {
+            onEnter: function () {
+                console.log('transifex_live_settings_api_key_button::checking::onEnter');
+                $('#transifex_live_settings_api_key').trigger('validating');
+            },
+             events: {save: 'save',click: 'checking'}
         },
         checking: {
             onEnter: function () {
@@ -147,6 +155,12 @@ function addTransifexLanguages(obj) {
                 console.log('transifex_live_settings_api_key_button::save::onEnter');
                 this.prop('type','submit').prop('value', 'Save');
             },
+        },
+        hidden: {
+            onEnter: function () {
+                console.log('transifex_live_settings_api_key_button::hidden::onEnter');
+            },
+            events: {wait: 'wait'}
         }
     }, {setClass: true});
 })(jQuery);
@@ -156,18 +170,18 @@ function addTransifexLanguages(obj) {
     $('#transifex_live_settings_api_key').machine({
         defaultState: {
             onEnter: function () {
-                console.log('defaultState:onEnter');
-            },
-            events: {change: 'validating',validating: 'validating'}
+                console.log('transifex_live_settings_api_key:defaultState:onEnter');
+                this.trigger('validating');
+            }
         },
         validating: {
             onEnter: function () {
-                console.log('validating:onEnter');
+                console.log('transifex_live_settings_api_key:validating:onEnter');
                 $('input#submit').prop('disabled', true);
                 $('#transifex_live_settings_api_key_message').text('Checking Key');
                 transifexLanguages();
             },
-            events: {success: 'valid', error: 'error', notranslation: 'missing'}
+            events: {success: 'valid', blank:'blank', error: 'error', notranslation: 'missing'}
         },
         valid: {
             onEnter: function () {
@@ -185,6 +199,14 @@ function addTransifexLanguages(obj) {
                 console.log('error:onEnter');
                 $('input#submit').prop('disabled', true);
                 $('#transifex_live_settings_api_key_message').text('Error Checking Key - Please Correct Key');
+            },
+            events: {change: 'validating', validating: 'validating'}
+        },
+        blank: {
+            onEnter: function () {
+                console.log('transifex_live_settings_api_key:blank:onEnter');
+                $('#transifex_live_settings_api_key_button').trigger('wait');
+                $('#transifex_live_settings_api_key_message').text('');
             },
             events: {change: 'validating', validating: 'validating'}
         },
