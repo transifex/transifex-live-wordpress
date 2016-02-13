@@ -19,9 +19,9 @@
                 </tr>
 				<tr valign="top">
 				</tr></table>
+		<h2>Advanced SEO Configuration</h2>
 		<table class="form-table">
 			<tr>
-				<th>Advanced SEO Configuration</th>
 				<td>
 					<label for="transifex_live_settings_url_options">
 						<select style="width:200px" disabled="true" id="transifex_live_settings_url_options" name="transifex_live_settings[url_options]">
