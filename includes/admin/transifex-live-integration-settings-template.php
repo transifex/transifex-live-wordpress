@@ -31,47 +31,46 @@
 						</select></label>
 					<p class="description" id="tagline-description">Add localized urls to your website.</p>
 					<br/>
-					<p><b>Disabled</b> - In this mode the plugin will simply add the Transifex Live Javascript snippet to every page on your site.  <a href=""><b>Learn more</b></a></p>
+					<p><b>Disabled</b> - In this mode the plugin will simply add the Transifex Live Javascript snippet to every page on your site.  <a href="http://docs.transifex.com/integrations/wordpress/#disabled-mode"><b>Learn more</b></a></p>
 					<br/>
-					<p><b>Subdirectory</b> - In this mode the plugin will add localized rewrites to your url path based on the languages published in Transifex Live.</p>
+					<p><b>Subdirectories</b> - In this mode the plugin will add localized rewrites to your url path based on the languages published in Transifex Live.  <a href="http://docs.transifex.com/integrations/wordpress/#subdirectories"><b>Learn more</b></a></p>
 					<br/>
-					<p><b>Subdomain</b> - In this mode the plugin will integrate with existing localized subdomain urls.</p>
+					<p><b>Subdomains</b> - In this mode the plugin will integrate with existing localized subdomain urls.  <a href="http://docs.transifex.com/integrations/wordpress/#subdomains"><b>Learn more</b></a></p>
 					<br/>
-					<p><b>Note:</b>  When Advanced SEO modes are enabled, the plugin will automatically add hreflang tags to the header of your site.  <a href=""><b>Learn more</b></a></p>
+					<p><b>Note:</b>  When Advanced SEO modes are enabled, the plugin will automatically add hreflang tags to the header of your site.  <a href="http://docs.transifex.com/integrations/wordpress/#hreflang-tag"><b>Learn more</b></a></p>
 				</td></tr></table>
 		<table class="form-table">
 			<tr class="custom-urls-settings">
 				<th scope="row" class="titledesc adds-rewrites">Published Languages</th>
 				<td>
-					<p class="url-structure-subdirectory">The plugin has loaded your language codes based off your published languages from Transifex Live.  Your urls will follow this pattern: <code><?php echo $site_url_subdirectory_example ?></code>  <a href=""><b>Learn more</b></a></p>
-					<p class="url-structure-subdomain">The plugin has loaded your language codes based off your published languages from Transifex Live.  You will need to setup your subdomains to match the following pattern: <code><?php echo $site_url_subdomain_example ?></code>  <a href=""><b>Learn more</b></a></p>
+					<p class="url-structure-subdirectory">The plugin has loaded your language codes based off your published languages from Transifex Live.  Your urls will follow this pattern: <code><?php echo $site_url_subdirectory_example ?></code>  <a href="http://docs.transifex.com/integrations/wordpress/#published-languages"><b>Learn more</b></a></p>
+					<p class="url-structure-subdomain">The plugin has loaded your language codes based off your published languages from Transifex Live.  You will need to setup your subdomains to match the following pattern: <code><?php echo $site_url_subdomain_example ?></code>  <a href="http://docs.transifex.com/integrations/wordpress/#published-languages"><b>Learn more</b></a></p>
 					<br/>
-					<?php Transifex_Live_Integration_Settings_Util::render_source_language( $source_language ); ?>
+					<input type="hidden" value="<?php echo $source_language ?>" name="transifex_live_settings[source_language]" id="transifex_live_settings_source_language" />
 					<p id="transifex_live_languages">
 						<span id="transifex_live_languages_message">Transifex Live languages are not loaded. Please re-check your API key.</span>
 					</p>
 					<p class="description" id="tagline-description">Tweak your localized urls.</p>
-					<br/>
-					<p class="url-structure-subdirectory">Having trouble getting your localized URLs working?  <a href="">Check out our additional troubleshooting tips!</a></p>
 				</td>
 			</tr>
 			<tr class="url-structure-subdirectory">
 				<th>Subdirectory Options</th>
 				<td>
-					<p>These options allow for fine-grained control over which WordPress objects will allow language permalinks.  <a href=""><b>Learn more</b></a></p>
+					<p>These options allow for fine-grained control over which WordPress objects will allow language permalinks.  <a href="http://docs.transifex.com/integrations/wordpress/#subdirectory-options"><b>Learn more</b></a></p>
 					<p><input id="transifex_live_settings_rewrite_option_all" name="transifex_live_settings[rewrite_option_all]" value="1" type="checkbox" <?php echo $checked_rewrite_option_all ?>>All</p>
 					<p><?php Transifex_Live_Integration_Settings_Util::render_url_options( $rewrite_options_array ); ?></p>
 					<p class="description" id="tagline-description">Pick which WordPress objects to add rewrites to.</p>
+					<p class="url-structure-subdirectory">Having trouble getting your localized URLs working?  <a href="http://docs.transifex.com/integrations/wordpress/#troubleshooting-tips">Check out our additional troubleshooting tips!</a></p>
 					</div>
 				</td></tr>
 			</tbody>
         </table>
 		<input name="transifex_live_settings[enable_custom_urls]" id="transifex_live_settings_custom_urls" type="hidden" value="<?php echo $checked_custom_urls ?>" >
 		<input type="hidden" value="<?php echo htmlentities( $settings['subdomain_pattern'] ) ?>" name="transifex_live_settings[subdomain_pattern]" id="transifex_live_settings_subdomain_pattern" />
+		<input type="hidden" value="<?php echo htmlentities( stripslashes( $languages_regex ) ) ?>" name="transifex_live_settings[languages_regex]" id="transifex_live_settings_languages_regex" />
 		<input type="hidden" value="<?php echo htmlentities( stripslashes( $languages ) ) ?>" name="transifex_live_settings[transifex_languages]" id="transifex_live_settings_transifex_languages" />
 		<input type="hidden" value="<?php echo htmlentities( stripslashes( $language_lookup ) ) ?>" name="transifex_live_settings[language_lookup]" id="transifex_live_settings_language_lookup" />
         <input type="hidden" value="<?php echo htmlentities( stripslashes( $language_map ) ) ?>" name="transifex_live_settings[language_map]" id="transifex_live_settings_language_map" />
-		<p class="submit"><input disabled="true" type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e( 'Save Changes', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>"></p>
     </form>
     <p>
         <a href="<?php echo $settings['urls']['rate_us']; ?>">

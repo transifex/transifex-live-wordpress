@@ -67,3 +67,7 @@
 .language_picker_fix {
 	width: 200px;
 }
+
+#transifex_live_settings_api_key_button.hidden {
+        display:none;
+}
