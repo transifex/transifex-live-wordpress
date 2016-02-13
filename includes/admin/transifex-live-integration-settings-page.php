@@ -71,13 +71,13 @@ class Transifex_Live_Integration_Settings_Page {
 		$checked_custom_urls = ($settings['enable_custom_urls'] === "1") ? "1" : "0";
 
 		ob_start();
-		selected( $settings['url_options'], 1 );
+		checked( $settings['url_options'], 1 );
 		$url_options_none = ob_get_clean();
 		ob_start();
-		selected( $settings['url_options'], 2 );
+		checked( $settings['url_options'], 2 );
 		$url_options_subdomain = ob_get_clean();
 		ob_start();
-		selected( $settings['url_options'], 3 );
+		checked( $settings['url_options'], 3 );
 		$url_options_subdirectory = ob_get_clean();
 		$site_url = site_url();
 		$site_url_subdirectory_example = $site_url . '/%lang%';

@@ -24,19 +24,10 @@
 			<tr>
 				<td>
 					<label for="transifex_live_settings_url_options">
-						<select style="width:200px" disabled="true" id="transifex_live_settings_url_options" name="transifex_live_settings[url_options]">
-							<option value="1" <?php echo $url_options_none ?>>Disabled</option>
-							<option value="3" <?php echo $url_options_subdirectory ?>>Subdirectory</option>
-							<option value="2" <?php echo $url_options_subdomain ?>>Subdomain</option>
-						</select></label>
-					<p class="description" id="tagline-description">Add localized urls to your website.</p>
-					<br/>
-					<p><b>Disabled</b> - In this mode the plugin will simply add the Transifex Live Javascript snippet to every page on your site.  <a href="http://docs.transifex.com/integrations/wordpress/#disabled-mode"><b>Learn more</b></a></p>
-					<br/>
-					<p><b>Subdirectories</b> - In this mode the plugin will add localized rewrites to your url path based on the languages published in Transifex Live.  <a href="http://docs.transifex.com/integrations/wordpress/#subdirectories"><b>Learn more</b></a></p>
-					<br/>
-					<p><b>Subdomains</b> - In this mode the plugin will integrate with existing localized subdomain urls.  <a href="http://docs.transifex.com/integrations/wordpress/#subdomains"><b>Learn more</b></a></p>
-					<br/>
+						<p><input type="radio" id="transifex_live_settings_url_options" name="transifex_live_settings[url_options]" value="1" <?php echo $url_options_none ?>> Disabled - In this mode the plugin will simply add the Transifex Live Javascript snippet to every page on your site.  <a href="http://docs.transifex.com/integrations/wordpress/#disabled-mode"><b>Learn more</b></a></p>
+						<p><input type="radio" id="transifex_live_settings_url_options" name="transifex_live_settings[url_options]" value="2" <?php echo $url_options_subdirectory ?>> Subdirectory - In this mode the plugin will add localized rewrites to your url path based on the languages published in Transifex Live.  <a href="http://docs.transifex.com/integrations/wordpress/#subdirectories"><b>Learn more</b></a></p>
+						<p><input type="radio" id="transifex_live_settings_url_options" name="transifex_live_settings[url_options]" value="3" <?php echo $url_options_subdomain ?>> Subdomain  - In this mode the plugin will integrate with existing localized subdomain urls.  <a href="http://docs.transifex.com/integrations/wordpress/#subdomains"><b>Learn more</b></a></p>
+					</label>
 					<p><b>Note:</b>  When Advanced SEO modes are enabled, the plugin will automatically add hreflang tags to the header of your site.  <a href="http://docs.transifex.com/integrations/wordpress/#hreflang-tag"><b>Learn more</b></a></p>
 				</td></tr></table>
 		<table class="form-table">
