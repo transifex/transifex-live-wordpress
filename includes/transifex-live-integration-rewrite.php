@@ -130,9 +130,11 @@ class Transifex_Live_Integration_Rewrite {
 		$reverse_url = true;
 
 		$reverse_url = ($reverse_url) ? (isset( $lang )) : false;
-		$reverse_url = ($reverse_url) ? (!strpos( $modified_link, $lang )) : false;
-		$reverse_url = ($reverse_url) ? (array_key_exists( $lang, $languages_map )) : false;
-		$reverse_url = ($reverse_url) ? (!($source_lang == $lang)) : false;
+		if (isset($lang)) {
+			$reverse_url = ($reverse_url) ? (!strpos( $modified_link, $lang )) : false;
+			$reverse_url = ($reverse_url) ? (array_key_exists( $lang, $languages_map )) : false;
+			$reverse_url = ($reverse_url) ? (!($source_lang == $lang)) : false;
+		}
 
 		if ( $reverse_url ) {
 			$array_url = explode( '/', $link );
