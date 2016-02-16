@@ -95,3 +95,6 @@ Custom language picker color options removed
 = 1.2.0 =
 Added support for subdomains
 Added reverse lookups for many link types
+
+= 1.2.1 =
+Fixed support for PHP 5.4
