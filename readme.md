@@ -90,5 +90,7 @@ Added support for subdomains
 Added reverse lookups for many link types
 
 = 1.2.1 =
+Fixed support for PHP 5.4
+
+= 1.2.2 =
 Improved admin UI
-Added support for static page for the front page
