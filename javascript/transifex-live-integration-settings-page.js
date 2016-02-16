@@ -141,20 +141,14 @@ function addTransifexLanguages(obj) {
                 console.log('transifex_live_settings_api_key_button::wait::onEnter');
                 $('#transifex_live_settings_api_key').trigger('validating');
             },
-             events: {save: 'save',click: 'checking'}
+             events: {click: 'checking'}
         },
         checking: {
             onEnter: function () {
                 console.log('transifex_live_settings_api_key_button::checking::onEnter');
                 $('#transifex_live_settings_api_key').trigger('validating');
             },
-             events: {save: 'save',click: 'checking'}
-        },
-        save: {
-            onEnter: function () {
-                console.log('transifex_live_settings_api_key_button::save::onEnter');
-                this.prop('type','submit').prop('value', 'Save');
-            },
+             events: {click: 'checking'}
         },
         hidden: {
             onEnter: function () {
@@ -187,7 +181,6 @@ function addTransifexLanguages(obj) {
         valid: {
             onEnter: function () {
                 console.log('valid:onEnter');
-                $('#transifex_live_settings_api_key_button').trigger('save');
                 $('#transifex_live_settings_url_options').prop('disabled',false);
                 $('#transifex_live_languages').trigger('load');
                 $('#transifex_live_settings_api_key_message').text('Valid Key - Enabling Advanced SEO');
