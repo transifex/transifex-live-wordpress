@@ -5,13 +5,13 @@
  *
  * @link    http://docs.transifex.com/developer/integrations/wordpress
  * @package TransifexLiveIntegration
- * @version 1.2.0
+ * @version 1.2.1
  *
  * @wordpress-plugin
  * Plugin Name:       Transifex Live Translation Plugin
  * Plugin URI:        http://docs.transifex.com/developer/integrations/wordpress
  * Description:       Translate your WordPress website or blog without the usual complex setups.
- * Version:           1.2.0
+ * Version:           1.2.1
  * License:           GNU General Public License
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       transifex-live-integration
