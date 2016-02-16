@@ -51,7 +51,11 @@ class Transifex_Live_Integration_Settings_Util {
 		preg_match( $reg, $raw_transifex_languages, $m );
 		$tl_array = json_decode( $m[1], true );
 		$tl_t_array = $tl_array['translation'];
-		$language_array = array_column( $tl_t_array, 'code' );
+		if (!function_exists('array_column')) {
+			$language_array = Transifex_Live_Integration_Lib::array_column( $tl_t_array, 'code' );
+		} else {
+			$language_array = array_column( $tl_t_array, 'code' );
+		}
 		if ( isset( $language_array ) ) {
 			return $language_array;
 		} else {
