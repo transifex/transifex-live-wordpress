@@ -1,5 +1,7 @@
 <?php
 
+include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-lib.php';
+
 class Transifex_Live_Integration_Settings_Util {
 
 	const EMPTY_TRANSIFEX_LANGUAGES_PATTERN = '/^transifex_languages\(\{\"timestamp\":\".*\"\}\);/';
