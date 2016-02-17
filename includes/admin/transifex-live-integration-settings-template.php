@@ -42,8 +42,8 @@
 					<br/>
 					<input type="hidden" value="<?php echo $source_language ?>" name="transifex_live_settings[source_language]" id="transifex_live_settings_source_language" />
 					<p id="transifex_live_languages">
-					<table><tr><th scope="row">Language</th><th scope="row">Code</th></tr>
-					<tr>
+					<table id="language_map_table"><tr><th scope="row">Language</th><th scope="row">Code</th></tr>
+					<tr id="language_map_template">
 						<td style="padding:0px"><span>Korean</span></td>
 						<td style="padding:0px"><input type="text" style="width:100px" name="transifex-integration-live-ko" id="transifex-integration-live-ko" value="ko" /></td>
 					</tr>

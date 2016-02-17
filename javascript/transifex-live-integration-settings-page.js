@@ -83,12 +83,17 @@ function addTransifexLanguages(obj) {
             console.log(lm[i][o.code]);
         });
     } else {
+    var cloneIndex = 0;
     jQuery.each(transifex_language_fields['html'], function (i, o) {
+        jQuery('#language_map_template').clone()
+                .append('#language_map_table')
+                .attr("id", "clonedInput" +  cloneIndex);
         console.log(o.caption);
         console.log(o.type);
         console.log(o.name);
         console.log(o.id);
         console.log(o.value);
+        cloneIndex++;
     });
     jQuery('#transifex_live_settings_source_language').val(source_language);
     jQuery('#transifex_live_settings_transifex_languages').val(JSON.stringify(transifex_languages));
