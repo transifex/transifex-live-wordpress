@@ -78,16 +78,18 @@ function addTransifexLanguages(obj) {
     if (obj!==null&&obj!==undefined) {
         var lm = jQuery.parseJSON(jQuery('#transifex_live_settings_language_map').val() );
         jQuery.each(obj, function (i, o) {
-            language_fields = language_fields + '<tr><td style="padding:0px"><span>'+o.tx_name+'</span></td><td style="padding:0px"><input type="text" style="width:100px" name="transifex-integration-live-'+o.code+'" id="transifex-integration-live-'+o.code+'" value="'+lm[i][o.code]+'" /></td></tr>';
-          //  jQuery('#transifex-integration-live-'+o.code).change(function(){console.log(jQuery(this).val());});
+            console.log(o.tx_name);
+            console.log(o.code);
+            console.log(lm[i][o.code]);
         });
     } else {
     jQuery.each(transifex_language_fields['html'], function (i, o) {
-        language_fields = language_fields + '<tr><td style="padding:0px"><span>'+o.caption+'</span></td><td style="padding:0px"><input type="'+o.type+'" style="width:100px" name="'+o.name+'" id="'+o.id+'" value="'+o.value+'" /></td></tr>';
-//        jQuery('#'+o.id).change(function(){console.log(jQuery(this).val());});
+        console.log(o.caption);
+        console.log(o.type);
+        console.log(o.name);
+        console.log(o.id);
+        console.log(o.value);
     });
-    language_fields = language_fields + '</table>';
-    jQuery('#transifex_live_languages').append(language_fields);
     jQuery('#transifex_live_settings_source_language').val(source_language);
     jQuery('#transifex_live_settings_transifex_languages').val(JSON.stringify(transifex_languages));
     jQuery('#transifex_live_settings_language_lookup').val(JSON.stringify(language_lookup));

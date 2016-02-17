@@ -42,8 +42,15 @@
 					<br/>
 					<input type="hidden" value="<?php echo $source_language ?>" name="transifex_live_settings[source_language]" id="transifex_live_settings_source_language" />
 					<p id="transifex_live_languages">
-						<span id="transifex_live_languages_message">Transifex Live languages are not loaded. Please re-check your API key.</span>
+					<table><tr><th scope="row">Language</th><th scope="row">Code</th></tr>
+					<tr>
+						<td style="padding:0px"><span>Korean</span></td>
+						<td style="padding:0px"><input type="text" style="width:100px" name="transifex-integration-live-ko" id="transifex-integration-live-ko" value="ko" /></td>
+					</tr>
+					</table>
+			         <span id="transifex_live_languages_message">Transifex Live languages are not loaded. Please re-check your API key.</span>
 					</p>
+					<p class="submit"><input type="button" name="sync" id="sync" class="button button-primary" value="Refresh Languages List"></p>
 					<p class="description" id="tagline-description">Tweak your localized urls.</p>
 				</td>
 			</tr>
