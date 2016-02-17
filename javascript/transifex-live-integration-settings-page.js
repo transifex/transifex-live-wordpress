@@ -43,8 +43,10 @@ function transifex_live_integration_convert(l) {
 
 function transifexLanguages() {
     console.log('transifexLanguages');
+    var apikey = jQuery('#transifex_live_settings_api_key').val();
+    if (apikey!='') {
     jQuery.ajax({
-        url: "https://cdn.transifex.com/" + jQuery('#transifex_live_settings_api_key').val() + "/latest/languages.jsonp",
+        url: "https://cdn.transifex.com/" + apikey + "/latest/languages.jsonp",
         jsonpCallback: "transifex_languages",
         jsonp: true,
         dataType: "jsonp",
@@ -66,6 +68,9 @@ function transifexLanguages() {
         console.log(jqXHR);
         console.log(textStatus);
     });
+} else {
+    jQuery('#transifex_live_settings_api_key').trigger('blank');
+}
 }
 
 function addTransifexLanguages(obj) {
@@ -172,26 +177,29 @@ function addTransifexLanguages(obj) {
         validating: {
             onEnter: function () {
                 console.log('transifex_live_settings_api_key:validating:onEnter');
-                $('input#submit').prop('disabled', true);
+                $('#transifex_live_settings_api_key_button').prop('disabled', true);
                 $('#transifex_live_settings_api_key_message').text('Checking Key');
                 transifexLanguages();
             },
-            events: {success: 'valid', blank:'blank', error: 'error', notranslation: 'missing'}
+            events: {success: 'valid', blank:'blank', error: 'error', notranslation: 'missing',change: 'validating'}
         },
         valid: {
             onEnter: function () {
                 console.log('valid:onEnter');
-                $('#transifex_live_settings_url_options').prop('disabled',false);
+                $('#transifex_live_settings_api_key_button').hide();
+                $('#transifex_live_settings_url_options_none').attr('disabled',false);
+                $('#transifex_live_settings_url_options_subdirectory').attr('disabled',false);
+                $('#transifex_live_settings_url_options_subdomain').attr('disabled',false);
                 $('#transifex_live_languages').trigger('load');
                 $('#transifex_live_settings_api_key_message').text('Valid Key - Enabling Advanced SEO');
-                
+                $('#transifex_live_settings_api_key_button').prop('disabled', true);
             },
             events: {success: 'valid', change: 'validating'}
         },
         error: {
             onEnter: function () {
                 console.log('error:onEnter');
-                $('input#submit').prop('disabled', true);
+                $('#transifex_live_settings_api_key_button').prop('disabled', false);
                 $('#transifex_live_settings_api_key_message').text('Error Checking Key - Please Correct Key');
             },
             events: {change: 'validating', validating: 'validating'}
@@ -201,17 +209,72 @@ function addTransifexLanguages(obj) {
                 console.log('transifex_live_settings_api_key:blank:onEnter');
                 $('#transifex_live_settings_api_key_button').trigger('wait');
                 $('#transifex_live_settings_api_key_message').text('');
+                $('#transifex_live_settings_api_key_button').prop('disabled', false);
             },
             events: {change: 'validating', validating: 'validating'}
         },
         missing: {
             onEnter: function () {
                 console.log('missing:onEnter');
-                $('input#submit').prop('disabled', true);
+                $('#transifex_live_settings_api_key_button').prop('disabled', false);
                 $('#transifex_live_settings_api_key_message').text('Error No Languages have been Published.');
             },
             events: {validating: 'validating'}
         },
+    }, {setClass: true});
+})(jQuery);
+
+(function ($) {
+    $('#transifex_live_settings_url_options_none').machine({
+        defaultState: {
+            onEnter: function () {
+                console.log('transifex_live_settings_url_options_none::defaultState::onEnter');
+            },
+            events: {click:'on'}
+        },
+        on: {
+            onEnter: function () {
+                console.log('transifex_live_settings_url_options_none::on::onEnter');
+                $('#transifex_live_settings_url_options').trigger('none');
+            },
+            events: {click:'on'}
+        },  
+    }, {setClass: true});
+})(jQuery);
+
+(function ($) {
+    $('#transifex_live_settings_url_options_subdirectory').machine({
+        defaultState: {
+            onEnter: function () {
+                console.log('transifex_live_settings_url_options_subdirectory::defaultState::onEnter');
+            },
+            events: {click:'on'}
+        },
+        on: {
+            onEnter: function () {
+                console.log('transifex_live_settings_url_options_subdirectory::on::onEnter');
+                $('#transifex_live_settings_url_options').trigger('subdirectory');
+            },
+            events: {click:'on'}
+        },  
+    }, {setClass: true});
+})(jQuery);
+
+(function ($) {
+    $('#transifex_live_settings_url_options_subdomain').machine({
+        defaultState: {
+            onEnter: function () {
+                console.log('transifex_live_settings_url_options_subdomain::defaultState::onEnter');
+            },
+            events: {click:'on'}
+        },
+        on: {
+            onEnter: function () {
+                console.log('transifex_live_settings_url_options_subdomain::on::onEnter');
+                $('#transifex_live_settings_url_options').trigger('subdomain');
+            },
+            events: {click:'on'}
+        },  
     }, {setClass: true});
 })(jQuery);
 
@@ -230,8 +293,11 @@ function addTransifexLanguages(obj) {
                 $('.url-structure-subdirectory').toggleClass('hide-if-js',true);
                 $('.url-structure-subdomain').toggleClass('hide-if-js',true);
                 $('.custom-urls-settings').toggleClass('hide-if-js',true);
+                $('#transifex_live_settings_url_options_subdirectory').prop( "checked", false );
+                $('#transifex_live_settings_url_options_subdomain').prop( "checked", false );
+                this.val('1');
             },
-            events: {change: function() { return (this.val() === "3")?'subdirectory':'subdomain'}}
+            events: {none:'none',subdomain:'subdomain',subdirectory:'subdirectory'}
         },
         subdirectory: {
             onEnter: function () {
@@ -241,8 +307,11 @@ function addTransifexLanguages(obj) {
                 $('.url-structure-subdomain').toggleClass('hide-if-js',true);
                 $('.custom-urls-settings').toggleClass('hide-if-js',false);
                 $('#transifex_live_options_all').trigger('activate');
+                $('#transifex_live_settings_url_options_none').prop( "checked", false );
+                $('#transifex_live_settings_url_options_subdomain').prop( "checked", false );
+                this.val(2);
             },
-            events: {change: function() { return (this.val() === "2")?'subdomain':'none'}}
+            events: {none:'none',subdomain:'subdomain',subdirectory:'subdirectory'}
         },
         subdomain: {
             onEnter: function () {
@@ -252,8 +321,11 @@ function addTransifexLanguages(obj) {
                 $('.url-structure-subdomain').toggleClass('hide-if-js',false);
                 $('.custom-urls-settings').toggleClass('hide-if-js',false);
                 $('#transifex_live_options_all').trigger('activate');
+                $('#transifex_live_settings_url_options_subdirectory').prop( "checked", false );
+                $('#transifex_live_settings_url_options_none').prop( "checked", false );
+                this.val('3');
             },
-            events: {change: function() { return (this.val() === "3")?'subdirectory':'none'}}
+            events: {none:'none',subdomain:'subdomain',subdirectory:'subdirectory'}
         }
     }, {setClass: true});
 })(jQuery);
