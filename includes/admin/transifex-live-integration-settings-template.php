@@ -44,8 +44,8 @@
 					<p id="transifex_live_languages">
 					<table id="language_map_table"><tr><th scope="row">Language</th><th scope="row">Code</th></tr>
 					<tr id="language_map_template">
-						<td style="padding:0px"><span>Korean</span></td>
-						<td style="padding:0px"><input type="text" style="width:100px" name="transifex-integration-live-ko" id="transifex-integration-live-ko" value="ko" /></td>
+						<td style="padding:0px"><span class="tx-language">Dummy</span></td>
+						<td style="padding:0px"><input class="tx-code" type="text" style="width:100px" name="dummy-name" id="dummy-id" value="dummy-value" /></td>
 					</tr>
 					</table>
 			         <span id="transifex_live_languages_message">Transifex Live languages are not loaded. Please re-check your API key.</span>
