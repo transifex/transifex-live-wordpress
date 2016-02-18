@@ -77,14 +77,22 @@ function addTransifexLanguages(obj) {
     var language_fields = '<table><tr><th scope="row">Language</th><th scope="row">Code</th></tr>';
     if (obj!==null&&obj!==undefined) {
         var lm = jQuery.parseJSON(jQuery('#transifex_live_settings_language_map').val() );
+        var myName = '';
+        var myId = '';
         jQuery.each(obj, function (i, o) {
+            myName = 'transifex-integration-live-' + o.code;
+            myId = 'transifex-integration-live-' + o.code;
+            jQuery('#language_map_table').append(jQuery('#language_map_template').clone().attr('id','cloneid').each(function(ii, oo) {
+                jQuery(oo).find('span.tx-language').text(o.tx_name);
+                jQuery(oo).find('input.tx-code').attr('id',id).attr('name',name).val(lm[i][o.code]);
+    }));    
             console.log(o.tx_name);
             console.log(o.code);
             console.log(lm[i][o.code]);
         });
     } else {
     jQuery.each(transifex_language_fields['html'], function (i, o) {
-        jQuery('#language_map_table').append(jQuery('#language_map_template').clone().each(function(ii, oo) {
+        jQuery('#language_map_table').append(jQuery('#language_map_template').clone().attr('id','cloneid').each(function(ii, oo) {
             jQuery(oo).find('span.tx-language').text(o.caption);
             jQuery(oo).find('input.tx-code').attr('id',o.id).attr('name',o.name).val(o.value);
     }));        
@@ -95,6 +103,7 @@ function addTransifexLanguages(obj) {
         console.log(o.id);
         console.log(o.value);
     });
+    jQuery('#language_map_template').remove();
     jQuery('#transifex_live_settings_source_language').val(source_language);
     jQuery('#transifex_live_settings_transifex_languages').val(JSON.stringify(transifex_languages));
     jQuery('#transifex_live_settings_language_lookup').val(JSON.stringify(language_lookup));
