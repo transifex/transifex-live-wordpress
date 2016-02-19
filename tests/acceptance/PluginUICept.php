@@ -10,7 +10,7 @@ $I->click('Log In');
 $I->see('Dashboard');
 $I->click('Settings');
 $I->click('Transifex Live');
-$I->see('Transifex Live Plugin','h2');
+$I->see('Transifex Live Translation Plugin Settings','h2');
 $I->seeInFormFields('#settings_form',[ 
 	'transifex_live_settings[api_key]' => ''
 	]);
