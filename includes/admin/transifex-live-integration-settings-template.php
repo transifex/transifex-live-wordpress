@@ -4,7 +4,7 @@
 	<form id="settings_form" method="post" enctype="multipart/form-data">
 		<?php wp_nonce_field( 'transifex_live_settings', 'transifex_live_nonce' ); ?>
 		<p><?php _e( 'Translate your WordPress site without complexities.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
-    <p><?php _e( 'Before using this plugin, be sure you have a Transifex Live API key. ' ); ?>&nbsp;<a href="<?php echo $settings['urls']['api_key_landing_page']; ?>"><?php _e( 'Click here to sign up and get an API key.' ) ?></a>
+		<p><?php _e( 'Before using this plugin, be sure you have a Transifex Live API key. ' ); ?>&nbsp;<a href="<?php echo $settings['urls']['api_key_landing_page']; ?>"><?php _e( 'Click here to sign up and get an API key.' ) ?></a>
 		<table class="form-table">
             <tbody>
                 <tr>
@@ -21,7 +21,7 @@
 				<tr valign="top">
 				</tr></table>
 		<h2>Advanced SEO Settings</h2>
-    <p>This plugin lets you set unique, language/region-specific URLs for your site and tells search engines what language a page is in. This is done by creating new language subdirectories through the plugin, or by pointing to existing language subdomains. In all cases, the plugin will add the Transifex Live JavaScript snippet to your site.</p>
+		<p>This plugin lets you set unique, language/region-specific URLs for your site and tells search engines what language a page is in. This is done by creating new language subdirectories through the plugin, or by pointing to existing language subdomains. In all cases, the plugin will add the Transifex Live JavaScript snippet to your site.</p>
 		<table class="form-table">
 			<tr>
 				<td>
