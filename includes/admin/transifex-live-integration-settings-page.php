@@ -49,10 +49,6 @@ class Transifex_Live_Integration_Settings_Page {
 			$source_language = $settings['source_language'];
 		}
 
-		$languages = [ ];
-		if ( $settings['transifex_languages'] !== '' ) {
-			$languages = $settings['transifex_languages'];
-		}
 
 		$language_lookup = [ ];
 		if ( $settings['language_lookup'] !== '' ) {
@@ -64,21 +60,17 @@ class Transifex_Live_Integration_Settings_Page {
 			$language_map = $settings['language_map'];
 		}
 
-		$languages_regex = [ ];
-		if ( $settings['languages_regex'] !== '' ) {
-			$languages_regex = $settings['languages_regex'];
-		}
 		$checked_custom_urls = ($settings['enable_custom_urls'] === "1") ? "1" : "0";
 
 		$url_options = $settings['url_options'];
 		ob_start();
-		checked( $settings['url_options'], 1 );
+		checked( $settings['url_options'], '1' );
 		$url_options_none = ob_get_clean();
 		ob_start();
-		checked( $settings['url_options'], 2 );
+		checked( $settings['url_options'], '2' );
 		$url_options_subdomain = ob_get_clean();
 		ob_start();
-		checked( $settings['url_options'], 3 );
+		checked( $settings['url_options'], '3' );
 		$url_options_subdirectory = ob_get_clean();
 		$site_url = site_url();
 		$site_url_subdirectory_example = $site_url . '/%lang%';
@@ -106,18 +98,31 @@ class Transifex_Live_Integration_Settings_Page {
 	static public function update_settings( $settings ) {
 		Plugin_Debug::logTrace();
 
-		$transifex_languages = explode( ',', $settings['transifex_live_settings']['transifex_languages'] );
-		$languages_regex = $settings['transifex_live_settings']['languages_regex'];
+		$transifex_languages = json_decode(stripslashes($settings['transifex_live_settings']['transifex_languages'] ), true);
 		$languages_map = $settings['transifex_live_settings']['language_map'];
-		$languages = $settings['transifex_live_settings']['transifex_languages'];
 		$languages_map_string = $languages_map; // TODO: Switch to wp_json_encode.
 
+		
+		$languages_map = (array) json_decode(stripslashes($languages_map),true);
+		Plugin_Debug::logTrace($transifex_languages);
+		Plugin_Debug::logTrace($languages_map);
 		$trim = false;
-
+		
+		$languages = '';
+		$languages_regex = '';
+		foreach ($transifex_languages as $lang) {
+				$trim = true;
+				$languages .= $languages_map[0][$lang];
+			    $languages .= ",";
+				$languages_regex .= $languages_map[0][$lang];
+			    $languages_regex .= "|";
+			}
+Plugin_Debug::logTrace($languages);
+Plugin_Debug::logTrace($languages_regex);
 		$languages = ($trim) ? rtrim( $languages, ',' ) : '';
 		$languages_regex = ($trim) ? rtrim( $languages_regex, '|' ) : '';
 		$languages_regex = '(' . $languages_regex . ')';
-
+		
 
 		if ( isset( $languages_regex ) ) {
 			$array_url = explode( "/", site_url() );
