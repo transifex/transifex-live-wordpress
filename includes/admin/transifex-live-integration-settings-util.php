@@ -3,7 +3,7 @@
 class Transifex_Live_Integration_Settings_Util {
 	
 	static function render_url_options( $options ) {
-		$html = '<table>';
+		$html = '';
 		$row = '';
 		$i = 1;
 		foreach ($options as $option) {
@@ -15,7 +15,7 @@ class Transifex_Live_Integration_Settings_Util {
 			$id = $option['id'];
 			$name = $option['name'];
 			$row .= <<<ROW
-		<td style="padding:0px"><input class="all_selector" type="checkbox" id="$id" name="$name" value="1" $checked>$text</td>
+		<td class="option-checkbox" style="padding:0px"><input class="all_selector" type="checkbox" id="$id" name="$name" value="1" $checked>$text</td>
 ROW;
 			if ( $i % 3 == 0 ) {
 				$html .= '<tr>'.$row.'</tr>';
@@ -23,6 +23,6 @@ ROW;
 			}
 			$i++;
 		}
-		echo $html.'</table>';
+		echo $html;
 	}
 }
