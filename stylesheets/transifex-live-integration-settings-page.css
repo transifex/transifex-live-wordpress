@@ -71,3 +71,8 @@
 #transifex_live_settings_api_key_button.hidden {
         display:none;
 }
+
+#transifex_live_settings_rewrite-options {
+        border-collapse: separate;
+        border-spacing: 15px 2px;
+}

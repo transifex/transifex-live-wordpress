@@ -58,8 +58,14 @@
 				<th>Subdirectory Options</th>
 				<td>
 					<p>Choose which WordPress content types you want to enable language subdirectories for.</p>
-					<p><input id="transifex_live_settings_rewrite_option_all" name="transifex_live_settings[rewrite_option_all]" value="1" type="checkbox" <?php echo $checked_rewrite_option_all ?>>All</p>
-					<p><?php Transifex_Live_Integration_Settings_Util::render_url_options( $rewrite_options_array ); ?></p>
+					<p>
+					<table id="transifex_live_settings_rewrite-options">
+						<tr>
+					<td style="padding:0px"><input id="transifex_live_settings_rewrite_option_all" name="transifex_live_settings[rewrite_option_all]" value="1" type="checkbox" <?php echo $checked_rewrite_option_all ?>>All</td>
+						</tr>
+						<?php Transifex_Live_Integration_Settings_Util::render_url_options( $rewrite_options_array ); ?>
+					</table>
+					</p>
 					<p class="url-structure-subdirectory">Having trouble getting language/region-specific URLs working? <a href="http://docs.transifex.com/integrations/wordpress/#troubleshooting-tips">Check out our additional troubleshooting tips!</a></p>
 					</div>
 				</td></tr>
@@ -75,7 +81,7 @@
 	</form>
     <p>
         <a href="<?php echo $settings['urls']['rate_us']; ?>">
-			<?php _e( 'Thank you for using Transifex!', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
+			<a href="http://docs.transifex.com/integrations/wordpress/" target="_blank" ><?php _e( 'Plugin documentation', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></a> | <?php _e( 'Thank you for using Transifex!', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
         </a>
     </p>
 </div>
