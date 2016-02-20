@@ -76,19 +76,20 @@ class Transifex_Live_Integration_Hreflang {
 			$raw_url = $raw_url . '/';
 		}
 		$base_url = $raw_url;
-		if ( $this->settings['source_language'] == get_query_var( 'lang' ) ) {
+		if ( $this->settings['source_language'] === get_query_var( 'lang' ) ) {
 			$array_url = explode( "/", $raw_url );
-			if ($this->settings['url_options'] == '3') {
-				$array_url[2] = get_query_var( 'lang' ) . '/' . $array_url[2];
+			if ( $this->settings['url_options'] === '3' ) {
+				array_pop( $array_url );
+				array_push( $array_url, get_query_var( 'lang' ) );
+				array_push( $array_url, '' );
 			}
-			if ($this->settings['url_options'] == '2') {
-				$array_domain = explode( ".", $array_url[2]);
+			if ( $this->settings['url_options'] === '2' ) {
+				$array_domain = explode( ".", $array_url[2] );
 				$array_domain[0] = get_query_var( 'lang' );
-				$array_url[2] =  implode('.',$array_domain);
+				$array_url[2] = implode( '.', $array_domain );
 			}
-			
+
 			$raw_url = implode( '/', $array_url );
-			
 		} else {
 			$base_url = str_replace( '/' . get_query_var( 'lang' ), "", $raw_url );
 		}

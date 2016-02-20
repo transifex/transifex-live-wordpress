@@ -93,4 +93,7 @@ Added reverse lookups for many link types
 Fixed support for PHP 5.4
 
 = 1.2.2 =
+Fixed hreflang tag output for subdirectories
+
+= 1.2.3 =
 Improved admin UI

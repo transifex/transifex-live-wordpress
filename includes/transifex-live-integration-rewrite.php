@@ -59,7 +59,7 @@ class Transifex_Live_Integration_Rewrite {
 		if ( isset( $rewrite_options['add_rewrites_search'] ) )
 			$this->rewrite_options[] = ($rewrite_options['add_rewrites_search']) ? 'search' : '';
 		if ( isset( $rewrite_options['add_rewrites_feed'] ) )
-			$this->rewrite_options[] = ($rewrite_options['add_rewrites_feed']) ? 'feed' : '';		
+			$this->rewrite_options[] = ($rewrite_options['add_rewrites_feed']) ? 'feed' : '';
 		if ( isset( $rewrite_options['add_rewrites_feed'] ) )
 			$this->rewrite_options[] = ($rewrite_options['add_rewrites_permalink_tag']) ? 'permalink_tag' : '';
 		if ( !empty( $settings['languages'] ) ) {
@@ -147,6 +147,7 @@ class Transifex_Live_Integration_Rewrite {
 		$reverse_url = true;
 
 		$reverse_url = ($reverse_url) ? (isset( $lang )) : false;
+
 		if ( !empty( $lang ) ) {
 			$reverse_url = ($reverse_url) ? (!strpos( $modified_link, $lang )) : false;
 		}
