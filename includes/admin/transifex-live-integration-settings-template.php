@@ -4,7 +4,7 @@
 	<form id="settings_form" method="post" enctype="multipart/form-data">
 		<?php wp_nonce_field( 'transifex_live_settings', 'transifex_live_nonce' ); ?>
 		<p><?php _e( 'Translate your WordPress site without complexities.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
-		<p><?php _e( 'Before using this plugin, be sure you have a Transifex Live API key. ' ); ?>&nbsp;<a href="<?php echo $settings['urls']['api_key_landing_page']; ?>"><?php _e( 'Click here to sign up and get an API key.' ) ?></a>
+		<p><?php _e( 'Before using this plugin, be sure you have a Transifex Live API key. ' ); ?>&nbsp;<a target="_blank" href="<?php echo $settings['urls']['api_key_landing_page']; ?>"><?php _e( 'Click here to sign up and get an API key.' ) ?></a>
 		<table class="form-table">
             <tbody>
                 <tr>
@@ -26,12 +26,12 @@
 			<tr>
 				<td>
 					<label for="transifex_live_settings_url_options">
-						<p><input type="radio" disabled="true" id="transifex_live_settings_url_options_none" name="transifex_live_settings[url_options_none]" value="1" <?php echo $url_options_none ?>> Disabled – Just add the Transifex Live JavaScript snippet to my site. <a href="http://docs.transifex.com/integrations/wordpress/#disabled"><b>Learn more</b></a>.</p>
-						<p><input type="radio" disabled="true" id="transifex_live_settings_url_options_subdirectory" name="transifex_live_settings[url_options_subdirectory]" value="1" <?php echo $url_options_subdirectory ?>> Subdirectory – Create new language subdirectories through the plugin, e.g. <code>http://www.example.com/fr/</code>. <a href="http://docs.transifex.com/integrations/wordpress/#subdirectories"><b>Learn more</b></a>.</p>
-						<p><input type="radio" disabled="true" id="transifex_live_settings_url_options_subdomain" name="transifex_live_settings[url_options_subdomain]" value="1" <?php echo $url_options_subdomain ?>> Subdomain – Point the plugin to existing language subdomains, e.g. <code>http://fr.example.com</code>. <a href="http://docs.transifex.com/integrations/wordpress/#subdomains"><b>Learn more</b></a>.</p>
+						<p><input type="radio" disabled="true" id="transifex_live_settings_url_options_none" name="transifex_live_settings[url_options_none]" value="1" <?php echo $url_options_none ?>> Disabled – Just add the Transifex Live JavaScript snippet to my site. <a target="_blank" href="http://docs.transifex.com/integrations/wordpress/#disabled"><b>Learn more</b></a>.</p>
+						<p><input type="radio" disabled="true" id="transifex_live_settings_url_options_subdirectory" name="transifex_live_settings[url_options_subdirectory]" value="1" <?php echo $url_options_subdirectory ?>> Subdirectory – Create new language subdirectories through the plugin, e.g. <code>http://www.example.com/fr/</code>. <a target="_blank" href="http://docs.transifex.com/integrations/wordpress/#subdirectories"><b>Learn more</b></a>.</p>
+						<p><input type="radio" disabled="true" id="transifex_live_settings_url_options_subdomain" name="transifex_live_settings[url_options_subdomain]" value="1" <?php echo $url_options_subdomain ?>> Subdomain – Point the plugin to existing language subdomains, e.g. <code>http://fr.example.com</code>. <a target="_blank" href="http://docs.transifex.com/integrations/wordpress/#subdomains"><b>Learn more</b></a>.</p>
 						<input type="hidden" id="transifex_live_settings_url_options" name="transifex_live_settings[url_options]" value="<?php echo $url_options ?>" >
 					</label>
-					<p><b>Note:</b> When you choose the Subdirectory or Subdomain options, the plugin will automatically <a href="http://docs.transifex.com/integrations/wordpress/#hreflang-tag"><b>add hreflang tags</b></a> to the header of your site.</p>
+					<p><b>Note:</b> When you choose the Subdirectory or Subdomain options, the plugin will automatically <a target="_blank" href="http://docs.transifex.com/integrations/wordpress/#hreflang-tag"><b>add hreflang tags</b></a> to the header of your site.</p>
 				</td></tr></table>
 		<table class="form-table">
 			<tr class="custom-urls-settings">
@@ -66,7 +66,7 @@
 						<?php Transifex_Live_Integration_Settings_Util::render_url_options( $rewrite_options_array ); ?>
 					</table>
 					</p>
-					<p class="url-structure-subdirectory">Having trouble getting language/region-specific URLs working? <a href="http://docs.transifex.com/integrations/wordpress/#troubleshooting-tips">Check out our additional troubleshooting tips!</a></p>
+					<p class="url-structure-subdirectory">Having trouble getting language/region-specific URLs working? <a target="_blank" href="http://docs.transifex.com/integrations/wordpress/#troubleshooting-tips">Check out our additional troubleshooting tips!</a></p>
 					</div>
 				</td></tr>
 			</tbody>
@@ -81,7 +81,7 @@
 	</form>
     <p>
         <a href="<?php echo $settings['urls']['rate_us']; ?>">
-			<a href="http://docs.transifex.com/integrations/wordpress/" target="_blank" ><?php _e( 'Plugin documentation', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></a> | <?php _e( 'Thank you for using Transifex!', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
+			<a target="_blank" href="http://docs.transifex.com/integrations/wordpress/" target="_blank" ><?php _e( 'Plugin documentation', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></a> | <?php _e( 'Thank you for using Transifex!', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
         </a>
     </p>
 </div>
