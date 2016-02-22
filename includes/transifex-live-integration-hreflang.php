@@ -15,9 +15,7 @@ class Transifex_Live_Integration_Hreflang {
 	 * @var settings array
 	 */
 	private $settings;
-	
 	private $language_map;
-	
 	private $languages;
 
 	/**
@@ -27,8 +25,8 @@ class Transifex_Live_Integration_Hreflang {
 	public function __construct( $settings ) {
 		Plugin_Debug::logTrace();
 		$this->settings = $settings;
-		$this->language_map = json_decode( stripslashes( $settings['language_map'] ), true );
-		$this->languages = json_decode( stripslashes( $settings['transifex_languages']), true );
+		$this->language_map = json_decode( $settings['language_map'], true )[0];
+		$this->languages = json_decode( $settings['transifex_languages'], true );
 	}
 
 	public function ok_to_add() {
@@ -96,16 +94,16 @@ class Transifex_Live_Integration_Hreflang {
 		$source = $this->settings['source_language'];
 		$hreflang_out = '';
 		$hreflang_out .= <<<SOURCE
-		<link rel="alternate" href="$base_url" hreflang="$source"/>		
+<link rel="alternate" href="$base_url" hreflang="$source"/>\n		
 SOURCE;
-		$languages = explode( ",", $this->languages );
+		$languages = $this->languages;
 		$lang = get_query_var( 'lang' );
 		$hreflangs = $this->generate_languages_hreflang( $raw_url, $languages, $lang, $this->language_map );
 		foreach ($hreflangs as $hreflang) {
 			$href_attr = $hreflang['href'];
 			$hreflang_attr = $hreflang['hreflang'];
 			$hreflang_out .= <<<HREFLANG
-				<link rel="alternate" href="$href_attr" hreflang="$hreflang_attr"/>
+<link rel="alternate" href="$href_attr" hreflang="$hreflang_attr"/>\n
 HREFLANG;
 		}
 		echo $hreflang_out;

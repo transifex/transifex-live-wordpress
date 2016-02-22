@@ -43,12 +43,12 @@
 					<input type="hidden" value="<?php echo $source_language ?>" name="transifex_live_settings[source_language]" id="transifex_live_settings_source_language" />
 					<p id="transifex_live_languages">
 					<table id="language_map_table"><tr><th scope="row">Language</th><th scope="row">Code</th></tr>
-					<tr id="language_map_template" style="display:none">
-						<td style="padding:0px"><span class="tx-language">Dummy</span></td>
-						<td style="padding:0px"><input class="tx-code" type="text" style="width:100px" name="dummy-name" id="dummy-id" value="" /></td>
-					</tr>
+						<tr id="language_map_template" style="display:none">
+							<td style="padding:0px"><span class="tx-language">Dummy</span></td>
+							<td style="padding:0px"><input class="tx-code" type="text" style="width:100px" name="dummy-name" id="dummy-id" value="" /></td>
+						</tr>
 					</table>
-			         <span id="transifex_live_languages_message">Your languages couldn't be loaded. Please re-check your API key.</span>
+					<span id="transifex_live_languages_message">Your languages couldn't be loaded. Please re-check your API key.</span>
 					</p>
 					<p class="submit"><input type="button" name="sync" id="sync" class="button button-primary" value="Refresh Languages List"></p>
 					<p class="description" id="tagline-description">Tweak your localized urls.</p>
@@ -61,7 +61,7 @@
 					<p>
 					<table id="transifex_live_settings_rewrite-options">
 						<tr>
-					<td style="padding:0px"><input id="transifex_live_settings_rewrite_option_all" name="transifex_live_settings[rewrite_option_all]" value="1" type="checkbox" <?php echo $checked_rewrite_option_all ?>>All</td>
+							<td style="padding:0px"><input id="transifex_live_settings_rewrite_option_all" name="transifex_live_settings[rewrite_option_all]" value="1" type="checkbox" <?php echo $checked_rewrite_option_all ?>>All</td>
 						</tr>
 						<?php Transifex_Live_Integration_Settings_Util::render_url_options( $rewrite_options_array ); ?>
 					</table>
