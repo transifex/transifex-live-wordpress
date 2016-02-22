@@ -96,7 +96,7 @@ class Transifex_Live_Integration_Hreflang {
 		$source = $this->settings['source_language'];
 		$hreflang_out = '';
 		$hreflang_out .= <<<SOURCE
-		<link rel="alternate" href="$base_url" hreflang="$source"/>		
+<link rel="alternate" href="$base_url" hreflang="$source"/>\n		
 SOURCE;
 		$languages = $this->languages;
 		$lang = get_query_var( 'lang' );
