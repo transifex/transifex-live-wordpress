@@ -105,7 +105,7 @@ SOURCE;
 			$href_attr = $hreflang['href'];
 			$hreflang_attr = $hreflang['hreflang'];
 			$hreflang_out .= <<<HREFLANG
-				<link rel="alternate" href="$href_attr" hreflang="$hreflang_attr"/>
+<link rel="alternate" href="$href_attr" hreflang="$hreflang_attr"/>\n
 HREFLANG;
 		}
 		echo $hreflang_out;
