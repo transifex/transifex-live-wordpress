@@ -188,12 +188,13 @@ Plugin_Debug::logTrace($languages_regex);
 		Plugin_Debug::logTrace();
 		$settings['transifex_live_settings']['api_key'] = ( isset( $settings['transifex_live_settings']['api_key'] )) ? sanitize_text_field( $settings['transifex_live_settings']['api_key'] ) : '';
 		$settings['transifex_live_settings']['raw_transifex_languages'] = ( isset( $settings['transifex_live_settings']['raw_transifex_languages'] )) ? sanitize_text_field( $settings['transifex_live_settings']['raw_transifex_languages'] ) : '';
-		$settings['transifex_live_settings']['languages'] = ( isset( $settings['transifex_live_settings']['languages'] )) ? sanitize_text_field( $settings['transifex_live_settings']['languages'] ) : '';
-		$settings['transifex_live_settings']['language_lookup'] = ( isset( $settings['transifex_live_settings']['language_lookup'] )) ? sanitize_text_field( $settings['transifex_live_settings']['language_lookup'] ) : '';
+		$settings['transifex_live_settings']['languages'] = ( isset( $settings['transifex_live_settings']['languages'] )) ? sanitize_text_field( stripslashes($settings['transifex_live_settings']['languages'] ) ) : '';
+		$settings['transifex_live_settings']['language_lookup'] = ( isset( $settings['transifex_live_settings']['language_lookup'] )) ? sanitize_text_field( stripslashes($settings['transifex_live_settings']['language_lookup'] )) : '';
+		$settings['transifex_live_settings']['language_map'] = ( isset( $settings['transifex_live_settings']['language_map'] )) ? sanitize_text_field( stripslashes($settings['transifex_live_settings']['language_map'] )) : '';
 		$settings['transifex_live_settings']['source_language'] = ( isset( $settings['transifex_live_settings']['source_language'] )) ? sanitize_text_field( $settings['transifex_live_settings']['source_language'] ) : '';
 		$settings['transifex_live_settings']['subdomain_pattern'] = ( isset( $settings['transifex_live_settings']['subdomain_pattern'] )) ? sanitize_text_field( $settings['transifex_live_settings']['subdomain_pattern'] ) : '';
 		$settings['transifex_live_settings']['languages_regex'] = ( isset( $settings['transifex_live_settings']['languages_regex'] )) ? sanitize_text_field( $settings['transifex_live_settings']['languages_regex'] ) : '';
-		$settings['transifex_live_settings']['transifex_languages'] = ( isset( $settings['transifex_live_settings']['transifex_languages'] )) ? sanitize_text_field( $settings['transifex_live_settings']['transifex_languages'] ) : '';
+		$settings['transifex_live_settings']['transifex_languages'] = ( isset( $settings['transifex_live_settings']['transifex_languages'] )) ? sanitize_text_field( stripslashes($settings['transifex_live_settings']['transifex_languages'] )) : '';
 		$settings['transifex_live_settings']['subdomain_pattern'] = ( isset( $settings['transifex_live_settings']['language_map'] )) ? sanitize_text_field( $settings['transifex_live_settings']['language_map'] ) : '';
 		return $settings;
 	}
