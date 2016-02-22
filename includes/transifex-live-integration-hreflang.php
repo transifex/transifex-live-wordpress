@@ -15,9 +15,7 @@ class Transifex_Live_Integration_Hreflang {
 	 * @var settings array
 	 */
 	private $settings;
-	
 	private $language_map;
-	
 	private $languages;
 
 	/**
@@ -27,7 +25,7 @@ class Transifex_Live_Integration_Hreflang {
 	public function __construct( $settings ) {
 		Plugin_Debug::logTrace();
 		$this->settings = $settings;
-		$this->language_map = json_decode(  $settings['language_map'] , true )[0];
+		$this->language_map = json_decode( $settings['language_map'], true )[0];
 		$this->languages = json_decode( $settings['transifex_languages'], true );
 	}
 
