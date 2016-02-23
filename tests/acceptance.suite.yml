@@ -7,8 +7,5 @@
 class_name: AcceptanceTester
 modules:
   enabled: 
-    - PhpBrowser
+    # add framework module here
     - \Helper\Acceptance 
-  config:
-    PhpBrowser:
-       url: 'http://localhost:80'

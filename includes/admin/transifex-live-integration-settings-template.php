@@ -44,11 +44,11 @@
 					<p id="transifex_live_languages">
 					<table id="language_map_table"><tr><th scope="row">Language</th><th scope="row">Code</th></tr>
 						<tr id="language_map_template" style="display:none">
-							<td style="padding:0px"><span class="tx-language">Dummy</td>
+							<td style="padding:0px"><span class="tx-language">Dummy</span></td>
 							<td style="padding:0px"><input class="tx-code" type="text" style="width:100px" name="dummy-name" id="dummy-id" value=""></td>
 						</tr>
 					</table>
-					<span id="transifex_live_languages_message">Your languages couldn't be loaded. Please re-check your API key.</span>
+					<span id="transifex_live_languages_message">Your languages can't be loaded. Please re-check your API key.</span>
 					</p>
 					<p class="submit"><input type="button" name="sync" id="sync" class="button button-primary" value="Refresh Languages List"></p>
 					<p class="description" id="tagline-description">Tweak your localized urls.</p>
@@ -79,7 +79,6 @@
 		<p class="submit"><input disabled="true" type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e( 'Save Changes', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>"></p>
 	</form>
     <p>
-        <a href="<?php echo $settings['urls']['rate_us']; ?>">
 			<a href="http://docs.transifex.com/integrations/wordpress/" target="_blank" ><?php _e( 'Plugin documentation', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></a> | <?php _e( 'Thank you for using Transifex!', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
         </a>
     </p>

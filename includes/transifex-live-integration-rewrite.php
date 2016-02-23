@@ -41,7 +41,7 @@ class Transifex_Live_Integration_Rewrite {
 		$this->rewrite_options = [ ];
 		$this->languages_regex = $settings['languages_regex'];
 		$this->source_language = $settings['source_language'];
-		$this->languages_map = json_decode( stripslashes( $settings['language_map'] ), true );
+		$this->languages_map = json_decode( $settings['language_map'], true )[0];
 		if ( isset( $rewrite_options['add_rewrites_post'] ) )
 			$this->rewrite_options[] = ($rewrite_options['add_rewrites_post']) ? 'post' : '';
 		if ( isset( $rewrite_options['add_rewrites_root'] ) )
@@ -141,8 +141,14 @@ class Transifex_Live_Integration_Rewrite {
 		return $p;
 	}
 
-	private function reverse_hard_link( $lang, $link, $languages_map, $source_lang ) {
+	static function reverse_hard_link( $lang, $link, $languages_map, $source_lang ) {
 		Plugin_Debug::logTrace();
+		if (empty($lang)) {
+			return $link;
+		}
+		if (empty($languages_map)) {
+			return $link;
+		}
 		$modified_link = $link;
 		$reverse_url = true;
 

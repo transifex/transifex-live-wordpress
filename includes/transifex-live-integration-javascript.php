@@ -60,7 +60,7 @@ DETECTLANG;
 		Plugin_Debug::logTrace( $live_settings_string );
 		$include = <<<LIVE
 <script type="text/javascript">window.liveSettings=$live_settings_string;</script>
-<script type="text/javascript" src="//cdn.transifex.com/live.js"></script>
+<script type="text/javascript" src="//cdn.transifex.com/live.js"></script>\n
 LIVE;
 		echo $include;
 	}
