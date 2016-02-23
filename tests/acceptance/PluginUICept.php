@@ -2,43 +2,61 @@
 date_default_timezone_set('America/New_York');
 
 $I = new AcceptanceTester($scenario);
-
+$I->assertTrue(true);
 $I->amOnPage('/wp-login.php');
-$I->fillField('Username', 'test');
-$I->fillField('Password','test');
+$I->fillField('Username', 'admin');
+$I->fillField('Password','admin');
 $I->click('Log In');
 $I->see('Dashboard');
-$I->click('Settings');
-$I->click('Transifex Live');
-$I->see('Transifex Live Wordpress Plugin Settings','h2');
-$I->seeInFormFields('#settings_form',[ 
-	'transifex_live_settings[api_key]' => '',
-	'transifex_live_colors[accent]' => '#006f9f',
-	'transifex_live_colors[text]' => '#ffffff',
-	'transifex_live_colors[background]' => '#000000',
-	'transifex_live_colors[menu]' => '#eaf1f7',
-	'transifex_live_colors[languages]' => '#666666'
-	]);
-$I->fillField('transifex_live_settings[api_key]','2699bc66df6546008d0a14acf26732a1');
-$I->click('Save Changes');
+$I->amOnPage('/wp-admin/options-general.php?page=transifex-live-integration');
+$I->see('Transifex Live Translation Plugin Settings','h2');
+$I->assertTrue($I->executeJS('return (jQuery("#transifex_live_settings_api_key").val()=="")?true:false;'));
+$I->executeJS('jQuery("#transifex_live_settings_api_key").val("2699bc66df6546008d0a14acf26732a1");');
+$I->executeJS('jQuery("#transifex_live_settings_api_key_button").trigger("click");');
+$I->see('Success! Advanced SEO settings enabled.');
+$I->executeJS('jQuery("#transifex_live_settings_url_options_subdirectory").trigger("click");');
+$I->seeElement('#transifex-integration-live-zh_CN');
+$I->seeElement('#transifex-integration-live-de_DE');
+$I->seeElement('#submit', ['disabled' => 'true']);
+$I->executeJS('jQuery("#transifex_live_settings_rewrite_option_all").trigger("click");');
+//$I->dontSeeElement('#submit', ['disabled' => 'true']);
+$I->executeJS('jQuery("input#submit").click();');
 $I->see('Your changes to the settings have been saved!');
-$I->see('Your changes to the colors have been saved!');
-$I->seeInFormFields('#settings_form',[ 'transifex_live_settings[add_language_rewrites]' => 'none']);
-$I->seeInFormFields('#settings_form',[ 'transifex_live_settings[hreflang]' => '0']);
-$I->seeInFormFields('#settings_form',[ 'transifex_live_settings[source_language]' => 'en']);
-$I->seeInFormFields('#settings_form',[ 
-	'transifex_live_settings[wp_language_fr]' => 'fr',
-	'transifex_live_settings[wp_language_de_DE]' => 'de_DE',
-	'transifex_live_settings[wp_language_ko]' => 'ko',
-	'transifex_live_settings[wp_language_es]' => 'es',
-	]);
-$I->click('Save Changes');
-$I->see('Your changes to the settings have been saved!');
-$I->see('Your changes to the colors have been saved!');
+
 $I->amOnPage('/');
-$I->seeInSource('<script type="text/javascript" src="//cdn.transifex.com/live.js"></script>');
-$I->seeInSource('<script type="text/javascript">window.liveSettings={"api_key":"2699bc66df6546008d0a14acf26732a1","enable_frontend_css":0,"custom_picker_id":""};</script>');
+$I->seeInSource('hreflang="en"');
+$I->seeInSource('hreflang="zh_CN"');
+$I->seeInSource('hreflang="de_DE"');
+$I->seeInSource('src="//cdn.transifex.com/live.js"');
+$I->seeInSource('window.liveSettings');
+$I->seeInSource('"api_key":"2699bc66df6546008d0a14acf26732a1"');
+$I->seeInSource('"detectlang":function() { return "en";}');
 
 
+$I->amOnPage('/zh_CN/');
+$I->seeInSource('hreflang="en"');
+$I->seeInSource('hreflang="zh_CN"');
+$I->seeInSource('hreflang="de_DE"');
+$I->seeInSource('src="//cdn.transifex.com/live.js"');
+$I->seeInSource('window.liveSettings');
+$I->seeInSource('"api_key":"2699bc66df6546008d0a14acf26732a1"');
+$I->seeInSource('"detectlang":function() { return "zh_CN";}');
+$I->seeLink('Sample Page','http://192.168.99.100:32777/zh_CN/sample-page/');
+$I->seeLink('Hello world!','http://192.168.99.100:32777/zh_CN/2015/12/17/hello-world/');
+$I->seeLink('Home','http://192.168.99.100:32777/zh_CN/home/');
+$I->seeLink('Blog','http://192.168.99.100:32777/zh_CN/blog/');
+
+$I->amOnPage('/de_DE/');
+$I->seeInSource('hreflang="en"');
+$I->seeInSource('hreflang="zh_CN"');
+$I->seeInSource('hreflang="de_DE"');
+$I->seeInSource('src="//cdn.transifex.com/live.js"');
+$I->seeInSource('window.liveSettings');
+$I->seeInSource('"api_key":"2699bc66df6546008d0a14acf26732a1"');
+$I->seeInSource('"detectlang":function() { return "de_DE";}');
+$I->seeLink('Sample Page','http://192.168.99.100:32777/de_DE/sample-page/');
+$I->seeLink('Hello world!','http://192.168.99.100:32777/de_DE/2015/12/17/hello-world/');
+$I->seeLink('Home','http://192.168.99.100:32777/de_DE/home/');
+$I->seeLink('Blog','http://192.168.99.100:32777/de_DE/blog/');
 
 
