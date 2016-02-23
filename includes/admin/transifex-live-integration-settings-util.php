@@ -14,7 +14,7 @@ class Transifex_Live_Integration_Settings_Util {
 			$id = $option['id'];
 			$name = $option['name'];
 			$row .= <<<ROW
-		<td class="option-checkbox" style="padding:0px"><input class="all_selector" type="checkbox" id="$id" name="$name" value="1" $checked>$text</td>
+		<td class="option-checkbox" style="padding:0px"><input class="all_selector" type="checkbox" id="$id" name="$name" value="1" $checked />$text</td>
 ROW;
 			if ( $i % 3 == 0 ) {
 				$html .= '<tr>' . $row . '</tr>';
