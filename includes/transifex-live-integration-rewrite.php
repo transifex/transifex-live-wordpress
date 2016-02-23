@@ -41,7 +41,7 @@ class Transifex_Live_Integration_Rewrite {
 		$this->rewrite_options = [ ];
 		$this->languages_regex = $settings['languages_regex'];
 		$this->source_language = $settings['source_language'];
-		$this->language_map = json_decode( $settings['language_map'], true )[0];
+		$this->languages_map = json_decode( $settings['language_map'], true )[0];
 		if ( isset( $rewrite_options['add_rewrites_post'] ) )
 			$this->rewrite_options[] = ($rewrite_options['add_rewrites_post']) ? 'post' : '';
 		if ( isset( $rewrite_options['add_rewrites_root'] ) )
