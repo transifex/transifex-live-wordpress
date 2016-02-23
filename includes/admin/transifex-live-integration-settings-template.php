@@ -44,8 +44,8 @@
 					<p id="transifex_live_languages">
 					<table id="language_map_table"><tr><th scope="row">Language</th><th scope="row">Code</th></tr>
 						<tr id="language_map_template" style="display:none">
-							<td style="padding:0px"><span class="tx-language">Dummy</span></td>
-							<td style="padding:0px"><input class="tx-code" type="text" style="width:100px" name="dummy-name" id="dummy-id" value="" /></td>
+							<td style="padding:0px"><span class="tx-language">Dummy</td>
+							<td style="padding:0px"><input class="tx-code" type="text" style="width:100px" name="dummy-name" id="dummy-id" value=""></td>
 						</tr>
 					</table>
 					<span id="transifex_live_languages_message">Your languages couldn't be loaded. Please re-check your API key.</span>
@@ -67,7 +67,6 @@
 					</table>
 					</p>
 					<p class="url-structure-subdirectory">Having trouble getting language/region-specific URLs working? <a target="_blank" href="http://docs.transifex.com/integrations/wordpress/#troubleshooting-tips">Check out our additional troubleshooting tips!</a></p>
-					</div>
 				</td></tr>
 			</tbody>
         </table>
@@ -81,7 +80,7 @@
 	</form>
     <p>
         <a href="<?php echo $settings['urls']['rate_us']; ?>">
-			<a target="_blank" href="http://docs.transifex.com/integrations/wordpress/" target="_blank" ><?php _e( 'Plugin documentation', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></a> | <?php _e( 'Thank you for using Transifex!', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
+			<a href="http://docs.transifex.com/integrations/wordpress/" target="_blank" ><?php _e( 'Plugin documentation', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></a> | <?php _e( 'Thank you for using Transifex!', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
         </a>
     </p>
 </div>
