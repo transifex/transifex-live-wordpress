@@ -71,6 +71,9 @@ class Transifex_Live_Integration_Settings_Page {
 		if ( $settings['language_map'] !== '' ) {
 			$language_map = $settings['language_map'];
 		}
+		Plugin_Debug::logTrace($settings['language_map']);
+		Plugin_Debug::logTrace($language_map);
+		Plugin_Debug::logTrace(htmlentities(stripslashes($language_map)));
 
 		$checked_custom_urls = ($settings['enable_custom_urls'] === "1") ? "1" : "0";
 
