@@ -6,7 +6,6 @@ class ReverseHardLinkTest extends \PHPUnit_Framework_TestCase
     private $data;
     protected function setUp()
     {
-        require('psysh');
 		require_once './includes/plugin-debug.php';
         include_once './includes/transifex-live-integration-rewrite.php';
         $this->data = [[
