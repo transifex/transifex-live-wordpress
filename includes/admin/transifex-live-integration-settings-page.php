@@ -41,7 +41,7 @@ class Transifex_Live_Integration_Settings_Page {
 		}
 
 		ob_start();
-		checked( $settings['rewrite_option_all'], '1' );
+		checked( $settings['rewrite_option_all'], 1 );
 		$checked_rewrite_option_all = ob_get_clean();
 
 
