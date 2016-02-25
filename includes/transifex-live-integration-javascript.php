@@ -59,7 +59,6 @@ class Transifex_Live_Integration_Javascript {
 				$detectlang = <<<DETECTLANG
 function() { return "$lang";}
 DETECTLANG;
-				Plugin_Debug::logTrace( $detectlang );
 				$this->live_settings = array_merge( $this->live_settings, array( 'detectlang' => '%function%' ) );
 			}
 		}

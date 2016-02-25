@@ -11,13 +11,10 @@ function transifex_live_integration_mapper(l1) {
 
 function transifex_live_integration_map_update(tl) {
     if (typeof (tl) != 'undefined') {
-        console.log('param update');
         var t = tl;
     } else {
         var t = transifex_languages;
-        console.log('global update');
     }
-    console.log(t);
     var h = [];
     var local_lm = [];
     var arr = {};
@@ -48,10 +45,8 @@ function transifex_live_integration_convert(l) {
         arr['tx_name'] = o['tx_name'];
         arr['code'] = o['code'];
         language_lookup.push(arr);
-        console.log(o['code']);
         arrr[o['code']] = o['code'];
     });
-    console.log(arrr);
     language_map.push(arrr);
     var s = {
         caption: 'Source:' + l['source']['tx_name'],
@@ -95,7 +90,6 @@ function transifexLanguages() {
 function addTransifexLanguages(obj) {
     
     if ( typeof(obj) !== 'undefined' && obj !== null) {
-        console.log('load from page');
         lm = jQuery.parseJSON(jQuery('#transifex_live_settings_language_map').val());
         globalobj = obj;
         var myName = '';
@@ -119,7 +113,6 @@ function addTransifexLanguages(obj) {
         
         
     } else {
-        console.log('load from transifex_languages');
         jQuery.each(transifex_language_fields['html'], function (i, o) {
             jQuery('#language_map_table').append(jQuery('#language_map_template').clone().show().addClass('cloned-language-map').each(function () {
                 jQuery(this).find('span.tx-language').text(o.caption);
