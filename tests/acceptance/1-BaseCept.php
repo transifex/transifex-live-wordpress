@@ -19,10 +19,11 @@ $I->seeElement('#transifex-integration-live-zh_CN');
 $I->seeElement('#transifex-integration-live-de_DE');
 $I->seeElement('#submit', ['disabled' => 'true']);
 $I->executeJS('jQuery("#transifex_live_settings_rewrite_option_all").trigger("click");');
-//$I->dontSeeElement('#submit', ['disabled' => 'true']);
+$I->dontSeeElement('#submit', ['disabled' => 'true']);
 $I->executeJS('jQuery("input#submit").click();');
 $I->see('Your changes to the settings have been saved!');
-
+$I->waitForText('Your changes to the settings have been saved!', 7);
+$I->amOnPage('/wp-admin/options-permalink.php');
 $I->amOnPage('/');
 $I->seeInSource('hreflang="en"');
 $I->seeInSource('hreflang="zh_CN"');
