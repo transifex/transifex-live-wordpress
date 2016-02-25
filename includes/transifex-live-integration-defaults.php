@@ -58,7 +58,7 @@ class Transifex_Live_Integration_Defaults {
 			'language_lookup' => null,
 			'language_map' => null,
 			'languages_regex' => null,
-			'rewrite_option_all' => "1",
+			'rewrite_option_all' => 0,
 			
 			'enable_custom_urls' => 0,
 			'urls' => [

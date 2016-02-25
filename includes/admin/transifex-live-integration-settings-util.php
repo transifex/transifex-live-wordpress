@@ -8,7 +8,7 @@ class Transifex_Live_Integration_Settings_Util {
 		$i = 1;
 		foreach ($options as $option) {
 			ob_start();
-			checked( $option['checked'], '1' );
+			checked( $option['checked'], 1 );
 			$checked = ob_get_clean();
 			$text = $option['text'];
 			$id = $option['id'];
