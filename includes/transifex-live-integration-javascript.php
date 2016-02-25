@@ -14,12 +14,13 @@ class Transifex_Live_Integration_Javascript {
 	 * Stores current plugin settings.
 	 * @var array
 	 */
-	private $live_settings_keys = array( 'api_key');
+	private $live_settings_keys = array( 'api_key' );
 	private $live_settings;
 	private $is_detectlang;
 	private $tx_langs;
 	private $language_map;
 	private $source_language;
+
 	/**
 	 * Public constructor, sets local settings
 	 * @param array $live_settings Associative array of plugin settings.
@@ -43,17 +44,17 @@ class Transifex_Live_Integration_Javascript {
 		$this->is_detectlang ? Plugin_Debug::logTrace( "overriding detectlang" ) : Plugin_Debug::logTrace( "skipped detectlang override" );
 		if ( $this->is_detectlang ) {
 			$query_lang = get_query_var( 'lang' );
-			if ($query_lang == $this->source_language) {
+			if ( $query_lang == $this->source_language ) {
 				$lang = $this->source_language;
 			} else {
-				$lang = array_search($query_lang,$this->language_map);
-				if (!$lang) {
-					Plugin_Debug::logTrace('javascript render failed could not find key');
+				$lang = array_search( $query_lang, $this->language_map );
+				if ( !$lang ) {
+					Plugin_Debug::logTrace( 'javascript render failed could not find key' );
 					return false;
 				}
 			}
 			$check_for_standard_lang = in_array( $lang, explode( ",", $this->tx_langs ) );
-			Plugin_Debug::logTrace( $check_for_standard_lang ? "standard lang detected, skipping override" : "not standard lang, overriding" );
+			Plugin_Debug::logTrace( $check_for_standard_lang ? "standard lang detected, skipping override" : "not standard lang, overriding"  );
 			if ( !$check_for_standard_lang ) {
 				Plugin_Debug::logTrace( "Not a standard lang override" );
 				$detectlang = <<<DETECTLANG

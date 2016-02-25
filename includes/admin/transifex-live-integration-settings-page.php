@@ -44,19 +44,19 @@ class Transifex_Live_Integration_Settings_Page {
 		checked( $settings['rewrite_option_all'], '1' );
 		$checked_rewrite_option_all = ob_get_clean();
 
-		
-		
+
+
 		// These are used by the template: DO NOT REMOVE - Mjj 2/22/2016
 		$languages = [ ];
 		if ( $settings['transifex_languages'] !== '' ) {
 			$languages = $settings['transifex_languages'];
 		}
-		
+
 		$languages_regex = [ ];
 		if ( $settings['languages_regex'] !== '' ) {
 			$languages_regex = $settings['languages_regex'];
 		}
-		
+
 		$source_language = '';
 		if ( $settings['source_language'] !== '' ) {
 			$source_language = $settings['source_language'];
