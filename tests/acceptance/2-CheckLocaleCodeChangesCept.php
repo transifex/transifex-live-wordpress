@@ -23,9 +23,9 @@ $I->executeJS('jQuery("#transifex-integration-live-de_DE").val("de");');
 $I->executeJS('jQuery("#transifex-integration-live-de_DE").trigger("change");');
 $I->seeElement('#transifex-integration-live-de_DE', ['value' => 'de']);
 
-$I->dontSeeElement('#submit', ['disabled' => 'true']);
+$I->dontSeeElement('#transifex_live_submit', ['disabled' => 'true']);
 //$I->dontSeeElement('#submit', ['disabled' => 'true']);
-$I->executeJS('jQuery("input#submit").click();');
+$I->executeJS('jQuery("input#transifex_live_submit").click();');
 $I->waitForText('Your changes to the settings have been saved!', 7);
 $I->amOnPage('/wp-admin/options-permalink.php');
 $I->amOnPage('/');
