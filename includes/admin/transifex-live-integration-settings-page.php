@@ -115,8 +115,6 @@ class Transifex_Live_Integration_Settings_Page {
 
 
 		$languages_map = (array) json_decode( stripslashes( $languages_map ), true );
-		Plugin_Debug::logTrace( $transifex_languages );
-		Plugin_Debug::logTrace( $languages_map );
 		$trim = false;
 
 		$languages = '';
@@ -128,8 +126,7 @@ class Transifex_Live_Integration_Settings_Page {
 			$languages_regex .= $languages_map[0][$lang];
 			$languages_regex .= "|";
 		}
-		Plugin_Debug::logTrace( $languages );
-		Plugin_Debug::logTrace( $languages_regex );
+
 		$languages = ($trim) ? rtrim( $languages, ',' ) : '';
 		$languages_regex = ($trim) ? rtrim( $languages_regex, '|' ) : '';
 		$languages_regex = '(' . $languages_regex . ')';
@@ -141,6 +138,20 @@ class Transifex_Live_Integration_Settings_Page {
 			$array_domain[0] = $languages_regex;
 			$array_url[2] = implode( '.', $array_domain );
 			$subdomain_pattern = implode( '/', $array_url );
+		}
+		
+		$url_regex = $settings['transifex_live_settings']['url_regex'];
+		if ($settings['transifex_live_settings']['url_options'] == '3') { //subdirectory
+			Plugin_Debug::logTrace(site_url());
+			Plugin_Debug::logTrace($url_regex);
+
+			
+		}
+		if ($settings['transifex_live_settings']['url_options'] == '2') { //subdomain
+			$subdomain_pattern = $settings['transifex_live_settings']['subdomain_pattern'];
+			Plugin_Debug::logTrace(site_url());
+			Plugin_Debug::logTrace($subdomain_pattern);
+			Plugin_Debug::logTrace($url_regex);
 		}
 
 		$settings['transifex_live_settings']['subdomain_pattern'] = $subdomain_pattern;

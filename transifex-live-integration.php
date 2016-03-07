@@ -92,6 +92,8 @@ class Transifex_Live_Integration {
 		}
 
 		add_filter( 'query_vars', array( 'Transifex_Live_Integration', 'query_vars_hook' ) );
+
+		
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-subdomain.php';
 		$subdomain = Transifex_Live_Integration_Subdomain::create_subdomains( $settings );
 		($subdomain) ? Plugin_Debug::logTrace( 'subdomains created' ) : Plugin_Debug::logTrace( 'subdomains skipped' );
@@ -115,7 +117,9 @@ class Transifex_Live_Integration {
 				add_filter( 'day_link', [$rewrite, 'day_link_hook' ], 10, 4 );
 				add_filter( 'month_link', [$rewrite, 'month_link_hook' ], 10, 3 );
 				add_filter( 'year_link', [$rewrite, 'year_link_hook' ], 10, 2 );
-				add_filter( 'home_url', [$rewrite, 'home_url_hook' ] );
+/* Turned off for compatibility with Yoast SEO - Mjj 3-7
+ *  				add_filter( 'home_url', [$rewrite, 'home_url_hook' ] );
+ */
 			}
 			foreach ($rewrite->rewrite_options as $option) {
 				Plugin_Debug::logTrace( $option );
@@ -163,6 +167,12 @@ class Transifex_Live_Integration {
 				}
 			}
 		}
+		
+		Plugin_Debug::logTrace( 'adding admin bar actions' );
+		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/admin/transifex-live-integration-settings-util.php';
+		add_action( 'wp_before_admin_bar_render', [ 'Transifex_Live_Integration_Settings_Util', 'wp_before_admin_bar_render_hook' ] );
+		add_action( 'wp_after_admin_bar_render', [ 'Transifex_Live_Integration_Settings_Util', 'wp_after_admin_bar_render_hook' ] );
+
 
 		if ( $is_admin ) {
 			include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/admin/transifex-live-integration-action-links.php';
@@ -199,6 +209,13 @@ class Transifex_Live_Integration {
 			include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-javascript.php';
 			$javascript = new Transifex_Live_Integration_Javascript( $settings, $rewrite ? true : false  );
 			add_action( 'wp_head', [ $javascript, 'render' ], 1 );
+			
+			include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-language-map.php';
+			$language_map = Transifex_Live_Integration_Language_Map::create_language_maps($settings);
+			($language_map) ? Plugin_Debug::logTrace( 'jsonp language map created' ) : Plugin_Debug::logTrace( 'jsonp language map skipped' );
+			if ( $language_map ) {
+				add_action( 'wp_head', [ $language_map, 'render' ], 1 );
+			}
 		}
 	}
 

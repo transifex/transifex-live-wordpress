@@ -2,6 +2,16 @@
 
 class Transifex_Live_Integration_Settings_Util {
 
+	static function wp_before_admin_bar_render_hook() {
+		Plugin_Debug::logTrace();
+		echo ('<div class="notranslate">');
+	}
+	
+	static function wp_after_admin_bar_render_hook() {
+		Plugin_Debug::logTrace();
+		echo ('</div>');
+	}
+	
 	static function render_url_options( $options ) {
 		$html = '';
 		$row = '';

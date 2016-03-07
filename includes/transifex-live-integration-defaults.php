@@ -58,8 +58,9 @@ class Transifex_Live_Integration_Defaults {
 			'language_lookup' => null,
 			'language_map' => null,
 			'languages_regex' => null,
+			'url_regex' => null,
 			'rewrite_option_all' => 0,
-			
+			'enable_language_picker' => 0,
 			'enable_custom_urls' => 0,
 			'urls' => [
 				'rate_us' => 'https://wordpress.org/support/view/plugin-reviews/transifex-live-integration?rate=5#postform',
