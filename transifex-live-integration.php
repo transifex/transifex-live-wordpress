@@ -190,6 +190,7 @@ class Transifex_Live_Integration {
 
 			$handler->add_js_file( $version, TRANSIFEX_LIVE_INTEGRATION_JAVASCRIPT . '/jquery.jloggins.1.0.1.js', 'jloggins' );
 			$handler->add_js_file( $version, TRANSIFEX_LIVE_INTEGRATION_JAVASCRIPT . '/jquery-machine.1.0.1.min.js', 'jquery-machine' );
+			$handler->add_js_file( $version, TRANSIFEX_LIVE_INTEGRATION_JAVASCRIPT . '/transifex-live-integration-transifex-settings.js' );
 			$handler->add_js_file( $version, TRANSIFEX_LIVE_INTEGRATION_JAVASCRIPT . '/transifex-live-integration-settings-page.js' );
 						
 			add_action( 'admin_enqueue_scripts', [ $handler, 'render_css' ] );

@@ -12,6 +12,38 @@ class Transifex_Live_Integration_Settings_Util {
 		echo ('</div>');
 	}
 	
+	static function generate_tokenized_url ($site_url, $url_option_setting) {
+		Plugin_Debug::logTrace();
+		$tokenized_url = false;
+
+		if ($url_option_setting !== '2' && $url_option_setting != '3') {
+			Plugin_Debug::logTrace('No URL option, skipping tokenization');
+			return false;
+		}
+		
+		if (!($site_url)) {
+			Plugin_Debug::logTrace('Failed site URL truthiness, skipping tokenization');
+			return false;
+		}
+		
+		$slashes = [];
+		$slashes = explode( "/", $site_url );
+		if ( $url_option_setting === '3' ) { // Subdirectory option
+				array_push( $slashes, '%lang%' );
+				array_push( $slashes, '' );
+			}
+		if ( $url_option_setting === '2' ) { // Subdomain option
+				$dots = explode( ".", $slashes[2] );
+				$dots[0] = '%lang%';
+				$slashes[2] = implode( '.', $dots );
+				array_push( $slashes, '' );
+			}
+		$tokenized_url = implode('/', $slashes);
+
+		return $tokenized_url;
+	}
+	
+	
 	static function render_url_options( $options ) {
 		$html = '';
 		$row = '';
@@ -31,6 +63,19 @@ ROW;
 				$row = '';
 			}
 			$i++;
+		}
+		echo $html;
+	}
+	
+	static function render_transifex_settings( $settings ) {
+		$html = '';
+		foreach ($settings as $setting) {
+			$text = $setting['value'];
+			$id = $setting['id'];
+			$name = $setting['name'];
+			$html .= <<<HTML
+<input type="hidden" value="$value" name="$name" id="$id" />
+HTML;
 		}
 		echo $html;
 	}
