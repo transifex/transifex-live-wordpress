@@ -30,7 +30,7 @@ class ReverseHardLinkTest extends \PHPUnit_Framework_TestCase
             'result'=> 'http://192.168.99.100:32777/page-markup-and-formatting'
             ],
             [
-            'lang' => 'zh_CN',
+            'lang' => 'cn',
             'link' => 'http://192.168.99.100:32777/page-markup-and-formatting',
             'languages_map' => ["zh_CN" => "cn", "de_DE" => "de_DE"],
             'souce_lang' => 'en',

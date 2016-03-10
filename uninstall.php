@@ -38,3 +38,7 @@ delete_option( $colors_option_name );
 $options_option_name = 'transifex_live_options';
 
 delete_option( $options_option_name );
+
+$transifex_settings_option_name = 'transifex_live_transifex_settings';
+
+delete_option( $transifex_settings_option_name );

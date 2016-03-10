@@ -112,7 +112,7 @@ class Transifex_Live_Integration_Rewrite {
 	 * @param array $query WP query object.
 	 */
 	function parse_query_hook( $query ) {
-		if ( !Transifex_Live_Integration_Validators::is_query_ok( $query ) ) {
+	 if ( !Transifex_Live_Integration_Validators::is_query_ok( $query ) ) {
 			return $query;
 		}
 		$qv = &$query->query_vars;
@@ -157,13 +157,13 @@ class Transifex_Live_Integration_Rewrite {
 		if ( !empty( $lang ) ) {
 			$reverse_url = ($reverse_url) ? (!strpos( $modified_link, $lang )) : false;
 		}
-		$reverse_url = ($reverse_url) ? (array_key_exists( $lang, $languages_map )) : false;
+		$reverse_url = ($reverse_url) ? (in_array( $lang, $languages_map )) : false;
 		$reverse_url = ($reverse_url) ? (!($source_lang == $lang)) : false;
 
 		//TODO  This can be dep'd 
 		if ( $reverse_url && (3 <= substr_count( $link, '/' )) ) {
 			$array_url = explode( '/', $link );
-			$array_url[3] = $languages_map[$lang] . '/' . $array_url[3];
+			$array_url[3] = $lang . '/' . $array_url[3];
 			$modified_link = implode( '/', $array_url );
 		}
 		return $modified_link;
