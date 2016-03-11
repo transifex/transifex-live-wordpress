@@ -211,11 +211,11 @@ class Transifex_Live_Integration {
 			$javascript = new Transifex_Live_Integration_Javascript( $settings, $rewrite ? true : false  );
 			add_action( 'wp_head', [ $javascript, 'render' ], 1 );
 			
-			include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-language-map.php';
-			$language_map = Transifex_Live_Integration_Language_Map::create_language_maps($settings);
-			($language_map) ? Plugin_Debug::logTrace( 'jsonp language map created' ) : Plugin_Debug::logTrace( 'jsonp language map skipped' );
-			if ( $language_map ) {
-				add_action( 'wp_head', [ $language_map, 'render' ], 1 );
+			include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-picker.php';
+			$picker = Transifex_Live_Integration_Picker::create_picker($settings);
+			($picker) ? Plugin_Debug::logTrace( 'picker created' ) : Plugin_Debug::logTrace( 'picker skipped' );
+			if ( $picker ) {
+				add_action( 'wp_head', [ $picker, 'render' ], 1 );
 			}
 		}
 	}
