@@ -75,6 +75,7 @@ class Transifex_Live_Integration_Defaults {
 				'api_key_landing_page' => 'https://www.transifex.com/signup/?utm_source=liveplugin',
 			],
 			'enable_language_urls' => false,
+			'enable_picker' => false,
 			'add_language_rewrites' => 'none selected',
 			'source_language' => '',
 			'languages' => '',
