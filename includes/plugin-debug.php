@@ -62,7 +62,7 @@ class Plugin_Debug {
 
 	public function printLog() {
 		if ( self::$debug_mode ) {
-			echo ('<div id="miw_debug" class="transparent" style="width:90%;margin: 1em auto;padding: 10px 160px;text-align: left;z-index: 999;">' . "\n");
+			echo ('<div id="miw_debug" class="transparent notranslate" style="width:90%;margin: 1em auto;padding: 10px 160px;text-align: left;z-index: 999;">' . "\n");
 			echo ('<h3>Plugin: Plugin Debug Mode Output</h3>' . "\n");
 			array_walk( self::$calls, array( 'Plugin_Debug', 'printLogCallback' ) );
 			echo "</div>";

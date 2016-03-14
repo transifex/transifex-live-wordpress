@@ -238,7 +238,7 @@ function updateTransifexSettingsFields(obj) {
                 $('#transifex_live_settings_api_key_message_missing').toggleClass('hide-if-js', true);
                 transifexLanguages();
                 transifex_settings_params = {
-                    url: "https://cdn.transifex.com/" + this.val() + "/latest/settings.jsonp",
+                    url: "https://cdn.transifex.com/" + this.val() + "/latest/settings.all.jsonp",
                     done: function (data) {
                         if (data) {
                             updateTransifexSettingsFields(data);
