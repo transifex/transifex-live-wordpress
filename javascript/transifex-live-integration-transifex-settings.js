@@ -22,7 +22,7 @@ window.Transifex = window.Transifex || {};
     self.validate = function (obj) {
         var ret = false;
         var expected_keys = ['picker', 'domain'];
-        var keys = Object.keys(obj);
+        var keys = Object.keys(obj['production']);
         var diff = [];
         $.grep(expected_keys, function (e) {
             if ($.inArray(e, keys) === -1)
