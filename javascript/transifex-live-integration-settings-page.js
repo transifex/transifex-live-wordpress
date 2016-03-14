@@ -113,10 +113,15 @@ function addTransifexLanguages(obj) {
 
 
     } else {
+        var tlslm = JSON.parse(jQuery('#transifex_live_settings_language_map').val());
         jQuery.each(transifex_language_fields['html'], function (i, o) {
             jQuery('#transifex_live_language_map_table').append(jQuery('#transifex_live_language_map_template').clone().show().addClass('cloned-language-map').each(function () {
                 jQuery(this).find('span.tx-language').text(o.caption);
+                if (tlslm.length < 1 ) {
                 jQuery(this).find('input.tx-code').attr('id', o.id).attr('name', o.name).val(o.value);
+            } else {
+                jQuery(this).find('input.tx-code').attr('id', o.id).attr('name', o.name).val(tlslm[0][o.value]);
+            }
                 jQuery(this).machine({defaultState: {onEnter: function () {
                             transifex_live_integration_map_update();
                         },
@@ -222,17 +227,20 @@ function updateTransifexSettingsFields(obj) {
         validating: {
             onEnter: function () {
                 $.log.debug('transifex_live_settings_api_key:validating:onEnter');
-                $('#transifex_live_settings_api_key_message').text('Checking key...');
+                
                 $('#transifex_live_settings_url_options_none').attr('disabled', true);
                 $('#transifex_live_settings_url_options_subdirectory').attr('disabled', true);
                 $('#transifex_live_settings_url_options_subdomain').attr('disabled', true);
                 $('input#transifex_live_submit').trigger('disable');
+                $('#transifex_live_settings_api_key_message_validating').toggleClass('hide-if-js', false);
+                $('#transifex_live_settings_api_key_message_valid').toggleClass('hide-if-js', true);
+                $('#transifex_live_settings_api_key_message_error').toggleClass('hide-if-js', true);
+                $('#transifex_live_settings_api_key_message_missing').toggleClass('hide-if-js', true);
                 transifexLanguages();
                 transifex_settings_params = {
                     url: "https://cdn.transifex.com/" + this.val() + "/latest/settings.jsonp",
                     done: function (data) {
                         if (data) {
-                            console.log(data);
                             updateTransifexSettingsFields(data);
                             $('#transifex_live_settings_api_key').trigger('success');
                         } else {
@@ -261,11 +269,12 @@ function updateTransifexSettingsFields(obj) {
                 $('#transifex_live_settings_url_options_none').attr('disabled', false);
                 $('#transifex_live_settings_url_options_subdirectory').attr('disabled', false);
                 $('#transifex_live_settings_url_options_subdomain').attr('disabled', false);
-                if (jQuery('#transifex_live_settings_language_map').val() == '' || languages_override) {
+                if (jQuery('#transifex_live_settings_language_map').val() == '[]' || languages_override) {
                     $('#transifex_live_languages').trigger('load');
                     languages_override = false;
                 }
-                $('#transifex_live_settings_api_key_message').text('Success! Advanced SEO settings enabled.');
+                $('#transifex_live_settings_api_key_message_validating').toggleClass('hide-if-js', true);
+                $('#transifex_live_settings_api_key_message_valid').toggleClass('hide-if-js', false);
                 $('input#transifex_live_submit').trigger('enable');
             },
             events: {success: 'valid', change: 'validating', validating: 'validating'}
@@ -274,7 +283,8 @@ function updateTransifexSettingsFields(obj) {
             onEnter: function () {
                 $.log.debug('error:onEnter');
                 $('#transifex_live_settings_api_key_button').trigger('wait');
-                $('#transifex_live_settings_api_key_message').text(' Oops! Please make sure you’ve entered a valid API key.');
+                $('#transifex_live_settings_api_key_message_validating').toggleClass('hide-if-js', true);
+                $('#transifex_live_settings_api_key_message_error').toggleClass('hide-if-js', false);
             },
             events: {change: 'validating', validating: 'validating'}
         },
@@ -282,7 +292,10 @@ function updateTransifexSettingsFields(obj) {
             onEnter: function () {
                 $.log.debug('transifex_live_settings_api_key:blank:onEnter');
                 $('#transifex_live_settings_api_key_button').trigger('wait');
-                $('#transifex_live_settings_api_key_message').text('');
+                $('#transifex_live_settings_api_key_message_validating').toggleClass('hide-if-js', true);
+                $('#transifex_live_settings_api_key_message_valid').toggleClass('hide-if-js', true);
+                $('#transifex_live_settings_api_key_message_error').toggleClass('hide-if-js', true);
+                $('#transifex_live_settings_api_key_message_missing').toggleClass('hide-if-js', true);
             },
             events: {change: 'validating', validating: 'validating'}
         },
@@ -290,7 +303,8 @@ function updateTransifexSettingsFields(obj) {
             onEnter: function () {
                 $.log.debug('#transifex_live_settings_api_key:missing:onEnter');
                 $('#transifex_live_settings_api_key_button').trigger('wait');
-                $('#transifex_live_settings_api_key_message').text('D’oh! No languages have been published from Transifex Live yet.');
+                $('#transifex_live_settings_api_key_message_validating').toggleClass('hide-if-js', true);
+                $('#transifex_live_settings_api_key_message_missing').toggleClass('hide-if-js', false);
             },
             events: {validating: 'validating'}
         }
@@ -535,7 +549,7 @@ function updateTransifexSettingsFields(obj) {
         confirm: {
             onEnter: function () {
                 $.log.debug('input#transifex_live_sync::confirm::onEnter');
-                (confirm('Refreshing languages will replace your current codes with those from Transifex Live. Continue?')) ? this.trigger('refresh') : this.trigger('wait');
+                (confirm($('#transifex_live_sync_message').text())) ? this.trigger('refresh') : this.trigger('wait');
             },
             events: {refresh: 'refresh', wait: 'wait'}
         },

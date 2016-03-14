@@ -66,7 +66,7 @@ class Transifex_Live_Integration_Defaults {
 			'raw_transifex_languages' => null,
 			'transifex_languages' => null,
 			'language_lookup' => null,
-			'language_map' => null,
+			'language_map' => '[]',
 			'languages_regex' => null,
 			'rewrite_option_all' => 0,
 			'enable_custom_urls' => 0,
