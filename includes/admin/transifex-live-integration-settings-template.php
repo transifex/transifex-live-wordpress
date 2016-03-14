@@ -15,7 +15,12 @@
 							<input type="hidden" value="<?php echo $settings['api_key']; ?>" name="transifex_live_settings[previous_api_key]" id="transifex_live_settings_raw_transifex_previous_api_key" />
 							<input type="button" disabled="true" name="check" id="transifex_live_settings_api_key_button" class="button button-primary" value="Check">
 						</p>
-						<p id="transifex_live_settings_api_key_message">&nbsp;</p>
+						<p id="transifex_live_settings_api_key_message">
+							<span id="transifex_live_settings_api_key_message_validating" class="hide-if-js">Validating your key!</span>							
+							<span id="transifex_live_settings_api_key_message_valid" class="hide-if-js">Success! Advanced SEO settings enabled.</span>
+							<span id="transifex_live_settings_api_key_message_error" class="hide-if-js">Oops! Please make sure you’ve entered a valid API key.</span>
+							<span id="transifex_live_settings_api_key_message_missing" class="hide-if-js">D’oh! No languages have been published from Transifex Live yet.</span>
+						</p>
 					</td>
                 </tr>
 				<tr valign="top">
@@ -48,8 +53,10 @@
 							<td style="padding:0px"><input class="tx-code" type="text" style="width:100px"></td>
 						</tr>
 					</table>
-					<span id="transifex_live_languages_message">Your languages can't be loaded. Please re-check your API key.</span>
+					<span id="transifex_live_languages_message" class="hide-if-js">Your languages can't be loaded. Please re-check your API key.</span>
+					<span id="transifex_live_sync_message" class="hide-if-js">Refreshing languages will replace your current codes with those from Transifex Live. Continue?</span>
 					</p>
+					
 					<p class="submit"><input type="button" name="sync" id="transifex_live_sync" class="button button-primary" value="Refresh Languages List"></p>
 					<p class="description" id="transifex_live_tagline-description">Tweak your localized urls.</p>
 				</td>
