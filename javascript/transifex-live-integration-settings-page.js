@@ -88,7 +88,7 @@ function transifexLanguages() {
 }
 
 function addTransifexLanguages(obj) {
-
+  
     if (typeof (obj) !== 'undefined' && obj !== null) {
         lm = jQuery.parseJSON(jQuery('#transifex_live_settings_language_map').val());
         globalobj = obj;
@@ -114,13 +114,17 @@ function addTransifexLanguages(obj) {
 
     } else {
         var tlslm = JSON.parse(jQuery('#transifex_live_settings_language_map').val());
+        language_map = (tlslm.length<1)?language_map:[];
         jQuery.each(transifex_language_fields['html'], function (i, o) {
             jQuery('#transifex_live_language_map_table').append(jQuery('#transifex_live_language_map_template').clone().show().addClass('cloned-language-map').each(function () {
                 jQuery(this).find('span.tx-language').text(o.caption);
-                if (tlslm.length < 1 ) {
+            if (tlslm.length < 1 ) {
                 jQuery(this).find('input.tx-code').attr('id', o.id).attr('name', o.name).val(o.value);
             } else {
                 jQuery(this).find('input.tx-code').attr('id', o.id).attr('name', o.name).val(tlslm[0][o.value]);
+                var e = {};
+                e[o.value] = tlslm[0][o.value];
+                language_map.push(e);
             }
                 jQuery(this).machine({defaultState: {onEnter: function () {
                             transifex_live_integration_map_update();
@@ -131,6 +135,7 @@ function addTransifexLanguages(obj) {
         jQuery('#transifex_live_settings_source_language').val(source_language);
         jQuery('#transifex_live_settings_transifex_languages').val(JSON.stringify(transifex_languages));
         jQuery('#transifex_live_settings_language_lookup').val(JSON.stringify(language_lookup));
+        console.log(JSON.stringify(language_map));
         jQuery('#transifex_live_settings_language_map').val(JSON.stringify(language_map));
     }
 }
@@ -549,7 +554,8 @@ function updateTransifexSettingsFields(obj) {
         confirm: {
             onEnter: function () {
                 $.log.debug('input#transifex_live_sync::confirm::onEnter');
-                (confirm($('#transifex_live_sync_message').text())) ? this.trigger('refresh') : this.trigger('wait');
+                this.trigger('refresh'); 
+                //this.trigger('wait');
             },
             events: {refresh: 'refresh', wait: 'wait'}
         },
