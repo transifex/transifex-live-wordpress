@@ -5,15 +5,14 @@ class Transifex_Live_Integration_Picker {
 	private $language_map;
 	private $tokenized_url;
 	private $enable_picker;
+	private $source_language;
 	
-	public function __construct( $language_map, $tokenized_url, $enable_picker ) {
+	public function __construct( $language_map, $tokenized_url, $enable_picker, $source_language ) {
 		Plugin_Debug::logTrace();
 		$this->language_map = json_decode( $language_map, true )[0];
 		$this->tokenized_url = $tokenized_url;
 		$this->enable_picker = $enable_picker;
-		Plugin_Debug::logTrace($this->language_map);
-		Plugin_Debug::logTrace($this->tokenized_url);
-		Plugin_Debug::logTrace($this->enable_picker);
+		$this->source_language = $source_language;
 	}
 	
 	static function create_picker ( $settings ) {
@@ -30,16 +29,15 @@ class Transifex_Live_Integration_Picker {
 			Plugin_Debug::logTrace( 'settings[tokenized_url] not set and not truthy' );
 			return false;
 		}
-		return new Transifex_Live_Integration_Picker( $settings['language_map'], $settings['tokenized_url'], $settings['enable_picker'] );
+		return new Transifex_Live_Integration_Picker( $settings['language_map'], $settings['tokenized_url'], $settings['enable_picker'], $settings['source_language'] );
 	}
 	
 	static function generate_language_url_map( $raw_url, $tokenized_url, $language_map ) {
 		Plugin_Debug::logTrace();
-		$trimmed_url = ltrim($raw_url,"/");
 		$trimmed_tokenized_url = rtrim($tokenized_url,"/");
-
 		$ret = [ ];
 			foreach ($language_map as $k => $v) {
+				$trimmed_url = ltrim(str_replace($v,'',$raw_url),"/");
 				$ret[$k] = str_replace('%lang%',$v,$trimmed_tokenized_url) . "/". $trimmed_url;
 			}
 		
@@ -49,23 +47,26 @@ class Transifex_Live_Integration_Picker {
 	function render() {
 		Plugin_Debug::logTrace();
 		global $wp;
-		$raw_url = home_url( $wp->request );
+		$lang = get_query_var( 'lang' );
+		$home_url = home_url( $wp->request );
 		Plugin_Debug::logTrace(home_url( $wp->request ));
-		$raw_url = add_query_arg(array(), $wp->request);
+		$url_path = add_query_arg(array(), $wp->request);
+		$source_url_path = (substr( $url_path, 0, count($lang)-1 ) === $lang)?substr( $url_path, count($lang)-1, count($url_path)-1 ):$url_path;
 		Plugin_Debug::logTrace(add_query_arg(array(), $wp->request));
-		Plugin_Debug::logTrace(home_url(add_query_arg(array(),$wp->request)));
-		$url_map = json_encode($this->generate_language_url_map($raw_url, $this->tokenized_url, $this->language_map), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ;
-		$language_map = $this->language_map;
+		Plugin_Debug::logTrace($source_url_path);
+		$url_map = $this->generate_language_url_map($url_path, $this->tokenized_url, $this->language_map);
+		$url_map[$this->source_language] = site_url()+$source_url_path;
+		$string_url_map = json_encode($url_map, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ;
+		
 		$include = <<<JSONP
 <script type="text/javascript">
 	Transifex.live.onBeforeTranslatePage(function(params) {
-
-  var locale_urls = $url_map;
-
-  params.noop = true;
-  window.location.href = locale_urls[params.lang_code];
-
-});
+		var locale_urls = $string_url_map;
+		if(Transifex.live.ready === true && Transifex.live.getSelectedLanguageCode() !== params.lang_code){
+			params.noop = true;
+			window.location.href = locale_urls[params.lang_code];
+		}
+	});
 </script>
 JSONP;
 		echo $include;

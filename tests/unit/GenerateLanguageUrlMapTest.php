@@ -18,8 +18,13 @@ class GenerateLanguageUrlMapTest extends \PHPUnit_Framework_TestCase {
 		'tokenized_url' => 'http://192.168.99.100:32777/%lang%/',
 		'language_map' => [ 'zh_CN' => 'cn'],
 		'result' => ['zh_CN' => 'http://192.168.99.100:32777/cn/2015/12/17/hello-world/']
-				]
-			];
+			], [
+		'raw_url' => 'cn/about',
+		'tokenized_url' => 'http://192.168.99.100:32777/%lang%/',
+		'language_map' => [ 'zh_CN' => 'cn'],
+		'result' => ['zh_CN' => 'http://192.168.99.100:32777/cn/about']	
+			]
+		];
 		// negative options go here
 
 	}
