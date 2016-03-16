@@ -17,6 +17,7 @@ class Transifex_Live_Integration_Hreflang {
 	private $settings;
 	private $language_map;
 	private $languages;
+	private $tokenized_url;
 
 	/**
 	 * Public constructor, sets the settings
@@ -27,6 +28,7 @@ class Transifex_Live_Integration_Hreflang {
 		$this->settings = $settings;
 		$this->language_map = json_decode( $settings['language_map'], true )[0];
 		$this->languages = json_decode( $settings['transifex_languages'], true );
+		$this->tokenized_url = $settings['tokenized_url'];
 	}
 
 	public function ok_to_add() {
@@ -42,24 +44,28 @@ class Transifex_Live_Integration_Hreflang {
 			Plugin_Debug::logTrace( 'settings[url_options] set to none...skipping hreflang' );
 			return false;
 		}
+		if ( !isset( $this->settings['tokenized_url'] ) ) {
+			Plugin_Debug::logTrace( 'settings[tokenized_url] not set...skipping hreflang' );
+			return false;
+		}
 		return true;
 	}
 
-	private function generate_languages_hreflang( $raw_url, $languages, $lang,
-			$language_map ) {
+	private function generate_languages_hreflang( $raw_url, $languages, $language_map ) {
 		Plugin_Debug::logTrace();
+		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-picker.php';
+		$url_map = Transifex_Live_Integration_Picker::generate_language_url_map( $raw_url, $this->tokenized_url, $language_map );
 		$ret = [ ];
-		$tokenized_url = str_replace( $lang, "%lang%", $raw_url, $count );
-		if ( $count !== 0 ) {
+	//	$tokenized_url = str_replace( $lang, "%lang%", $raw_url, $count );
 			foreach ($languages as $language) {
 				$arr = [ ];
-				$hreflang_code = $language_map[$language];
-				$language_url = str_replace( '%lang%', $hreflang_code, $tokenized_url );
-				$arr['href'] = $language_url;
-				$arr['hreflang'] = $hreflang_code;
+		//		$hreflang_code = $language_map[$language];
+		//		$language_url = str_replace( '%lang%', $hreflang_code, $tokenized_url );
+				
+				$arr['href'] = $url_map[$language];
+				$arr['hreflang'] = $language_map[$language];
 				array_push( $ret, $arr );
 			}
-		}
 		return $ret;
 	}
 
@@ -69,36 +75,18 @@ class Transifex_Live_Integration_Hreflang {
 	public function render_hreflang() {
 		Plugin_Debug::logTrace();
 		global $wp;
+		$lang = get_query_var( 'lang' );
 		$raw_url = home_url( $wp->request );
-		if ( '/' !== substr( $raw_url, -1 ) ) {
-			$raw_url = $raw_url . '/';
-		}
-		$base_url = $raw_url;
-		if ( $this->settings['source_language'] === get_query_var( 'lang' ) ) {
-			$array_url = explode( "/", $raw_url );
-			if ( $this->settings['url_options'] === '3' ) {
-				array_pop( $array_url );
-				array_push( $array_url, get_query_var( 'lang' ) );
-				array_push( $array_url, '' );
-			}
-			if ( $this->settings['url_options'] === '2' ) {
-				$array_domain = explode( ".", $array_url[2] );
-				$array_domain[0] = get_query_var( 'lang' );
-				$array_url[2] = implode( '.', $array_domain );
-			}
-
-			$raw_url = implode( '/', $array_url );
-		} else {
-			$base_url = str_replace( '/' . get_query_var( 'lang' ), "", $raw_url );
-		}
+		$url_path = add_query_arg(array(), $wp->request);
+		$source_url_path = (substr( $url_path, 0, count($lang)-1 ) === $lang)?substr( $url_path, count($lang)-1, count($url_path)-1 ):$url_path;
+		
 		$source = $this->settings['source_language'];
+		$source_url = site_url() + $source_url_path;
 		$hreflang_out = '';
 		$hreflang_out .= <<<SOURCE
-<link rel="alternate" href="$base_url" hreflang="$source"/>\n		
+<link rel="alternate" href="$source_url" hreflang="$source"/>\n		
 SOURCE;
-		$languages = $this->languages;
-		$lang = get_query_var( 'lang' );
-		$hreflangs = $this->generate_languages_hreflang( $raw_url, $languages, $lang, $this->language_map );
+		$hreflangs = $this->generate_languages_hreflang( $source_url_path, $this->languages, $this->language_map );
 		foreach ($hreflangs as $hreflang) {
 			$href_attr = $hreflang['href'];
 			$hreflang_attr = $hreflang['hreflang'];
