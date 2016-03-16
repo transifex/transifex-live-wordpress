@@ -36,12 +36,12 @@ class Transifex_Live_Integration_Picker {
 	static function generate_language_url_map( $raw_url, $tokenized_url,
 			$language_map ) {
 		Plugin_Debug::logTrace();
-		$trimmed_tokenized_url = rtrim( $tokenized_url, "/" );
-		$trimmed_url = ltrim( $raw_url, "/" );
+		$trimmed_tokenized_url = rtrim( $tokenized_url, '/' );
+		$trimmed_url = ltrim( $raw_url, '/' );
 		$ret = [ ];
 		foreach ($language_map as $k => $v) {
-
-			$ret[$k] = str_replace( '%lang%', $v, $trimmed_tokenized_url ) . "/" . $trimmed_url;
+			$unslashed_url = str_replace( '%lang%', $v, $trimmed_tokenized_url ) . '/' . $trimmed_url;
+			$ret[$k] = rtrim($unslashed_url, '/') . '/';
 		}
 
 		return $ret;

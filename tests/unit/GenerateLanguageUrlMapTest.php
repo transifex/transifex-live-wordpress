@@ -9,12 +9,17 @@ class GenerateLanguageUrlMapTest extends \PHPUnit_Framework_TestCase {
 		include_once './includes/transifex-live-integration-picker.php';
 		$this->data = [
 		[
-		'raw_url' => '/about',
+		'raw_url' => '/about/',
 		'tokenized_url' => 'http://192.168.99.100:32777/%lang%/',
 		'language_map' => [ 'zh_CN' => 'cn'],
-		'result' => ['zh_CN' => 'http://192.168.99.100:32777/cn/about']
+		'result' => ['zh_CN' => 'http://192.168.99.100:32777/cn/about/']
 			], [
 		'raw_url' => '2015/12/17/hello-world/',
+		'tokenized_url' => 'http://192.168.99.100:32777/%lang%/',
+		'language_map' => [ 'zh_CN' => 'cn'],
+		'result' => ['zh_CN' => 'http://192.168.99.100:32777/cn/2015/12/17/hello-world/']
+			],[
+		'raw_url' => '2015/12/17/hello-world',
 		'tokenized_url' => 'http://192.168.99.100:32777/%lang%/',
 		'language_map' => [ 'zh_CN' => 'cn'],
 		'result' => ['zh_CN' => 'http://192.168.99.100:32777/cn/2015/12/17/hello-world/']
