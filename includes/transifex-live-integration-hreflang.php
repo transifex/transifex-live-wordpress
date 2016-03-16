@@ -78,10 +78,10 @@ class Transifex_Live_Integration_Hreflang {
 		$lang = get_query_var( 'lang' );
 		$raw_url = home_url( $wp->request );
 		$url_path = add_query_arg(array(), $wp->request);
-		$source_url_path = (substr( $url_path, 0, count($lang)-1 ) === $lang)?substr( $url_path, count($lang)-1, count($url_path)-1 ):$url_path;
-		
+		$source_url_path = (substr( $url_path, 0, strlen($lang) ) === $lang)?substr( $url_path, strlen($lang), strlen($url_path) ):$url_path;
+		Plugin_Debug::logTrace($source_url_path);
 		$source = $this->settings['source_language'];
-		$source_url = site_url() + $source_url_path;
+		$source_url = site_url() . $source_url_path;
 		$hreflang_out = '';
 		$hreflang_out .= <<<SOURCE
 <link rel="alternate" href="$source_url" hreflang="$source"/>\n		
