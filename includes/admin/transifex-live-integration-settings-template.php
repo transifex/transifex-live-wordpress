@@ -56,7 +56,7 @@
 					<span id="transifex_live_languages_message" class="hide-if-js">Your languages can't be loaded. Please re-check your API key.</span>
 					<span id="transifex_live_sync_message" class="hide-if-js">Refreshing languages will replace your current codes with those from Transifex Live. Continue?</span>
 					</p>
-					
+
 					<p class="submit"><input type="button" name="sync" id="transifex_live_sync" class="button button-primary" value="Refresh Languages List"></p>
 					<p class="description" id="transifex_live_tagline-description">Tweak your localized urls.</p>
 				</td>
@@ -88,7 +88,7 @@
 		<p class="submit"><input disabled="true" type="submit" name="submit" id="transifex_live_submit" class="button button-primary" value="<?php _e( 'Save Changes', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>"></p>
 	</form>
     <p>
-			<a href="http://docs.transifex.com/integrations/wordpress/" target="_blank" ><?php _e( 'Plugin documentation', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></a> | <?php _e( 'Thank you for using Transifex!', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
+		<a href="http://docs.transifex.com/integrations/wordpress/" target="_blank" ><?php _e( 'Plugin documentation', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></a> | <?php _e( 'Thank you for using Transifex!', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
         </a>
     </p>
 </div>

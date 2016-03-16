@@ -133,11 +133,11 @@ class Transifex_Live_Integration_Settings_Page {
 	static public function update_settings( $settings ) {
 		Plugin_Debug::logTrace();
 
-		if ( isset($settings['transifex_live_transifex_settings']['settings'])) {
+		if ( isset( $settings['transifex_live_transifex_settings']['settings'] ) ) {
 			$p = json_decode( $settings['transifex_live_transifex_settings']['settings'], true )['production']['picker'];
-			$settings['transifex_live_settings']['enable_picker']  = ($p !== 'no-picker')?true:false;
+			$settings['transifex_live_settings']['enable_picker'] = ($p !== 'no-picker') ? true : false;
 		}
-		
+
 		$transifex_languages = json_decode( stripslashes( $settings['transifex_live_settings']['transifex_languages'] ), true );
 		$tokenized_url = Transifex_Live_Integration_Settings_Util::generate_tokenized_url( site_url(), $settings['transifex_live_settings']['url_options'] );
 		$settings['transifex_live_settings']['tokenized_url'] = $tokenized_url;
@@ -241,8 +241,8 @@ class Transifex_Live_Integration_Settings_Page {
 		$settings['transifex_live_settings']['languages_regex'] = ( isset( $settings['transifex_live_settings']['languages_regex'] )) ? sanitize_text_field( $settings['transifex_live_settings']['languages_regex'] ) : '';
 		$settings['transifex_live_settings']['transifex_languages'] = ( isset( $settings['transifex_live_settings']['transifex_languages'] )) ? sanitize_text_field( stripslashes( $settings['transifex_live_settings']['transifex_languages'] ) ) : '';
 		$settings['transifex_live_settings']['subdomain_pattern'] = ( isset( $settings['transifex_live_settings']['language_map'] )) ? sanitize_text_field( $settings['transifex_live_settings']['language_map'] ) : '';
-		
-		
+
+
 		$settings['transifex_live_transifex_settings']['settings'] = ( isset( $settings['transifex_live_transifex_settings']['settings'] )) ? sanitize_text_field( stripslashes( $settings['transifex_live_transifex_settings']['settings'] ) ) : '';
 		return $settings;
 	}

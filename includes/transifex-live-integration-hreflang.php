@@ -51,21 +51,19 @@ class Transifex_Live_Integration_Hreflang {
 		return true;
 	}
 
-	private function generate_languages_hreflang( $raw_url, $languages, $language_map ) {
+	private function generate_languages_hreflang( $raw_url, $languages,
+			$language_map ) {
 		Plugin_Debug::logTrace();
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-picker.php';
 		$url_map = Transifex_Live_Integration_Picker::generate_language_url_map( $raw_url, $this->tokenized_url, $language_map );
 		$ret = [ ];
-	//	$tokenized_url = str_replace( $lang, "%lang%", $raw_url, $count );
-			foreach ($languages as $language) {
-				$arr = [ ];
-		//		$hreflang_code = $language_map[$language];
-		//		$language_url = str_replace( '%lang%', $hreflang_code, $tokenized_url );
-				
-				$arr['href'] = $url_map[$language];
-				$arr['hreflang'] = $language_map[$language];
-				array_push( $ret, $arr );
-			}
+		foreach ($languages as $language) {
+			$arr = [ ];
+
+			$arr['href'] = $url_map[$language];
+			$arr['hreflang'] = $language_map[$language];
+			array_push( $ret, $arr );
+		}
 		return $ret;
 	}
 
@@ -77,9 +75,8 @@ class Transifex_Live_Integration_Hreflang {
 		global $wp;
 		$lang = get_query_var( 'lang' );
 		$raw_url = home_url( $wp->request );
-		$url_path = add_query_arg(array(), $wp->request);
-		$source_url_path = (substr( $url_path, 0, strlen($lang) ) === $lang)?substr( $url_path, strlen($lang), strlen($url_path) ):$url_path;
-		Plugin_Debug::logTrace($source_url_path);
+		$url_path = add_query_arg( array(), $wp->request );
+		$source_url_path = (substr( $url_path, 0, strlen( $lang ) ) === $lang) ? substr( $url_path, strlen( $lang ), strlen( $url_path ) ) : $url_path;
 		$source = $this->settings['source_language'];
 		$source_url = site_url() . $source_url_path;
 		$hreflang_out = '';
