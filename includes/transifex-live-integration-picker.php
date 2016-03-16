@@ -35,9 +35,10 @@ class Transifex_Live_Integration_Picker {
 	static function generate_language_url_map( $raw_url, $tokenized_url, $language_map ) {
 		Plugin_Debug::logTrace();
 		$trimmed_tokenized_url = rtrim($tokenized_url,"/");
+		$trimmed_url = ltrim($raw_url,"/");
 		$ret = [ ];
 			foreach ($language_map as $k => $v) {
-				$trimmed_url = ltrim(str_replace($v,'',$raw_url),"/");
+				
 				$ret[$k] = str_replace('%lang%',$v,$trimmed_tokenized_url) . "/". $trimmed_url;
 			}
 		
@@ -51,11 +52,11 @@ class Transifex_Live_Integration_Picker {
 		$home_url = home_url( $wp->request );
 		Plugin_Debug::logTrace(home_url( $wp->request ));
 		$url_path = add_query_arg(array(), $wp->request);
-		$source_url_path = (substr( $url_path, 0, count($lang)-1 ) === $lang)?substr( $url_path, count($lang)-1, count($url_path)-1 ):$url_path;
+		$source_url_path = (substr( $url_path, 0, strlen($lang) ) === $lang)?substr( $url_path, strlen($lang), strlen($url_path) ):$url_path;
 		Plugin_Debug::logTrace(add_query_arg(array(), $wp->request));
 		Plugin_Debug::logTrace($source_url_path);
-		$url_map = $this->generate_language_url_map($url_path, $this->tokenized_url, $this->language_map);
-		$url_map[$this->source_language] = site_url()+$source_url_path;
+		$url_map = $this->generate_language_url_map($source_url_path, $this->tokenized_url, $this->language_map);
+		$url_map[$this->source_language] = site_url() . $source_url_path;
 		$string_url_map = json_encode($url_map, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ;
 		
 		$include = <<<JSONP
