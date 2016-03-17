@@ -31,7 +31,7 @@ Translators can contribute new languages to this plugin or our other WordPress p
 == Minimum Requirements ==
 
 * WordPress 3.5.2 or greater
-* PHP version 5.5.0 or greater
+* PHP version 5.4.0 or greater
 * MySQL version 5.0 or greater
 
 === Installation ===
@@ -97,3 +97,7 @@ Fixed hreflang tag output for subdirectories
 
 = 1.2.3 =
 Improved admin UI
+
+= 1.2.4 =
+Added picker support that respects locale
+Additional admin API key validation

@@ -88,8 +88,8 @@ function transifexLanguages() {
 }
 
 function addTransifexLanguages(obj) {
-    
-    if ( typeof(obj) !== 'undefined' && obj !== null) {
+
+    if (typeof (obj) !== 'undefined' && obj !== null) {
         lm = jQuery.parseJSON(jQuery('#transifex_live_settings_language_map').val());
         globalobj = obj;
         var myName = '';
@@ -98,25 +98,34 @@ function addTransifexLanguages(obj) {
         jQuery.each(obj, function (i, o) {
             myName = 'transifex-integration-live-' + o.code;
             myId = 'transifex-integration-live-' + o.code;
-            jQuery('#language_map_table').append(jQuery('#language_map_template').clone().show().addClass('cloned-language-map').each(function (ii, oo) {
+            jQuery('#transifex_live_language_map_table').append(jQuery('#transifex_live_language_map_template').clone().show().addClass('cloned-language-map').each(function (ii, oo) {
                 jQuery(oo).find('span.tx-language').text(o.tx_name);
                 jQuery(oo).find('input.tx-code').attr('id', myId).attr('name', myName).val(lm[0][o.code]);
             }));
         });
-        
+
         jQuery.each(obj, function (i, o) {
             jQuery('#transifex-integration-live-' + o.code).machine({defaultState: {onEnter: function () {
-                transifex_live_integration_map_update(tl);
-                        },
-                events: {change: 'defaultState'}}, });
+                        transifex_live_integration_map_update(tl);
+                    },
+                    events: {change: 'defaultState'}}, });
         });
-        
-        
+
+
     } else {
+        var tlslm = JSON.parse(jQuery('#transifex_live_settings_language_map').val());
+        language_map = (tlslm.length < 1) ? language_map : [];
         jQuery.each(transifex_language_fields['html'], function (i, o) {
-            jQuery('#language_map_table').append(jQuery('#language_map_template').clone().show().addClass('cloned-language-map').each(function () {
+            jQuery('#transifex_live_language_map_table').append(jQuery('#transifex_live_language_map_template').clone().show().addClass('cloned-language-map').each(function () {
                 jQuery(this).find('span.tx-language').text(o.caption);
-                jQuery(this).find('input.tx-code').attr('id', o.id).attr('name', o.name).val(o.value);
+                if (tlslm.length < 1) {
+                    jQuery(this).find('input.tx-code').attr('id', o.id).attr('name', o.name).val(o.value);
+                } else {
+                    jQuery(this).find('input.tx-code').attr('id', o.id).attr('name', o.name).val(tlslm[0][o.value]);
+                    var e = {};
+                    e[o.value] = tlslm[0][o.value];
+                    language_map.push(e);
+                }
                 jQuery(this).machine({defaultState: {onEnter: function () {
                             transifex_live_integration_map_update();
                         },
@@ -126,8 +135,13 @@ function addTransifexLanguages(obj) {
         jQuery('#transifex_live_settings_source_language').val(source_language);
         jQuery('#transifex_live_settings_transifex_languages').val(JSON.stringify(transifex_languages));
         jQuery('#transifex_live_settings_language_lookup').val(JSON.stringify(language_lookup));
+        console.log(JSON.stringify(language_map));
         jQuery('#transifex_live_settings_language_map').val(JSON.stringify(language_map));
     }
+}
+
+function updateTransifexSettingsFields(obj) {
+    jQuery('#transifex_live_transifex_settings_settings').val(JSON.stringify(obj));
 }
 
 (function ($) {
@@ -205,7 +219,7 @@ function addTransifexLanguages(obj) {
 })(jQuery);
 
 
-(function ($) {
+(function (Transifex, $) {
     $('#transifex_live_settings_api_key').machine({
         defaultState: {
             onEnter: function () {
@@ -218,12 +232,38 @@ function addTransifexLanguages(obj) {
         validating: {
             onEnter: function () {
                 $.log.debug('transifex_live_settings_api_key:validating:onEnter');
-                $('#transifex_live_settings_api_key_message').text('Checking key...');
+
                 $('#transifex_live_settings_url_options_none').attr('disabled', true);
                 $('#transifex_live_settings_url_options_subdirectory').attr('disabled', true);
                 $('#transifex_live_settings_url_options_subdomain').attr('disabled', true);
-                $('input#submit').trigger('disable');
+                $('input#transifex_live_submit').trigger('disable');
+                $('#transifex_live_settings_api_key_message_validating').toggleClass('hide-if-js', false);
+                $('#transifex_live_settings_api_key_message_valid').toggleClass('hide-if-js', true);
+                $('#transifex_live_settings_api_key_message_error').toggleClass('hide-if-js', true);
+                $('#transifex_live_settings_api_key_message_missing').toggleClass('hide-if-js', true);
                 transifexLanguages();
+                transifex_settings_params = {
+                    url: "https://cdn.transifex.com/" + this.val() + "/latest/settings.all.jsonp",
+                    done: function (data) {
+                        if (data) {
+                            updateTransifexSettingsFields(data);
+                            $('#transifex_live_settings_api_key').trigger('success');
+                        } else {
+                            $('#transifex_live_settings_api_key').trigger('error');
+                        }
+                    },
+                    fail: function () {
+                        $('#transifex_live_settings_api_key').trigger('error');
+                    }
+                };
+
+                Transifex.httpGet(transifex_settings_params);
+            },
+            events: {success: 'validating2', blank: 'blank', error: 'error', notranslation: 'missing', change: 'validating'}
+        },
+        validating2: {
+            onEnter: function () {
+                $.log.debug('transifex_live_settings_api_key:validating2:onEnter');
             },
             events: {success: 'valid', blank: 'blank', error: 'error', notranslation: 'missing', change: 'validating'}
         },
@@ -234,12 +274,13 @@ function addTransifexLanguages(obj) {
                 $('#transifex_live_settings_url_options_none').attr('disabled', false);
                 $('#transifex_live_settings_url_options_subdirectory').attr('disabled', false);
                 $('#transifex_live_settings_url_options_subdomain').attr('disabled', false);
-                if (jQuery('#transifex_live_settings_language_map').val()=='' || languages_override) {
+                if (jQuery('#transifex_live_settings_language_map').val() == '[]' || languages_override) {
                     $('#transifex_live_languages').trigger('load');
                     languages_override = false;
                 }
-                $('#transifex_live_settings_api_key_message').text('Success! Advanced SEO settings enabled.');
-                $('input#submit').trigger('enable');
+                $('#transifex_live_settings_api_key_message_validating').toggleClass('hide-if-js', true);
+                $('#transifex_live_settings_api_key_message_valid').toggleClass('hide-if-js', false);
+                $('input#transifex_live_submit').trigger('enable');
             },
             events: {success: 'valid', change: 'validating', validating: 'validating'}
         },
@@ -247,7 +288,8 @@ function addTransifexLanguages(obj) {
             onEnter: function () {
                 $.log.debug('error:onEnter');
                 $('#transifex_live_settings_api_key_button').trigger('wait');
-                $('#transifex_live_settings_api_key_message').text(' Oops! Please make sure you’ve entered a valid API key.');
+                $('#transifex_live_settings_api_key_message_validating').toggleClass('hide-if-js', true);
+                $('#transifex_live_settings_api_key_message_error').toggleClass('hide-if-js', false);
             },
             events: {change: 'validating', validating: 'validating'}
         },
@@ -255,7 +297,10 @@ function addTransifexLanguages(obj) {
             onEnter: function () {
                 $.log.debug('transifex_live_settings_api_key:blank:onEnter');
                 $('#transifex_live_settings_api_key_button').trigger('wait');
-                $('#transifex_live_settings_api_key_message').text('');
+                $('#transifex_live_settings_api_key_message_validating').toggleClass('hide-if-js', true);
+                $('#transifex_live_settings_api_key_message_valid').toggleClass('hide-if-js', true);
+                $('#transifex_live_settings_api_key_message_error').toggleClass('hide-if-js', true);
+                $('#transifex_live_settings_api_key_message_missing').toggleClass('hide-if-js', true);
             },
             events: {change: 'validating', validating: 'validating'}
         },
@@ -263,12 +308,13 @@ function addTransifexLanguages(obj) {
             onEnter: function () {
                 $.log.debug('#transifex_live_settings_api_key:missing:onEnter');
                 $('#transifex_live_settings_api_key_button').trigger('wait');
-                $('#transifex_live_settings_api_key_message').text('D’oh! No languages have been published from Transifex Live yet.');
+                $('#transifex_live_settings_api_key_message_validating').toggleClass('hide-if-js', true);
+                $('#transifex_live_settings_api_key_message_missing').toggleClass('hide-if-js', false);
             },
             events: {validating: 'validating'}
         }
     }, {setClass: true});
-})(jQuery);
+})(window.Transifex, jQuery);
 
 (function ($) {
     $('#transifex_live_settings_url_options_none').machine({
@@ -342,7 +388,7 @@ function addTransifexLanguages(obj) {
                 $('#transifex_live_settings_url_options_subdirectory').prop("checked", false);
                 $('#transifex_live_settings_url_options_subdomain').prop("checked", false);
                 this.val('1');
-                $('input#submit').trigger('enable');
+                $('input#transifex_live_submit').trigger('enable');
             },
             events: {none: 'none', subdomain: 'subdomain', subdirectory: 'subdirectory'}
         },
@@ -357,7 +403,7 @@ function addTransifexLanguages(obj) {
                 $('#transifex_live_settings_url_options_none').prop("checked", false);
                 $('#transifex_live_settings_url_options_subdomain').prop("checked", false);
                 this.val('3');
-                $('input#submit').trigger('enable');
+                $('input#transifex_live_submit').trigger('enable');
             },
             events: {none: 'none', subdomain: 'subdomain', subdirectory: 'subdirectory'}
         },
@@ -372,7 +418,7 @@ function addTransifexLanguages(obj) {
                 $('#transifex_live_settings_url_options_subdirectory').prop("checked", false);
                 $('#transifex_live_settings_url_options_none').prop("checked", false);
                 this.val('2');
-                $('input#submit').trigger('enable');
+                $('input#transifex_live_submit').trigger('enable');
             },
             events: {none: 'none', subdomain: 'subdomain', subdirectory: 'subdirectory'}
         }
@@ -406,7 +452,7 @@ function addTransifexLanguages(obj) {
                 $.log.debug('transifex_live_settings_rewrite_option_all::off::onEnter');
                 this.prop('checked', false);
                 $('.all_selector').trigger('off');
-                $('input#submit').trigger('disable');
+                $('input#transifex_live_submit').trigger('disable');
             },
             events: {click: 'on'}
         },
@@ -437,7 +483,7 @@ function addTransifexLanguages(obj) {
             onEnter: function () {
                 $.log.debug('all_selector::on::onEnter');
                 this.prop("checked", true);
-                $('input#submit').trigger('enable');
+                $('input#transifex_live_submit').trigger('enable');
             },
             events: {click: 'off', off: 'off'}
         },
@@ -446,7 +492,7 @@ function addTransifexLanguages(obj) {
                 $.log.debug('all_selector::off::onEnter');
                 this.prop("checked", false);
                 $('#transifex_live_settings_rewrite_option_all').trigger('singleoff');
-                $('input#submit').trigger('enable');
+                $('input#transifex_live_submit').trigger('enable');
             },
             events: {click: 'on', on: 'on'}
         }
@@ -454,10 +500,10 @@ function addTransifexLanguages(obj) {
 })(jQuery);
 
 (function ($) {
-    $('input#submit').machine({
+    $('input#transifex_live_submit').machine({
         defaultState: {
             onEnter: function () {
-                $.log.debug('transifex_live_settings_url_options_subdomain::input#submit::onEnter');
+                $.log.debug('transifex_live_settings_url_options_subdomain::input#transifex_live_submit::onEnter');
                 this.trigger('disable');
             },
             events: {disable: 'disable'}
@@ -491,33 +537,34 @@ function addTransifexLanguages(obj) {
 })(jQuery);
 
 (function ($) {
-    $('input#sync').machine({
+    $('input#transifex_live_sync').machine({
         defaultState: {
             onEnter: function () {
-                $.log.debug('input#sync::defaultState::onEnter');
+                $.log.debug('input#transifex_live_sync::defaultState::onEnter');
                 this.trigger('wait');
             },
             events: {wait: 'wait'}
         },
         wait: {
             onEnter: function () {
-                $.log.debug('input#sync::wait::onEnter');
+                $.log.debug('input#transifex_live_sync::wait::onEnter');
             },
             events: {click: 'confirm'}
         },
         confirm: {
             onEnter: function () {
-                $.log.debug('input#sync::confirm::onEnter');
-                (confirm('Refreshing languages will replace your current codes with those from Transifex Live. Continue?')) ? this.trigger('refresh') : this.trigger('wait');
+                $.log.debug('input#transifex_live_sync::confirm::onEnter');
+                this.trigger('refresh');
+                //this.trigger('wait');
             },
             events: {refresh: 'refresh', wait: 'wait'}
         },
         refresh: {
             onEnter: function () {
-                $.log.debug('input#sync::refresh::onEnter');
+                $.log.debug('input#transifex_live_sync::refresh::onEnter');
                 languages_override = true;
                 jQuery('#transifex_live_settings_api_key').trigger('validating');
-                
+
                 this.trigger('wait');
             },
             events: {wait: 'wait'}

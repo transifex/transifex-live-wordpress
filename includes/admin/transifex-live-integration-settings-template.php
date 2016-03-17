@@ -1,7 +1,7 @@
 <div class="wrap transifex-live-settings">
     <h2><?php _e( 'Transifex Live Translation Plugin Settings', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></h2>
 
-	<form id="settings_form" method="post" enctype="multipart/form-data">
+	<form id="transifex_live_settings_form" method="post" enctype="multipart/form-data">
 		<?php wp_nonce_field( 'transifex_live_settings', 'transifex_live_nonce' ); ?>
 		<p><?php _e( 'Translate your WordPress site without complexities.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
 		<p><?php _e( 'Before using this plugin, be sure you have a Transifex Live API key. ' ); ?>&nbsp;<a target="_blank" href="<?php echo $settings['urls']['api_key_landing_page']; ?>"><?php _e( 'Click here to sign up and get an API key.' ) ?></a>
@@ -15,7 +15,12 @@
 							<input type="hidden" value="<?php echo $settings['api_key']; ?>" name="transifex_live_settings[previous_api_key]" id="transifex_live_settings_raw_transifex_previous_api_key" />
 							<input type="button" disabled="true" name="check" id="transifex_live_settings_api_key_button" class="button button-primary" value="Check">
 						</p>
-						<p id="transifex_live_settings_api_key_message">&nbsp;</p>
+						<p id="transifex_live_settings_api_key_message">
+							<span id="transifex_live_settings_api_key_message_validating" class="hide-if-js">Validating your key!</span>							
+							<span id="transifex_live_settings_api_key_message_valid" class="hide-if-js">Success! Advanced SEO settings enabled.</span>
+							<span id="transifex_live_settings_api_key_message_error" class="hide-if-js">Oops! Please make sure you’ve entered a valid API key.</span>
+							<span id="transifex_live_settings_api_key_message_missing" class="hide-if-js">D’oh! No languages have been published from Transifex Live yet.</span>
+						</p>
 					</td>
                 </tr>
 				<tr valign="top">
@@ -42,16 +47,18 @@
 					<br/>
 					<input type="hidden" value="<?php echo $source_language ?>" name="transifex_live_settings[source_language]" id="transifex_live_settings_source_language" />
 					<p id="transifex_live_languages">
-					<table id="language_map_table"><tr><th scope="row">Language</th><th scope="row">Code</th></tr>
-						<tr id="language_map_template" style="display:none">
+					<table id="transifex_live_language_map_table"><tr><th scope="row">Language</th><th scope="row">Code</th></tr>
+						<tr id="transifex_live_language_map_template" style="display:none">
 							<td style="padding:0px"><span class="tx-language"></span></td>
 							<td style="padding:0px"><input class="tx-code" type="text" style="width:100px"></td>
 						</tr>
 					</table>
-					<span id="transifex_live_languages_message">Your languages can't be loaded. Please re-check your API key.</span>
+					<span id="transifex_live_languages_message" class="hide-if-js">Your languages can't be loaded. Please re-check your API key.</span>
+					<span id="transifex_live_sync_message" class="hide-if-js">Refreshing languages will replace your current codes with those from Transifex Live. Continue?</span>
 					</p>
-					<p class="submit"><input type="button" name="sync" id="sync" class="button button-primary" value="Refresh Languages List"></p>
-					<p class="description" id="tagline-description">Tweak your localized urls.</p>
+
+					<p class="submit"><input type="button" name="sync" id="transifex_live_sync" class="button button-primary" value="Refresh Languages List"></p>
+					<p class="description" id="transifex_live_tagline-description">Tweak your localized urls.</p>
 				</td>
 			</tr>
 			<tr class="url-structure-subdirectory">
@@ -70,16 +77,18 @@
 				</td></tr>
 			</tbody>
         </table>
+		<?php /* Transifex_Live_Integration_Settings_Util::render_transifex_settings( $transifex_settings_array ); */ ?>
 		<input name="transifex_live_settings[enable_custom_urls]" id="transifex_live_settings_custom_urls" type="hidden" value="<?php echo $checked_custom_urls ?>" >
+		<input type="hidden" value="<?php echo htmlentities( stripslashes( $language_map ) ) ?>" name="transifex_live_settings[language_map]" id="transifex_live_settings_language_map" />
+		<input type="hidden" value="<?php echo htmlentities( stripslashes( $transifex_settings_settings ) ) ?>" name="transifex_live_transifex_settings[settings]" id="transifex_live_transifex_settings_settings" />
 		<input type="hidden" value="<?php echo htmlentities( $settings['subdomain_pattern'] ) ?>" name="transifex_live_settings[subdomain_pattern]" id="transifex_live_settings_subdomain_pattern" />
 		<input type="hidden" value="<?php echo htmlentities( stripslashes( $languages_regex ) ) ?>" name="transifex_live_settings[languages_regex]" id="transifex_live_settings_languages_regex" />
 		<input type="hidden" value="<?php echo htmlentities( stripslashes( $languages ) ) ?>" name="transifex_live_settings[transifex_languages]" id="transifex_live_settings_transifex_languages" />
 		<input type="hidden" value="<?php echo htmlentities( stripslashes( $language_lookup ) ) ?>" name="transifex_live_settings[language_lookup]" id="transifex_live_settings_language_lookup" />
-        <input type="hidden" value="<?php echo htmlentities( stripslashes( $language_map ) ) ?>" name="transifex_live_settings[language_map]" id="transifex_live_settings_language_map" />
-		<p class="submit"><input disabled="true" type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e( 'Save Changes', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>"></p>
+		<p class="submit"><input disabled="true" type="submit" name="submit" id="transifex_live_submit" class="button button-primary" value="<?php _e( 'Save Changes', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>"></p>
 	</form>
     <p>
-			<a href="http://docs.transifex.com/integrations/wordpress/" target="_blank" ><?php _e( 'Plugin documentation', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></a> | <?php _e( 'Thank you for using Transifex!', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
+		<a href="http://docs.transifex.com/integrations/wordpress/" target="_blank" ><?php _e( 'Plugin documentation', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></a> | <?php _e( 'Thank you for using Transifex!', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
         </a>
     </p>
 </div>
