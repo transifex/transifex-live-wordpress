@@ -53,17 +53,7 @@ class Transifex_Live_Integration_Settings_Page {
 
 		$transifex_settings = self::load_transifex_settings();
 		$transifex_settings_settings = $transifex_settings['settings'];
-		/* 	$transifex_settings_array = [ ];
-		  $transifex_settings_settings = '';
-		  foreach ($transifex_settings as $key => $value) {
-		  $arr = [ ];
-		  $arr['value'] = $value;
-		  $arr['id'] = 'transifex_live_transifex_settings_' . $key;
-		  $arr['name'] = 'transifex_live_transifex_settings[' . $key . ']';
-		  array_push( $transifex_settings_array, $arr );
-		  }
-		 */
-		Plugin_Debug::logTrace( $settings['language_map'] );
+
 		ob_start();
 		checked( $settings['rewrite_option_all'], 1 );
 		$checked_rewrite_option_all = ob_get_clean();
@@ -120,7 +110,7 @@ class Transifex_Live_Integration_Settings_Page {
 		echo $content;
 	}
 
-	public function admin_init_hook() {
+	static public function admin_init_hook() {
 		Plugin_Debug::logTrace();
 		if ( isset( $_POST['transifex_live_nonce'] ) && wp_verify_nonce( $_POST['transifex_live_nonce'], 'transifex_live_settings' ) ) {
 			self::update_settings( self::sanitize_settings( $_POST ) );
@@ -194,7 +184,7 @@ class Transifex_Live_Integration_Settings_Page {
 	/**
 	 * Callback function that sets notifications in WP admin pages
 	 */
-	public function admin_notices_hook() {
+	static public function admin_notices_hook() {
 		$is_admin_page_notice = false;
 
 		$is_admin_dashboard_notice = false;
