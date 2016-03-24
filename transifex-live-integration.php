@@ -5,13 +5,13 @@
  *
  * @link    http://docs.transifex.com/developer/integrations/wordpress
  * @package TransifexLiveIntegration
- * @version 1.2.4
+ * @version 1.2.5
  *
  * @wordpress-plugin
  * Plugin Name:       Transifex Live Translation Plugin
  * Plugin URI:        http://docs.transifex.com/developer/integrations/wordpress
  * Description:       Translate your WordPress website or blog without the usual complex setups.
- * Version:           1.2.4
+ * Version:           1.2.5
  * License:           GNU General Public License
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       transifex-live-integration
@@ -63,7 +63,7 @@ if ( !defined( 'TRANSIFEX_LIVE_INTEGRATION_JAVASCRIPT' ) ) {
 define( 'LANG_PARAM', 'lang' );
 
 require_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/plugin-debug.php';
-$version = '1.2.4';
+$version = '1.2.5';
 $debug = new Plugin_Debug();
 
 /**
@@ -92,7 +92,7 @@ class Transifex_Live_Integration {
 		}
 
 		add_filter( 'query_vars', array( 'Transifex_Live_Integration', 'query_vars_hook' ) );
-
+		
 		
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-subdomain.php';
 		$subdomain = Transifex_Live_Integration_Subdomain::create_subdomains( $settings );
@@ -198,6 +198,15 @@ class Transifex_Live_Integration {
 
 			load_plugin_textdomain( TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN, false, TRANSIFEX_LIVE_INTEGRATION_LANGUAGES_PATH );
 		} else {
+			
+		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-prerender.php';
+		$prerender = Transifex_Live_Integration_Prerender::create_prerender($settings);
+		($prerender) ? Plugin_Debug::logTrace( 'prerender created' ) : Plugin_Debug::logTrace( 'prerender skipped' );
+		if ( $prerender ) {
+			add_action( 'wp_head', [ $prerender, 'wp_head_hook' ] );
+			add_action('after_setup_theme', [ $prerender, 'after_setup_theme_hook']);
+			add_action('shutdown', [ $prerender, 'shutdown_hook']);
+		}
 
 
 			include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-hreflang.php';
