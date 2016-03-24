@@ -85,6 +85,8 @@
 		<input type="hidden" value="<?php echo htmlentities( stripslashes( $languages_regex ) ) ?>" name="transifex_live_settings[languages_regex]" id="transifex_live_settings_languages_regex" />
 		<input type="hidden" value="<?php echo htmlentities( stripslashes( $languages ) ) ?>" name="transifex_live_settings[transifex_languages]" id="transifex_live_settings_transifex_languages" />
 		<input type="hidden" value="<?php echo htmlentities( stripslashes( $language_lookup ) ) ?>" name="transifex_live_settings[language_lookup]" id="transifex_live_settings_language_lookup" />
+		<input type="hidden" value="<?php echo htmlentities( stripslashes( $settings['generic_bot_types']) ) ?>" name="transifex_live_settings[generic_bot_types]" id="transifex_live_settings_generic_bot_types" />
+		<input type="hidden" value="<?php echo htmlentities( stripslashes( $settings['whitelist_crawlers']) ) ?>" name="transifex_live_settings[whitelist_crawlers]" id="transifex_live_settings_whitelist_crawlers" />
 		<p class="submit"><input disabled="true" type="submit" name="submit" id="transifex_live_submit" class="button button-primary" value="<?php _e( 'Save Changes', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>"></p>
 	</form>
     <p>
