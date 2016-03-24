@@ -43,7 +43,7 @@ class Transifex_Live_Integration_Prerender {
 		$page_url = rtrim( $page_url, '/' ) . '/';
 
 		$ch = curl_init();
-		curl_setopt( $ch, CURLOPT_URL, 'http://192.168.99.100:32769/' . $page_url );
+		curl_setopt( $ch, CURLOPT_URL, 'http://secure-refuge-63401.herokuapp.com/' . $page_url );
 		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
 		$result = curl_exec( $ch );
 		if ( $result === false ) {
