@@ -83,7 +83,7 @@ class Transifex_Live_Integration_Defaults {
 			'url_options' => 1,
 			'subdomain_pattern' => '',
 			'whitelist_crawlers' =>
-			'googlebot|yahoo|bingbot|baiduspider|facebookexternalhit|twitterbot|rogerbot|linkedinbot|embedly|quora link preview|showyoubot|outbrain|pinterest\/0.|developers.google.com\/\+\/web\/snippet|slackbot|vkShare|w3c_validator|redditbot|applebot|whatsapp|flipboard',
+			'googlebot|yahoo|bingbot|baiduspider|facebookexternalhit|twitterbot|rogerbot|linkedinbot|embedly|quora link preview|showyoubot|outbrain|pinterest/0.|developers.google.com/+/web/snippet|slackbot|vkshare|w3c_validator|redditbot|applebot|whatsapp|flipboard',
 			'generic_bot_types' => 'bot|crawl|slurp|spider'
 		);
 	}
