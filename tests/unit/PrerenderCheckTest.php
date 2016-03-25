@@ -47,6 +47,12 @@ class PrerenderCheckTest extends \PHPUnit_Framework_TestCase {
 				'bot_types' => $bot_types,
 				'whitelist' => $whitelist,
 				'result' => true
+			],[ // Slackbot with
+				'agent' => 'slackbot',
+				'fragment' => NULL,
+				'bot_types' => $bot_types,
+				'whitelist' => $whitelist,
+				'result' => true
 			],
 			[ // some fragment
 				'agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.116 Safari/537.36',
