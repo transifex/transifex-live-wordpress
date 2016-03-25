@@ -1,0 +1,737 @@
+<!DOCTYPE html><html lang="en-US" prefix="og: http://ogp.me/ns#"><!--<![endif]--><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<title>Hello world! - Test-WP-PluginTest-WP-Plugin</title>
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="stylesheet" type="text/css" media="all" href="http://192.168.99.100:32777/wp-content/themes/twentyeleven/style.css">
+<link rel="pingback" href="http://192.168.99.100:32777/xmlrpc.php">
+<!--[if lt IE 9]>
+
+<![endif]-->
+
+<style type="text/css">.txlive {display: none;}
+</style>
+
+<!-- This site is optimized with the Yoast SEO plugin v3.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="robots" content="noindex,follow">
+<link rel="canonical" href="http://192.168.99.100:32777/blog/hello-world/">
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hello world! - Test-WP-Plugin">
+<meta property="og:description" content="Welcome to WordPress. This is your first post. Edit or delete it, then start writing!">
+<meta property="og:url" content="http://192.168.99.100:32777/blog/hello-world/">
+<meta property="og:site_name" content="Test-WP-Plugin">
+<meta property="article:section" content="Uncategorized">
+<meta property="article:published_time" content="2015-12-17T00:45:15+00:00">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:description" content="Welcome to WordPress. This is your first post. Edit or delete it, then start writing!">
+<meta name="twitter:title" content="Hello world! - Test-WP-Plugin">
+<!-- / Yoast SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="Test-WP-Plugin » Feed" href="http://192.168.99.100:32777/feed/">
+<link rel="alternate" type="application/rss+xml" title="Test-WP-Plugin » Comments Feed" href="http://192.168.99.100:32777/comments/feed/">
+<link rel="alternate" type="application/rss+xml" title="Test-WP-Plugin » Hello world! Comments Feed" href="http://192.168.99.100:32777/blog/hello-world/feed/">
+		
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel="https://api.w.org/" href="http://192.168.99.100:32777/wp-json/">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://192.168.99.100:32777/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://192.168.99.100:32777/wp-includes/wlwmanifest.xml"> 
+<meta name="generator" content="WordPress 4.4.2">
+<link rel="shortlink" href="http://192.168.99.100:32777/?p=1">
+<link rel="alternate" type="application/json+oembed" href="http://192.168.99.100:32777/wp-json/oembed/1.0/embed?url=http%3A%2F%2F192.168.99.100%3A32777%2Fblog%2Fhello-world%2F">
+<link rel="alternate" type="text/xml+oembed" href="http://192.168.99.100:32777/wp-json/oembed/1.0/embed?url=http%3A%2F%2F192.168.99.100%3A32777%2Fblog%2Fhello-world%2F&amp;format=xml">
+		<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+		</head>
+
+<body class="single single-post postid-1 single-format-standard singular two-column right-sidebar">
+<div id="page" class="hfeed">
+	<header id="branding" role="banner">
+			<hgroup>
+				<h1 id="site-title"><span><a href="http://192.168.99.100:32777/" rel="home">Test-WP-Plugin</a></span></h1>
+				<h2 id="site-description">Just another WordPress site</h2>
+			</hgroup>
+
+						<a href="http://192.168.99.100:32777/">
+									<img src="http://192.168.99.100:32777/wp-content/themes/twentyeleven/images/headers/hanoi.jpg" width="1000" height="288" alt="Test-WP-Plugin">
+							</a>
+			
+								<form method="get" id="searchform" action="http://192.168.99.100:32777/">
+		<label for="s" class="assistive-text">Search</label>
+		<input type="text" class="field" name="s" id="s" placeholder="Search">
+		<input type="submit" class="submit" name="submit" id="searchsubmit" value="Search">
+	</form>
+			
+			<nav id="access" role="navigation">
+				<h3 class="assistive-text">Main menu</h3>
+								<div class="skip-link"><a class="assistive-text" href="#content">Skip to primary content</a></div>
+												<div class="menu-test-container"><ul id="menu-test" class="menu"><li id="menu-item-6" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6"><a href="http://192.168.99.100:32777/sample-page/">Sample Page</a></li>
+<li id="menu-item-8" class="menu-item menu-item-type-post_type menu-item-object-post current-menu-item menu-item-8"><a href="http://192.168.99.100:32777/blog/hello-world/">Hello world!</a></li>
+<li id="menu-item-1334" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1334"><a href="http://192.168.99.100:32777/amazon-store/">Amazon Store</a></li>
+<li id="menu-item-1335" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1335"><a href="http://192.168.99.100:32777/home/">Home</a></li>
+<li id="menu-item-1336" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1336"><a href="http://192.168.99.100:32777/blog/">Blog</a></li>
+<li id="menu-item-1337" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1337"><a href="http://192.168.99.100:32777/page-comments-disabled/">Page Comments Disabled</a></li>
+<li id="menu-item-1338" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1338"><a href="http://192.168.99.100:32777/page-comments/">Page Comments</a></li>
+<li id="menu-item-1339" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1339"><a href="http://192.168.99.100:32777/page-image-alignment/">Page Image Alignment</a></li>
+<li id="menu-item-1340" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1340"><a href="http://192.168.99.100:32777/page-markup-and-formatting/">Page Markup And Formatting</a></li>
+<li id="menu-item-1341" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1341"><a href="http://192.168.99.100:32777/about/">About</a></li>
+<li id="menu-item-1342" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1342"><a href="http://192.168.99.100:32777/parent-page/">Parent Page</a></li>
+</ul></div>			</nav><!-- #access -->
+	</header><!-- #branding -->
+
+
+	<div id="main">
+
+		<div id="primary">
+			<div id="content" role="main">
+
+				
+					<nav id="nav-single">
+						<h3 class="assistive-text">Post navigation</h3>
+						<span class="nav-previous"><a href="http://192.168.99.100:32777/blog/tiled-gallery/" rel="prev"><span class="meta-nav">←</span> Previous</a></span>
+						<span class="nav-next"><a href="http://192.168.99.100:32777/blog/something-greek/" rel="next">Next <span class="meta-nav">→</span></a></span>
+					</nav><!-- #nav-single -->
+
+					
+<article id="post-1" class="post-1 post type-post status-publish format-standard hentry category-uncategorized">
+	<header class="entry-header">
+		<h1 class="entry-title">Hello world!</h1>
+
+				<div class="entry-meta">
+			<span class="sep">Posted on </span><a href="http://192.168.99.100:32777/blog/hello-world/" title="12:45 am" rel="bookmark"><time class="entry-date" datetime="2015-12-17T00:45:15+00:00">December 17, 2015</time></a><span class="by-author"> <span class="sep"> by </span> <span class="author vcard"><a class="url fn n" href="http://192.168.99.100:32777/blog/author/admin/" title="View all posts by admin" rel="author">admin</a></span></span>		</div><!-- .entry-meta -->
+			</header><!-- .entry-header -->
+
+	<div class="entry-content">
+		<p>Welcome to WordPress. This is your first post. Edit or delete it, then start writing!</p>
+			</div><!-- .entry-content -->
+
+	<footer class="entry-meta">
+		This entry was posted in <a href="http://192.168.99.100:32777/blog/category/uncategorized/" rel="category tag">Uncategorized</a> by <a href="http://192.168.99.100:32777/blog/author/admin/">admin</a>. Bookmark the <a href="http://192.168.99.100:32777/blog/hello-world/" title="Permalink to Hello world!" rel="bookmark">permalink</a>.		
+			</footer><!-- .entry-meta -->
+</article><!-- #post-1 -->
+
+						<div id="comments">
+	
+	
+			<h2 id="comments-title">
+			One thought on “<span>Hello world!</span>”		</h2>
+
+		
+		<ol class="commentlist">
+				<li class="comment even thread-even depth-1" id="li-comment-1">
+		<article id="comment-1" class="comment">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+					<span class="fn"><a href="https://wordpress.org/" rel="external nofollow" class="url">Mr WordPress</a></span> on <a href="http://192.168.99.100:32777/blog/hello-world/#comment-1"><time datetime="2015-12-17T00:45:15+00:00">December 17, 2015 at 12:45 am</time></a> <span class="says">said:</span>
+									</div><!-- .comment-author .vcard -->
+
+				
+			</footer>
+
+			<div class="comment-content"><p>Hi, this is a comment.<br>
+To delete a comment, just log in and view the post's comments. There you will have the option to edit or delete them.</p>
+</div>
+
+			<div class="reply">
+				<a rel="nofollow" class="comment-reply-link" href="http://192.168.99.100:32777/blog/hello-world/?replytocom=1#respond" onclick="return addComment.moveForm( &quot;comment-1&quot;, &quot;1&quot;, &quot;respond&quot;, &quot;1&quot; )" aria-label="Reply to Mr WordPress">Reply <span>↓</span></a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+		</ol>
+
+		
+		
+	
+					<div id="respond" class="comment-respond">
+			<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/blog/hello-world/#respond" style="display:none;">Cancel reply</a></small></h3>				<form action="http://192.168.99.100:32777/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+					<p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> Required fields are marked <span class="required">*</span></p><p class="comment-form-comment"><label for="comment">Comment</label> <textarea id="comment" name="comment" cols="45" rows="8" aria-required="true" required="required"></textarea></p><p class="comment-form-author"><label for="author">Name <span class="required">*</span></label> <input id="author" name="author" type="text" value="" size="30" aria-required="true" required="required"></p>
+<p class="comment-form-email"><label for="email">Email <span class="required">*</span></label> <input id="email" name="email" type="text" value="" size="30" aria-describedby="email-notes" aria-required="true" required="required"></p>
+<p class="comment-form-url"><label for="url">Website</label> <input id="url" name="url" type="text" value="" size="30"></p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Post Comment"> <input type="hidden" name="comment_post_ID" value="1" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+</p>				</form>
+					</div><!-- #respond -->
+		
+</div><!-- #comments -->
+
+				
+			</div><!-- #content -->
+		</div><!-- #primary -->
+
+
+	</div><!-- #main -->
+
+	<footer id="colophon" role="contentinfo">
+
+			
+
+			<div id="site-generator">
+								<a href="https://wordpress.org/" title="Semantic Personal Publishing Platform">Proudly powered by WordPress</a>
+			</div>
+	</footer><!-- #colophon -->
+</div><!-- #page -->
+
+<div id="miw_debug" class="transparent notranslate" style="width:90%;margin: 1em auto;padding: 10px 160px;text-align: left;z-index: 999;">
+<h3>Plugin: Plugin Debug Mode Output</h3>
+*<br><b>File: transifex-live-integration.php</b> - <font color="green">Line #: 67</font><br><b>Class: Plugin_Debug</b> - <font color="green">Function: __construct</font><br><b>Type: method call</b> - <font color="green">Parameters: Array
+(
+)
+</font><br><br>**<br><b>File: transifex-live-integration.php</b> - <font color="green">Line #: 271</font><br><b>Class: Transifex_Live_Integration</b> - <font color="green">Function: do_plugin</font><br><b>Type: static method call</b> - <font color="green">Parameters: Array
+(
+    [0] =&gt; 
+    [1] =&gt; 1.2.5
+)
+</font><br><br>**<br><b>File: transifex-live-integration.php</b> - <font color="green">Line #: 98</font><br><b>Class: Transifex_Live_Integration_Subdomain</b> - <font color="green">Function: create_subdomains</font><br><b>Type: static method call</b> - <font color="green">Parameters: Array
+(
+    [0] =&gt; Array
+        (
+            [api_key] =&gt; 
+            [previous_api_key] =&gt; 
+            [raw_transifex_languages] =&gt; 
+            [transifex_languages] =&gt; 
+            [language_lookup] =&gt; 
+            [language_map] =&gt; []
+            [languages_regex] =&gt; 
+            [rewrite_option_all] =&gt; 0
+            [enable_custom_urls] =&gt; 0
+            [urls] =&gt; Array
+                (
+                    [rate_us] =&gt; https://wordpress.org/support/view/plugin-reviews/transifex-live-integration?rate=5#postform
+                    [api_key_landing_page] =&gt; https://www.transifex.com/signup/?utm_source=liveplugin
+                )
+
+            [enable_language_urls] =&gt; 
+            [enable_picker] =&gt; 
+            [add_language_rewrites] =&gt; none selected
+            [source_language] =&gt; 
+            [languages] =&gt; 
+            [hreflang] =&gt; 
+            [url_options] =&gt; 1
+            [subdomain_pattern] =&gt; 
+            [whitelist_crawlers] =&gt; googlebot|yahoo|bingbot|baiduspider|facebookexternalhit|twitterbot|rogerbot|linkedinbot|embedly|quora link preview|showyoubot|outbrain|pinterest/0.|developers.google.com/+/web/snippet|slackbot|vkshare|w3c_validator|redditbot|applebot|whatsapp|flipboard
+            [generic_bot_types] =&gt; bot|crawl|slurp|spider
+        )
+
+)
+</font><br><br>**<br><b>File: transifex-live-integration.php</b> - <font color="green">Line #: 98</font><br><b>Class: Transifex_Live_Integration_Subdomain</b> - <font color="green">Function: create_subdomains</font><br><b>Type: static method call</b> - <font color="green">Parameters: Array
+(
+    [0] =&gt; Array
+        (
+            [api_key] =&gt; 
+            [previous_api_key] =&gt; 
+            [raw_transifex_languages] =&gt; 
+            [transifex_languages] =&gt; 
+            [language_lookup] =&gt; 
+            [language_map] =&gt; []
+            [languages_regex] =&gt; 
+            [rewrite_option_all] =&gt; 0
+            [enable_custom_urls] =&gt; 0
+            [urls] =&gt; Array
+                (
+                    [rate_us] =&gt; https://wordpress.org/support/view/plugin-reviews/transifex-live-integration?rate=5#postform
+                    [api_key_landing_page] =&gt; https://www.transifex.com/signup/?utm_source=liveplugin
+                )
+
+            [enable_language_urls] =&gt; 
+            [enable_picker] =&gt; 
+            [add_language_rewrites] =&gt; none selected
+            [source_language] =&gt; 
+            [languages] =&gt; 
+            [hreflang] =&gt; 
+            [url_options] =&gt; 1
+            [subdomain_pattern] =&gt; 
+            [whitelist_crawlers] =&gt; googlebot|yahoo|bingbot|baiduspider|facebookexternalhit|twitterbot|rogerbot|linkedinbot|embedly|quora link preview|showyoubot|outbrain|pinterest/0.|developers.google.com/+/web/snippet|slackbot|vkshare|w3c_validator|redditbot|applebot|whatsapp|flipboard
+            [generic_bot_types] =&gt; bot|crawl|slurp|spider
+        )
+
+)
+</font><br><font color="red">settings[url_options] not subdomain</font><br>**<br><b>File: transifex-live-integration.php</b> - <font color="green">Line #: 271</font><br><b>Class: Transifex_Live_Integration</b> - <font color="green">Function: do_plugin</font><br><b>Type: static method call</b> - <font color="green">Parameters: Array
+(
+    [0] =&gt; 
+    [1] =&gt; 1.2.5
+)
+</font><br><font color="red">subdomains skipped</font><br>**<br><b>File: transifex-live-integration.php</b> - <font color="green">Line #: 107</font><br><b>Class: Transifex_Live_Integration_Rewrite</b> - <font color="green">Function: create_rewrite</font><br><b>Type: static method call</b> - <font color="green">Parameters: Array
+(
+    [0] =&gt; Array
+        (
+            [api_key] =&gt; 
+            [previous_api_key] =&gt; 
+            [raw_transifex_languages] =&gt; 
+            [transifex_languages] =&gt; 
+            [language_lookup] =&gt; 
+            [language_map] =&gt; []
+            [languages_regex] =&gt; 
+            [rewrite_option_all] =&gt; 0
+            [enable_custom_urls] =&gt; 0
+            [urls] =&gt; Array
+                (
+                    [rate_us] =&gt; https://wordpress.org/support/view/plugin-reviews/transifex-live-integration?rate=5#postform
+                    [api_key_landing_page] =&gt; https://www.transifex.com/signup/?utm_source=liveplugin
+                )
+
+            [enable_language_urls] =&gt; 
+            [enable_picker] =&gt; 
+            [add_language_rewrites] =&gt; none selected
+            [source_language] =&gt; 
+            [languages] =&gt; 
+            [hreflang] =&gt; 
+            [url_options] =&gt; 1
+            [subdomain_pattern] =&gt; 
+            [whitelist_crawlers] =&gt; googlebot|yahoo|bingbot|baiduspider|facebookexternalhit|twitterbot|rogerbot|linkedinbot|embedly|quora link preview|showyoubot|outbrain|pinterest/0.|developers.google.com/+/web/snippet|slackbot|vkshare|w3c_validator|redditbot|applebot|whatsapp|flipboard
+            [generic_bot_types] =&gt; bot|crawl|slurp|spider
+        )
+
+    [1] =&gt; Array
+        (
+            [add_rewrites_post] =&gt; 0
+            [add_rewrites_page] =&gt; 0
+            [add_rewrites_author] =&gt; 0
+            [add_rewrites_date] =&gt; 0
+            [add_rewrites_tag] =&gt; 0
+            [add_rewrites_category] =&gt; 0
+            [add_rewrites_search] =&gt; 0
+            [add_rewrites_root] =&gt; 0
+            [add_rewrites_reverse_template_links] =&gt; 0
+            [add_rewrites_permalink_tag] =&gt; 0
+        )
+
+)
+</font><br><br>**<br><b>File: transifex-live-integration.php</b> - <font color="green">Line #: 107</font><br><b>Class: Transifex_Live_Integration_Rewrite</b> - <font color="green">Function: create_rewrite</font><br><b>Type: static method call</b> - <font color="green">Parameters: Array
+(
+    [0] =&gt; Array
+        (
+            [api_key] =&gt; 
+            [previous_api_key] =&gt; 
+            [raw_transifex_languages] =&gt; 
+            [transifex_languages] =&gt; 
+            [language_lookup] =&gt; 
+            [language_map] =&gt; []
+            [languages_regex] =&gt; 
+            [rewrite_option_all] =&gt; 0
+            [enable_custom_urls] =&gt; 0
+            [urls] =&gt; Array
+                (
+                    [rate_us] =&gt; https://wordpress.org/support/view/plugin-reviews/transifex-live-integration?rate=5#postform
+                    [api_key_landing_page] =&gt; https://www.transifex.com/signup/?utm_source=liveplugin
+                )
+
+            [enable_language_urls] =&gt; 
+            [enable_picker] =&gt; 
+            [add_language_rewrites] =&gt; none selected
+            [source_language] =&gt; 
+            [languages] =&gt; 
+            [hreflang] =&gt; 
+            [url_options] =&gt; 1
+            [subdomain_pattern] =&gt; 
+            [whitelist_crawlers] =&gt; googlebot|yahoo|bingbot|baiduspider|facebookexternalhit|twitterbot|rogerbot|linkedinbot|embedly|quora link preview|showyoubot|outbrain|pinterest/0.|developers.google.com/+/web/snippet|slackbot|vkshare|w3c_validator|redditbot|applebot|whatsapp|flipboard
+            [generic_bot_types] =&gt; bot|crawl|slurp|spider
+        )
+
+    [1] =&gt; Array
+        (
+            [add_rewrites_post] =&gt; 0
+            [add_rewrites_page] =&gt; 0
+            [add_rewrites_author] =&gt; 0
+            [add_rewrites_date] =&gt; 0
+            [add_rewrites_tag] =&gt; 0
+            [add_rewrites_category] =&gt; 0
+            [add_rewrites_search] =&gt; 0
+            [add_rewrites_root] =&gt; 0
+            [add_rewrites_reverse_template_links] =&gt; 0
+            [add_rewrites_permalink_tag] =&gt; 0
+        )
+
+)
+</font><br><font color="red">settings[languages_regex] not set</font><br>**<br><b>File: transifex-live-integration.php</b> - <font color="green">Line #: 271</font><br><b>Class: Transifex_Live_Integration</b> - <font color="green">Function: do_plugin</font><br><b>Type: static method call</b> - <font color="green">Parameters: Array
+(
+    [0] =&gt; 
+    [1] =&gt; 1.2.5
+)
+</font><br><font color="red">rewrite skipped</font><br>**<br><b>File: transifex-live-integration.php</b> - <font color="green">Line #: 271</font><br><b>Class: Transifex_Live_Integration</b> - <font color="green">Function: do_plugin</font><br><b>Type: static method call</b> - <font color="green">Parameters: Array
+(
+    [0] =&gt; 
+    [1] =&gt; 1.2.5
+)
+</font><br><font color="red">adding admin bar actions</font><br>**<br><b>File: transifex-live-integration.php</b> - <font color="green">Line #: 203</font><br><b>Class: Transifex_Live_Integration_Prerender</b> - <font color="green">Function: create_prerender</font><br><b>Type: static method call</b> - <font color="green">Parameters: Array
+(
+    [0] =&gt; Array
+        (
+            [api_key] =&gt; 
+            [previous_api_key] =&gt; 
+            [raw_transifex_languages] =&gt; 
+            [transifex_languages] =&gt; 
+            [language_lookup] =&gt; 
+            [language_map] =&gt; []
+            [languages_regex] =&gt; 
+            [rewrite_option_all] =&gt; 0
+            [enable_custom_urls] =&gt; 0
+            [urls] =&gt; Array
+                (
+                    [rate_us] =&gt; https://wordpress.org/support/view/plugin-reviews/transifex-live-integration?rate=5#postform
+                    [api_key_landing_page] =&gt; https://www.transifex.com/signup/?utm_source=liveplugin
+                )
+
+            [enable_language_urls] =&gt; 
+            [enable_picker] =&gt; 
+            [add_language_rewrites] =&gt; none selected
+            [source_language] =&gt; 
+            [languages] =&gt; 
+            [hreflang] =&gt; 
+            [url_options] =&gt; 1
+            [subdomain_pattern] =&gt; 
+            [whitelist_crawlers] =&gt; googlebot|yahoo|bingbot|baiduspider|facebookexternalhit|twitterbot|rogerbot|linkedinbot|embedly|quora link preview|showyoubot|outbrain|pinterest/0.|developers.google.com/+/web/snippet|slackbot|vkshare|w3c_validator|redditbot|applebot|whatsapp|flipboard
+            [generic_bot_types] =&gt; bot|crawl|slurp|spider
+        )
+
+)
+</font><br><br>**<br><b>File: transifex-live-integration.php</b> - <font color="green">Line #: 203</font><br><b>Class: Transifex_Live_Integration_Prerender</b> - <font color="green">Function: create_prerender</font><br><b>Type: static method call</b> - <font color="green">Parameters: Array
+(
+    [0] =&gt; Array
+        (
+            [api_key] =&gt; 
+            [previous_api_key] =&gt; 
+            [raw_transifex_languages] =&gt; 
+            [transifex_languages] =&gt; 
+            [language_lookup] =&gt; 
+            [language_map] =&gt; []
+            [languages_regex] =&gt; 
+            [rewrite_option_all] =&gt; 0
+            [enable_custom_urls] =&gt; 0
+            [urls] =&gt; Array
+                (
+                    [rate_us] =&gt; https://wordpress.org/support/view/plugin-reviews/transifex-live-integration?rate=5#postform
+                    [api_key_landing_page] =&gt; https://www.transifex.com/signup/?utm_source=liveplugin
+                )
+
+            [enable_language_urls] =&gt; 
+            [enable_picker] =&gt; 
+            [add_language_rewrites] =&gt; none selected
+            [source_language] =&gt; 
+            [languages] =&gt; 
+            [hreflang] =&gt; 
+            [url_options] =&gt; 1
+            [subdomain_pattern] =&gt; 
+            [whitelist_crawlers] =&gt; googlebot|yahoo|bingbot|baiduspider|facebookexternalhit|twitterbot|rogerbot|linkedinbot|embedly|quora link preview|showyoubot|outbrain|pinterest/0.|developers.google.com/+/web/snippet|slackbot|vkshare|w3c_validator|redditbot|applebot|whatsapp|flipboard
+            [generic_bot_types] =&gt; bot|crawl|slurp|spider
+        )
+
+)
+</font><br><font color="red">user_agent</font><br>**<br><b>File: transifex-live-integration.php</b> - <font color="green">Line #: 203</font><br><b>Class: Transifex_Live_Integration_Prerender</b> - <font color="green">Function: create_prerender</font><br><b>Type: static method call</b> - <font color="green">Parameters: Array
+(
+    [0] =&gt; Array
+        (
+            [api_key] =&gt; 
+            [previous_api_key] =&gt; 
+            [raw_transifex_languages] =&gt; 
+            [transifex_languages] =&gt; 
+            [language_lookup] =&gt; 
+            [language_map] =&gt; []
+            [languages_regex] =&gt; 
+            [rewrite_option_all] =&gt; 0
+            [enable_custom_urls] =&gt; 0
+            [urls] =&gt; Array
+                (
+                    [rate_us] =&gt; https://wordpress.org/support/view/plugin-reviews/transifex-live-integration?rate=5#postform
+                    [api_key_landing_page] =&gt; https://www.transifex.com/signup/?utm_source=liveplugin
+                )
+
+            [enable_language_urls] =&gt; 
+            [enable_picker] =&gt; 
+            [add_language_rewrites] =&gt; none selected
+            [source_language] =&gt; 
+            [languages] =&gt; 
+            [hreflang] =&gt; 
+            [url_options] =&gt; 1
+            [subdomain_pattern] =&gt; 
+            [whitelist_crawlers] =&gt; googlebot|yahoo|bingbot|baiduspider|facebookexternalhit|twitterbot|rogerbot|linkedinbot|embedly|quora link preview|showyoubot|outbrain|pinterest/0.|developers.google.com/+/web/snippet|slackbot|vkshare|w3c_validator|redditbot|applebot|whatsapp|flipboard
+            [generic_bot_types] =&gt; bot|crawl|slurp|spider
+        )
+
+)
+</font><br><font color="red">Mozilla/5.0 (Unknown; Linux x86_64) AppleWebKit/534.34 (KHTML, like Gecko) PhantomJS/1.9.8 Safari/534.34 Prerender (+https://github.com/prerender/prerender)</font><br>**<br><b>File: transifex-live-integration-prerender.php</b> - <font color="green">Line #: 55</font><br><b>Class: Transifex_Live_Integration_Prerender</b> - <font color="green">Function: prerender_check</font><br><b>Type: static method call</b> - <font color="green">Parameters: Array
+(
+    [0] =&gt; mozilla/5.0 (unknown; linux x86_64) applewebkit/534.34 (khtml, like gecko) phantomjs/1.9.8 safari/534.34 prerender (+https://github.com/prerender/prerender)
+    [1] =&gt; 
+    [2] =&gt; bot|crawl|slurp|spider
+    [3] =&gt; googlebot|yahoo|bingbot|baiduspider|facebookexternalhit|twitterbot|rogerbot|linkedinbot|embedly|quora link preview|showyoubot|outbrain|pinterest/0.|developers.google.com/+/web/snippet|slackbot|vkshare|w3c_validator|redditbot|applebot|whatsapp|flipboard
+)
+</font><br><br>**<br><b>File: transifex-live-integration-prerender.php</b> - <font color="green">Line #: 40</font><br><b>Class: Transifex_Live_Integration_Prerender</b> - <font color="green">Function: is_bot_type</font><br><b>Type: static method call</b> - <font color="green">Parameters: Array
+(
+    [0] =&gt; mozilla/5.0 (unknown; linux x86_64) applewebkit/534.34 (khtml, like gecko) phantomjs/1.9.8 safari/534.34 prerender (+https://github.com/prerender/prerender)
+    [1] =&gt; bot|crawl|slurp|spider
+)
+</font><br><br>**<br><b>File: transifex-live-integration-prerender.php</b> - <font color="green">Line #: 41</font><br><b>Class: Transifex_Live_Integration_Prerender</b> - <font color="green">Function: is_whitelist_name</font><br><b>Type: static method call</b> - <font color="green">Parameters: Array
+(
+    [0] =&gt; mozilla/5.0 (unknown; linux x86_64) applewebkit/534.34 (khtml, like gecko) phantomjs/1.9.8 safari/534.34 prerender (+https://github.com/prerender/prerender)
+    [1] =&gt; googlebot|yahoo|bingbot|baiduspider|facebookexternalhit|twitterbot|rogerbot|linkedinbot|embedly|quora link preview|showyoubot|outbrain|pinterest\/0.|developers.google.com\/+\/web\/snippet|slackbot|vkshare|w3c_validator|redditbot|applebot|whatsapp|flipboard
+)
+</font><br><br>**<br><b>File: transifex-live-integration-prerender.php</b> - <font color="green">Line #: 43</font><br><b>Class: Transifex_Live_Integration_Prerender</b> - <font color="green">Function: is_prerender_req</font><br><b>Type: static method call</b> - <font color="green">Parameters: Array
+(
+)
+</font><br><font color="red">mozilla/5.0 (unknown; linux x86_64) applewebkit/534.34 (khtml, like gecko) phantomjs/1.9.8 safari/534.34 prerender (+https://github.com/prerender/prerender)</font><br>**<br><b>File: transifex-live-integration-prerender.php</b> - <font color="green">Line #: 43</font><br><b>Class: Transifex_Live_Integration_Prerender</b> - <font color="green">Function: is_prerender_req</font><br><b>Type: static method call</b> - <font color="green">Parameters: Array
+(
+)
+</font><br><font color="red">1</font><br>**<br><b>File: transifex-live-integration-prerender.php</b> - <font color="green">Line #: 56</font><br><b>Class: Transifex_Live_Integration_Prerender</b> - <font color="green">Function: __construct</font><br><b>Type: method call</b> - <font color="green">Parameters: Array
+(
+)
+</font><br><br>**<br><b>File: transifex-live-integration.php</b> - <font color="green">Line #: 271</font><br><b>Class: Transifex_Live_Integration</b> - <font color="green">Function: do_plugin</font><br><b>Type: static method call</b> - <font color="green">Parameters: Array
+(
+    [0] =&gt; 
+    [1] =&gt; 1.2.5
+)
+</font><br><font color="red">prerender created</font><br>**<br><b>File: transifex-live-integration.php</b> - <font color="green">Line #: 206</font><br><b>Class: Transifex_Live_Integration_Prerender</b> - <font color="green">Function: is_prerender_req</font><br><b>Type: static method call</b> - <font color="green">Parameters: Array
+(
+)
+</font><br><font color="red">mozilla/5.0 (unknown; linux x86_64) applewebkit/534.34 (khtml, like gecko) phantomjs/1.9.8 safari/534.34 prerender (+https://github.com/prerender/prerender)</font><br>**<br><b>File: transifex-live-integration.php</b> - <font color="green">Line #: 206</font><br><b>Class: Transifex_Live_Integration_Prerender</b> - <font color="green">Function: is_prerender_req</font><br><b>Type: static method call</b> - <font color="green">Parameters: Array
+(
+)
+</font><br><font color="red">1</font><br>**<br><b>File: transifex-live-integration.php</b> - <font color="green">Line #: 271</font><br><b>Class: Transifex_Live_Integration</b> - <font color="green">Function: do_plugin</font><br><b>Type: static method call</b> - <font color="green">Parameters: Array
+(
+    [0] =&gt; 
+    [1] =&gt; 1.2.5
+)
+</font><br><font color="red">prerender request detected</font><br>**<br><b>File: transifex-live-integration.php</b> - <font color="green">Line #: 218</font><br><b>Class: Transifex_Live_Integration_Hreflang</b> - <font color="green">Function: __construct</font><br><b>Type: method call</b> - <font color="green">Parameters: Array
+(
+    [0] =&gt; Array
+        (
+            [api_key] =&gt; 
+            [previous_api_key] =&gt; 
+            [raw_transifex_languages] =&gt; 
+            [transifex_languages] =&gt; 
+            [language_lookup] =&gt; 
+            [language_map] =&gt; []
+            [languages_regex] =&gt; 
+            [rewrite_option_all] =&gt; 0
+            [enable_custom_urls] =&gt; 0
+            [urls] =&gt; Array
+                (
+                    [rate_us] =&gt; https://wordpress.org/support/view/plugin-reviews/transifex-live-integration?rate=5#postform
+                    [api_key_landing_page] =&gt; https://www.transifex.com/signup/?utm_source=liveplugin
+                )
+
+            [enable_language_urls] =&gt; 
+            [enable_picker] =&gt; 
+            [add_language_rewrites] =&gt; none selected
+            [source_language] =&gt; 
+            [languages] =&gt; 
+            [hreflang] =&gt; 
+            [url_options] =&gt; 1
+            [subdomain_pattern] =&gt; 
+            [whitelist_crawlers] =&gt; googlebot|yahoo|bingbot|baiduspider|facebookexternalhit|twitterbot|rogerbot|linkedinbot|embedly|quora link preview|showyoubot|outbrain|pinterest/0.|developers.google.com/+/web/snippet|slackbot|vkshare|w3c_validator|redditbot|applebot|whatsapp|flipboard
+            [generic_bot_types] =&gt; bot|crawl|slurp|spider
+        )
+
+    [1] =&gt; 1
+)
+</font><br><br>**<br><b>File: transifex-live-integration.php</b> - <font color="green">Line #: 271</font><br><b>Class: Transifex_Live_Integration</b> - <font color="green">Function: do_plugin</font><br><b>Type: static method call</b> - <font color="green">Parameters: Array
+(
+    [0] =&gt; 
+    [1] =&gt; 1.2.5
+)
+</font><br><font color="red">Severity: 8 File: transifex-live-integration-hreflang.php Line: 29: Undefined offset: 0</font><br>**<br><b>File: transifex-live-integration.php</b> - <font color="green">Line #: 271</font><br><b>Class: Transifex_Live_Integration</b> - <font color="green">Function: do_plugin</font><br><b>Type: static method call</b> - <font color="green">Parameters: Array
+(
+    [0] =&gt; 
+    [1] =&gt; 1.2.5
+)
+</font><br><font color="red">Severity: 8 File: transifex-live-integration-hreflang.php Line: 31: Undefined index: tokenized_url</font><br>**<br><b>File: transifex-live-integration.php</b> - <font color="green">Line #: 219</font><br><b>Class: Transifex_Live_Integration_Hreflang</b> - <font color="green">Function: ok_to_add</font><br><b>Type: method call</b> - <font color="green">Parameters: Array
+(
+)
+</font><br><font color="red">settings[api_key] not set...skipping hreflang</font><br>**<br><b>File: transifex-live-integration.php</b> - <font color="green">Line #: 271</font><br><b>Class: Transifex_Live_Integration</b> - <font color="green">Function: do_plugin</font><br><b>Type: static method call</b> - <font color="green">Parameters: Array
+(
+    [0] =&gt; 
+    [1] =&gt; 1.2.5
+)
+</font><br><font color="red">skipping hreflang</font><br>**<br><b>File: transifex-live-integration.php</b> - <font color="green">Line #: 220</font><br><b>Class: Transifex_Live_Integration_Hreflang</b> - <font color="green">Function: ok_to_add</font><br><b>Type: method call</b> - <font color="green">Parameters: Array
+(
+)
+</font><br><font color="red">settings[api_key] not set...skipping hreflang</font><br>**<br><b>File: transifex-live-integration.php</b> - <font color="green">Line #: 225</font><br><b>Class: Transifex_Live_Integration_Javascript</b> - <font color="green">Function: __construct</font><br><b>Type: method call</b> - <font color="green">Parameters: Array
+(
+    [0] =&gt; Array
+        (
+            [api_key] =&gt; 
+            [previous_api_key] =&gt; 
+            [raw_transifex_languages] =&gt; 
+            [transifex_languages] =&gt; 
+            [language_lookup] =&gt; 
+            [language_map] =&gt; []
+            [languages_regex] =&gt; 
+            [rewrite_option_all] =&gt; 0
+            [enable_custom_urls] =&gt; 0
+            [urls] =&gt; Array
+                (
+                    [rate_us] =&gt; https://wordpress.org/support/view/plugin-reviews/transifex-live-integration?rate=5#postform
+                    [api_key_landing_page] =&gt; https://www.transifex.com/signup/?utm_source=liveplugin
+                )
+
+            [enable_language_urls] =&gt; 
+            [enable_picker] =&gt; 
+            [add_language_rewrites] =&gt; none selected
+            [source_language] =&gt; 
+            [languages] =&gt; 
+            [hreflang] =&gt; 
+            [url_options] =&gt; 1
+            [subdomain_pattern] =&gt; 
+            [whitelist_crawlers] =&gt; googlebot|yahoo|bingbot|baiduspider|facebookexternalhit|twitterbot|rogerbot|linkedinbot|embedly|quora link preview|showyoubot|outbrain|pinterest/0.|developers.google.com/+/web/snippet|slackbot|vkshare|w3c_validator|redditbot|applebot|whatsapp|flipboard
+            [generic_bot_types] =&gt; bot|crawl|slurp|spider
+        )
+
+    [1] =&gt; 
+)
+</font><br><br>**<br><b>File: transifex-live-integration.php</b> - <font color="green">Line #: 271</font><br><b>Class: Transifex_Live_Integration</b> - <font color="green">Function: do_plugin</font><br><b>Type: static method call</b> - <font color="green">Parameters: Array
+(
+    [0] =&gt; 
+    [1] =&gt; 1.2.5
+)
+</font><br><font color="red">Severity: 8 File: transifex-live-integration-javascript.php Line: 35: Undefined offset: 0</font><br>**<br><b>File: transifex-live-integration.php</b> - <font color="green">Line #: 229</font><br><b>Class: Transifex_Live_Integration_Picker</b> - <font color="green">Function: create_picker</font><br><b>Type: static method call</b> - <font color="green">Parameters: Array
+(
+    [0] =&gt; Array
+        (
+            [api_key] =&gt; 
+            [previous_api_key] =&gt; 
+            [raw_transifex_languages] =&gt; 
+            [transifex_languages] =&gt; 
+            [language_lookup] =&gt; 
+            [language_map] =&gt; []
+            [languages_regex] =&gt; 
+            [rewrite_option_all] =&gt; 0
+            [enable_custom_urls] =&gt; 0
+            [urls] =&gt; Array
+                (
+                    [rate_us] =&gt; https://wordpress.org/support/view/plugin-reviews/transifex-live-integration?rate=5#postform
+                    [api_key_landing_page] =&gt; https://www.transifex.com/signup/?utm_source=liveplugin
+                )
+
+            [enable_language_urls] =&gt; 
+            [enable_picker] =&gt; 
+            [add_language_rewrites] =&gt; none selected
+            [source_language] =&gt; 
+            [languages] =&gt; 
+            [hreflang] =&gt; 
+            [url_options] =&gt; 1
+            [subdomain_pattern] =&gt; 
+            [whitelist_crawlers] =&gt; googlebot|yahoo|bingbot|baiduspider|facebookexternalhit|twitterbot|rogerbot|linkedinbot|embedly|quora link preview|showyoubot|outbrain|pinterest/0.|developers.google.com/+/web/snippet|slackbot|vkshare|w3c_validator|redditbot|applebot|whatsapp|flipboard
+            [generic_bot_types] =&gt; bot|crawl|slurp|spider
+        )
+
+)
+</font><br><br>**<br><b>File: transifex-live-integration.php</b> - <font color="green">Line #: 229</font><br><b>Class: Transifex_Live_Integration_Picker</b> - <font color="green">Function: create_picker</font><br><b>Type: static method call</b> - <font color="green">Parameters: Array
+(
+    [0] =&gt; Array
+        (
+            [api_key] =&gt; 
+            [previous_api_key] =&gt; 
+            [raw_transifex_languages] =&gt; 
+            [transifex_languages] =&gt; 
+            [language_lookup] =&gt; 
+            [language_map] =&gt; []
+            [languages_regex] =&gt; 
+            [rewrite_option_all] =&gt; 0
+            [enable_custom_urls] =&gt; 0
+            [urls] =&gt; Array
+                (
+                    [rate_us] =&gt; https://wordpress.org/support/view/plugin-reviews/transifex-live-integration?rate=5#postform
+                    [api_key_landing_page] =&gt; https://www.transifex.com/signup/?utm_source=liveplugin
+                )
+
+            [enable_language_urls] =&gt; 
+            [enable_picker] =&gt; 
+            [add_language_rewrites] =&gt; none selected
+            [source_language] =&gt; 
+            [languages] =&gt; 
+            [hreflang] =&gt; 
+            [url_options] =&gt; 1
+            [subdomain_pattern] =&gt; 
+            [whitelist_crawlers] =&gt; googlebot|yahoo|bingbot|baiduspider|facebookexternalhit|twitterbot|rogerbot|linkedinbot|embedly|quora link preview|showyoubot|outbrain|pinterest/0.|developers.google.com/+/web/snippet|slackbot|vkshare|w3c_validator|redditbot|applebot|whatsapp|flipboard
+            [generic_bot_types] =&gt; bot|crawl|slurp|spider
+        )
+
+)
+</font><br><font color="red">settings[enable_picker] not truthy</font><br>**<br><b>File: transifex-live-integration.php</b> - <font color="green">Line #: 271</font><br><b>Class: Transifex_Live_Integration</b> - <font color="green">Function: do_plugin</font><br><b>Type: static method call</b> - <font color="green">Parameters: Array
+(
+    [0] =&gt; 
+    [1] =&gt; 1.2.5
+)
+</font><br><font color="red">picker skipped</font><br>**<br><br><b>Class: Transifex_Live_Integration</b> - <font color="green">Function: query_vars_hook</font><br><b>Type: static method call</b> - <font color="green">Parameters: Array
+(
+    [0] =&gt; Array
+        (
+            [0] =&gt; m
+            [1] =&gt; p
+            [2] =&gt; posts
+            [3] =&gt; w
+            [4] =&gt; cat
+            [5] =&gt; withcomments
+            [6] =&gt; withoutcomments
+            [7] =&gt; s
+            [8] =&gt; search
+            [9] =&gt; exact
+            [10] =&gt; sentence
+            [11] =&gt; calendar
+            [12] =&gt; page
+            [13] =&gt; paged
+            [14] =&gt; more
+            [15] =&gt; tb
+            [16] =&gt; pb
+            [17] =&gt; author
+            [18] =&gt; order
+            [19] =&gt; orderby
+            [20] =&gt; year
+            [21] =&gt; monthnum
+            [22] =&gt; day
+            [23] =&gt; hour
+            [24] =&gt; minute
+            [25] =&gt; second
+            [26] =&gt; name
+            [27] =&gt; category_name
+            [28] =&gt; tag
+            [29] =&gt; feed
+            [30] =&gt; author_name
+            [31] =&gt; static
+            [32] =&gt; pagename
+            [33] =&gt; page_id
+            [34] =&gt; error
+            [35] =&gt; comments_popup
+            [36] =&gt; attachment
+            [37] =&gt; attachment_id
+            [38] =&gt; subpost
+            [39] =&gt; subpost_id
+            [40] =&gt; preview
+            [41] =&gt; robots
+            [42] =&gt; taxonomy
+            [43] =&gt; term
+            [44] =&gt; cpage
+            [45] =&gt; post_type
+            [46] =&gt; embed
+            [47] =&gt; post_format
+            [48] =&gt; sitemap
+            [49] =&gt; sitemap_n
+            [50] =&gt; xsl
+            [51] =&gt; rest_route
+        )
+
+)
+</font><br><br>**<br><br><b>Class: Transifex_Live_Integration_Javascript</b> - <font color="green">Function: render</font><br><b>Type: method call</b> - <font color="green">Parameters: Array
+(
+    [0] =&gt; 
+)
+</font><br><br>**<br><br><b>Class: Transifex_Live_Integration_Javascript</b> - <font color="green">Function: render</font><br><b>Type: method call</b> - <font color="green">Parameters: Array
+(
+    [0] =&gt; 
+)
+</font><br><font color="red">skipped detectlang override</font><br>*</div>
+
+
+
+</body></html>

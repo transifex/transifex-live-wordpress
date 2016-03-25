@@ -203,9 +203,15 @@ class Transifex_Live_Integration {
 		$prerender = Transifex_Live_Integration_Prerender::create_prerender($settings);
 		($prerender) ? Plugin_Debug::logTrace( 'prerender created' ) : Plugin_Debug::logTrace( 'prerender skipped' );
 		if ( $prerender ) {
-			add_action( 'wp_head', [ $prerender, 'wp_head_hook' ] );
-			add_action('after_setup_theme', [ $prerender, 'after_setup_theme_hook']);
-			add_action('shutdown', [ $prerender, 'shutdown_hook']);
+			if (Transifex_Live_Integration_Prerender::is_prerender_req() ) {
+				Plugin_Debug::logTrace( 'prerender request detected' );
+				add_filter( 'wp_headers', [$prerender, 'wp_headers_hook'] );
+				add_action( 'wp_head', [$prerender, 'wp_head_hook'], 1 );
+			} else {
+				Plugin_Debug::logTrace( 'invoke prerender call' );
+				add_action('after_setup_theme', [ $prerender, 'after_setup_theme_hook']);
+				add_action('shutdown', [ $prerender, 'shutdown_hook']);
+			}
 		}
 
 
