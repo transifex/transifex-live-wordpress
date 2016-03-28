@@ -18,7 +18,7 @@ class Plugin_Debug {
 	 * Define the core functionality of the plugin.
 	 */
 	public function __construct() {
-		self::$debug_mode = false;
+		self::$debug_mode = true;
 		$this->logTrace();
 
 		// Check to see if plugin is in debug mode
