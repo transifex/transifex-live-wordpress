@@ -6,8 +6,8 @@ class ReverseHardLinkTest extends \PHPUnit_Framework_TestCase
     private $data;
     protected function setUp()
     {
-		require_once './includes/plugin-debug.php';
-        include_once './includes/transifex-live-integration-rewrite.php';
+        include_once './includes/common/plugin-debug.php';
+        include_once './includes/lib/transifex-live-integration-rewrite.php';
         $this->data = [[
             'lang' => 'zh_CN',
             'link' => 'http://192.168.99.100:32777/page-markup-and-formatting',
@@ -56,12 +56,14 @@ class ReverseHardLinkTest extends \PHPUnit_Framework_TestCase
     public function testMe()
     {
         foreach ($this->data as $i) {
-        $result = Transifex_Live_Integration_Rewrite::reverse_hard_link($i['lang'], $i['link'], 
-            $i['languages_map'], $i['souce_lang']);
+            $result = Transifex_Live_Integration_Rewrite::reverse_hard_link(
+                $i['lang'], $i['link'], 
+                $i['languages_map'], $i['souce_lang']
+            );
 
-        //eval(\Psy\sh());
-        $this->assertEquals($i['result'], $result);
-    }
+            //eval(\Psy\sh());
+            $this->assertEquals($i['result'], $result);
+        }
 
     }
 }

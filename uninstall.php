@@ -19,26 +19,26 @@
  * For more information, see the following discussion:
  * https://github.com/tommcfarlin/WordPress-Plugin-Boilerplate/pull/123#issuecomment-28541913
  *
- * @package    Transifex_Live_Integration
+ * @package Transifex_Live_Integration
  */
 
 // If uninstall not called from WordPress, then exit.
-if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
-	exit;
+if (! defined('WP_UNINSTALL_PLUGIN') ) {
+    exit;
 }
 
 $settings_option_name = 'transifex_live_settings';
 
-delete_option( $settings_option_name );
+delete_option($settings_option_name);
 
 $colors_option_name = 'transifex_live_colors';
 
-delete_option( $colors_option_name );
+delete_option($colors_option_name);
 
 $options_option_name = 'transifex_live_options';
 
-delete_option( $options_option_name );
+delete_option($options_option_name);
 
 $transifex_settings_option_name = 'transifex_live_transifex_settings';
 
-delete_option( $transifex_settings_option_name );
+delete_option($transifex_settings_option_name);
