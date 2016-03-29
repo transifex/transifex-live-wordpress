@@ -1,6 +1,6 @@
 <?php
 
-class Transifex_Live_Integration_Settings_Util {
+class Transifex_Live_Integration_Admin_Util {
 
 	static function wp_before_admin_bar_render_hook() {
 		Plugin_Debug::logTrace();
@@ -14,7 +14,6 @@ class Transifex_Live_Integration_Settings_Util {
 
 	static function generate_tokenized_url( $site_url, $url_option_setting ) {
 		Plugin_Debug::logTrace();
-		$tokenized_url = false;
 
 		if ( $url_option_setting !== '2' && $url_option_setting != '3' ) {
 			Plugin_Debug::logTrace( 'No URL option, skipping tokenization' );
@@ -26,7 +25,6 @@ class Transifex_Live_Integration_Settings_Util {
 			return false;
 		}
 
-		$slashes = [ ];
 		$slashes = explode( "/", $site_url );
 		if ( $url_option_setting === '3' ) { // Subdirectory option
 			array_push( $slashes, '%lang%' );
@@ -39,8 +37,7 @@ class Transifex_Live_Integration_Settings_Util {
 			array_push( $slashes, '' );
 		}
 		$tokenized_url = implode( '/', $slashes );
-
-		return $tokenized_url;
+		return ($tokenized_url) ? $tokenized_url : false;
 	}
 
 	static function render_url_options( $options ) {
@@ -69,7 +66,7 @@ ROW;
 	static function render_transifex_settings( $settings ) {
 		$html = '';
 		foreach ($settings as $setting) {
-			$text = $setting['value'];
+			$value = $setting['value'];
 			$id = $setting['id'];
 			$name = $setting['name'];
 			$html .= <<<HTML
@@ -78,5 +75,22 @@ HTML;
 		}
 		echo $html;
 	}
-
+	static function action_links( $links ) {
+		Plugin_Debug::logTrace();
+		$settings_href = add_query_arg( [ 'page' => TRANSIFEX_LIVE_INTEGRATION_NAME ], admin_url( 'options-general.php' ) );
+		$settings_text = __( 'Settings', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN );
+		$settings_link = <<<SETTINGS
+<a href="$settings_href">$settings_text</a>
+SETTINGS;
+		return array_merge( [ $settings_link ], $links );
+	}
+	
+	/**
+     * Callback function for admin_menu action
+     */
+    static function admin_menu_hook() 
+    {
+        Plugin_Debug::logTrace();
+        add_options_page('Transifex Live', 'Transifex Live', 'manage_options', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN, [ 'Transifex_Live_Integration_Admin', 'options_page' ] );
+    }
 }

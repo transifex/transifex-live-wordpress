@@ -1,8 +1,8 @@
 <?php
 
-include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/admin/transifex-live-integration-settings-util.php';
+include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-defaults.php';
 
-class Transifex_Live_Integration_Settings_Page {
+class Transifex_Live_Integration_Admin {
 
 	static function load_settings() {
 		Plugin_Debug::logTrace();
@@ -15,7 +15,7 @@ class Transifex_Live_Integration_Settings_Page {
 	}
 
 	static function load_rewrite_options() {
-
+		Plugin_Debug::logTrace();
 		$db_opt_settings = get_option( 'transifex_live_options', array() );
 		if ( !$db_opt_settings ) {
 
@@ -26,18 +26,18 @@ class Transifex_Live_Integration_Settings_Page {
 	}
 
 	static function load_transifex_settings() {
-
+		Plugin_Debug::logTrace();
 		$db_settings = get_option( 'transifex_live_transifex_settings', array() );
 		if ( !$db_settings ) {
 
 			$db_settings = Transifex_Live_Integration_Defaults::transifex_settings();
 		}
-		Plugin_Debug::logTrace( array_merge( Transifex_Live_Integration_Defaults::transifex_settings(), $db_settings ) );
+
 		return array_merge( Transifex_Live_Integration_Defaults::transifex_settings(), $db_settings );
 	}
 
 	static function options_page() {
-
+		Plugin_Debug::logTrace();
 		$settings = self::load_settings();
 		$rewrite_options = self::load_rewrite_options();
 
@@ -58,6 +58,9 @@ class Transifex_Live_Integration_Settings_Page {
 		checked( $settings['rewrite_option_all'], 1 );
 		$checked_rewrite_option_all = ob_get_clean();
 
+		ob_start();
+		checked( $settings['enable_prerender'], 1 );
+		$checked_enable_prerender = ob_get_clean();
 
 
 		// These are used by the template: DO NOT REMOVE - Mjj 2/22/2016
@@ -105,7 +108,7 @@ class Transifex_Live_Integration_Settings_Page {
 
 
 		ob_start();
-		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/admin/transifex-live-integration-settings-template.php';
+		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/admin/transifex-live-integration-admin-template.php';
 		$content = ob_get_clean();
 		echo $content;
 	}
@@ -129,7 +132,7 @@ class Transifex_Live_Integration_Settings_Page {
 		}
 
 		$transifex_languages = json_decode( stripslashes( $settings['transifex_live_settings']['transifex_languages'] ), true );
-		$tokenized_url = Transifex_Live_Integration_Settings_Util::generate_tokenized_url( site_url(), $settings['transifex_live_settings']['url_options'] );
+		$tokenized_url = Transifex_Live_Integration_Admin_Util::generate_tokenized_url( site_url(), $settings['transifex_live_settings']['url_options'] );
 		$settings['transifex_live_settings']['tokenized_url'] = $tokenized_url;
 
 		$languages_map = $settings['transifex_live_settings']['language_map'];
@@ -171,12 +174,10 @@ class Transifex_Live_Integration_Settings_Page {
 		}
 
 		if ( isset( $settings['transifex_live_options'] ) ) {
-			Plugin_Debug::logTrace( $settings['transifex_live_options'] );
 			update_option( 'transifex_live_options', $settings['transifex_live_options'] );
 		}
 
 		if ( isset( $settings['transifex_live_transifex_settings'] ) ) {
-			Plugin_Debug::logTrace( $settings['transifex_live_transifex_settings'] );
 			update_option( 'transifex_live_transifex_settings', $settings['transifex_live_transifex_settings'] );
 		}
 	}
@@ -185,6 +186,7 @@ class Transifex_Live_Integration_Settings_Page {
 	 * Callback function that sets notifications in WP admin pages
 	 */
 	static public function admin_notices_hook() {
+		Plugin_Debug::logTrace();
 		$is_admin_page_notice = false;
 
 		$is_admin_dashboard_notice = false;

@@ -25,6 +25,24 @@
                 </tr>
 				<tr valign="top">
 				</tr></table>
+		<h2>SEO Prerendering</h2>
+			<table class="form-table">
+            <tbody>
+                <tr>
+                    <td class="option-checkbox" style="padding:0px">
+						<input type="checkbox" id="transifex_live_settings_enable_prerender" name="transifex_live_settings[enable_prerender]" value="1" <?php echo $checked_enable_prerender ?> />Enable Prerender
+					</td>
+					<td>
+						
+                        <p>
+							<label for="transifex_live_settings[prerender_url]"><?php _e( 'Prerender URL', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></label>
+							<input name="transifex_live_settings[prerender_url]" type="text" id="transifex_live_settings_prerender_url" value="<?php echo $settings['prerender_url']; ?>" class="regular-text" placeholder="<?php _e( 'Put your prerender url here.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>">
+						</p>
+					</td>
+				</tr>
+			</tbody>
+				</table>
+
 		<h2>Advanced SEO Settings</h2>
 		<p>This plugin lets you set unique, language/region-specific URLs for your site and tells search engines what language a page is in. This is done by creating new language subdirectories through the plugin, or by pointing to existing language subdomains. In all cases, the plugin will add the Transifex Live JavaScript snippet to your site.</p>
 		<table class="form-table">
@@ -70,14 +88,13 @@
 						<tr>
 							<td style="padding:0px"><input id="transifex_live_settings_rewrite_option_all" name="transifex_live_settings[rewrite_option_all]" value="1" type="checkbox" <?php echo $checked_rewrite_option_all ?>>All</td>
 						</tr>
-						<?php Transifex_Live_Integration_Settings_Util::render_url_options( $rewrite_options_array ); ?>
+						<?php Transifex_Live_Integration_Admin_Util::render_url_options( $rewrite_options_array ); ?>
 					</table>
 					</p>
 					<p class="url-structure-subdirectory">Having trouble getting language/region-specific URLs working? <a target="_blank" href="http://docs.transifex.com/integrations/wordpress/#troubleshooting-tips">Check out our additional troubleshooting tips!</a></p>
 				</td></tr>
 			</tbody>
         </table>
-		<?php /* Transifex_Live_Integration_Settings_Util::render_transifex_settings( $transifex_settings_array ); */ ?>
 		<input name="transifex_live_settings[enable_custom_urls]" id="transifex_live_settings_custom_urls" type="hidden" value="<?php echo $checked_custom_urls ?>" >
 		<input type="hidden" value="<?php echo htmlentities( stripslashes( $language_map ) ) ?>" name="transifex_live_settings[language_map]" id="transifex_live_settings_language_map" />
 		<input type="hidden" value="<?php echo htmlentities( stripslashes( $transifex_settings_settings ) ) ?>" name="transifex_live_transifex_settings[settings]" id="transifex_live_transifex_settings_settings" />
@@ -85,8 +102,8 @@
 		<input type="hidden" value="<?php echo htmlentities( stripslashes( $languages_regex ) ) ?>" name="transifex_live_settings[languages_regex]" id="transifex_live_settings_languages_regex" />
 		<input type="hidden" value="<?php echo htmlentities( stripslashes( $languages ) ) ?>" name="transifex_live_settings[transifex_languages]" id="transifex_live_settings_transifex_languages" />
 		<input type="hidden" value="<?php echo htmlentities( stripslashes( $language_lookup ) ) ?>" name="transifex_live_settings[language_lookup]" id="transifex_live_settings_language_lookup" />
-		<input type="hidden" value="<?php echo htmlentities( stripslashes( $settings['generic_bot_types']) ) ?>" name="transifex_live_settings[generic_bot_types]" id="transifex_live_settings_generic_bot_types" />
-		<input type="hidden" value="<?php echo htmlentities( stripslashes( $settings['whitelist_crawlers']) ) ?>" name="transifex_live_settings[whitelist_crawlers]" id="transifex_live_settings_whitelist_crawlers" />
+		<input type="hidden" value="<?php echo htmlentities( stripslashes( $settings['generic_bot_types'] ) ) ?>" name="transifex_live_settings[generic_bot_types]" id="transifex_live_settings_generic_bot_types" />
+		<input type="hidden" value="<?php echo htmlentities( stripslashes( $settings['whitelist_crawlers'] ) ) ?>" name="transifex_live_settings[whitelist_crawlers]" id="transifex_live_settings_whitelist_crawlers" />
 		<p class="submit"><input disabled="true" type="submit" name="submit" id="transifex_live_submit" class="button button-primary" value="<?php _e( 'Save Changes', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>"></p>
 	</form>
     <p>
