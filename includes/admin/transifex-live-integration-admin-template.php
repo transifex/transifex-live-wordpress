@@ -92,6 +92,9 @@
 						<?php Transifex_Live_Integration_Admin_Util::render_url_options( $rewrite_options_array ); ?>
 					</table>
 					</p>
+					<p>
+						<p><input type="checkbox" id="transifex_live_settings_static_frontpage_support" name="transifex_live_settings[static_frontpage_support]" value="1" <?php echo $checked_static_frontpage_support ?> />Static Frontpage Support</p>
+					</p>
 					<p class="url-structure-subdirectory">Having trouble getting language/region-specific URLs working? <a target="_blank" href="http://docs.transifex.com/integrations/wordpress/#troubleshooting-tips">Check out our additional troubleshooting tips!</a></p>
 				</td></tr>
 			</tbody>
@@ -105,6 +108,7 @@
 		<input type="hidden" value="<?php echo htmlentities( stripslashes( $language_lookup ) ) ?>" name="transifex_live_settings[language_lookup]" id="transifex_live_settings_language_lookup" />
 		<input type="hidden" value="<?php echo htmlentities( stripslashes( $settings['generic_bot_types'] ) ) ?>" name="transifex_live_settings[generic_bot_types]" id="transifex_live_settings_generic_bot_types" />
 		<input type="hidden" value="<?php echo htmlentities( stripslashes( $settings['whitelist_crawlers'] ) ) ?>" name="transifex_live_settings[whitelist_crawlers]" id="transifex_live_settings_whitelist_crawlers" />
+		<input type="hidden" value="0" name="transifex_live_settings[debug]" id="transifex_live_settings_debug" />
 		<p class="submit"><input disabled="true" type="submit" name="submit" id="transifex_live_submit" class="button button-primary" value="<?php _e( 'Save Changes', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>"></p>
 	</form>
     <p>

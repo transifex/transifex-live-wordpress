@@ -82,45 +82,40 @@ class Transifex_Live_Integration {
 	 * @param string  $version  Stores current version number.
 	 */
 	static function do_plugin( $is_admin, $version ) {
-		// Plugin 'global' functions
-		require_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/common/plugin-debug.php';
-		new Plugin_Debug( false );
-		Plugin_Debug::logTrace( 'debug initialized' );
-		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-defaults.php';
-		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-static-factory.php';
-
-// Load general settings
 		$settings = get_option( 'transifex_live_settings', array() );
 		if ( !$settings ) {
 
 			$settings = Transifex_Live_Integration_Defaults::settings();
 		}
+		$debug_mode = ($settings['debug'])?true:false;
+		
+		require_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/common/plugin-debug.php';
+		new Plugin_Debug( $debug_mode );
+		Plugin_Debug::logTrace( 'debug initialized' );
+		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-defaults.php';
+		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-static-factory.php';
 
-// Load rewrite settings
 		$rewrite_options = get_option( 'transifex_live_options', array() );
 		if ( !$rewrite_options ) {
 
 			$rewrite_options = Transifex_Live_Integration_Defaults::options_values();
 		}
 
-// Add notranslate to admin bar
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/admin/transifex-live-integration-admin-util.php';
 		add_action( 'wp_before_admin_bar_render', [ 'Transifex_Live_Integration_Admin_Util', 'wp_before_admin_bar_render_hook' ] );
 		add_action( 'wp_after_admin_bar_render', [ 'Transifex_Live_Integration_Admin_Util', 'wp_after_admin_bar_render_hook' ] );
 
 
-		if ( $is_admin ) { // If user is on admin pages
+		if ( $is_admin ) { 
 			include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/admin/transifex-live-integration-admin.php';
 			include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/admin/transifex-live-integration-admin-util.php';
 			include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/common/transifex-live-integration-static-files-handler.php';
 
-// Setup admin dashboard backend
 			add_filter( TRANSIFEX_LIVE_INTEGRATION_ACTION_LINKS, [ 'Transifex_Live_Integration_Admin_Util', 'action_links' ] );
 			add_action( 'admin_menu', [ 'Transifex_Live_Integration_Admin_Util', 'admin_menu_hook' ] );
 			add_action( 'admin_init', [ 'Transifex_Live_Integration_Admin', 'admin_init_hook' ] );
 			add_action( 'admin_notices', [ 'Transifex_Live_Integration_Admin', 'admin_notices_hook' ] );
 
-// Setup admin dashboard frontend
 			$handler = new Transifex_Live_Integration_Static_Files_Handler();
 			$handler->add_css_file( $version, TRANSIFEX_LIVE_INTEGRATION_STYLESHEETS . '/transifex-live-integration-settings-page.css' );
 
@@ -135,13 +130,12 @@ class Transifex_Live_Integration {
 			load_plugin_textdomain( TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN, false, TRANSIFEX_LIVE_INTEGRATION_LANGUAGES_PATH );
 		}
 
-		if ( !($is_admin) ) { // If user is on regular page
+		if ( !($is_admin) ) { 
 			include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-static-factory.php';
 			include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-util.php';
-// Set lang parameter in query var
+
 			add_filter( 'query_vars', [ 'Transifex_Live_Integration_Util', 'query_vars_hook' ] );
 
-// Load snippet
 			$live_snippet = Transifex_Live_Integration_Static_Factory::create_live_snippet( $settings );
 			if ( $live_snippet ) {
 				// We need to wait until wp is setup to retrieve query var
@@ -150,7 +144,6 @@ class Transifex_Live_Integration {
 			}
 
 
-// Load prerender feature
 			$prerender = Transifex_Live_Integration_Static_Factory::create_prerender( $settings );
 			($prerender) ? Plugin_Debug::logTrace( 'prerender created' ) : Plugin_Debug::logTrace( 'prerender skipped' );
 			if ( $prerender ) {
@@ -166,28 +159,24 @@ class Transifex_Live_Integration {
 			}
 
 
-// Load hreflang feature
 			$hreflang = Transifex_Live_Integration_Static_Factory::create_hreflang( $settings );
 			($hreflang) ? Plugin_Debug::logTrace( 'adding hreflang' ) : Plugin_Debug::logTrace( 'skipping hreflang' );
 			if ( $hreflang ) {
 				add_action( 'wp_head', [ $hreflang, 'render_hreflang' ], 1 );
 			}
 
-// Load language picker feature
 			$picker = Transifex_Live_Integration_Static_Factory::create_picker( $settings );
 			($picker) ? Plugin_Debug::logTrace( 'picker created' ) : Plugin_Debug::logTrace( 'picker skipped' );
 			if ( $picker ) {
 				add_action( 'wp_head', [ $picker, 'render' ], 1 );
 			}
-
-// Load subdomain feature		
+		
 			$subdomain = Transifex_Live_Integration_Static_Factory::create_subdomains( $settings );
 			($subdomain) ? Plugin_Debug::logTrace( 'subdomains created' ) : Plugin_Debug::logTrace( 'subdomains skipped' );
 			if ( $subdomain ) {
 				add_action( 'parse_query', [ $subdomain, 'parse_query_hook' ] );
 			}
 		}
-		// Load subdirectory feature
 		$rewrite = Transifex_Live_Integration_Static_Factory::create_rewrite( $settings, $rewrite_options );
 		($rewrite) ? Plugin_Debug::logTrace( 'rewrite created' ) : Plugin_Debug::logTrace( 'rewrite skipped' );
 		if ( $rewrite ) {
@@ -205,7 +194,10 @@ class Transifex_Live_Integration {
 				add_filter( 'home_url', [$rewrite, 'home_url_hook' ] );
 			}
 			add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
-
+			$static_frontpage_support = (isset($settings['static_frontpage_support']))?true:false;
+			if ($static_frontpage_support) {
+				add_action( 'parse_query', [ $rewrite, 'parse_query_root_hook' ] );
+			}
 			foreach ($rewrite->rewrite_options as $option) {
 				switch ($option) {
 					case 'date';
@@ -234,7 +226,7 @@ class Transifex_Live_Integration {
 						break;
 					case 'root';
 						add_filter( 'root_rewrite_rules', [ $rewrite, 'root_rewrite_rules_hook' ] );
-						add_action( 'parse_query', [ $rewrite, 'parse_query_root_hook' ] );
+
 						break;
 					case 'permalink_tag';
 						add_action( 'init', [ $rewrite, 'init_hook' ] );
