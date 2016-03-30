@@ -31,11 +31,11 @@ register_deactivation_hook( __FILE__, [ 'Transifex_Live_Integration', 'deactivat
 if ( !defined( 'TRANSIFEX_LIVE_INTEGRATION_NAME' ) ) {
 	define( 'TRANSIFEX_LIVE_INTEGRATION_NAME', 'transifex-live-integration' );
 }
-		
+
 if ( !defined( 'TRANSIFEX_LIVE_INTEGRATION_BASENAME' ) ) {
 	define( 'TRANSIFEX_LIVE_INTEGRATION_BASENAME', plugin_basename( __FILE__ ) );
-}		
-		
+}
+
 if ( !defined( 'TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE' ) ) {
 	define( 'TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE', dirname( __FILE__ ) );
 }
@@ -45,7 +45,7 @@ if ( !defined( 'TRANSIFEX_LIVE_INTEGRATION_URL' ) ) {
 }
 
 if ( !defined( 'TRANSIFEX_LIVE_INTEGRATION_ACTION_LINKS' ) ) {
-	define( 'TRANSIFEX_LIVE_INTEGRATION_ACTION_LINKS', 'plugin_action_links_'.TRANSIFEX_LIVE_INTEGRATION_BASENAME );
+	define( 'TRANSIFEX_LIVE_INTEGRATION_ACTION_LINKS', 'plugin_action_links_' . TRANSIFEX_LIVE_INTEGRATION_BASENAME );
 }
 
 if ( !defined( 'TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN' ) ) {
@@ -84,7 +84,7 @@ class Transifex_Live_Integration {
 	static function do_plugin( $is_admin, $version ) {
 		// Plugin 'global' functions
 		require_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/common/plugin-debug.php';
-		new Plugin_Debug(false);
+		new Plugin_Debug( false );
 		Plugin_Debug::logTrace( 'debug initialized' );
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-defaults.php';
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-static-factory.php';
@@ -107,7 +107,7 @@ class Transifex_Live_Integration {
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/admin/transifex-live-integration-admin-util.php';
 		add_action( 'wp_before_admin_bar_render', [ 'Transifex_Live_Integration_Admin_Util', 'wp_before_admin_bar_render_hook' ] );
 		add_action( 'wp_after_admin_bar_render', [ 'Transifex_Live_Integration_Admin_Util', 'wp_after_admin_bar_render_hook' ] );
-		
+
 
 		if ( $is_admin ) { // If user is on admin pages
 			include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/admin/transifex-live-integration-admin.php';
@@ -140,21 +140,21 @@ class Transifex_Live_Integration {
 			include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-util.php';
 // Set lang parameter in query var
 			add_filter( 'query_vars', [ 'Transifex_Live_Integration_Util', 'query_vars_hook' ] );
-			
+
 // Load snippet
 			$live_snippet = Transifex_Live_Integration_Static_Factory::create_live_snippet( $settings );
 			if ( $live_snippet ) {
 				// We need to wait until wp is setup to retrieve query var
-				add_action( 'wp', [ $live_snippet, 'wp_hook' ]);
+				add_action( 'wp', [ $live_snippet, 'wp_hook' ] );
 				add_action( 'wp_head', [ $live_snippet, 'wp_head_hook' ], 1 );
 			}
-			
+
 
 // Load prerender feature
 			$prerender = Transifex_Live_Integration_Static_Factory::create_prerender( $settings );
 			($prerender) ? Plugin_Debug::logTrace( 'prerender created' ) : Plugin_Debug::logTrace( 'prerender skipped' );
 			if ( $prerender ) {
-				if ( Transifex_Live_Integration_Util::is_prerender_req(Transifex_Live_Integration_Util::get_user_agent()) ) {
+				if ( Transifex_Live_Integration_Util::is_prerender_req( Transifex_Live_Integration_Util::get_user_agent() ) ) {
 					Plugin_Debug::logTrace( 'prerender request detected' );
 					add_filter( 'wp_headers', [$prerender, 'wp_headers_hook' ] );
 					add_action( 'wp_head', [$prerender, 'wp_head_hook' ], 1 );
@@ -186,60 +186,59 @@ class Transifex_Live_Integration {
 			if ( $subdomain ) {
 				add_action( 'parse_query', [ $subdomain, 'parse_query_hook' ] );
 			}
+		}
+		// Load subdirectory feature
+		$rewrite = Transifex_Live_Integration_Static_Factory::create_rewrite( $settings, $rewrite_options );
+		($rewrite) ? Plugin_Debug::logTrace( 'rewrite created' ) : Plugin_Debug::logTrace( 'rewrite skipped' );
+		if ( $rewrite ) {
+			if ( isset( $rewrite_options['add_rewrites_reverse_template_links'] ) ) {
+				Plugin_Debug::logTrace( 'adding reverse template links' );
+				add_action( 'wp', [ $rewrite, 'wp_hook' ] );
+				add_filter( 'pre_post_link', [$rewrite, 'pre_post_link_hook' ], 10, 3 );
+				add_filter( 'term_link', [$rewrite, 'term_link_hook' ], 10, 3 );
+				add_filter( 'post_link', [$rewrite, 'term_link_hook' ], 10, 3 );
+				add_filter( 'post_type_archive_link', [$rewrite, 'post_type_archive_link_hook' ], 10, 2 );
+				add_filter( 'page_link', [$rewrite, 'page_link_hook' ], 10, 3 );
+				add_filter( 'day_link', [$rewrite, 'day_link_hook' ], 10, 4 );
+				add_filter( 'month_link', [$rewrite, 'month_link_hook' ], 10, 3 );
+				add_filter( 'year_link', [$rewrite, 'year_link_hook' ], 10, 2 );
+				add_filter( 'home_url', [$rewrite, 'home_url_hook' ] );
+			}
+			add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
 
-// Load subdirectory feature
-			$rewrite = Transifex_Live_Integration_Static_Factory::create_rewrite( $settings, $rewrite_options );
-			($rewrite) ? Plugin_Debug::logTrace( 'rewrite created' ) : Plugin_Debug::logTrace( 'rewrite skipped' );
-			if ( $rewrite ) {
-				if ( isset( $rewrite_options['add_rewrites_reverse_template_links'] ) ) {
-					Plugin_Debug::logTrace( 'adding reverse template links' );
-					add_action( 'wp', [ $rewrite, 'wp_hook' ]);
-					add_filter( 'pre_post_link', [$rewrite, 'pre_post_link_hook' ], 10, 3 );
-					add_filter( 'term_link', [$rewrite, 'term_link_hook' ], 10, 3 );
-					add_filter( 'post_link', [$rewrite, 'term_link_hook' ], 10, 3 );
-					add_filter( 'post_type_archive_link', [$rewrite, 'post_type_archive_link_hook' ], 10, 2 );
-					add_filter( 'page_link', [$rewrite, 'page_link_hook' ], 10, 3 );
-					add_filter( 'day_link', [$rewrite, 'day_link_hook' ], 10, 4 );
-					add_filter( 'month_link', [$rewrite, 'month_link_hook' ], 10, 3 );
-					add_filter( 'year_link', [$rewrite, 'year_link_hook' ], 10, 2 );
-					add_filter( 'home_url', [$rewrite, 'home_url_hook' ] );
-					 
-				}
-				add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
-
-				foreach ($rewrite->rewrite_options as $option) {
-					switch ($option) {
-						case 'date';
-							add_filter( 'date_rewrite_rules', [ $rewrite, 'date_rewrite_rules_hook' ] );
-							break;
-						case 'page';
-							add_filter( 'page_rewrite_rules', [ $rewrite, 'page_rewrite_rules_hook' ] );
-							break;
-						case 'author';
-							add_filter( 'author_rewrite_rules', [ $rewrite, 'author_rewrite_rules_hook' ] );
-							break;
-						case 'tag';
-							add_filter( 'tag_rewrite_rules', [ $rewrite, 'tag_rewrite_rules_hook' ] );
-							break;
-						case 'category';
-							add_filter( 'category_rewrite_rules', [ $rewrite, 'category_rewrite_rules_hook' ] );
-							break;
-						case 'search';
-							add_filter( 'search_rewrite_rules', [ $rewrite, 'search_rewrite_rules_hook' ] );
-							break;
-						case 'feed';
-							add_filter( 'feed_rewrite_rules', [ $rewrite, 'feed_rewrite_rules_hook' ] );
-							break;
-						case 'post';
-							add_filter( 'post_rewrite_rules', [ $rewrite, 'post_rewrite_rules_hook' ] );
-							break;
-						case 'root';
-							add_filter( 'root_rewrite_rules', [ $rewrite, 'root_rewrite_rules_hook' ] );
-							break;
-						case 'permalink_tag';
-							add_action( 'init', [ $rewrite, 'init_hook' ] );
-							break;
-					}
+			foreach ($rewrite->rewrite_options as $option) {
+				switch ($option) {
+					case 'date';
+						add_filter( 'date_rewrite_rules', [ $rewrite, 'date_rewrite_rules_hook' ] );
+						break;
+					case 'page';
+						add_filter( 'page_rewrite_rules', [ $rewrite, 'page_rewrite_rules_hook' ] );
+						break;
+					case 'author';
+						add_filter( 'author_rewrite_rules', [ $rewrite, 'author_rewrite_rules_hook' ] );
+						break;
+					case 'tag';
+						add_filter( 'tag_rewrite_rules', [ $rewrite, 'tag_rewrite_rules_hook' ] );
+						break;
+					case 'category';
+						add_filter( 'category_rewrite_rules', [ $rewrite, 'category_rewrite_rules_hook' ] );
+						break;
+					case 'search';
+						add_filter( 'search_rewrite_rules', [ $rewrite, 'search_rewrite_rules_hook' ] );
+						break;
+					case 'feed';
+						add_filter( 'feed_rewrite_rules', [ $rewrite, 'feed_rewrite_rules_hook' ] );
+						break;
+					case 'post';
+						add_filter( 'post_rewrite_rules', [ $rewrite, 'post_rewrite_rules_hook' ] );
+						break;
+					case 'root';
+						add_filter( 'root_rewrite_rules', [ $rewrite, 'root_rewrite_rules_hook' ] );
+						add_action( 'parse_query', [ $rewrite, 'parse_query_root_hook' ] );
+						break;
+					case 'permalink_tag';
+						add_action( 'init', [ $rewrite, 'init_hook' ] );
+						break;
 				}
 			}
 		}
@@ -260,4 +259,5 @@ class Transifex_Live_Integration {
 	}
 
 }
+
 Transifex_Live_Integration::do_plugin( is_admin(), $version );
