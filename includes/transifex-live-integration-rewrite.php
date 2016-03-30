@@ -120,7 +120,7 @@ class Transifex_Live_Integration_Rewrite {
 		if ( $query->is_home && 'page' == get_option( 'show_on_front' ) && get_option( 'page_on_front' ) ) {
 			$query->is_page = true;
 			$query->is_home = false;
-			$qv['page_id'] = get_option( 'page_on_front' );
+// Dep'd 3/30/2016 Mjj			$qv['page_id'] = get_option( 'page_on_front' );
 			// Correct <!--nextpage--> for page_on_front
 			if ( !empty( $qv['paged'] ) ) {
 				$qv['page'] = $qv['paged'];
