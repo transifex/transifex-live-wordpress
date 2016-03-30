@@ -62,7 +62,10 @@ class Transifex_Live_Integration_Admin {
 		checked( $settings['enable_prerender'], 1 );
 		$checked_enable_prerender = ob_get_clean();
 
-
+		ob_start();
+		checked( $settings['override_prerender_check'], 1 );
+		$checked_override_prerender_check = ob_get_clean();
+		
 		// These are used by the template: DO NOT REMOVE - Mjj 2/22/2016
 		$languages = [ ];
 		if ( $settings['transifex_languages'] !== '' ) {

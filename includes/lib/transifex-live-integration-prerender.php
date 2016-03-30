@@ -4,11 +4,13 @@ class Transifex_Live_Integration_Prerender
 {
 
 	private $prerender_url;
+	private $override_prerender_check;
 	
-    public function __construct($prerender_url) 
+    public function __construct($prerender_url, $override_prerender_check) 
     {
         Plugin_Debug::logTrace();
 		$this->prerender_url = $prerender_url;
+		$this->override_prerender_check = ($override_prerender_check)?true:false;
     }
 
     function wp_head_hook() 
@@ -67,7 +69,7 @@ STATUS;
             $error = curl_error($ch);
             // write to db??
         } else {
-            if (strpos($header, 'X-PreRender-Req: TRUE') ) {
+            if (strpos($header, 'X-PreRender-Req: TRUE') || $this->override_prerender_check ) {
                 $output = $body;
             }
         }

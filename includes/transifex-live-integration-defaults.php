@@ -89,6 +89,7 @@ class Transifex_Live_Integration_Defaults
         'subdomain_pattern' => '',
 		'enable_prerender' => false,
 		'prerender_url' => '',
+		'override_prerender_check' => false,
         'whitelist_crawlers' =>
         'googlebot|yahoo|bingbot|baiduspider|facebookexternalhit|twitterbot|rogerbot|linkedinbot|embedly|quora link preview|showyoubot|outbrain|pinterest/0.|developers.google.com/+/web/snippet|slackbot|vkshare|w3c_validator|redditbot|applebot|whatsapp|flipboard',
         'generic_bot_types' => 'bot|crawl|slurp|spider'
