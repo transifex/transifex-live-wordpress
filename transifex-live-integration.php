@@ -84,7 +84,7 @@ class Transifex_Live_Integration {
 	static function do_plugin( $is_admin, $version ) {
 		// Plugin 'global' functions
 		require_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/common/plugin-debug.php';
-		new Plugin_Debug( true );
+		new Plugin_Debug( false );
 		Plugin_Debug::logTrace( 'debug initialized' );
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-defaults.php';
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-static-factory.php';
