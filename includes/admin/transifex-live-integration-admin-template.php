@@ -38,6 +38,7 @@
 							<label for="transifex_live_settings[prerender_url]"><?php _e( 'Prerender URL', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></label>
 							<input name="transifex_live_settings[prerender_url]" type="text" id="transifex_live_settings_prerender_url" value="<?php echo $settings['prerender_url']; ?>" class="regular-text" placeholder="<?php _e( 'Put your prerender url here.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>">
 						</p>
+						<p><input type="checkbox" id="transifex_live_settings_override_prerender_check" name="transifex_live_settings[override_prerender_check]" value="1" <?php echo $checked_override_prerender_check ?> />Override Prerender Header Check</p>
 					</td>
 				</tr>
 			</tbody>
