@@ -83,6 +83,7 @@ class Transifex_Live_Integration {
 	 */
 	static function do_plugin( $is_admin, $version ) {
 		$settings = get_option( 'transifex_live_settings', array() );
+				include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-defaults.php';
 		if ( !$settings ) {
 
 			$settings = Transifex_Live_Integration_Defaults::settings();
@@ -92,7 +93,7 @@ class Transifex_Live_Integration {
 		require_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/common/plugin-debug.php';
 		new Plugin_Debug( $debug_mode );
 		Plugin_Debug::logTrace( 'debug initialized' );
-		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-defaults.php';
+
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-static-factory.php';
 
 		$rewrite_options = get_option( 'transifex_live_options', array() );
