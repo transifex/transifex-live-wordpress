@@ -35,7 +35,7 @@ class Plugin_Debug
             } // End if Wordpress user admin check
         } // End if debug mode check
     }
-
+	
     public static function logTrace( $message = null ) 
     {
         if (self::$debug_mode ) {
