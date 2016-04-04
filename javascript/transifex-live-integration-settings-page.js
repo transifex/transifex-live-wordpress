@@ -623,3 +623,31 @@ function updateTransifexSettingsFields(obj) {
         }, {setClass: true}
     );
 })(jQuery);
+
+(function ($) {
+    $('#transifex_live_settings_enable_prerender').machine(
+        {
+            defaultState: {
+                onEnter: function () {
+                    $.log.debug('transifex_live_settings_enable_prerender::defaultState::onEnter');
+                    this.trigger('disable');
+                },
+                events: {disable: 'disable'}
+            },
+            enable: {
+                onEnter: function () {
+                    $.log.debug('transifex_live_settings_enable_prerender::enable::onEnter');
+                    $('.prerender-options').toggleClass('hide-if-js', false);
+                },
+                events: {click: 'disable'}
+            },
+            disable: {
+                onEnter: function () {
+                    $.log.debug('transifex_live_settings_enable_prerender::diable::onEnter');
+                    $('.prerender-options').toggleClass('hide-if-js', true);
+                },
+                events: {click: 'enable'}
+            },
+        }, {setClass: true}
+    );
+})(jQuery);
