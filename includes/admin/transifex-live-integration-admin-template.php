@@ -16,74 +16,57 @@
 							<input type="button" disabled="true" name="check" id="transifex_live_settings_api_key_button" class="button button-primary" value="Check">
 						</p>
 						<p id="transifex_live_settings_api_key_message">
-							<span id="transifex_live_settings_api_key_message_validating" class="hide-if-js">Validating your key!</span>							
-							<span id="transifex_live_settings_api_key_message_valid" class="hide-if-js">Success! Advanced SEO settings enabled.</span>
-							<span id="transifex_live_settings_api_key_message_error" class="hide-if-js">Oops! Please make sure you’ve entered a valid API key.</span>
-							<span id="transifex_live_settings_api_key_message_missing" class="hide-if-js">D’oh! No languages have been published from Transifex Live yet.</span>
+							<span id="transifex_live_settings_api_key_message_validating" class="hide-if-js"><?php _e('Validating your key!', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></span>							
+							<span id="transifex_live_settings_api_key_message_valid" class="hide-if-js"><?php _e('Success! Advanced SEO settings enabled.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></span>
+							<span id="transifex_live_settings_api_key_message_error" class="hide-if-js"><?php _e("Oops! Please make sure you've entered a valid API key.", TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></span>
+							<span id="transifex_live_settings_api_key_message_missing" class="hide-if-js"><?php _e("D'oh! No languages have been published from Transifex Live yet.", TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></span>
 						</p>
 					</td>
                 </tr>
 				<tr valign="top">
 				</tr></table>
-		<h2>SEO Prerendering</h2>
-			<table class="form-table">
-            <tbody>
-                <tr>
-                    <td class="option-checkbox" style="padding:0px">
-						<input type="checkbox" id="transifex_live_settings_enable_prerender" name="transifex_live_settings[enable_prerender]" value="1" <?php echo $checked_enable_prerender ?> />Enable Prerender
-					</td>
-					<td>
-						
-                        <p>
-							<label for="transifex_live_settings[prerender_url]"><?php _e( 'Prerender URL', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></label>
-							<input name="transifex_live_settings[prerender_url]" type="text" id="transifex_live_settings_prerender_url" value="<?php echo $settings['prerender_url']; ?>" class="regular-text" placeholder="<?php _e( 'Put your prerender url here.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>">
-						</p>
-						<p><input type="checkbox" id="transifex_live_settings_override_prerender_check" name="transifex_live_settings[override_prerender_check]" value="1" <?php echo $checked_override_prerender_check ?> />Override Prerender Header Check</p>
-					</td>
-				</tr>
-			</tbody>
-				</table>
-
-		<h2>Advanced SEO Settings</h2>
-		<p>This plugin lets you set unique, language/region-specific URLs for your site and tells search engines what language a page is in. This is done by creating new language subdirectories through the plugin, or by pointing to existing language subdomains. In all cases, the plugin will add the Transifex Live JavaScript snippet to your site.</p>
+		<h2><?php _e('Advanced SEO Settings', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></h2>
+		<p><?php _e('This plugin lets you set unique, language/region-specific URLs for your site and tells search engines what language a page is in. This is done by creating new language subdirectories through the plugin, or by pointing to existing language subdomains. In all cases, the plugin will add the Transifex Live JavaScript snippet to your site.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
 		<table class="form-table">
 			<tr>
 				<td>
 					<label for="transifex_live_settings_url_options">
-						<p><input type="radio" disabled="true" id="transifex_live_settings_url_options_none" name="transifex_live_settings[url_options_none]" value="1" <?php echo $url_options_none ?>> Disabled – Just add the Transifex Live JavaScript snippet to my site. <a target="_blank" href="http://docs.transifex.com/integrations/wordpress/#disabled"><b>Learn more</b></a>.</p>
-						<p><input type="radio" disabled="true" id="transifex_live_settings_url_options_subdirectory" name="transifex_live_settings[url_options_subdirectory]" value="1" <?php echo $url_options_subdirectory ?>> Subdirectory – Create new language subdirectories through the plugin, e.g. <code>http://www.example.com/fr/</code>. <a target="_blank" href="http://docs.transifex.com/integrations/wordpress/#subdirectories"><b>Learn more</b></a>.</p>
-						<p><input type="radio" disabled="true" id="transifex_live_settings_url_options_subdomain" name="transifex_live_settings[url_options_subdomain]" value="1" <?php echo $url_options_subdomain ?>> Subdomain – Point the plugin to existing language subdomains, e.g. <code>http://fr.example.com</code>. <a target="_blank" href="http://docs.transifex.com/integrations/wordpress/#subdomains"><b>Learn more</b></a>.</p>
+						<p><input type="radio" disabled="true" id="transifex_live_settings_url_options_none" name="transifex_live_settings[url_options_none]" value="1" <?php echo $url_options_none ?>><?php _e('Disabled – Just add the Transifex Live JavaScript snippet to my site. <a target="_blank" href="http://docs.transifex.com/integrations/wordpress/#disabled"><b>Learn more</b></a>.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
+						<p><input type="radio" disabled="true" id="transifex_live_settings_url_options_subdirectory" name="transifex_live_settings[url_options_subdirectory]" value="1" <?php echo $url_options_subdirectory ?>> <?php _e('Subdirectory – Create new language subdirectories through the plugin, e.g. <code>http://www.example.com/fr/</code>. <a target="_blank" href="http://docs.transifex.com/integrations/wordpress/#subdirectories"><b>Learn more</b></a>.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
+						<p><input type="radio" disabled="true" id="transifex_live_settings_url_options_subdomain" name="transifex_live_settings[url_options_subdomain]" value="1" <?php echo $url_options_subdomain ?>><?php _e('Subdomain – Point the plugin to existing language subdomains, e.g. <code>http://fr.example.com</code>. <a target="_blank" href="http://docs.transifex.com/integrations/wordpress/#subdomains"><b>Learn more</b></a>.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
 						<input type="hidden" id="transifex_live_settings_url_options" name="transifex_live_settings[url_options]" value="<?php echo $url_options ?>" >
 					</label>
-					<p><b>Note:</b> When you choose the Subdirectory or Subdomain options, the plugin will automatically <a target="_blank" href="http://docs.transifex.com/integrations/wordpress/#hreflang-tag"><b>add hreflang tags</b></a> to the header of your site.</p>
+					<p class="description"><?php _e('<b>Note:</b> When you choose the Subdirectory or Subdomain options, the plugin will automatically <a target="_blank" href="http://docs.transifex.com/integrations/wordpress/#hreflang-tag"><b>add hreflang tags</b></a> to the header of your site.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
 				</td></tr></table>
 		<table class="form-table">
 			<tr class="custom-urls-settings">
-				<th scope="row" class="titledesc adds-rewrites">Published Languages</th>
+				<th scope="row" class="titledesc adds-rewrites"><?php _e( 'Published Languages', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></th>
 				<td>
-					<p class="url-structure-subdirectory">Below is a list of languages published from Transifex Live. For each language, you can set the name of the subdirectory. Your URLs will follow the pattern of <code>www.example.com/%lang%/</code>, with the language code always appearing immediately after your domain.</p>
-					<p class="url-structure-subdomain">Below is a list of languages published from Transifex Live. If you’ve set up language subdomains for your site, enter the language subdomain names below. So if <code>fr.example.com</code> is the subdomain for your French site, put in <code>fr</code>. If you don’t have language subdomains set up yet, be sure they match what’s below when you set them up.</p>
+					<p class="url-structure-subdirectory"><?php _e( 'Below is a list of languages published from Transifex Live. For each language, you can set the name of the subdirectory. Your URLs will follow the pattern of <code>www.example.com/%lang%/</code>, with the language code always appearing immediately after your domain.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
+					</p>
+					<p class="url-structure-subdomain"><?php _e( 'Below is a list of languages published from Transifex Live. If you’ve set up language subdomains for your site, enter the language subdomain names below. So if <code>fr.example.com</code> is the subdomain for your French site, put in <code>fr</code>. If you don’t have language subdomains set up yet, be sure they match what’s below when you set them up.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
+					</p>
 					<br/>
 					<input type="hidden" value="<?php echo $source_language ?>" name="transifex_live_settings[source_language]" id="transifex_live_settings_source_language" />
 					<p id="transifex_live_languages">
-					<table id="transifex_live_language_map_table"><tr><th scope="row">Language</th><th scope="row">Code</th></tr>
+					<table id="transifex_live_language_map_table"><tr><th scope="row"><?php _e('Language', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></th><th scope="row"><?php _e('Code', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></th></tr>
 						<tr id="transifex_live_language_map_template" style="display:none">
 							<td style="padding:0px"><span class="tx-language"></span></td>
 							<td style="padding:0px"><input class="tx-code" type="text" style="width:100px"></td>
 						</tr>
 					</table>
-					<span id="transifex_live_languages_message" class="hide-if-js">Your languages can't be loaded. Please re-check your API key.</span>
-					<span id="transifex_live_sync_message" class="hide-if-js">Refreshing languages will replace your current codes with those from Transifex Live. Continue?</span>
+					<span id="transifex_live_languages_message" class="hide-if-js"><?php _e( "Your languages can't be loaded. Please re-check your API key.", TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></span>
+					<span id="transifex_live_sync_message" class="hide-if-js"><?php _e('Refreshing languages will replace your current codes with those from Transifex Live. Continue?', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></span>
 					</p>
 
-					<p class="submit"><input type="button" name="sync" id="transifex_live_sync" class="button button-primary" value="Refresh Languages List"></p>
-					<p class="description" id="transifex_live_tagline-description">Tweak your localized urls.</p>
+					<p class="submit"><input type="button" name="sync" id="transifex_live_sync" class="button button-primary" value="<?php _e('Refresh Languages List', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>"></p>
+					<p class="description" id="transifex_live_tagline-description"><?php _e('Tweak your localized urls changing the language codes above.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
 				</td>
 			</tr>
 			<tr class="url-structure-subdirectory">
 				<th>Subdirectory Options</th>
 				<td>
-					<p>Choose which WordPress content types you want to enable language subdirectories for.</p>
+					<p><?php _e('Choose which WordPress content types you want to enable language subdirectories for.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
 					<p>
 					<table id="transifex_live_settings_rewrite-options">
 						<tr>
@@ -95,7 +78,22 @@
 					<p>
 						<p><input type="checkbox" id="transifex_live_settings_static_frontpage_support" name="transifex_live_settings[static_frontpage_support]" value="1" <?php echo $checked_static_frontpage_support ?> />Static Frontpage Support</p>
 					</p>
-					<p class="url-structure-subdirectory">Having trouble getting language/region-specific URLs working? <a target="_blank" href="http://docs.transifex.com/integrations/wordpress/#troubleshooting-tips">Check out our additional troubleshooting tips!</a></p>
+					<p class="url-structure-subdirectory description"><?php _e('Having trouble getting language/region-specific URLs working? <a target="_blank" href="http://docs.transifex.com/integrations/wordpress/#troubleshooting-tips">Check out our additional troubleshooting tips!', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></a></p>
+				</td></tr>
+			<tr>
+				<th><?php _e( 'Prerender for Crawlers', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></th>
+				<td>
+					<p><input type="checkbox" id="transifex_live_settings_enable_prerender" name="transifex_live_settings[enable_prerender]" value="1" <?php echo $checked_enable_prerender ?> /><?php _e('Enable Prerender', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
+					</p>
+					<p class="prerender-options hide-if-js">
+						<input type="checkbox" id="transifex_live_settings_override_prerender_check" name="transifex_live_settings[override_prerender_check]" value="1" <?php echo $checked_override_prerender_check ?> /><?php _e( 'Disable Prerender status check', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
+					</p>
+                    <p class="prerender-options hide-if-js">
+						<label for="transifex_live_settings[prerender_url]"><?php _e( 'Prerender URL', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></label>
+						<input name="transifex_live_settings[prerender_url]" type="text" id="transifex_live_settings_prerender_url" value="<?php echo $settings['prerender_url']; ?>" class="regular-text" placeholder="<?php _e( 'Put your prerender url here.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>">
+					</p>
+					<p class="prerender-options description"><?php _e( 'Important so crawler and bots can see your translated content <a target="_blank" href="#">Check out our docs for details.</a>', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
+				
 				</td></tr>
 			</tbody>
         </table>
