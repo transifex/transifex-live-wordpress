@@ -144,6 +144,10 @@ class Transifex_Live_Integration_Static_Factory {
 			Plugin_Debug::logTrace( 'prerender url not set, skipping prerender' );
 			return false;
 		}
+		if ( $url_option_setting !== '2' && $url_option_setting != '3' ) {
+			Plugin_Debug::logTrace( 'No URL option, skipping prerender' );
+			return false;
+		}
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-util.php';
 		$agent = Transifex_Live_Integration_Util::get_user_agent();
 		$req_escaped_fragment = (isset( $_GET['_escaped_fragment_'] )) ? $_GET['_escaped_fragment_'] : false;

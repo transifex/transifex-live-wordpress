@@ -64,7 +64,7 @@
 				</td>
 			</tr>
 			<tr class="url-structure-subdirectory">
-				<th>Subdirectory Options</th>
+				<th><?php _e('Subdirectory Options', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></th>
 				<td>
 					<p><?php _e('Choose which WordPress content types you want to enable language subdirectories for.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
 					<p>
@@ -72,27 +72,29 @@
 						<tr>
 							<td style="padding:0px"><input id="transifex_live_settings_rewrite_option_all" name="transifex_live_settings[rewrite_option_all]" value="1" type="checkbox" <?php echo $checked_rewrite_option_all ?>>All</td>
 						</tr>
+						<tr>
+							<td style="padding:0px">
+							<input class="all_selector" id="transifex_live_settings_static_frontpage_support" name="transifex_live_settings[static_frontpage_support]" value="1" type="checkbox" <?php echo $checked_static_frontpage_support ?>>Static Frontpage Support
+							</td>
+						</tr>
 						<?php Transifex_Live_Integration_Admin_Util::render_url_options( $rewrite_options_array ); ?>
 					</table>
 					</p>
-					<p>
-						<p><input type="checkbox" id="transifex_live_settings_static_frontpage_support" name="transifex_live_settings[static_frontpage_support]" value="1" <?php echo $checked_static_frontpage_support ?> />Static Frontpage Support</p>
-					</p>
 					<p class="url-structure-subdirectory description"><?php _e('Having trouble getting language/region-specific URLs working? <a target="_blank" href="http://docs.transifex.com/integrations/wordpress/#troubleshooting-tips">Check out our additional troubleshooting tips!', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></a></p>
 				</td></tr>
-			<tr>
+			<tr class="prerender-options hide-if-js">
 				<th><?php _e( 'Prerender for Crawlers', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></th>
 				<td>
 					<p><input type="checkbox" id="transifex_live_settings_enable_prerender" name="transifex_live_settings[enable_prerender]" value="1" <?php echo $checked_enable_prerender ?> /><?php _e('Enable Prerender', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
 					</p>
-					<p class="prerender-options hide-if-js">
+					<p class="prerender-enable-options hide-if-js">
 						<input type="checkbox" id="transifex_live_settings_override_prerender_check" name="transifex_live_settings[override_prerender_check]" value="1" <?php echo $checked_override_prerender_check ?> /><?php _e( 'Disable Prerender status check', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
 					</p>
-                    <p class="prerender-options hide-if-js">
+                    <p class="prerender-enable-options hide-if-js">
 						<label for="transifex_live_settings[prerender_url]"><?php _e( 'Prerender URL', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></label>
 						<input name="transifex_live_settings[prerender_url]" type="text" id="transifex_live_settings_prerender_url" value="<?php echo $settings['prerender_url']; ?>" class="regular-text" placeholder="<?php _e( 'Put your prerender url here.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>">
 					</p>
-					<p class="prerender-options description"><?php _e( 'Important so crawler and bots can see your translated content <a target="_blank" href="#">Check out our docs for details.</a>', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
+					<p class="description"><?php _e( 'Important so crawler and bots can see your translated content <a target="_blank" href="#">Check out our docs for details.</a>', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
 				
 				</td></tr>
 			</tbody>
