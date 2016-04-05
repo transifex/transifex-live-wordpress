@@ -1,17 +1,39 @@
 <?php
 
+/**
+ * Includes Admin Generalized Functions
+ * @package TransifexLiveIntegration
+ */
+
+/**
+ * Admin Utils Class
+ * All functions should be called statically
+ */
 class Transifex_Live_Integration_Admin_Util {
 
+	/**
+	 * Function to add a 'notranslate' div to the WP admin bar
+	 */
 	static function wp_before_admin_bar_render_hook() {
 		Plugin_Debug::logTrace();
 		echo ('<div class="notranslate">');
 	}
 
+	/**
+	 * Function to add end tag for 'notranslate' div to the WP admin bar
+	 */
 	static function wp_after_admin_bar_render_hook() {
 		Plugin_Debug::logTrace();
 		echo ('</div>');
 	}
 
+	/**
+	 * Returns the site_url in a tokenized form for use by other libraries
+	 * @param string $site_url Generally should be site_url()
+	 * @param string $url_option_setting The plugin option setting for special urls 
+	 * @return string/false Returns the tokenized string or false
+	 * [ 3 = Subdirectory, 2 = Subdomain, * = Skip ] 
+	 */
 	static function generate_tokenized_url( $site_url, $url_option_setting ) {
 		Plugin_Debug::logTrace();
 
@@ -40,6 +62,10 @@ class Transifex_Live_Integration_Admin_Util {
 		return ($tokenized_url) ? $tokenized_url : false;
 	}
 
+	/**
+	 * Renders subdirectory rewrite options
+	 * @param array $options Array of options...usually these will be loaded from defaults
+	 */
 	static function render_url_options( $options ) {
 		$html = '';
 		$row = '';
@@ -63,6 +89,10 @@ ROW;
 		echo $html;
 	}
 
+	/**
+	 * Renders Transifex Live settings for the admin form
+	 * @param array $settings Usually these will be loaded from the defaults
+	 */
 	static function render_transifex_settings( $settings ) {
 		$html = '';
 		foreach ($settings as $setting) {
@@ -75,7 +105,12 @@ HTML;
 		}
 		echo $html;
 	}
-	static function action_links( $links ) {
+
+	/**
+	 * Builds plugin links displayed on the WP Plugin section, WP filter
+	 * @param array $links Existing list of WP plugin links
+	 */
+	static function action_links_hook( $links ) {
 		Plugin_Debug::logTrace();
 		$settings_href = add_query_arg( [ 'page' => TRANSIFEX_LIVE_INTEGRATION_NAME ], admin_url( 'options-general.php' ) );
 		$settings_text = __( 'Settings', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN );
@@ -84,13 +119,13 @@ HTML;
 SETTINGS;
 		return array_merge( [ $settings_link ], $links );
 	}
-	
+
 	/**
-     * Callback function for admin_menu action
-     */
-    static function admin_menu_hook() 
-    {
-        Plugin_Debug::logTrace();
-        add_options_page('Transifex Live', 'Transifex Live', 'manage_options', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN, [ 'Transifex_Live_Integration_Admin', 'options_page' ] );
-    }
+	 * Adds admin page to WP menu, WP action
+	 */
+	static function admin_menu_hook() {
+		Plugin_Debug::logTrace();
+		add_options_page( 'Transifex Live', 'Transifex Live', 'manage_options', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN, [ 'Transifex_Live_Integration_Admin', 'options_page' ] );
+	}
+
 }
