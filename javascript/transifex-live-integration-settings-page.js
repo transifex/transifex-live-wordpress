@@ -265,7 +265,6 @@ function updateTransifexSettingsFields(obj) {
             validating: {
                 onEnter: function () {
                     $.log.debug('transifex_live_settings_api_key:validating:onEnter');
-
                     $('#transifex_live_settings_url_options_none').attr('disabled', true);
                     $('#transifex_live_settings_url_options_subdirectory').attr('disabled', true);
                     $('#transifex_live_settings_url_options_subdomain').attr('disabled', true);
@@ -426,6 +425,7 @@ function updateTransifexSettingsFields(obj) {
                     $('.url-structure-subdirectory').toggleClass('hide-if-js', true);
                     $('.url-structure-subdomain').toggleClass('hide-if-js', true);
                     $('.custom-urls-settings').toggleClass('hide-if-js', true);
+                    $('.prerender-options').toggleClass('hide-if-js', true);
                     $('#transifex_live_settings_url_options_subdirectory').prop("checked", false);
                     $('#transifex_live_settings_url_options_subdomain').prop("checked", false);
                     this.val('1');
@@ -440,6 +440,7 @@ function updateTransifexSettingsFields(obj) {
                     $('.url-structure-subdirectory').toggleClass('hide-if-js', false);
                     $('.url-structure-subdomain').toggleClass('hide-if-js', true);
                     $('.custom-urls-settings').toggleClass('hide-if-js', false);
+                    $('.prerender-options').toggleClass('hide-if-js', false);
                     $('#transifex_live_options_all').trigger('activate');
                     $('#transifex_live_settings_url_options_none').prop("checked", false);
                     $('#transifex_live_settings_url_options_subdomain').prop("checked", false);
@@ -455,6 +456,7 @@ function updateTransifexSettingsFields(obj) {
                     $('.url-structure-subdirectory').toggleClass('hide-if-js', true);
                     $('.url-structure-subdomain').toggleClass('hide-if-js', false);
                     $('.custom-urls-settings').toggleClass('hide-if-js', false);
+                    $('.prerender-options').toggleClass('hide-if-js', false);
                     $('#transifex_live_options_all').trigger('activate');
                     $('#transifex_live_settings_url_options_subdirectory').prop("checked", false);
                     $('#transifex_live_settings_url_options_none').prop("checked", false);
@@ -623,31 +625,63 @@ function updateTransifexSettingsFields(obj) {
         }, {setClass: true}
     );
 })(jQuery);
-
 (function ($) {
     $('#transifex_live_settings_enable_prerender').machine(
         {
             defaultState: {
                 onEnter: function () {
                     $.log.debug('transifex_live_settings_enable_prerender::defaultState::onEnter');
-                    this.trigger('disable');
+                    if (this.prop('checked')) {
+                        this.trigger('enable');
+                    } else {
+                        this.trigger('disable');
+                    }
                 },
-                events: {disable: 'disable'}
+                events: {enable: 'enable', disable: 'disable'}
             },
             enable: {
                 onEnter: function () {
                     $.log.debug('transifex_live_settings_enable_prerender::enable::onEnter');
-                    $('.prerender-options').toggleClass('hide-if-js', false);
+                    $('.prerender-enable-options').toggleClass('hide-if-js', false);
+                    $('input#transifex_live_submit').trigger('disable');
                 },
                 events: {click: 'disable'}
             },
             disable: {
                 onEnter: function () {
-                    $.log.debug('transifex_live_settings_enable_prerender::diable::onEnter');
-                    $('.prerender-options').toggleClass('hide-if-js', true);
+                    $.log.debug('transifex_live_settings_enable_prerender::disable::onEnter');
+                    $('.prerender-enable-options').toggleClass('hide-if-js', true);
+                    $('#transifex_live_settings_prerender_url').trigger('reset');
                 },
                 events: {click: 'enable'}
             },
         }, {setClass: true}
+    );
+})(jQuery);
+
+(function ($) {
+    $('#transifex_live_settings_prerender_url').machine(
+        {
+            defaultState: {
+                onEnter: function () {
+                    $.log.debug('transifex_live_settings_prerender_url::defaultState::onEnter');
+                },
+                events: {change: 'edited'}
+            },
+            edited: {
+                onEnter: function () {
+                    $.log.debug('transifex_live_settings_prerender_url::edited::onEnter');
+                    $('input#transifex_live_submit').trigger('enable');
+                },
+                 events: {reset: 'reset'}
+            },
+            reset: {
+                onEnter: function () {
+                    $.log.debug('transifex_live_settings_prerender_url::reset::onEnter');
+                    this.val('');
+                },
+                 events: {change: 'edited'}
+            },
+       }, {setClass: true}
     );
 })(jQuery);
