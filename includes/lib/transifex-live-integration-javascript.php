@@ -15,8 +15,23 @@ class Transifex_Live_Integration_Javascript {
 	 * @var array
 	 */
 	private $live_settings;
+
+	/**
+	 * Current language
+	 * @var string
+	 */
 	private $lang;
+
+	/**
+	 * Current source language
+	 * @var string
+	 */
 	private $source_language;
+
+	/**
+	 * A key/value array that maps Transifex locale->plugin code
+	 * @var array
+	 */
 	private $language_map;
 
 	/**
@@ -31,12 +46,25 @@ class Transifex_Live_Integration_Javascript {
 		$this->language_map = $settings['language_map'];
 	}
 
+	/**
+	 * Hook for wp action, initializes language value
+	 */
 	function wp_hook() {
 		Plugin_Debug::logTrace();
 		$this->lang = self::lang_check(
 						get_query_var( 'lang' ), $this->source_language, $this->language_map
 		);
 	}
+
+	/*
+	 * Checks the language against our language map and source language in order to determine
+	 * 		what to render as far as our javascript include
+	 * 
+	 * @param string $query_var The current language code passed from the url
+	 * @param string $source_language The current source language, generally set by settings
+	 * @param array $language_map A key/value array that maps Transifex locale->plugin code
+	 * @return string/false Returns the locale or false
+	 */
 
 	static function lang_check( $query_var, $source_language, $language_map ) {
 		Plugin_Debug::logTrace();
@@ -52,7 +80,7 @@ class Transifex_Live_Integration_Javascript {
 			Plugin_Debug::logTrace( 'lang is source, overriding live with source' );
 		} else {
 			$lang = array_search( $query_var, $lm );
-			if ( $lang ){
+			if ( $lang ) {
 				Plugin_Debug::logTrace( 'lang is set, overriding live detection' );
 			} else {
 				Plugin_Debug::logTrace( 'lang missing, defaulting to native detection' );

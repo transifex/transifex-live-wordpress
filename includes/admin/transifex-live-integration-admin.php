@@ -1,9 +1,20 @@
 <?php
 
-include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-defaults.php';
+/**
+ * Includes for Admin Page
+ * @package TransifexLiveIntegration
+ */
 
+/**
+ * Main Admin Class
+ * All functions to render and update admin page
+ */
 class Transifex_Live_Integration_Admin {
 
+	/**
+	 * Loads plugin settings from db, merges with defaults if any are missing
+	 * @return array List of all key->value settings
+	 */
 	static function load_settings() {
 		Plugin_Debug::logTrace();
 		$db_settings = get_option( 'transifex_live_settings', array() );
@@ -14,6 +25,10 @@ class Transifex_Live_Integration_Admin {
 		return array_merge( Transifex_Live_Integration_Defaults::settings(), $db_settings );
 	}
 
+	/**
+	 * Loads subdirectory options from db, merges with default if any are missing
+	 * @return array List of all key->value settings
+	 */
 	static function load_rewrite_options() {
 		Plugin_Debug::logTrace();
 		$db_opt_settings = get_option( 'transifex_live_options', array() );
@@ -25,6 +40,10 @@ class Transifex_Live_Integration_Admin {
 		return array_merge( Transifex_Live_Integration_Defaults::options_values(), $db_opt_settings );
 	}
 
+	/**
+	 * Loads Transifex Live Javascript settings from the db, merges with default if any are missing
+	 * @return array List of all key->value settings
+	 */
 	static function load_transifex_settings() {
 		Plugin_Debug::logTrace();
 		$db_settings = get_option( 'transifex_live_transifex_settings', array() );
@@ -36,8 +55,12 @@ class Transifex_Live_Integration_Admin {
 		return array_merge( Transifex_Live_Integration_Defaults::transifex_settings(), $db_settings );
 	}
 
+	/**
+	 * Renders admin page
+	 */
 	static function options_page() {
 		Plugin_Debug::logTrace();
+		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-defaults.php';
 		$settings = self::load_settings();
 		$rewrite_options = self::load_rewrite_options();
 
@@ -65,11 +88,11 @@ class Transifex_Live_Integration_Admin {
 		ob_start();
 		checked( $settings['override_prerender_check'], 1 );
 		$checked_override_prerender_check = ob_get_clean();
-		
+
 		ob_start();
 		checked( $settings['static_frontpage_support'], 1 );
 		$checked_static_frontpage_support = ob_get_clean();
-		
+
 		// These are used by the template: DO NOT REMOVE - Mjj 2/22/2016
 		$languages = [ ];
 		if ( $settings['transifex_languages'] !== '' ) {
@@ -120,6 +143,9 @@ class Transifex_Live_Integration_Admin {
 		echo $content;
 	}
 
+	/**
+	 * A WP action hook to get the POSTd page, and call santitation for security and update
+	 */
 	static public function admin_init_hook() {
 		Plugin_Debug::logTrace();
 		if ( isset( $_POST['transifex_live_nonce'] ) && wp_verify_nonce( $_POST['transifex_live_nonce'], 'transifex_live_settings' ) ) {
@@ -128,7 +154,11 @@ class Transifex_Live_Integration_Admin {
 	}
 
 	/**
-	 * Function that handles saving the setting data and sanitization.
+	 * Updates db with settings information
+	 * @param array $settings A List of all settings key->value arrays
+	 * 'transifex_live_transifex_settings' = Settings for Javascript
+	 * 'transifex_live_settings' = General plugin settings
+	 * 'transifex_live_options' = Subdirectory options
 	 */
 	static public function update_settings( $settings ) {
 		Plugin_Debug::logTrace();

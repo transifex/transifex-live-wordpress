@@ -1,6 +1,20 @@
 <?php
 
+/**
+ * Static factory library functions 
+ * @package TransifexLiveIntegration
+ */
+
+/*
+ * Functions to instantiate plugin libraries
+ */
 class Transifex_Live_Integration_Static_Factory {
+	
+	/*
+	 * Creates HREFLANG object
+	 * @param array $settings Settings array from the db
+	 * @return object/false Returns either new object or false
+	 */
 
 	static function create_hreflang( $settings ) {
 		if ( !isset( $settings['api_key'] ) ) {
@@ -23,6 +37,12 @@ class Transifex_Live_Integration_Static_Factory {
 		return new Transifex_Live_Integration_Hreflang( $settings );
 	}
 
+	/*
+	 * Creates live snippet library
+	 * @param array $settings
+	 * @return object/false Returns new onject or false
+	 */
+
 	static function create_live_snippet( $settings ) {
 		Plugin_Debug::logTrace();
 
@@ -36,9 +56,10 @@ class Transifex_Live_Integration_Static_Factory {
 	}
 
 	/**
-	 * Factory function to create a rewrite object
+	 * Factory function to create a subdomain object
 	 * @param array $settings Associative array used to store plugin settings.
 	 */
+	
 	static function create_subdomains( $settings ) {
 		Plugin_Debug::logTrace();
 		if ( !isset( $settings['languages'] ) ) {
@@ -58,6 +79,7 @@ class Transifex_Live_Integration_Static_Factory {
 	 * Factory function to create a rewrite object
 	 * @param array $settings Associative array used to store plugin settings.
 	 */
+	
 	static function create_rewrite( $settings, $rewrite_options ) {
 		Plugin_Debug::logTrace();
 		if ( !isset( $settings['languages'] ) ) {
@@ -82,6 +104,12 @@ class Transifex_Live_Integration_Static_Factory {
 		return new Transifex_Live_Integration_Rewrite( $settings, $rewrite_options );
 	}
 
+	/*
+	 * Creates language picker snippet library
+	 * @param array $settings
+	 * @return object/false Returns new onject or false
+	 */
+
 	static function create_picker( $settings ) {
 		Plugin_Debug::logTrace();
 		if ( !isset( $settings['enable_picker'] ) ) {
@@ -100,14 +128,20 @@ class Transifex_Live_Integration_Static_Factory {
 		return new Transifex_Live_Integration_Picker( $settings['language_map'], $settings['tokenized_url'], $settings['enable_picker'], $settings['source_language'] );
 	}
 
+	/*
+	 * Creates prerender library
+	 * @param array $settings
+	 * @return object/false Returns new onject or false
+	 */
+
 	static function create_prerender( $settings ) {
 		Plugin_Debug::logTrace();
-		if (!isset($settings['enable_prerender'])) {
-			Plugin_Debug::logTrace('prerender not enabled, skipping prerender');
+		if ( !isset( $settings['enable_prerender'] ) ) {
+			Plugin_Debug::logTrace( 'prerender not enabled, skipping prerender' );
 			return false;
 		}
-		if (!isset($settings['prerender_url'])) {
-			Plugin_Debug::logTrace('prerender url not set, skipping prerender');
+		if ( !isset( $settings['prerender_url'] ) ) {
+			Plugin_Debug::logTrace( 'prerender url not set, skipping prerender' );
 			return false;
 		}
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-util.php';
@@ -116,7 +150,7 @@ class Transifex_Live_Integration_Static_Factory {
 
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/lib/transifex-live-integration-prerender.php';
 		$check = Transifex_Live_Integration_Util::prerender_check( $agent, $req_escaped_fragment, $settings['generic_bot_types'], $settings['whitelist_crawlers'] );
-		return ($check) ? new Transifex_Live_Integration_Prerender($settings['prerender_url'], $settings['override_prerender_check']) : false;
+		return ($check) ? new Transifex_Live_Integration_Prerender( $settings['prerender_url'], $settings['override_prerender_check'] ) : false;
 	}
 
 }

@@ -10,7 +10,10 @@
  */
 class Transifex_Live_Integration_Defaults
 {
-
+	/**
+	 * Returns default option values for subdirectory rewrites
+	 * @return array Returns the options value array
+	 */
     static function options_values() 
     {
         return [
@@ -27,23 +30,32 @@ class Transifex_Live_Integration_Defaults
         ];
     }
 
+	/**
+	 * Returns default option text display for subdirectory rewrites
+	 * @param string $key The option key value stored to the database
+	 * @return string Returns the text string
+	 */
     static function get_options_text( $key ) 
     {
         $arr = [
-        'add_rewrites_post' => 'Posts',
-        'add_rewrites_page' => 'Pages',
-        'add_rewrites_author' => 'Authors',
-        'add_rewrites_date' => 'Date',
-        'add_rewrites_tag' => 'Tags',
-        'add_rewrites_category' => 'Categories',
-        'add_rewrites_search' => 'Search',
-        'add_rewrites_root' => 'Root',
-        'add_rewrites_reverse_template_links' => 'Reverse Template Links',
-        'add_rewrites_permalink_tag' => 'Permalink Tag'
+        'add_rewrites_post' => __( 'Posts', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ),
+        'add_rewrites_page' => __( 'Pages', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ),
+        'add_rewrites_author' => __( 'Authors', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ),
+        'add_rewrites_date' => __( 'Date', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ),
+        'add_rewrites_tag' => __( 'Tags', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ),
+        'add_rewrites_category' => __( 'Categories', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ),
+        'add_rewrites_search' => __( 'Search', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ),
+        'add_rewrites_root' => __( 'Root', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ),
+        'add_rewrites_reverse_template_links' => __( 'Reverse Template Links', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ),
+        'add_rewrites_permalink_tag' => __( 'Permalink Tag', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ),
         ];
         return $arr[$key];
     }
 
+	/**
+	 * Returns default values for Transifex settings Javascript include
+	 * @return array Returns the settings array
+	 */
     static function transifex_settings() 
     {
         return [
