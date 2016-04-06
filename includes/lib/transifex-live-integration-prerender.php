@@ -55,7 +55,7 @@ STATUS;
 
 	function wp_headers_hook( $headers ) {
 		Plugin_Debug::logTrace();
-		$headers['X-PreRender-Req'] = 'TRUE';
+		$headers['X-Prerender-Req'] = 'TRUE';
 		return $headers;
 	}
 
