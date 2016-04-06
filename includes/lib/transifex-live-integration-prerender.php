@@ -69,6 +69,7 @@ STATUS;
 		curl_setopt( $ch, CURLOPT_HEADER, 1 );
 		curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT ,10); 
 		curl_setopt( $ch, CURLOPT_TIMEOUT, 20);
+		$arr['url'] = $url;
 		$arr['response'] = curl_exec( $ch );
 		$arr['statuscode'] = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 		$arr['header_size'] = curl_getinfo( $ch, CURLINFO_HEADER_SIZE );
@@ -97,6 +98,7 @@ STATUS;
 			if ( strpos( $header_lowercase, 'x-prerender-req: true' ) || $this->override_prerender_check ) {
 				$output = ($curl_response['response'])?$body:$output;
 			}
+			$debug_html .= $curl_response['url'] . "\n";
 			$debug_html .= $header."\n";
 			$debug_html .= $curl_response['error']."\n";
 		} else {
