@@ -70,11 +70,11 @@
 					<p>
 					<table id="transifex_live_settings_rewrite-options">
 						<tr>
-							<td style="padding:0px"><input id="transifex_live_settings_rewrite_option_all" name="transifex_live_settings[rewrite_option_all]" value="1" type="checkbox" <?php echo $checked_rewrite_option_all ?>>All</td>
+							<td style="padding:0px"><input id="transifex_live_settings_rewrite_option_all" name="transifex_live_settings[rewrite_option_all]" value="1" type="checkbox" <?php echo $checked_rewrite_option_all ?>><?php _e('All', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></td>
 						</tr>
 						<tr>
 							<td style="padding:0px">
-							<input class="all_selector" id="transifex_live_settings_static_frontpage_support" name="transifex_live_settings[static_frontpage_support]" value="1" type="checkbox" <?php echo $checked_static_frontpage_support ?>>Static Frontpage Support
+							<input class="all_selector" id="transifex_live_settings_static_frontpage_support" name="transifex_live_settings[static_frontpage_support]" value="1" type="checkbox" <?php echo $checked_static_frontpage_support ?>><?php _e('Static Frontpage Support', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
 							</td>
 						</tr>
 						<?php Transifex_Live_Integration_Admin_Util::render_url_options( $rewrite_options_array ); ?>
