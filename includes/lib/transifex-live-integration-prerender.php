@@ -55,11 +55,28 @@ STATUS;
 
 	function wp_headers_hook( $headers ) {
 		Plugin_Debug::logTrace();
-		$headers['X-PreRender-Req'] = 'TRUE';
+		$headers['X-Prerender-Req'] = 'TRUE';
 		return $headers;
 	}
 
 
+	function call_curl($url) {
+		$arr = [];
+		$ch = curl_init();
+		curl_setopt( $ch, CURLOPT_URL, $url );
+		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
+		curl_setopt( $ch, CURLOPT_VERBOSE, 1 );
+		curl_setopt( $ch, CURLOPT_HEADER, 1 );
+		curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT ,10); 
+		curl_setopt( $ch, CURLOPT_TIMEOUT, 20);
+		$arr['url'] = $url;
+		$arr['response'] = curl_exec( $ch );
+		$arr['statuscode'] = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		$arr['header_size'] = curl_getinfo( $ch, CURLINFO_HEADER_SIZE );
+		$arr['error'] = curl_error( $ch );
+		curl_close( $ch );
+		return $arr;
+	}
 	/*
 	 * This aptly named filter function is used to make the prerender call, 
 	 * 		ideally it should be executed after the template render is finished but before sending to the browser
@@ -70,27 +87,24 @@ STATUS;
 	function callback( $buffer ) {
 		global $wp;
 		$output = $buffer;
+		$debug_html = '<!--'."\n";
 		$page_url = home_url( $wp->request );
 		$page_url = rtrim( $page_url, '/' ) . '/';
-
-		$ch = curl_init();
-		curl_setopt( $ch, CURLOPT_URL, $this->prerender_url . $page_url );
-		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
-		curl_setopt( $ch, CURLOPT_VERBOSE, 1 );
-		curl_setopt( $ch, CURLOPT_HEADER, 1 );
-		$response = curl_exec( $ch );
-		$header_size = curl_getinfo( $ch, CURLINFO_HEADER_SIZE );
-		$header = substr( $response, 0, $header_size );
-		$body = substr( $response, $header_size );
-		if ( $response === false ) {
-			$error = curl_error( $ch );
-			// write to db??
-		} else {
-			if ( strpos( $header, 'X-PreRender-Req: TRUE' ) || $this->override_prerender_check ) {
-				$output = $body;
+		if (function_exists('curl_version')) {
+			$curl_response = $this->call_curl($this->prerender_url . $page_url);
+			$header = substr( $curl_response['response'], 0, $curl_response['header_size'] );
+			$body = substr( $curl_response['response'], $curl_response['header_size'] );
+			$header_lowercase = strtolower($header);
+			if ( strpos( $header_lowercase, 'x-prerender-req: true' ) || $this->override_prerender_check ) {
+				$output = ($curl_response['response'])?$body:$output;
 			}
+			$debug_html .= $curl_response['url'] . "\n";
+			$debug_html .= $header."\n";
+			$debug_html .= $curl_response['error']."\n";
+		} else {
+			$debug_html .= 'Curl functions missing, skipping prerender call';
 		}
-		curl_close( $ch );
+		$output .= "\n$debug_html\n-->";
 		return $output;
 	}
 

@@ -87,9 +87,6 @@
 				<td>
 					<p><input type="checkbox" id="transifex_live_settings_enable_prerender" name="transifex_live_settings[enable_prerender]" value="1" <?php echo $checked_enable_prerender ?> /><?php _e('Enable Prerender', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
 					</p>
-					<p class="prerender-enable-options hide-if-js">
-						<input type="checkbox" id="transifex_live_settings_override_prerender_check" name="transifex_live_settings[override_prerender_check]" value="1" <?php echo $checked_override_prerender_check ?> /><?php _e( 'Enable Prerender status check', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
-					</p>
                     <p class="prerender-enable-options hide-if-js">
 						<label for="transifex_live_settings[prerender_url]"><?php _e( 'Prerender URL', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></label>
 						<input name="transifex_live_settings[prerender_url]" type="text" id="transifex_live_settings_prerender_url" value="<?php echo $settings['prerender_url']; ?>" class="regular-text" placeholder="<?php _e( 'Put your prerender url here.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>">
@@ -99,6 +96,7 @@
 				</td></tr>
 			</tbody>
         </table>
+		<input type="hidden" id="transifex_live_settings_override_prerender_check" name="transifex_live_settings[override_prerender_check]" value="1" <?php echo $checked_override_prerender_check ?> />
 		<input name="transifex_live_settings[enable_custom_urls]" id="transifex_live_settings_custom_urls" type="hidden" value="<?php echo $checked_custom_urls ?>" >
 		<input type="hidden" value="<?php echo htmlentities( stripslashes( $language_map ) ) ?>" name="transifex_live_settings[language_map]" id="transifex_live_settings_language_map" />
 		<input type="hidden" value="<?php echo htmlentities( stripslashes( $transifex_settings_settings ) ) ?>" name="transifex_live_transifex_settings[settings]" id="transifex_live_transifex_settings_settings" />
