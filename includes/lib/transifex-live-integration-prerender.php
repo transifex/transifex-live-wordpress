@@ -70,6 +70,7 @@ STATUS;
 		curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT ,10); 
 		curl_setopt( $ch, CURLOPT_TIMEOUT, 20);
 		$arr['response'] = curl_exec( $ch );
+		$arr['statuscode'] = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 		$arr['header_size'] = curl_getinfo( $ch, CURLINFO_HEADER_SIZE );
 		$arr['error'] = curl_error( $ch );
 		curl_close( $ch );
@@ -97,7 +98,6 @@ STATUS;
 				$output = ($curl_response['response'])?$body:$output;
 			}
 			$debug_html .= $header."\n";
-			$debug_html .= $curl_response['response']."\n";
 			$debug_html .= $curl_response['error']."\n";
 		} else {
 			$debug_html .= 'Curl functions missing, skipping prerender call';
