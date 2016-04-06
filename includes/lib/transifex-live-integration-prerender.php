@@ -97,6 +97,7 @@ STATUS;
 				$output = ($curl_response['response'])?$body:$output;
 			}
 			$debug_html .= $header.'\n';
+			$debug_html .= $curl_response['response'].'\n';
 			$debug_html .= $curl_response['error'].'\n';
 		} else {
 			$debug_html .= 'Curl functions missing, skipping prerender call';
