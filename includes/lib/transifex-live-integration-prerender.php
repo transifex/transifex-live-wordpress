@@ -85,7 +85,7 @@ STATUS;
 	function callback( $buffer ) {
 		global $wp;
 		$output = $buffer;
-		$debug_html = '<!--\n';
+		$debug_html = '<!--'."\n";
 		$page_url = home_url( $wp->request );
 		$page_url = rtrim( $page_url, '/' ) . '/';
 		if (function_exists('curl_version')) {
@@ -97,15 +97,12 @@ STATUS;
 				$output = ($curl_response['response'])?$body:$output;
 			}
 			$debug_html .= $header.'\n';
-			$debug_html .= $curl_response['response'].'\n';
-			$debug_html .= $curl_response['error'].'\n';
+			$debug_html .= $curl_response['response']."\n";
+			$debug_html .= $curl_response['error']."\n";
 		} else {
 			$debug_html .= 'Curl functions missing, skipping prerender call';
 		}
-		$head_position = strpos( $buffer , '<head' );
-		if ( true === $head_position ) {
-			$output .= "\n$debug_html\n-->";
-		}
+		$output .= "\n$debug_html\n-->";
 		return $output;
 	}
 
