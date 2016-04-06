@@ -666,7 +666,7 @@ function updateTransifexSettingsFields(obj) {
                 onEnter: function () {
                     $.log.debug('transifex_live_settings_prerender_url::defaultState::onEnter');
                 },
-                events: {change: 'edited'}
+                events: {input: 'edited'}
             },
             edited: {
                 onEnter: function () {
@@ -680,7 +680,7 @@ function updateTransifexSettingsFields(obj) {
                     $.log.debug('transifex_live_settings_prerender_url::reset::onEnter');
                     this.val('');
                 },
-                 events: {change: 'edited'}
+                 events: {input: 'edited'}
             },
        }, {setClass: true}
     );
