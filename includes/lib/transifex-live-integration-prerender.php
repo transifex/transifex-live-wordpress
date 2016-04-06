@@ -96,7 +96,7 @@ STATUS;
 			if ( strpos( $header_lowercase, 'x-prerender-req: true' ) || $this->override_prerender_check ) {
 				$output = ($curl_response['response'])?$body:$output;
 			}
-			$debug_html .= $header.'\n';
+			$debug_html .= $header."\n";
 			$debug_html .= $curl_response['response']."\n";
 			$debug_html .= $curl_response['error']."\n";
 		} else {
