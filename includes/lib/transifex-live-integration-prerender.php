@@ -95,7 +95,7 @@ STATUS;
 			$header = substr( $curl_response['response'], 0, $curl_response['header_size'] );
 			$body = substr( $curl_response['response'], $curl_response['header_size'] );
 			$header_lowercase = strtolower($header);
-			if ( strpos( $header_lowercase, 'x-prerender-req: true' ) || $this->override_prerender_check ) {
+			if ( strpos( $header_lowercase, 'x-prerender-req' ) || $this->override_prerender_check ) {
 				$output = ($curl_response['response'])?$body:$output;
 			}
 			$debug_html .= $curl_response['url'] . "\n";
