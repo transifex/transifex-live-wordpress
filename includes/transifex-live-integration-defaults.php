@@ -101,7 +101,7 @@ class Transifex_Live_Integration_Defaults
         'url_options' => 1,
         'subdomain_pattern' => '',
 		'static_frontpage_support' => false,
-		'enable_prerender' => false,
+		'enable_prerender' => true,
 		'prerender_url' => '',
 		'override_prerender_check' => false,
         'whitelist_crawlers' =>

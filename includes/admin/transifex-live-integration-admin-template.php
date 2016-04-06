@@ -88,7 +88,7 @@
 					<p><input type="checkbox" id="transifex_live_settings_enable_prerender" name="transifex_live_settings[enable_prerender]" value="1" <?php echo $checked_enable_prerender ?> /><?php _e('Enable Prerender', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
 					</p>
 					<p class="prerender-enable-options hide-if-js">
-						<input type="checkbox" id="transifex_live_settings_override_prerender_check" name="transifex_live_settings[override_prerender_check]" value="1" <?php echo $checked_override_prerender_check ?> /><?php _e( 'Disable Prerender status check', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
+						<input type="checkbox" id="transifex_live_settings_override_prerender_check" name="transifex_live_settings[override_prerender_check]" value="1" <?php echo $checked_override_prerender_check ?> /><?php _e( 'Enable Prerender status check', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
 					</p>
                     <p class="prerender-enable-options hide-if-js">
 						<label for="transifex_live_settings[prerender_url]"><?php _e( 'Prerender URL', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></label>
