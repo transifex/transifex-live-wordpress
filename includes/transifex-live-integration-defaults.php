@@ -101,9 +101,9 @@ class Transifex_Live_Integration_Defaults
         'url_options' => 1,
         'subdomain_pattern' => '',
 		'static_frontpage_support' => false,
-		'enable_prerender' => true,
+		'enable_prerender' => 0,
 		'prerender_url' => '',
-		'override_prerender_check' => false,
+		'enable_prerender_check' => 1,
         'whitelist_crawlers' =>
         'googlebot|yahoo|bingbot|baiduspider|facebookexternalhit|twitterbot|rogerbot|linkedinbot|embedly|quora link preview|showyoubot|outbrain|pinterest/0.|developers.google.com/+/web/snippet|slackbot|vkshare|w3c_validator|redditbot|applebot|whatsapp|flipboard',
         'generic_bot_types' => 'bot|crawl|slurp|spider'
