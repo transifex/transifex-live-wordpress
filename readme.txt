@@ -4,7 +4,7 @@ Contributors: txmatthew, ThemeBoy, brooksx
 Tags: transifex, translate, translations, localize, localise, localization, localisation, multilingual, t9n, l10n, i18n, language, switcher, live, translation, translator
 Requires at least: 3.5.2
 Tested up to: 4.4.2
-Stable tag: 1.2.5
+Stable tag: 1.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -115,3 +115,6 @@ Additional admin API key validation
 = 1.3.0 =
 Added Prerendering capability
 Fixed some timing issues with the WP loop
+
+= 1.3.1 =
+Patch for Prerender logic
