@@ -85,9 +85,7 @@ class Transifex_Live_Integration_Admin {
 		checked( $settings['enable_prerender'], 1 );
 		$checked_enable_prerender = ob_get_clean();
 
-		ob_start();
-		checked( $settings['enable_prerender_check'], 1 );
-		$checked_enable_prerender_check = ob_get_clean();
+		$enable_prerender_check = $settings['enable_prerender_check'];
 
 		ob_start();
 		checked( $settings['static_frontpage_support'], 1 );

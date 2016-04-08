@@ -159,8 +159,8 @@ class Transifex_Live_Integration_Static_Factory {
 
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/lib/transifex-live-integration-prerender.php';
 		$check = Transifex_Live_Integration_Util::prerender_check( $agent, $req_escaped_fragment, $settings['generic_bot_types'], $settings['whitelist_crawlers'] );
-		$override_prerender_check = (isset($settings['override_prerender_check']))?true:false;
-		return ($check) ? new Transifex_Live_Integration_Prerender( $settings['prerender_url'], $override_prerender_check ) : false;
+		$enable_prerender_check = (isset($settings['enable_prerender_check']))?true:false;
+		return ($check) ? new Transifex_Live_Integration_Prerender( $settings['prerender_url'], $enable_prerender_check ) : false;
 	}
 
 }
