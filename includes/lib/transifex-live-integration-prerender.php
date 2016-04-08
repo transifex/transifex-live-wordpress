@@ -20,7 +20,7 @@ class Transifex_Live_Integration_Prerender {
 	 * Overrides check for prerender header
 	 * @var bool
 	 */
-	private $override_prerender_check;
+	private $enable_prerender_check;
 
 	/*
 	 * Constructor
@@ -28,10 +28,10 @@ class Transifex_Live_Integration_Prerender {
 	 * @param bool $override_prerender_check Overrides check for prerender header
 	 */
 
-	public function __construct( $prerender_url, $override_prerender_check ) {
+	public function __construct( $prerender_url, $enable_prerender_check ) {
 		Plugin_Debug::logTrace();
 		$this->prerender_url = $prerender_url;
-		$this->override_prerender_check = ($override_prerender_check) ? true : false;
+		$this->enable_prerender_check = ($enable_prerender_check) ? true : false;
 	}
 
 	/*
@@ -95,8 +95,12 @@ STATUS;
 			$header = substr( $curl_response['response'], 0, $curl_response['header_size'] );
 			$body = substr( $curl_response['response'], $curl_response['header_size'] );
 			$header_lowercase = strtolower($header);
-			if ( strpos( $header_lowercase, 'x-prerender-req' ) && $this->enable_prerender_check ) {
+			$header_prerender_check = (strpos( $header_lowercase, 'x-prerender-req' ))?true:false;
+			$debug_html .= 'X-Prerender-Req Header check:'. $header_prerender_check . "\n";
+			$debug_html .= 'Check enabled:'.$this->enable_prerender_check."\n";
+			if ( $header_prerender_check && $this->enable_prerender_check ) {
 				$output = ($curl_response['response'])?$body:$output;
+				$debug_html .= 'Buffer swapped with prerender response.'."\n";
 			}
 			$debug_html .= $curl_response['url'] . "\n";
 			$debug_html .= $header."\n";

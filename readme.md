@@ -107,3 +107,6 @@ Additional admin API key validation
 = 1.3.0 =
 Added Prerendering capability
 Fixed some timing issues with the WP loop
+
+= 1.3.1 =
+Patch for Prerender logic
