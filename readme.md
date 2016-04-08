@@ -19,8 +19,10 @@ In order to use Transifex Live, you will need to [sign up here for an account](h
 * Simple installation of Transifex Live.
 * Automatically identify new or changed content on your site.
 * Translate your website in context.
-* Easily set unique language or region-specific URLs.
+* Easily set unique language or region-specific URLs either by subdomain or subdirectory.
+* Integrated language picker 
 * Add hreflang tags to your pages and tell search engines what language a page is in.
+* Supports using a prerendered server for SEO purposes
 
 == Get Involved ==
 
@@ -101,3 +103,7 @@ Improved admin UI
 = 1.2.4 =
 Added picker support that respects locale
 Additional admin API key validation
+
+= 1.3.0 =
+Added Prerendering capability
+Fixed some timing issues with the WP loop

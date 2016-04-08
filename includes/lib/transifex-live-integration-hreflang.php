@@ -1,7 +1,7 @@
 <?php
-
+include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/common/transifex-live-integration-common.php';
 /**
- * Includes hreflang tag attribute on each page containing url rewrites
+ * Includes hreflang tag attribute on each page
  * @package TransifexLiveIntegration
  */
 
@@ -15,8 +15,23 @@ class Transifex_Live_Integration_Hreflang {
 	 * @var settings array
 	 */
 	private $settings;
+	
+	/*
+	 * A key/value array that maps Transifex locale->plugin code
+	 * @var language_map array 
+	 */
 	private $language_map;
+	
+	/*
+	 * A list of Transifex locales, for enabled languages
+	 * @var languages array 
+	 */
 	private $languages;
+	
+	/*
+	 * The site_url with a placeholder for language
+	 * @var tokenized_url string 
+	 */
 	private $tokenized_url;
 
 	/**
@@ -31,31 +46,18 @@ class Transifex_Live_Integration_Hreflang {
 		$this->tokenized_url = $settings['tokenized_url'];
 	}
 
-	public function ok_to_add() {
-		if ( !isset( $this->settings['api_key'] ) ) {
-			Plugin_Debug::logTrace( 'settings[api_key] not set...skipping hreflang' );
-			return false;
-		}
-		if ( !isset( $this->settings['languages'] ) ) {
-			Plugin_Debug::logTrace( 'settings[languages] not set...skipping hreflang' );
-			return false;
-		}
-		if ( $this->settings['url_options'] === '1' ) {
-			Plugin_Debug::logTrace( 'settings[url_options] set to none...skipping hreflang' );
-			return false;
-		}
-		if ( !isset( $this->settings['tokenized_url'] ) ) {
-			Plugin_Debug::logTrace( 'settings[tokenized_url] not set...skipping hreflang' );
-			return false;
-		}
-		return true;
-	}
-
+	/*
+	 * Builds array with hreflang attributes as keys
+	 * @param string $raw_url The current url
+	 * @param array $languages The list of enabled languages
+	 * @param array $language_map The key/value list of Transifex locale->plugin code
+	 * @return array A list of attributes for HREFLANG tags
+	 */
 	private function generate_languages_hreflang( $raw_url, $languages,
-			$language_map ) {
+			$language_map
+	) {
 		Plugin_Debug::logTrace();
-		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-picker.php';
-		$url_map = Transifex_Live_Integration_Picker::generate_language_url_map( $raw_url, $this->tokenized_url, $language_map );
+		$url_map = Transifex_Live_Integration_Common::generate_language_url_map( $raw_url, $this->tokenized_url, $language_map );
 		$ret = [ ];
 		foreach ($languages as $language) {
 			$arr = [ ];
@@ -68,18 +70,17 @@ class Transifex_Live_Integration_Hreflang {
 	}
 
 	/**
-	 * Renders HREFLANG list
+	 * Renders HREFLANG tags into the template
 	 */
 	public function render_hreflang() {
 		Plugin_Debug::logTrace();
 		global $wp;
 		$lang = get_query_var( 'lang' );
-		$raw_url = home_url( $wp->request );
 		$url_path = add_query_arg( array(), $wp->request );
 		$source_url_path = (substr( $url_path, 0, strlen( $lang ) ) === $lang) ? substr( $url_path, strlen( $lang ), strlen( $url_path ) ) : $url_path;
 		$source = $this->settings['source_language'];
 		$unslashed_source_url = site_url() . $source_url_path;
-		$source_url = rtrim($unslashed_source_url, '/') . '/';
+		$source_url = rtrim( $unslashed_source_url, '/' ) . '/';
 		$hreflang_out = '';
 		$hreflang_out .= <<<SOURCE
 <link rel="alternate" href="$source_url" hreflang="$source"/>\n		

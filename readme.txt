@@ -4,7 +4,7 @@ Contributors: txmatthew, ThemeBoy, brooksx
 Tags: transifex, translate, translations, localize, localise, localization, localisation, multilingual, t9n, l10n, i18n, language, switcher, live, translation, translator
 Requires at least: 3.5.2
 Tested up to: 4.4.2
-Stable tag: 1.2.4
+Stable tag: 1.2.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,8 +23,10 @@ Features:
 * Simple installation of Transifex Live.
 * Automatically identify new or changed content on your site.
 * Translate your website in context.
-* Easily set unique language or region-specific URLs.
+* Easily set unique language or region-specific URLs either by subdomain or subdirectory.
+* Integrated language picker 
 * Add hreflang tags to your pages and tell search engines what language a page is in.
+* Supports using a prerendered server for SEO purposes
 
 Learn more about the [Transifex Live Translation Plugin](https://www.transifex.com/integrations/wordpress-multilingual-plugin/?utm_source=wp-directory&utm_campaign=int-wp).
 
@@ -109,3 +111,7 @@ Improved admin UI
 = 1.2.4 =
 Added picker support that respects locale
 Additional admin API key validation
+
+= 1.3.0 =
+Added Prerendering capability
+Fixed some timing issues with the WP loop

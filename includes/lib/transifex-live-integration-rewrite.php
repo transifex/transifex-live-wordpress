@@ -6,7 +6,7 @@
  */
 
 /**
- * Static class for settings defaults
+ * Static class for subdirectory rewrite functions
  */
 class Transifex_Live_Integration_Rewrite {
 
@@ -28,40 +28,52 @@ class Transifex_Live_Integration_Rewrite {
 	 */
 	private $languages_regex;
 	private $languages_map;
+	private $lang;
 	public $rewrite_options;
-
-	const REGEX_PATTERN_CHECK_PATTERN = "/\(.*\?|.*\)/";
 
 	/**
 	 * Private constructor, initializes local vars based on settings
 	 * @param array $settings Associative array used to store plugin settings.
 	 */
-	private function __construct( $settings, $rewrite_options ) {
+	public function __construct( $settings, $rewrite_options ) {
 		Plugin_Debug::logTrace();
+		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/common/transifex-live-integration-validators.php';
+		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/override/transifex-live-integration-generate-rewrite-rules.php';
 		$this->rewrite_options = [ ];
 		$this->languages_regex = $settings['languages_regex'];
 		$this->source_language = $settings['source_language'];
 		$this->languages_map = json_decode( $settings['language_map'], true )[0];
-		if ( isset( $rewrite_options['add_rewrites_post'] ) )
+		$this->lang = false;
+		if ( isset( $rewrite_options['add_rewrites_post'] ) ) {
 			$this->rewrite_options[] = ($rewrite_options['add_rewrites_post']) ? 'post' : '';
-		if ( isset( $rewrite_options['add_rewrites_root'] ) )
+		}
+		if ( isset( $rewrite_options['add_rewrites_root'] ) ) {
 			$this->rewrite_options[] = ($rewrite_options['add_rewrites_root']) ? 'root' : '';
-		if ( isset( $rewrite_options['add_rewrites_date'] ) )
+		}
+		if ( isset( $rewrite_options['add_rewrites_date'] ) ) {
 			$this->rewrite_options[] = ($rewrite_options['add_rewrites_date']) ? 'date' : '';
-		if ( isset( $rewrite_options['add_rewrites_page'] ) )
+		}
+		if ( isset( $rewrite_options['add_rewrites_page'] ) ) {
 			$this->rewrite_options[] = ($rewrite_options['add_rewrites_page']) ? 'page' : '';
-		if ( isset( $rewrite_options['add_rewrites_author'] ) )
+		}
+		if ( isset( $rewrite_options['add_rewrites_author'] ) ) {
 			$this->rewrite_options[] = ($rewrite_options['add_rewrites_author']) ? 'author' : '';
-		if ( isset( $rewrite_options['add_rewrites_tag'] ) )
+		}
+		if ( isset( $rewrite_options['add_rewrites_tag'] ) ) {
 			$this->rewrite_options[] = ($rewrite_options['add_rewrites_tag']) ? 'tag' : '';
-		if ( isset( $rewrite_options['add_rewrites_category'] ) )
+		}
+		if ( isset( $rewrite_options['add_rewrites_category'] ) ) {
 			$this->rewrite_options[] = ($rewrite_options['add_rewrites_category']) ? 'category' : '';
-		if ( isset( $rewrite_options['add_rewrites_search'] ) )
+		}
+		if ( isset( $rewrite_options['add_rewrites_search'] ) ) {
 			$this->rewrite_options[] = ($rewrite_options['add_rewrites_search']) ? 'search' : '';
-		if ( isset( $rewrite_options['add_rewrites_feed'] ) )
+		}
+		if ( isset( $rewrite_options['add_rewrites_feed'] ) ) {
 			$this->rewrite_options[] = ($rewrite_options['add_rewrites_feed']) ? 'feed' : '';
-		if ( isset( $rewrite_options['add_rewrites_feed'] ) )
+		}
+		if ( isset( $rewrite_options['add_rewrites_feed'] ) ) {
 			$this->rewrite_options[] = ($rewrite_options['add_rewrites_permalink_tag']) ? 'permalink_tag' : '';
+		}
 		if ( !empty( $settings['languages'] ) ) {
 			$b = strpos( ',', $settings['languages'] );
 			if ( false === $b ) {
@@ -72,35 +84,17 @@ class Transifex_Live_Integration_Rewrite {
 		}
 	}
 
-	/**
-	 * Factory function to create a rewrite object
-	 * @param array $settings Associative array used to store plugin settings.
+	/*
+	 * WP wp action hook, initializes language from query
 	 */
-	static function create_rewrite( $settings, $rewrite_options ) {
+
+	function wp_hook() {
 		Plugin_Debug::logTrace();
-		if ( !isset( $settings['languages'] ) ) {
-			Plugin_Debug::logTrace( 'settings[languages] not set' );
-			return false;
-		}
-		if ( !isset( $settings['languages_regex'] ) ) {
-			Plugin_Debug::logTrace( 'settings[languages_regex] not set' );
-			return false;
-		}
-
-		if ( $settings['url_options'] != '3' ) {
-			Plugin_Debug::logTrace( 'settings[url_options] not subdirectory' );
-			return false;
-		}
-
-		if ( !preg_match( self::REGEX_PATTERN_CHECK_PATTERN, $settings['languages_regex'] ) ) {
-			Plugin_Debug::logTrace( 'settings[languages_regex] failed pattern check' );
-			return false;
-		}
-		return new Transifex_Live_Integration_Rewrite( $settings, $rewrite_options );
+		$this->lang = get_query_var( 'lang' );
 	}
 
 	/**
-	 * Callback function to the WP init hook
+	 * WP init action hook, adds lang as a query parameter
 	 */
 	function init_hook() {
 		Plugin_Debug::logTrace();
@@ -112,11 +106,25 @@ class Transifex_Live_Integration_Rewrite {
 	 * @param array $query WP query object.
 	 */
 	function parse_query_hook( $query ) {
-	 if ( !Transifex_Live_Integration_Validators::is_query_ok( $query ) ) {
+		if ( !Transifex_Live_Integration_Validators::is_query_ok( $query ) ) {
 			return $query;
 		}
 		$qv = &$query->query_vars;
 		$qv['lang'] = isset( $query->query_vars['lang'] ) ? $query->query_vars['lang'] : $this->source_language;
+		return $query;
+	}
+
+	/*
+	 * WP parse_query filter,additional logic to support localized static frontpages
+	 * @param array $query WP query object. 
+	 * @return array Returns the filtered query object
+	 */
+
+	function parse_query_root_hook( $query ) {
+		if ( !Transifex_Live_Integration_Validators::is_query_ok( $query ) ) {
+			return $query;
+		}
+		$qv = &$query->query_vars;
 		if ( $query->is_home && 'page' == get_option( 'show_on_front' ) && get_option( 'page_on_front' ) ) {
 			$query->is_page = true;
 			$query->is_home = false;
@@ -130,23 +138,22 @@ class Transifex_Live_Integration_Rewrite {
 		return $query;
 	}
 
-	function pre_post_link_hook( $permalink, $post, $leavename ) {
-		if ( !Transifex_Live_Integration_Validators::is_permalink_ok( $permalink ) ) {
-			return $permalink;
-		}
-		$p = $permalink;
-		if ( get_query_var( 'lang', false ) ) {
-			$p = ($this->source_language !== get_query_var( 'lang' )) ? get_query_var( 'lang' ) . $permalink : $permalink;
-		}
-		return $p;
-	}
+	/*
+	 * This function takes any WP link and associated language configuration and returns a localized url
+	 * 
+	 * @param string $lang Current language
+	 * @param string $link The url to localize
+	 * @param array $languages_map A key/value array that maps Transifex locale->plugin code
+	 * @param string $source_lang The current source language
+	 * @return string Returns modified link
+	 */
 
 	static function reverse_hard_link( $lang, $link, $languages_map, $source_lang ) {
 		Plugin_Debug::logTrace();
-		if (empty($lang)) {
+		if ( empty( $lang ) ) {
 			return $link;
 		}
-		if (empty($languages_map)) {
+		if ( empty( $languages_map ) ) {
 			return $link;
 		}
 		$modified_link = $link;
@@ -169,72 +176,154 @@ class Transifex_Live_Integration_Rewrite {
 		return $modified_link;
 	}
 
+	/*
+	 * WP pre_post_link filter, adds lang to permalink 
+	 * @param string $permalink The permalink to filter
+	 * @param object $post The post object
+	 * @param ??? $leavename what this is I dont even know
+	 * @return string filtered permalink 
+	 */
+
+	function pre_post_link_hook( $permalink, $post, $leavename ) {
+		if ( !Transifex_Live_Integration_Validators::is_permalink_ok( $permalink ) ) {
+			return $permalink;
+		}
+		$lang = $this->lang;
+		$p = $permalink;
+		if ( $lang ) {
+			$p = ($this->source_language !== $lang) ? $lang . $permalink : $permalink;
+		}
+		return $p;
+	}
+
+	/*
+	 * WP term_link filter, filters term (ie tag and category) link
+	 * @param string $termlink The link to filter
+	 * @param object $term The term object
+	 * @param object $taxonomy The taxonomy object
+	 * @return string The filtered link
+	 */
+
 	function term_link_hook( $termlink, $term, $taxonomy ) {
 		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $termlink ) ) {
 			return $termlink;
 		}
-		$retlink = $this->reverse_hard_link( get_query_var( 'lang' ), $termlink, $this->languages_map, $this->source_language );
+		$retlink = $this->reverse_hard_link( $this->lang, $termlink, $this->languages_map, $this->source_language );
 		return $retlink;
 	}
+
+	/*
+	 * WP post_link filter, filters post link
+	 * @param string $permalink The link to filter
+	 * @param object $post The term object
+	 * @param ??? $leavename What this is I don't even
+	 * @return string The filtered link
+	 */
 
 	function post_link_hook( $permalink, $post, $leavename ) {
 		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $permalink ) ) {
 			return $permalink;
 		}
-		$retlink = $this->reverse_hard_link( get_query_var( 'lang' ), $permalink, $this->languages_map, $this->source_language );
+		$retlink = $this->reverse_hard_link( $this->lang, $permalink, $this->languages_map, $this->source_language );
 		return $retlink;
 	}
+
+	/*
+	 * WP post_type_archive_link filter, filters archive links
+	 * @param string $link The link to filter
+	 * @param string $post_type The post type
+	 * @return string The filtered link
+	 */
 
 	function post_type_archive_link_hook( $link, $post_type ) {
 		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $link ) ) {
 			return $link;
 		}
-		$retlink = $this->reverse_hard_link( get_query_var( 'lang' ), $link, $this->languages_map, $this->source_language );
+		$retlink = $this->reverse_hard_link( $this->lang, $link, $this->languages_map, $this->source_language );
 		return $retlink;
 	}
+
+	/*
+	 * WP day_link filter, filters day link
+	 * @param string $daylink The link to filter
+	 * @param number $year The year
+	 * @param number $month The month
+	 * @param number $day The day
+	 * @return string The filtered link
+	 */
 
 	function day_link_hook( $daylink, $year, $month, $day ) {
 		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $daylink ) ) {
 			return $daylink;
 		}
-		$retlink = $this->reverse_hard_link( get_query_var( 'lang' ), $daylink, $this->languages_map, $this->source_language );
+		$retlink = $this->reverse_hard_link( $this->lang, $daylink, $this->languages_map, $this->source_language );
 		return $retlink;
 	}
+
+	/*
+	 * WP month_link filter, filters month link
+	 * @param string $monthlink The link to filter
+	 * @param number $year The year
+	 * @param number $month The month
+	 * @return string The filtered link
+	 */
 
 	function month_link_hook( $monthlink, $year, $month ) {
 		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $monthlink ) ) {
 			return $monthlink;
 		}
-		$retlink = $this->reverse_hard_link( get_query_var( 'lang' ), $monthlink, $this->languages_map, $this->source_language );
+		$retlink = $this->reverse_hard_link( $this->lang, $monthlink, $this->languages_map, $this->source_language );
 		return $retlink;
 	}
+
+	/*
+	 * WP year_link filter, filters term link
+	 * @param string $yearlink The link to filter
+	 * @param number $year The year
+	 * @return string The filtered link
+	 */
 
 	function year_link_hook( $yearlink, $year ) {
 		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $yearlink ) ) {
 			return $yearlink;
 		}
-		$retlink = $this->reverse_hard_link( get_query_var( 'lang' ), $yearlink, $this->languages_map, $this->source_language );
+		$retlink = $this->reverse_hard_link( $this->lang, $yearlink, $this->languages_map, $this->source_language );
 		return $retlink;
 	}
+
+	/*
+	 * WP page_link filter, filters page link
+	 * @param string $link The link to filter
+	 * @param number $id The page id
+	 * @param ??? $sample I don't even know
+	 * @return string The filtered link
+	 */
 
 	function page_link_hook( $link, $id, $sample ) {
 		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $link ) ) {
 			return $link;
 		}
-		$retlink = $this->reverse_hard_link( get_query_var( 'lang' ), $link, $this->languages_map, $this->source_language );
+		$retlink = $this->reverse_hard_link( $this->lang, $link, $this->languages_map, $this->source_language );
 		return $retlink;
 	}
+
+	/*
+	 * WP home_url hook, filters links using the home_url function
+	 * @param string $url The link to filter
+	 * @return string The filtered link
+	 */
 
 	function home_url_hook( $url ) {
 		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $url ) ) {
 			return $url;
 		}
-		$retlink = $this->reverse_hard_link( get_query_var( 'lang' ), $url, $this->languages_map, $this->source_language );
+		$retlink = $this->reverse_hard_link( $this->lang, $url, $this->languages_map, $this->source_language );
 		return $retlink;
 	}
 
 	/**
 	 * Function to build page permastructs
+	 * @return string permastruct
 	 */
 	function generate_post_permastruct() {
 		Plugin_Debug::logTrace();
@@ -247,6 +336,7 @@ class Transifex_Live_Integration_Rewrite {
 	/**
 	 * Callback function to the WP page_rewrite_rules
 	 * @param array $rules Associative array of rewrite rules in WP.
+	 * @return array Returns filtered rules array
 	 */
 	function post_rewrite_rules_hook( $rules ) {
 		if ( !Transifex_Live_Integration_Validators::is_rules_ok( $rules ) ) {
@@ -302,6 +392,7 @@ class Transifex_Live_Integration_Rewrite {
 	/**
 	 * Callback function to the WP page_rewrite_rules
 	 * @param array $rules Associative array of rewrite rules in WP.
+	 * @return array Returns filtered rules
 	 */
 	function page_rewrite_rules_hook( $rules ) {
 		if ( !Transifex_Live_Integration_Validators::is_rules_ok( $rules ) ) {
@@ -317,7 +408,8 @@ class Transifex_Live_Integration_Rewrite {
 	}
 
 	/**
-	 * Function to build page permastructs
+	 * Function to build author permastructs
+	 * @return string Returns updated permastruct
 	 */
 	function generate_author_permastruct() {
 		Plugin_Debug::logTrace();

@@ -6,9 +6,35 @@
  */
 
 /**
- * Common PHP Libraries from other sources
+ * Common Libraries, including PHP polyfills
  */
-class Transifex_Live_Integration_Lib {
+class Transifex_Live_Integration_Common {
+
+	/**
+	 * A static function that generates a map by locale for each language
+	 * 
+	 * @param string $raw_url The url to generate the map for
+	 * @param string $tokenized_url The site_url that includes a language placeholder, 
+	 * 		generally this should be from settings
+	 * @param type $language_map This gives a map of Transifex Locale -> custom code,
+	 * 		generally this should be from settings 
+	 * @return array A list of key value where Locale->localized url
+	 */
+	static function generate_language_url_map( $raw_url, $tokenized_url,
+			$language_map
+	) {
+		Plugin_Debug::logTrace();
+		$trimmed_tokenized_url = rtrim( $tokenized_url, '/' );
+		$trimmed_url = ltrim( $raw_url, '/' );
+		$ret = [ ];
+		foreach ($language_map as $k => $v) {
+			$unslashed_url = str_replace( '%lang%', $v, $trimmed_tokenized_url ) . '/' . $trimmed_url;
+			$ret[$k] = rtrim( $unslashed_url, '/' ) . '/';
+		}
+
+		return $ret;
+	}
+
 	/**
 	 * This file is part of the array_column library
 	 *
@@ -16,7 +42,7 @@ class Transifex_Live_Integration_Lib {
 	 * file that was distributed with this source code.
 	 *
 	 * @copyright Copyright (c) Ben Ramsey (http://benramsey.com)
-	 * @license http://opensource.org/licenses/MIT MIT
+	 * @license   http://opensource.org/licenses/MIT MIT
 	 */
 
 	/**
@@ -26,18 +52,19 @@ class Transifex_Live_Integration_Lib {
 	 * Optionally, you may provide an $indexKey to index the values in the returned
 	 * array by the values from the $indexKey column in the input array.
 	 *
-	 * @param array $input A multi-dimensional array (record set) from which to pull
+	 * @param  array $input     A multi-dimensional array (record set) from which to pull a column of values.
 	 *                     a column of values.
-	 * @param mixed $columnKey The column of values to return. This value may be the
+	 * @param  mixed $columnKey The column of values to return. This value may be the
 	 *                         integer key of the column you wish to retrieve, or it
 	 *                         may be the string key name for an associative array.
-	 * @param mixed $indexKey (Optional.) The column to use as the index/keys for
+	 * @param  mixed $indexKey  (Optional.) The column to use as the index/keys for the returned array. This value may be the integer key of the column, or it may be the string key name.
 	 *                        the returned array. This value may be the integer key
 	 *                        of the column, or it may be the string key name.
 	 * @return array
 	 */
 	static public function array_column( $input = null, $columnKey = null,
-			$indexKey = null ) {
+			$indexKey = null
+	) {
 		// Using func_get_args() in order to check for proper number of
 		// parameters and trigger errors exactly as the built-in array_column()
 		// does in PHP 5.5.
