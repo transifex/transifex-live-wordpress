@@ -81,9 +81,18 @@ class Transifex_Live_Integration {
 			$prerender = Transifex_Live_Integration_Static_Factory::create_prerender( $settings );
 			($prerender) ? Plugin_Debug::logTrace( 'prerender created' ) : Plugin_Debug::logTrace( 'prerender skipped' );
 			if ( $prerender ) {
+				if ($prerender->ok_add_vary_header()) {
+					add_filter( 'wp_headers', [$prerender, 'wp_headers_vary_hook' ] );
+				}
+				if ($prerender->ok_add_response_header()) {
+					add_filter( 'wp_headers', [$prerender, 'wp_headers_response_hook' ] );
+				}
+				if ($prerender->ok_add_cookie()) {
+					add_filter( 'init', [$prerender, 'init_hook' ] );
+				}
 				if ( Transifex_Live_Integration_Util::is_prerender_req( Transifex_Live_Integration_Util::get_user_agent() ) ) {
 					Plugin_Debug::logTrace( 'prerender request detected' );
-					add_filter( 'wp_headers', [$prerender, 'wp_headers_hook' ] );
+					add_filter( 'wp_headers', [$prerender, 'wp_headers_prerender_hook' ] );
 					add_action( 'wp_head', [$prerender, 'wp_head_hook' ], 1 );
 				} else {
 					Plugin_Debug::logTrace( 'invoke prerender call' );

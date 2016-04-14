@@ -21,18 +21,44 @@ class Transifex_Live_Integration_Prerender {
 	 * @var bool
 	 */
 	private $enable_prerender_check;
-
+	private $prerender_enable_vary_header;
+	private $prerender_vary_header_value;
+	private $prerender_header_check_key;
+	private $prerender_header_check_value;
+	private $prerender_enable_cookie;
+	private $prerender_cookie;
+	private $prerender_enable_response_header;
+	private $prerender_response_headers;
+	
 	/*
 	 * Constructor
 	 * @param string $prerender_url Url to prerender service
 	 * @param bool $override_prerender_check Overrides check for prerender header
 	 */
 
-	public function __construct( $prerender_url, $enable_prerender_check ) {
+	public function __construct( $prerender_url, $enable_prerender_check, $settings ) {
 		Plugin_Debug::logTrace();
 		$this->prerender_url = $prerender_url;
 		$this->enable_prerender_check = ($enable_prerender_check) ? true : false;
+		$this->prerender_enable_vary_header = (isset($settings['prerender_enable_vary_header']))?true:false;
+		$this->prerender_vary_header_value = $settings['prerender_vary_header_value'];
+		$this->prerender_header_check_key = $settings['prerender_header_check_key'];
+		$this->prerender_header_check_value = $settings['prerender_header_check_value'];
+		$this->prerender_enable_response_header = (isset($settings['prerender_enable_response_header']))?true:false;
+		
+		$this->prerender_response_headers = [];
+		if (isset($settings['prerender_response_headers'])) {
+			$this->prerender_response_headers = json_decode($settings['prerender_response_headers'], true);
+		}
+		
+		$this->prerender_enable_cookie = (isset($settings['prerender_enable_cookie']))?true:false;
+		
+		$this->prerender_cookie = [];
+		if (isset($settings['prerender_cookie'])) {
+			$this->prerender_cookie = json_decode($settings['prerender_cookie'], true);
+		}
 	}
+	
 
 	/*
 	 * WP wp_head action, adds a 404 meta for prerender service
@@ -48,18 +74,52 @@ STATUS;
 		}
 		echo $status;
 	}
+	
 
-	/*
-	 * WP wp_headers filter, adds a prerender header
-	 */
-
-	function wp_headers_hook( $headers ) {
+	function wp_headers_response_hook( $headers ) {
 		Plugin_Debug::logTrace();
-		$headers['X-Prerender-Req'] = 'TRUE';
+		$a = $this->prerender_response_headers;
+		foreach ($a as $k => $v) {
+			$headers[k] = $v;
+		}
 		return $headers;
 	}
 
+	function wp_headers_vary_hook( $headers ) {
+		Plugin_Debug::logTrace();
+		$headers['Vary'] = $this->prerender_vary_header_value;
+		return $headers;
+	}
 
+	/*
+	 * WP wp_headers filter, adds headers for prerender request
+	 */
+
+	function wp_headers_prerender_hook( $headers ) {
+		Plugin_Debug::logTrace();
+		$headers[$this->prerender_header_check_key] = $this->prerender_header_check_value;
+		return $headers;
+	}
+
+	function init_hook() {
+		$a = $this->prerender_cookie;
+		foreach ($a as $k => $v) {
+			setcookie( $k, $v,DAYS_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN );
+		}
+		}
+	
+	function ok_add_vary_header() {
+		return ($this->prerender_enable_vary_header);
+	}
+	
+	function ok_add_response_header() {
+		return ($this->prerender_enable_response_header);
+	}
+	
+	function ok_add_cookie(){
+		return ($this->prerender_enable_cookie);
+	}
+	
 	function call_curl($url) {
 		$arr = [];
 		$ch = curl_init();
