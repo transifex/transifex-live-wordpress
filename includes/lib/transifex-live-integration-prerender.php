@@ -47,11 +47,11 @@ class Transifex_Live_Integration_Prerender {
 		$this->prerender_enable_response_header = (isset( $settings['prerender_enable_response_header'] )) ? true : false;
 		$this->prerender_cookie = [ ];
 		if ( isset( $settings['prerender_cookie'] ) ) {
-			$this->prerender_cookie = json_decode( $settings['prerender_cookie'], true );
+			$this->prerender_cookie = json_decode( stripslashes($settings['prerender_cookie']), true );
 		}
 		$this->prerender_response_headers = [ ];
 		if ( isset( $settings['prerender_response_headers'] ) ) {
-			$this->prerender_response_headers = json_decode( $settings['prerender_response_headers'], true );
+			$this->prerender_response_headers = json_decode( stripslashes($settings['prerender_response_headers']), true );
 		}
 
 		$this->prerender_enable_cookie = (isset( $settings['prerender_enable_cookie'] )) ? true : false;
@@ -114,7 +114,7 @@ STATUS;
 		$agent = Transifex_Live_Integration_Util::get_user_agent();
 		$req_escaped_fragment = (isset( $_GET['_escaped_fragment_'] )) ? true : false;
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/lib/transifex-live-integration-prerender.php';
-		$check = Transifex_Live_Integration_Util::prerender_check( $agent, $req_escaped_fragment, $settings['generic_bot_types'], $settings['whitelist_crawlers'] );
+		$check = Transifex_Live_Integration_Util::prerender_check( $agent, $req_escaped_fragment, $this->settings['generic_bot_types'], $settings['whitelist_crawlers'] );
 		return $check;
 	}
 
