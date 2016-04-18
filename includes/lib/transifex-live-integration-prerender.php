@@ -105,7 +105,7 @@ STATUS;
 	function init_hook() {
 		$a = $this->prerender_cookie;
 		foreach ($a as $k => $v) {
-			setcookie( $k, $v, DAYS_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN );
+			setcookie( $k, $v, DAY_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN );
 		}
 	}
 

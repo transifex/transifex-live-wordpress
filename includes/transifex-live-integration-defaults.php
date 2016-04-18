@@ -114,7 +114,7 @@ class Transifex_Live_Integration_Defaults
 		'prerender_enable_vary_header' => 0,
 		'prerender_vary_header_value' => 'User-Agent',
 		'prerender_enable_cookie' => 0,
-		'prerender_cookie' => '[{"wordpress_test_cookie" : "WP+Cookie+check"}]'
+		'prerender_cookie' => '{"wordpress_test_cookie" : "WP+Cookie+check"}'
         );
     }
 
