@@ -50,20 +50,15 @@ class Transifex_Live_Integration_Prerender {
 		$this->generic_bot_types = $settings['generic_bot_types'];
 		$this->whitelist_crawlers = $settings['whitelist_crawlers'];
 		
-		$this->prerender_cookie = [ ];
-		if ( isset( $settings['prerender_cookie'] ) ) {
-			$this->prerender_cookie = json_decode( stripslashes($settings['prerender_cookie']), true );
-		}
 		$this->prerender_response_headers = [ ];
 		if ( isset( $settings['prerender_response_headers'] ) ) {
 			$this->prerender_response_headers = json_decode( stripslashes($settings['prerender_response_headers']), true );
 		}
 
 		$this->prerender_enable_cookie = (isset( $settings['prerender_enable_cookie'] )) ? true : false;
-
 		$this->prerender_cookie = [ ];
 		if ( isset( $settings['prerender_cookie'] ) ) {
-			$this->prerender_cookie = json_decode( $settings['prerender_cookie'], true );
+			$this->prerender_cookie = json_decode( stripslashes($settings['prerender_cookie']), true );
 		}
 	}
 
