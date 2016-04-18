@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Includes Transifex Live Main class
  * @package TransifexLiveIntegration
@@ -16,13 +17,13 @@ class Transifex_Live_Integration {
 	 */
 	static function do_plugin( $is_admin, $version ) {
 		$settings = get_option( 'transifex_live_settings', array() );
-				include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-defaults.php';
+		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-defaults.php';
 		if ( !$settings ) {
 
 			$settings = Transifex_Live_Integration_Defaults::settings();
 		}
-		$debug_mode = ($settings['debug'])?true:false;
-		
+		$debug_mode = ($settings['debug']) ? true : false;
+
 		require_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/common/plugin-debug.php';
 		new Plugin_Debug( $debug_mode );
 		Plugin_Debug::logTrace( 'debug initialized' );
@@ -40,7 +41,7 @@ class Transifex_Live_Integration {
 		add_action( 'wp_after_admin_bar_render', [ 'Transifex_Live_Integration_Admin_Util', 'wp_after_admin_bar_render_hook' ] );
 
 
-		if ( $is_admin ) { 
+		if ( $is_admin ) {
 			include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/admin/transifex-live-integration-admin.php';
 			include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/admin/transifex-live-integration-admin-util.php';
 			include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/common/transifex-live-integration-static-files-handler.php';
@@ -64,7 +65,7 @@ class Transifex_Live_Integration {
 			load_plugin_textdomain( TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN, false, TRANSIFEX_LIVE_INTEGRATION_LANGUAGES_PATH );
 		}
 
-		if ( !($is_admin) ) { 
+		if ( !($is_admin) ) {
 			include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-static-factory.php';
 			include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-util.php';
 
@@ -81,23 +82,27 @@ class Transifex_Live_Integration {
 			$prerender = Transifex_Live_Integration_Static_Factory::create_prerender( $settings );
 			($prerender) ? Plugin_Debug::logTrace( 'prerender created' ) : Plugin_Debug::logTrace( 'prerender skipped' );
 			if ( $prerender ) {
-				if ($prerender->ok_add_vary_header()) {
+				if ( $prerender->ok_add_vary_header() ) {
 					add_filter( 'wp_headers', [$prerender, 'wp_headers_vary_hook' ] );
 				}
-				if ($prerender->ok_add_response_header()) {
-					add_filter( 'wp_headers', [$prerender, 'wp_headers_response_hook' ] );
-				}
-				if ($prerender->ok_add_cookie()) {
-					add_filter( 'init', [$prerender, 'init_hook' ] );
-				}
-				if ( Transifex_Live_Integration_Util::is_prerender_req( Transifex_Live_Integration_Util::get_user_agent() ) ) {
-					Plugin_Debug::logTrace( 'prerender request detected' );
-					add_filter( 'wp_headers', [$prerender, 'wp_headers_prerender_hook' ] );
-					add_action( 'wp_head', [$prerender, 'wp_head_hook' ], 1 );
-				} else {
-					Plugin_Debug::logTrace( 'invoke prerender call' );
-					add_action( 'after_setup_theme', [ $prerender, 'after_setup_theme_hook' ] );
-					add_action( 'shutdown', [ $prerender, 'shutdown_hook' ] );
+
+				if ( $prerender->ok_call_prerender() ) {
+					Plugin_Debug::logTrace( 'pased agent check' );
+					if ( $prerender->ok_add_response_header() ) {
+						add_filter( 'wp_headers', [$prerender, 'wp_headers_response_hook' ] );
+					}
+					if ( $prerender->ok_add_cookie() ) {
+						add_filter( 'init', [$prerender, 'init_hook' ] );
+					}
+					if ( Transifex_Live_Integration_Util::is_prerender_req( Transifex_Live_Integration_Util::get_user_agent() ) ) {
+						Plugin_Debug::logTrace( 'prerender request detected' );
+						add_filter( 'wp_headers', [$prerender, 'wp_headers_prerender_hook' ] );
+						add_action( 'wp_head', [$prerender, 'wp_head_hook' ], 1 );
+					} else {
+						Plugin_Debug::logTrace( 'invoke prerender call' );
+						add_action( 'after_setup_theme', [ $prerender, 'after_setup_theme_hook' ] );
+						add_action( 'shutdown', [ $prerender, 'shutdown_hook' ] );
+					}
 				}
 			}
 
@@ -113,7 +118,7 @@ class Transifex_Live_Integration {
 			if ( $picker ) {
 				add_action( 'wp_head', [ $picker, 'render' ], 1 );
 			}
-		
+
 			$subdomain = Transifex_Live_Integration_Static_Factory::create_subdomains( $settings );
 			($subdomain) ? Plugin_Debug::logTrace( 'subdomains created' ) : Plugin_Debug::logTrace( 'subdomains skipped' );
 			if ( $subdomain ) {
@@ -137,8 +142,8 @@ class Transifex_Live_Integration {
 				add_filter( 'home_url', [$rewrite, 'home_url_hook' ] );
 			}
 			add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
-			$static_frontpage_support = (isset($settings['static_frontpage_support']))?true:false;
-			if ($static_frontpage_support) {
+			$static_frontpage_support = (isset( $settings['static_frontpage_support'] )) ? true : false;
+			if ( $static_frontpage_support ) {
 				add_action( 'parse_query', [ $rewrite, 'parse_query_root_hook' ] );
 			}
 			foreach ($rewrite->rewrite_options as $option) {
