@@ -108,6 +108,15 @@ STATUS;
 		}
 		}
 	
+	function ok_call_prerender(){
+		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-util.php';
+		$agent = Transifex_Live_Integration_Util::get_user_agent();
+		$req_escaped_fragment = (isset( $_GET['_escaped_fragment_'] )) ? true : false;
+		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/lib/transifex-live-integration-prerender.php';
+		$check = Transifex_Live_Integration_Util::prerender_check( $agent, $req_escaped_fragment, $settings['generic_bot_types'], $settings['whitelist_crawlers'] );
+		return $check;
+		}
+	
 	function ok_add_vary_header() {
 		return ($this->prerender_enable_vary_header);
 	}
