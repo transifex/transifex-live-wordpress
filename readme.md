@@ -110,3 +110,6 @@ Fixed some timing issues with the WP loop
 
 = 1.3.1 =
 Patch for Prerender logic
+
+= 1.3.2 =
+Added additional Prerender options for caching
