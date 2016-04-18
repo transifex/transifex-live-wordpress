@@ -1,4 +1,4 @@
-<div class="wrap transifex-live-settings">
+```<div class="wrap transifex-live-settings">
     <h2><?php _e( 'Transifex Live Translation Plugin Settings', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></h2>
 
 	<form id="transifex_live_settings_form" method="post" enctype="multipart/form-data">
@@ -87,16 +87,35 @@
 				<td>
 					<p><input type="checkbox" id="transifex_live_settings_enable_prerender" name="transifex_live_settings[enable_prerender]" value="1" <?php echo $checked_enable_prerender ?> /><?php _e('Enable Prerender', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
 					</p>
-                    <p class="prerender-enable-options hide-if-js">
+                    <div class="prerender-enable-options hide-if-js">
 						<label for="transifex_live_settings[prerender_url]"><?php _e( 'Prerender URL', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></label>
 						<input name="transifex_live_settings[prerender_url]" type="text" id="transifex_live_settings_prerender_url" value="<?php echo $settings['prerender_url']; ?>" class="regular-text" placeholder="<?php _e( 'Put your prerender url here.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>">
+					<p>
+						<input type="checkbox" id="transifex_live_settings_enable_prerender_check" name="transifex_live_settings[enable_prerender_check]" value="1" <?php echo $checked_enable_prerender_check ?> /><?php _e( 'Enable Prerender Check', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
+						<input name="transifex_live_settings[prerender_header_check_key]" type="text" id="transifex_live_settings_prerender_header_check_key" value="<?php echo $settings['prerender_header_check_key']; ?>" class="regular-text" placeholder="<?php _e( 'Prerender Check Key', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>">
+						<input name="transifex_live_settings[prerender_header_check_value]" type="text" id="transifex_live_settings_prerender_header_check_value" value="<?php echo $settings['prerender_header_check_value']; ?>" class="regular-text" placeholder="<?php _e( 'Prerender Check Header Value', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>">
+					</p>
+					<p>
+						<input type="checkbox" id="transifex_live_settings_prerender_enable_vary_header" name="transifex_live_settings[prerender_enable_vary_header]" value="1" <?php echo $checked_prerender_enable_vary_header ?> /><?php _e( 'Enable Vary Header', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
+						<input name="transifex_live_settings[prerender_vary_header_value]" type="text" id="transifex_live_settings_prerender_vary_header_value" value="<?php echo $settings['prerender_vary_header_value']; ?>" class="regular-text" placeholder="<?php _e( 'Value for Vary Header', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>">
+					</p>
+					<p>
+						<input type="checkbox" id="transifex_live_settings_prerender_enable_response_header" name="transifex_live_settings[prerender_enable_response_header]" value="1" <?php echo $checked_prerender_enable_response_header ?> /><?php _e( 'Enable Custom Prerender Headers', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
+						<input name="transifex_live_settings[prerender_response_headers]" type="text" id="transifex_live_settings_prerender_response_headers" value="<?php echo htmlentities( stripslashes($prerender_response_headers)); ?>" class="regular-text" placeholder="<?php _e( 'Custom Headers for Prerender Responses', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>">
+					</p>
+					<p>
+						<input type="checkbox" id="transifex_live_settings_prerender_enable_cookie" name="transifex_live_settings[prerender_enable_cookie]" value="1" <?php echo $checked_prerender_enable_cookie ?> /><?php _e( 'Enable Custom Cookie Prerender Responses', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
+						<input name="transifex_live_settings[prerender_cookie]" type="text" id="transifex_live_settings_prerender_cookie" value="<?php echo htmlentities( stripslashes($prerender_cookie)); ?>" class="regular-text" placeholder="<?php _e( 'Custom Cookie for Prerender Responses', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>">
+					</p>
+					<p>
+						<input name="transifex_live_settings[whitelist_crawlers]" type="text" id="transifex_live_settings_whitelist_crawlers" value="<?php echo $settings['whitelist_crawlers']; ?>" class="regular-text" placeholder="<?php _e( 'Regex whitelist of allowed crawlers.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>">
+						<input name="transifex_live_settings[generic_bot_types]" type="text" id="transifex_live_settings_generic_bot_types" value="<?php echo $settings['generic_bot_types']; ?>" class="regular-text" placeholder="<?php _e( 'Regex list of crawler type keywords.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>">
 					</p>
 					<p class="description"><?php _e( 'Important so crawler and bots can see your translated content <a target="_blank" href="#">Check out our docs for details.</a>', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
-				
+					</div>
 				</td></tr>
 			</tbody>
         </table>
-		<input type="hidden" id="transifex_live_settings_enable_prerender_check" name="transifex_live_settings[enable_prerender_check]" value="<?php echo $enable_prerender_check ?>" />
 		<input name="transifex_live_settings[enable_custom_urls]" id="transifex_live_settings_custom_urls" type="hidden" value="<?php echo $checked_custom_urls ?>" >
 		<input type="hidden" value="<?php echo htmlentities( stripslashes( $language_map ) ) ?>" name="transifex_live_settings[language_map]" id="transifex_live_settings_language_map" />
 		<input type="hidden" value="<?php echo htmlentities( stripslashes( $transifex_settings_settings ) ) ?>" name="transifex_live_transifex_settings[settings]" id="transifex_live_transifex_settings_settings" />
