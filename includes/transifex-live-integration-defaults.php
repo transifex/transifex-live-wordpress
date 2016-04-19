@@ -111,8 +111,8 @@ class Transifex_Live_Integration_Defaults
 		'prerender_header_check_value' => 'TRUE',
 		'prerender_enable_response_header' => 0,
 		'prerender_response_headers' =>	'[ {"Expires" : "Tue, 03 Jul 2001 06:00:00 GMT"}, {"Last-Modified" : "{now} GMT"},{"Cache-Control":"max-age=0, no-cache, must-revalidate, proxy-revalidate"}]',
-		'prerender_enable_vary_header' => 0,
-		'prerender_vary_header_value' => 'User-Agent',
+		'prerender_enable_vary_header' => 1,
+		'prerender_vary_header_value' => 'X-Prerender-Req,User-Agent',
 		'prerender_enable_cookie' => 0,
 		'prerender_cookie' => '{"wordpress_test_cookie" : "WP+Cookie+check"}'
         );
