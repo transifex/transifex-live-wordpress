@@ -16,6 +16,8 @@ $I->see('Success! Advanced SEO settings enabled.');
 $I->executeJS('jQuery("#transifex_live_settings_enable_prerender").click()');
 $I->executeJS('jQuery("#transifex_live_settings_prerender_url").val("http://192.168.99.100:32769/");');
 $I->executeJS('jQuery("#transifex_live_settings_prerender_url").trigger("input");');
+$I->executeJS('jQuery("#transifex_live_settings_prerender_enable_response_header").click();');
+$I->executeJS('jQuery("#transifex_live_settings_prerender_enable_cookie").click();');
 $I->dontSeeElement('#transifex_live_submit', ['disabled' => 'true']);
 
 $I->executeJS('jQuery("input#transifex_live_submit").click();');
@@ -23,3 +25,5 @@ $I->waitForText('Your changes to the settings have been saved!', 7);
 $I->runShellCommand("curl -A 'slackbot' http://192.168.99.100:32777/blog/hello-world/");
 $I->seeInShellOutput('X-Prerender-Req: TRUE');
 $I->seeInShellOutput('Buffer swapped with prerender response.');
+$I->runShellCommand("curl -s -A 'slackbot' -D - http://192.168.99.100:32777/blog/hello-world/ -o /dev/null");
+$I->seeInShellOutput('Vary: User-Agent,X-Prerender-Req,Accept-Encoding');
