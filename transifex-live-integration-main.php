@@ -107,10 +107,10 @@ class Transifex_Live_Integration {
 			}
 
 
-			$hreflang = Transifex_Live_Integration_Static_Factory::create_hreflang( $settings );
+			$hreflang = Transifex_Live_Integration_Static_Factory::create_hreflang( $settings, $rewrite_options );
 			($hreflang) ? Plugin_Debug::logTrace( 'adding hreflang' ) : Plugin_Debug::logTrace( 'skipping hreflang' );
 			if ( $hreflang ) {
-				add_action( 'wp_head', [ $hreflang, 'render_hreflang' ], 1 );
+					add_action( 'wp_head', [ $hreflang, 'render_hreflang' ], 1 );
 			}
 
 			$picker = Transifex_Live_Integration_Static_Factory::create_picker( $settings );
@@ -174,7 +174,6 @@ class Transifex_Live_Integration {
 						break;
 					case 'root';
 						add_filter( 'root_rewrite_rules', [ $rewrite, 'root_rewrite_rules_hook' ] );
-
 						break;
 					case 'permalink_tag';
 						add_action( 'init', [ $rewrite, 'init_hook' ] );

@@ -81,7 +81,7 @@ STATUS;
 		Plugin_Debug::logTrace();
 		$a = $this->prerender_response_headers;
 		foreach ($a as $k => $v) {
-			$headers[k] = $v;
+			$headers[$k] = $v;
 		}
 		return $headers;
 	}
@@ -166,7 +166,7 @@ STATUS;
 			$header = substr( $curl_response['response'], 0, $curl_response['header_size'] );
 			$body = substr( $curl_response['response'], $curl_response['header_size'] );
 			$header_lowercase = strtolower( $header );
-			$header_prerender_check = (strpos( $header_lowercase, 'x-prerender-req' )) ? true : false;
+			$header_prerender_check = (strpos( $header_lowercase, strtolower( $this->prerender_header_check_key ) )) ? true : false;
 			$debug_html .= 'X-Prerender-Req Header check:' . $header_prerender_check . "\n";
 			$debug_html .= 'Check enabled:' . $this->enable_prerender_check . "\n";
 			if ( $header_prerender_check && $this->enable_prerender_check ) {

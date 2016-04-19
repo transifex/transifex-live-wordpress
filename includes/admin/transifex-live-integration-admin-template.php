@@ -1,4 +1,4 @@
-```<div class="wrap transifex-live-settings">
+<div class="wrap transifex-live-settings">
     <h2><?php _e( 'Transifex Live Translation Plugin Settings', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></h2>
 
 	<form id="transifex_live_settings_form" method="post" enctype="multipart/form-data">
@@ -90,6 +90,7 @@
                     <div class="prerender-enable-options hide-if-js">
 						<label for="transifex_live_settings[prerender_url]"><?php _e( 'Prerender URL', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></label>
 						<input name="transifex_live_settings[prerender_url]" type="text" id="transifex_live_settings_prerender_url" value="<?php echo $settings['prerender_url']; ?>" class="regular-text" placeholder="<?php _e( 'Put your prerender url here.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>">
+					<div class="prerender-advanced-options hide-if-js">
 					<p>
 						<input type="checkbox" id="transifex_live_settings_enable_prerender_check" name="transifex_live_settings[enable_prerender_check]" value="1" <?php echo $checked_enable_prerender_check ?> /><?php _e( 'Enable Prerender Check', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
 						<input name="transifex_live_settings[prerender_header_check_key]" type="text" id="transifex_live_settings_prerender_header_check_key" value="<?php echo $settings['prerender_header_check_key']; ?>" class="regular-text" placeholder="<?php _e( 'Prerender Check Key', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>">
@@ -111,6 +112,7 @@
 						<input name="transifex_live_settings[whitelist_crawlers]" type="text" id="transifex_live_settings_whitelist_crawlers" value="<?php echo $settings['whitelist_crawlers']; ?>" class="regular-text" placeholder="<?php _e( 'Regex whitelist of allowed crawlers.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>">
 						<input name="transifex_live_settings[generic_bot_types]" type="text" id="transifex_live_settings_generic_bot_types" value="<?php echo $settings['generic_bot_types']; ?>" class="regular-text" placeholder="<?php _e( 'Regex list of crawler type keywords.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>">
 					</p>
+					</div>
 					<p class="description"><?php _e( 'Important so crawler and bots can see your translated content <a target="_blank" href="#">Check out our docs for details.</a>', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
 					</div>
 				</td></tr>
