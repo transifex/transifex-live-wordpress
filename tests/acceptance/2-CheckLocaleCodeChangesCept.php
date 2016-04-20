@@ -64,3 +64,27 @@ $I->seeLink('Sample Page','http://192.168.99.100:32777/de/sample-page/');
 $I->seeLink('Hello world!','http://192.168.99.100:32777/de/2015/12/17/hello-world/');
 $I->seeLink('Home','http://192.168.99.100:32777/de/home/');
 $I->seeLink('Blog','http://192.168.99.100:32777/de/blog/');
+
+$I->amOnPage('/wp-admin/options-general.php?page=transifex-live-integration');
+$I->executeJS('jQuery("#transifex_live_options_add_rewrites_page").click();');
+$I->dontSeeElement('#transifex_live_submit', ['disabled' => 'true']);
+//$I->dontSeeElement('#submit', ['disabled' => 'true']);
+$I->executeJS('jQuery("input#transifex_live_submit").click();');
+$I->waitForText('Your changes to the settings have been saved!', 7);
+
+$I->amOnPage('/de/sample-page/');
+$I->dontSeeInSource('hreflang="en"');
+$I->dontSeeInSource('hreflang="cn"');
+$I->dontSeeInSource('hreflang="de"');
+$I->seeInSource('src="//cdn.transifex.com/live.js"');
+$I->seeInSource('window.liveSettings');
+$I->seeInSource('"api_key":"2699bc66df6546008d0a14acf26732a1"');
+$I->seeInSource('"detectlang":function() { return "de_DE";}');
+
+$I->amOnPage('/wp-admin/options-general.php?page=transifex-live-integration');
+$I->executeJS('jQuery("#transifex_live_options_add_rewrites_page").click();');
+$I->dontSeeElement('#transifex_live_submit', ['disabled' => 'true']);
+//$I->dontSeeElement('#submit', ['disabled' => 'true']);
+$I->executeJS('jQuery("input#transifex_live_submit").click();');
+$I->waitForText('Your changes to the settings have been saved!', 7);
+
