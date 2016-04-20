@@ -22,7 +22,7 @@ $I->seeElement('#transifex_live_submit', ['disabled' => 'true']);
 $I->executeJS('jQuery("#transifex_live_settings_rewrite_option_all").trigger("click");');
 $I->dontSeeElement('#transifex_live_submit', ['disabled' => 'true']);
 $I->executeJS('jQuery("input#transifex_live_submit").click();');
-$I->see('Your changes to the settings have been saved!');
+
 $I->waitForText('Your changes to the settings have been saved!', 7);
 $I->amOnPage('/wp-admin/options-permalink.php');
 $I->amOnPage('/');
