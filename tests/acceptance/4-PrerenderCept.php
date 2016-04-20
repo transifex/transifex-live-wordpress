@@ -30,3 +30,4 @@ $I->seeInShellOutput('Vary: User-Agent,X-Prerender-Req,Accept-Encoding');
 $I->seeInShellOutput('Expires: Tue, 03 Jul 2001 06:00:00 GMT');
 $I->seeInShellOutput('Last-Modified: {now} GMT');
 $I->seeInShellOutput('Cache-Control: max-age=0, no-cache, must-revalidate, proxy-revalidate');
+$I->seeInShellOutput('Set-Cookie: wordpress_test_cookie=WP%2BCookie%2Bcheck;');
