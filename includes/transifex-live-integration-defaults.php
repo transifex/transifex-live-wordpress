@@ -103,10 +103,19 @@ class Transifex_Live_Integration_Defaults
 		'static_frontpage_support' => false,
 		'enable_prerender' => 0,
 		'prerender_url' => '',
-		'enable_prerender_check' => 1,
         'whitelist_crawlers' =>
         'googlebot|yahoo|bingbot|baiduspider|facebookexternalhit|twitterbot|rogerbot|linkedinbot|embedly|quora link preview|showyoubot|outbrain|pinterest/0.|developers.google.com/+/web/snippet|slackbot|vkshare|w3c_validator|redditbot|applebot|whatsapp|flipboard',
-        'generic_bot_types' => 'bot|crawl|slurp|spider'
+        'generic_bot_types' => 'bot|crawl|slurp|spider',
+		'enable_prerender_check' => 1,
+		'prerender_header_check_key' => 'X-Prerender-Req',
+		'prerender_header_check_value' => 'TRUE',
+		'prerender_enable_response_header' => 0,
+
+		'prerender_response_headers' =>	'{"Expires" : "Tue, 03 Jul 2001 06:00:00 GMT", "Last-Modified" : "{now} GMT","Cache-Control":"max-age=0, no-cache, must-revalidate, proxy-revalidate"}',
+		'prerender_enable_vary_header' => 1,
+		'prerender_vary_header_value' => 'User-Agent,X-Prerender-Req',
+		'prerender_enable_cookie' => 0,
+		'prerender_cookie' => '{"wordpress_test_cookie" : "WP+Cookie+check"}'
         );
     }
 

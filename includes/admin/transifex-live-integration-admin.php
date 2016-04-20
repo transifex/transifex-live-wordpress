@@ -84,8 +84,22 @@ class Transifex_Live_Integration_Admin {
 		ob_start();
 		checked( $settings['enable_prerender'], 1 );
 		$checked_enable_prerender = ob_get_clean();
+		
+		ob_start();
+		checked( $settings['enable_prerender_check'], 1 );
+		$checked_enable_prerender_check = ob_get_clean();
+		
+		ob_start();
+		checked( $settings['prerender_enable_response_header'], 1 );
+		$checked_prerender_enable_response_header = ob_get_clean();
 
-		$enable_prerender_check = $settings['enable_prerender_check'];
+		ob_start();
+		checked( $settings['prerender_enable_vary_header'], 1 );
+		$checked_prerender_enable_vary_header = ob_get_clean();
+
+		ob_start();
+		checked( $settings['prerender_enable_cookie'], 1 );
+		$checked_prerender_enable_cookie = ob_get_clean();
 
 		ob_start();
 		checked( $settings['static_frontpage_support'], 1 );
@@ -116,6 +130,17 @@ class Transifex_Live_Integration_Admin {
 		if ( $settings['language_map'] !== '' ) {
 			$language_map = $settings['language_map'];
 		}
+		
+		$prerender_response_headers = '';
+		if ( $settings['prerender_response_headers'] !== '' ) {
+			$prerender_response_headers = $settings['prerender_response_headers'];
+		}
+		
+		$prerender_cookie = '';
+		if ( $settings['prerender_cookie'] !== '' ) {
+			$prerender_cookie = $settings['prerender_cookie'];
+		}		
+		
 		$checked_custom_urls = ($settings['enable_custom_urls'] === "1") ? "1" : "0";
 
 		$url_options = $settings['url_options'];
@@ -128,6 +153,8 @@ class Transifex_Live_Integration_Admin {
 		ob_start();
 		checked( $settings['url_options'], '3' );
 		$url_options_subdirectory = ob_get_clean();
+		
+		
 		$site_url = site_url();
 		$site_url_subdirectory_example = $site_url . '/%lang%';
 		$site_url_array = explode( '/', $site_url );
@@ -267,7 +294,6 @@ class Transifex_Live_Integration_Admin {
 		$settings['transifex_live_settings']['subdomain_pattern'] = ( isset( $settings['transifex_live_settings']['subdomain_pattern'] )) ? sanitize_text_field( $settings['transifex_live_settings']['subdomain_pattern'] ) : '';
 		$settings['transifex_live_settings']['languages_regex'] = ( isset( $settings['transifex_live_settings']['languages_regex'] )) ? sanitize_text_field( $settings['transifex_live_settings']['languages_regex'] ) : '';
 		$settings['transifex_live_settings']['transifex_languages'] = ( isset( $settings['transifex_live_settings']['transifex_languages'] )) ? sanitize_text_field( stripslashes( $settings['transifex_live_settings']['transifex_languages'] ) ) : '';
-		$settings['transifex_live_settings']['language_map'] = ( isset( $settings['transifex_live_settings']['language_map'] )) ? sanitize_text_field( $settings['transifex_live_settings']['language_map'] ) : '';
 
 
 		$settings['transifex_live_transifex_settings']['settings'] = ( isset( $settings['transifex_live_transifex_settings']['settings'] )) ? sanitize_text_field( stripslashes( $settings['transifex_live_transifex_settings']['settings'] ) ) : '';

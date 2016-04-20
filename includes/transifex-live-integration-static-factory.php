@@ -16,7 +16,7 @@ class Transifex_Live_Integration_Static_Factory {
 	 * @return object/false Returns either new object or false
 	 */
 
-	static function create_hreflang( $settings ) {
+	static function create_hreflang( $settings, $rewrite_options ) {
 		if ( !isset( $settings['api_key'] ) ) {
 			Plugin_Debug::logTrace( 'settings[api_key] not set...skipping hreflang' );
 			return false;
@@ -34,7 +34,7 @@ class Transifex_Live_Integration_Static_Factory {
 			return false;
 		}
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/lib/transifex-live-integration-hreflang.php';
-		return new Transifex_Live_Integration_Hreflang( $settings );
+		return new Transifex_Live_Integration_Hreflang( $settings, $rewrite_options );
 	}
 
 	/*
@@ -153,14 +153,10 @@ class Transifex_Live_Integration_Static_Factory {
 			Plugin_Debug::logTrace( 'URL option is none, skipping prerender' );
 			return false;
 		}
-		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-util.php';
-		$agent = Transifex_Live_Integration_Util::get_user_agent();
-		$req_escaped_fragment = (isset( $_GET['_escaped_fragment_'] )) ? true : false;
 
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/lib/transifex-live-integration-prerender.php';
-		$check = Transifex_Live_Integration_Util::prerender_check( $agent, $req_escaped_fragment, $settings['generic_bot_types'], $settings['whitelist_crawlers'] );
 		$enable_prerender_check = (isset($settings['enable_prerender_check']))?true:false;
-		return ($check) ? new Transifex_Live_Integration_Prerender( $settings['prerender_url'], $enable_prerender_check ) : false;
+		return new Transifex_Live_Integration_Prerender( $settings['prerender_url'], $enable_prerender_check, $settings );
 	}
 
 }

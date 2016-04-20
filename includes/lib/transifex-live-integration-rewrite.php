@@ -71,7 +71,7 @@ class Transifex_Live_Integration_Rewrite {
 		if ( isset( $rewrite_options['add_rewrites_feed'] ) ) {
 			$this->rewrite_options[] = ($rewrite_options['add_rewrites_feed']) ? 'feed' : '';
 		}
-		if ( isset( $rewrite_options['add_rewrites_feed'] ) ) {
+		if ( isset( $rewrite_options['add_rewrites_permalink_tag'] ) ) {
 			$this->rewrite_options[] = ($rewrite_options['add_rewrites_permalink_tag']) ? 'permalink_tag' : '';
 		}
 		if ( !empty( $settings['languages'] ) ) {

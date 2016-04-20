@@ -33,17 +33,52 @@ class Transifex_Live_Integration_Hreflang {
 	 * @var tokenized_url string 
 	 */
 	private $tokenized_url;
+	
+	private $rewrite_options;
 
 	/**
 	 * Public constructor, sets the settings
 	 * @param array $settings Associative array used to store plugin settings.
 	 */
-	public function __construct( $settings ) {
+	public function __construct( $settings, $rewrite_options ) {
 		Plugin_Debug::logTrace();
 		$this->settings = $settings;
 		$this->language_map = json_decode( $settings['language_map'], true )[0];
 		$this->languages = json_decode( $settings['transifex_languages'], true );
 		$this->tokenized_url = $settings['tokenized_url'];
+		$this->rewrite_options = $rewrite_options;
+	}
+	
+	public function check_rewrite_options() {
+		Plugin_Debug::logTrace();
+		if ( isset( $this->rewrite_options['add_rewrites_post'] ) && is_single ()) {
+			return true;
+		}
+		if ( isset( $this->rewrite_options['add_rewrites_root'] ) && is_home()) {
+			return true;
+		}
+		if ( isset( $this->rewrite_options['add_rewrites_date'] ) && is_archive()) {
+			return true;
+		}
+		if ( isset( $this->rewrite_options['add_rewrites_page'] ) && is_page ()) {
+			return true;
+		}
+		if ( isset( $this->rewrite_options['add_rewrites_author'] ) && is_author()) {
+			return true;
+		}
+		if ( isset( $this->rewrite_options['add_rewrites_tag'] ) && is_tag()) {
+			return true;
+		}
+		if ( isset( $this->rewrite_options['add_rewrites_category'] ) && is_category()) {
+			return true;
+		}
+		if ( isset( $this->rewrite_options['add_rewrites_search'] ) && is_search()) {
+			return true;
+		}
+		if ( isset( $this->rewrite_options['add_rewrites_feed'] ) && is_feed()) {
+			return true;
+		}
+		return false;
 	}
 
 	/*
@@ -74,6 +109,9 @@ class Transifex_Live_Integration_Hreflang {
 	 */
 	public function render_hreflang() {
 		Plugin_Debug::logTrace();
+		if ( !($this->check_rewrite_options())) {
+			return false;
+		}
 		global $wp;
 		$lang = get_query_var( 'lang' );
 		$url_path = add_query_arg( array(), $wp->request );
