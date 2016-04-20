@@ -27,3 +27,6 @@ $I->seeInShellOutput('X-Prerender-Req: TRUE');
 $I->seeInShellOutput('Buffer swapped with prerender response.');
 $I->runShellCommand("curl -s -A 'slackbot' -D - http://192.168.99.100:32777/blog/hello-world/ -o /dev/null");
 $I->seeInShellOutput('Vary: User-Agent,X-Prerender-Req,Accept-Encoding');
+$I->seeInShellOutput('Expires: Tue, 03 Jul 2001 06:00:00 GMT');
+$I->seeInShellOutput('Last-Modified: {now} GMT');
+$I->seeInShellOutput('Cache-Control: max-age=0, no-cache, must-revalidate, proxy-revalidate');
