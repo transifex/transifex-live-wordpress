@@ -16,7 +16,7 @@ class Transifex_Live_Integration_Static_Factory {
 	 * @return object/false Returns either new object or false
 	 */
 
-	static function create_hreflang( $settings ) {
+	static function create_hreflang( $settings, $rewrite_options ) {
 		if ( !isset( $settings['api_key'] ) ) {
 			Plugin_Debug::logTrace( 'settings[api_key] not set...skipping hreflang' );
 			return false;
@@ -34,7 +34,7 @@ class Transifex_Live_Integration_Static_Factory {
 			return false;
 		}
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/lib/transifex-live-integration-hreflang.php';
-		return new Transifex_Live_Integration_Hreflang( $settings );
+		return new Transifex_Live_Integration_Hreflang( $settings, $rewrite_options );
 	}
 
 	/*
