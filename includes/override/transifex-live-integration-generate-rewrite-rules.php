@@ -108,7 +108,7 @@ class Transifex_Live_Integration_Generate_Rewrite_Rules
         */
         $structure = trim($structure, '/');
         $dirs = $walk_dirs ? explode('/', $structure) : array( $structure );
-		foreach ($a as $k => $v) { 
+		foreach ($dirs as $k => $v) { 
 			$dirs[$k] = '%lang%/'.$v;
 		}
         $num_dirs = count($dirs);
