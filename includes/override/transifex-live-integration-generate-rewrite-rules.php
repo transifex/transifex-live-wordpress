@@ -108,9 +108,6 @@ class Transifex_Live_Integration_Generate_Rewrite_Rules
         */
         $structure = trim($structure, '/');
         $dirs = $walk_dirs ? explode('/', $structure) : array( $structure );
-		foreach ($dirs as $k => $v) { 
-			$dirs[$k] = '%lang%/'.$v;
-		}
         $num_dirs = count($dirs);
         // Strip slashes from the front of $front.
         $front = preg_replace('|^/+|', '', $front);
