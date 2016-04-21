@@ -148,6 +148,9 @@ class Transifex_Live_Integration {
 			}
 			foreach ($rewrite->rewrite_options as $option) {
 				switch ($option) {
+					case 'post';
+						add_filter( 'post_rewrite_rules', [ $rewrite, 'post_rewrite_rules_hook' ] );
+						break;
 					case 'date';
 						add_filter( 'date_rewrite_rules', [ $rewrite, 'date_rewrite_rules_hook' ] );
 						break;
@@ -168,9 +171,6 @@ class Transifex_Live_Integration {
 						break;
 					case 'feed';
 						add_filter( 'feed_rewrite_rules', [ $rewrite, 'feed_rewrite_rules_hook' ] );
-						break;
-					case 'post';
-						add_filter( 'post_rewrite_rules', [ $rewrite, 'post_rewrite_rules_hook' ] );
 						break;
 					case 'root';
 						add_filter( 'root_rewrite_rules', [ $rewrite, 'root_rewrite_rules_hook' ] );

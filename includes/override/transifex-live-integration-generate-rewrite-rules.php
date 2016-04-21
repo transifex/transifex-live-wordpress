@@ -115,9 +115,17 @@ class Transifex_Live_Integration_Generate_Rewrite_Rules
         $post_rewrite = array();
         $struct = $front;
         for ($j = 0; $j < $num_dirs; ++$j) {
+			
+			$struct = str_replace('%lang%','',$struct);
             // Get the struct for this dir, and trim slashes off the front.
             $struct .= $dirs[$j] . '/'; // Accumulate. see comment near explode('/', $structure) above.
             $struct = ltrim($struct, '/');
+			if ($walk_dirs) {
+				if (strpos($struct,'%lang') === false ) {
+					$struct = '%lang%/'.$struct;
+				}
+			}
+			Plugin_Debug::logTrace($struct);
             // Replace tags with regexes.
             $match = str_replace($wp_rewrite->rewritecode, $wp_rewrite->rewritereplace, $struct);
             Plugin_Debug::logTrace($match);
@@ -319,10 +327,10 @@ class Transifex_Live_Integration_Generate_Rewrite_Rules
                             $sub1comment => $subcommentquery,
                             $sub1embed => $subembedquery
                             ) 
-                        );
+                        );	
                     }
                     $rewrite = array_merge(array( $sub2 => $subquery, $sub2tb => $subtbquery, $sub2feed => $subfeedquery, $sub2feed2 => $subfeedquery, $sub2comment => $subcommentquery, $sub2embed => $subembedquery ), $rewrite);
-                }
+				}
             }
             // Add the rules for this dir to the accumulating $post_rewrite.
             $post_rewrite = array_merge($rewrite, $post_rewrite);
