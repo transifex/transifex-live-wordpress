@@ -84,11 +84,11 @@ class Transifex_Live_Integration_Admin {
 		ob_start();
 		checked( $settings['enable_prerender'], 1 );
 		$checked_enable_prerender = ob_get_clean();
-		
+
 		ob_start();
 		checked( $settings['enable_prerender_check'], 1 );
 		$checked_enable_prerender_check = ob_get_clean();
-		
+
 		ob_start();
 		checked( $settings['prerender_enable_response_header'], 1 );
 		$checked_prerender_enable_response_header = ob_get_clean();
@@ -131,16 +131,21 @@ class Transifex_Live_Integration_Admin {
 			$language_map = $settings['language_map'];
 		}
 		
+		$hreflang_map = [ ];
+		if ( $settings['hreflang_map'] !== '' ) {
+			$hreflang_map = $settings['hreflang_map'];
+		}
+
 		$prerender_response_headers = '';
 		if ( $settings['prerender_response_headers'] !== '' ) {
 			$prerender_response_headers = $settings['prerender_response_headers'];
 		}
-		
+
 		$prerender_cookie = '';
 		if ( $settings['prerender_cookie'] !== '' ) {
 			$prerender_cookie = $settings['prerender_cookie'];
-		}		
-		
+		}
+
 		$checked_custom_urls = ($settings['enable_custom_urls'] === "1") ? "1" : "0";
 
 		$url_options = $settings['url_options'];
@@ -153,8 +158,8 @@ class Transifex_Live_Integration_Admin {
 		ob_start();
 		checked( $settings['url_options'], '3' );
 		$url_options_subdirectory = ob_get_clean();
-		
-		
+
+
 		$site_url = site_url();
 		$site_url_subdirectory_example = $site_url . '/%lang%';
 		$site_url_array = explode( '/', $site_url );
@@ -241,6 +246,10 @@ class Transifex_Live_Integration_Admin {
 
 		if ( isset( $settings['transifex_live_transifex_settings'] ) ) {
 			update_option( 'transifex_live_transifex_settings', $settings['transifex_live_transifex_settings'] );
+		}
+		if ( $settings['transifex_live_settings']['url_options'] === '3' ) {
+			generate_rewrite_rules();
+			flush_rewrite_rules();
 		}
 	}
 

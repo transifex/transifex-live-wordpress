@@ -1,4 +1,5 @@
 <?php
+
 include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/common/transifex-live-integration-common.php';
 /**
  * Includes hreflang tag attribute on each page
@@ -15,25 +16,25 @@ class Transifex_Live_Integration_Hreflang {
 	 * @var settings array
 	 */
 	private $settings;
-	
+	private $hreflang_map;
+
 	/*
 	 * A key/value array that maps Transifex locale->plugin code
 	 * @var language_map array 
 	 */
 	private $language_map;
-	
+
 	/*
 	 * A list of Transifex locales, for enabled languages
 	 * @var languages array 
 	 */
 	private $languages;
-	
+
 	/*
 	 * The site_url with a placeholder for language
 	 * @var tokenized_url string 
 	 */
 	private $tokenized_url;
-	
 	private $rewrite_options;
 
 	/**
@@ -47,35 +48,36 @@ class Transifex_Live_Integration_Hreflang {
 		$this->languages = json_decode( $settings['transifex_languages'], true );
 		$this->tokenized_url = $settings['tokenized_url'];
 		$this->rewrite_options = $rewrite_options;
+		$this->hreflang_map = json_decode( $settings['hreflang_map'], true )[0];
 	}
-	
+
 	public function check_rewrite_options() {
 		Plugin_Debug::logTrace();
-		if ( isset( $this->rewrite_options['add_rewrites_post'] ) && is_single ()) {
+		if ( isset( $this->rewrite_options['add_rewrites_post'] ) && is_single() ) {
 			return true;
 		}
-		if ( isset( $this->rewrite_options['add_rewrites_root'] ) && is_home()) {
+		if ( isset( $this->rewrite_options['add_rewrites_root'] ) && is_home() ) {
 			return true;
 		}
-		if ( isset( $this->rewrite_options['add_rewrites_date'] ) && is_archive()) {
+		if ( isset( $this->rewrite_options['add_rewrites_date'] ) && is_archive() ) {
 			return true;
 		}
-		if ( isset( $this->rewrite_options['add_rewrites_page'] ) && is_page ()) {
+		if ( isset( $this->rewrite_options['add_rewrites_page'] ) && is_page() ) {
 			return true;
 		}
-		if ( isset( $this->rewrite_options['add_rewrites_author'] ) && is_author()) {
+		if ( isset( $this->rewrite_options['add_rewrites_author'] ) && is_author() ) {
 			return true;
 		}
-		if ( isset( $this->rewrite_options['add_rewrites_tag'] ) && is_tag()) {
+		if ( isset( $this->rewrite_options['add_rewrites_tag'] ) && is_tag() ) {
 			return true;
 		}
-		if ( isset( $this->rewrite_options['add_rewrites_category'] ) && is_category()) {
+		if ( isset( $this->rewrite_options['add_rewrites_category'] ) && is_category() ) {
 			return true;
 		}
-		if ( isset( $this->rewrite_options['add_rewrites_search'] ) && is_search()) {
+		if ( isset( $this->rewrite_options['add_rewrites_search'] ) && is_search() ) {
 			return true;
 		}
-		if ( isset( $this->rewrite_options['add_rewrites_feed'] ) && is_feed()) {
+		if ( isset( $this->rewrite_options['add_rewrites_feed'] ) && is_feed() ) {
 			return true;
 		}
 		return false;
@@ -88,6 +90,7 @@ class Transifex_Live_Integration_Hreflang {
 	 * @param array $language_map The key/value list of Transifex locale->plugin code
 	 * @return array A list of attributes for HREFLANG tags
 	 */
+
 	private function generate_languages_hreflang( $raw_url, $languages,
 			$language_map
 	) {
@@ -109,7 +112,7 @@ class Transifex_Live_Integration_Hreflang {
 	 */
 	public function render_hreflang() {
 		Plugin_Debug::logTrace();
-		if ( !($this->check_rewrite_options())) {
+		if ( !($this->check_rewrite_options()) ) {
 			return false;
 		}
 		global $wp;
@@ -125,7 +128,7 @@ class Transifex_Live_Integration_Hreflang {
 		$hreflang_out .= <<<SOURCE
 <link rel="alternate" href="$source_url" hreflang="$source"/>\n		
 SOURCE;
-		$hreflangs = $this->generate_languages_hreflang( $source_url_path, $this->languages, $this->language_map );
+		$hreflangs = $this->generate_languages_hreflang( $source_url_path, $this->languages, $this->hreflang_map );
 		foreach ($hreflangs as $hreflang) {
 			$href_attr = $hreflang['href'];
 			$hreflang_attr = $hreflang['hreflang'];
