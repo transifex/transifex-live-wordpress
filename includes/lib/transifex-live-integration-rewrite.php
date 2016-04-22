@@ -346,7 +346,7 @@ class Transifex_Live_Integration_Rewrite {
 		$wp_rewrite->add_rewrite_tag( '%lang%', $this->languages_regex, 'lang=' );
 		$pp = $this->generate_post_permastruct();
 		$this->post_permastruct = $pp;
-		$rr = Transifex_Live_Integration_Generate_Rewrite_Rules::generate_rewrite_rules( $pp, EP_PERMALINK, true, false, false, false );
+		$rr = Transifex_Live_Integration_Generate_Rewrite_Rules::generate_rewrite_rules( $pp, EP_PERMALINK, true, false, false, true );
 		$rewrite = array_merge( $rr, $rules );
 		return $rewrite;
 	}
@@ -510,7 +510,7 @@ class Transifex_Live_Integration_Rewrite {
 		}
 		global $wp_rewrite;
 		$wp_rewrite->add_rewrite_tag( '%lang%', $this->languages_regex, 'lang=' );
-		$pp = $this->generate_page_permastruct();
+		$pp = $this->generate_search_permastruct();
 		$rr = Transifex_Live_Integration_Generate_Rewrite_Rules::generate_rewrite_rules( $pp, EP_SEARCH, true, false, false, false );
 		$rewrite = array_merge( $rr, $rules );
 		return $rewrite;
