@@ -22,10 +22,10 @@ $I->dontSeeElement('#transifex_live_submit', ['disabled' => 'true']);
 
 $I->executeJS('jQuery("input#transifex_live_submit").click();');
 $I->waitForText('Your changes to the settings have been saved!', 7);
-$I->runShellCommand("curl -A 'slackbot' http://192.168.99.100:32777/blog/hello-world/");
+$I->runShellCommand("curl -A 'slackbot' http://192.168.99.100:32777/2015/12/17/hello-world/");
 $I->seeInShellOutput('X-Prerender-Req: TRUE');
 $I->seeInShellOutput('Buffer swapped with prerender response.');
-$I->runShellCommand("curl -s -A 'slackbot' -D - http://192.168.99.100:32777/blog/hello-world/ -o /dev/null");
+$I->runShellCommand("curl -s -A 'slackbot' -D - http://192.168.99.100:32777/2015/12/17/hello-world/ -o /dev/null");
 $I->seeInShellOutput('Vary: User-Agent,X-Prerender-Req,Accept-Encoding');
 $I->seeInShellOutput('Expires: Tue, 03 Jul 2001 06:00:00 GMT');
 $I->seeInShellOutput('Last-Modified: {now} GMT');

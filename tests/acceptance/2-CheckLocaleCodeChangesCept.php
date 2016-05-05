@@ -66,9 +66,12 @@ $I->seeLink('Home','http://192.168.99.100:32777/de/home/');
 $I->seeLink('Blog','http://192.168.99.100:32777/de/blog/');
 
 $I->amOnPage('/sample-page/');
-$I->seeInSource('/sample-page/" hreflang="en"');
-$I->seeInSource('/cn/sample-page/" hreflang="cn"');
-$I->seeInSource('/de/sample-page/" hreflang="de"');
+$I->seeInSource('href="http://192.168.99.100:32777/sample-page/"');
+$I->seeInSource('hreflang="en"');
+$I->seeInSource('href="http://192.168.99.100:32777/cn/sample-page/"');
+$I->seeInSource('hreflang="cn"');
+$I->seeInSource('href="http://192.168.99.100:32777/de/sample-page/"');
+$I->seeInSource('hreflang="de"');
 $I->seeInSource('src="//cdn.transifex.com/live.js"');
 $I->seeInSource('window.liveSettings');
 $I->seeInSource('"api_key":"2699bc66df6546008d0a14acf26732a1"');
