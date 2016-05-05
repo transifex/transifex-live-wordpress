@@ -117,7 +117,9 @@ class Transifex_Live_Integration_Hreflang {
 		$url_path = add_query_arg( array(), $wp->request );
 		$source_url_path = (substr( $url_path, 0, strlen( $lang ) ) === $lang) ? substr( $url_path, strlen( $lang ), strlen( $url_path ) ) : $url_path;
 		$source = $this->settings['source_language'];
-		$unslashed_source_url = site_url() . $source_url_path;
+		$site_url_slash_maybe = site_url();
+		$site_url = rtrim( $site_url_slash_maybe, '/' ) . '/';
+		$unslashed_source_url = $site_url . $source_url_path;
 		$source_url = rtrim( $unslashed_source_url, '/' ) . '/';
 		$hreflang_out = '';
 		$hreflang_out .= <<<SOURCE
