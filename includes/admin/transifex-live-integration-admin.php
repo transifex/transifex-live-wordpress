@@ -105,6 +105,10 @@ class Transifex_Live_Integration_Admin {
 		checked( $settings['static_frontpage_support'], 1 );
 		$checked_static_frontpage_support = ob_get_clean();
 
+		ob_start();
+		checked( $settings['enable_seo'], 1 );
+		$checked_enable_seo = ob_get_clean();
+		
 		// These are used by the template: DO NOT REMOVE - Mjj 2/22/2016
 		$languages = [ ];
 		if ( $settings['transifex_languages'] !== '' ) {
@@ -121,7 +125,7 @@ class Transifex_Live_Integration_Admin {
 			$source_language = $settings['source_language'];
 		}
 
-		$language_lookup = [ ];
+		$language_lookup = '';
 		if ( $settings['language_lookup'] !== '' ) {
 			$language_lookup = $settings['language_lookup'];
 		}
@@ -211,6 +215,7 @@ class Transifex_Live_Integration_Admin {
 
 		$languages = '';
 		$languages_regex = '';
+		if ($transifex_languages!=null  )
 		foreach ($transifex_languages as $lang) {
 			$trim = true;
 			$languages .= $languages_map[0][$lang];
@@ -246,10 +251,6 @@ class Transifex_Live_Integration_Admin {
 
 		if ( isset( $settings['transifex_live_transifex_settings'] ) ) {
 			update_option( 'transifex_live_transifex_settings', $settings['transifex_live_transifex_settings'] );
-		}
-		if ( $settings['transifex_live_settings']['url_options'] === '3' ) {
-			generate_rewrite_rules();
-			flush_rewrite_rules();
 		}
 	}
 
