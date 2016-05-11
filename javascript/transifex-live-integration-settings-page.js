@@ -88,14 +88,14 @@ function transifexLanguages() {
                     if (data['translation'] != undefined && data['translation'].length > 0) {
                         globaldata = data;
                         transifex_language_fields = transifex_live_integration_convert(data);
-                        jQuery('#transifex_live_settings_enable_seo').trigger('success');
+                        jQuery('#transifex_live_settings_url_options').trigger('success');
                     } else {
-                        jQuery('#transifex_live_settings_enable_seo').trigger('notranslation');
+                        jQuery('#transifex_live_settings_url_options').trigger('notranslation');
                     }
                 }
         ).fail(
                 function () {
-                    jQuery('#transifex_live_settings_enable_seo').trigger('error');
+                    jQuery('#transifex_live_settings_url_options').trigger('error');
                 }
         );
     } else {
@@ -322,7 +322,7 @@ function updateTransifexSettingsFields(obj) {
                         $('#transifex_live_settings_api_key_button').trigger('hidden');
                         $('#transifex_live_settings_api_key_message_validating').toggleClass('hide-if-js', true);
                         $('#transifex_live_settings_api_key_message_valid').toggleClass('hide-if-js', false);
-                        $('#transifex_live_settings_enable_seo').trigger('validating');
+                        $('#transifex_live_settings_url_options').trigger('validating');
                         $('input#transifex_live_start').trigger('enable');
                     },
                     events: {success: 'valid', change: 'validating', validating: 'validating'}
@@ -362,23 +362,24 @@ function updateTransifexSettingsFields(obj) {
 
 (function ($) {
     $('#transifex_live_settings_url_options_none').machine(
-            {
-                defaultState: {
-                    onEnter: function () {
-                        $.log.debug('transifex_live_settings_url_options_none::defaultState::onEnter');
-                    },
-                    events: {click: 'on'}
+        {
+            defaultState: {
+                onEnter: function () {
+                    $.log.debug('transifex_live_settings_url_options_none::defaultState::onEnter');
                 },
-                on: {
-                    onEnter: function () {
-                        $.log.debug('transifex_live_settings_url_options_none::on::onEnter');
-                        $('#transifex_live_settings_url_options').trigger('none');
-                    },
-                    events: {click: 'on'}
+                events: {click: 'on'}
+            },
+            on: {
+                onEnter: function () {
+                    $.log.debug('transifex_live_settings_url_options_none::on::onEnter');
+                    $('#transifex_live_settings_url_options').trigger('none');
                 },
-            }, {setClass: true}
+                events: {click: 'on'}
+            },
+        }, {setClass: true}
     );
 })(jQuery);
+
 
 (function ($) {
     $('#transifex_live_settings_url_options_subdirectory').machine(
@@ -426,9 +427,40 @@ function updateTransifexSettingsFields(obj) {
                 defaultState: {
                     onEnter: function () {
                         $.log.debug('transifex_live_settings_url_options::defaultState::onEnter');
+                        this.trigger('validating');
+                    },
+                    events: {validating: 'validating'}
+                },
+                validating: {
+                    onEnter: function () {
+                        $.log.debug('transifex_live_settings_url_options::validating::onEnter');
+                        $('#transifex_live_settings_api_enable_seo_validating').toggleClass('hide-if-js', false);
+                        transifexLanguages();
+                    },
+                    events: {success: 'valid', error: 'error', notranslation:'error'}
+                },
+                valid: {
+                    onEnter: function () {
+                        $.log.debug('transifex_live_settings_url_options::valid::onEnter');
+                        $('#transifex_live_settings_url_options_none').attr('disabled', false);
+                        $('#transifex_live_settings_url_options_subdirectory').attr('disabled', false);
+                        $('#transifex_live_settings_url_options_subdomain').attr('disabled', false);
+                        $('#transifex_live_settings_api_enable_seo_validating').toggleClass('hide-if-js', true);
+                        if (jQuery('#transifex_live_settings_language_map').val() == '[]' || languages_override) {
+                            $('#transifex_live_languages').trigger('load');
+                            languages_override = false;
+                        }
                         (this.val() === "1") ? this.trigger('none') : (this.val() === "2") ? this.trigger('subdomain') : this.trigger('subdirectory');
                     },
                     events: {none: 'none', subdomain: 'subdomain', subdirectory: 'subdirectory'}
+                },
+                error: {
+                    onEnter: function () {
+                        $.log.debug('transifex_live_settings_url_options::error:onEnter');
+                        $('#transifex_live_settings_api_enable_seo_validating').toggleClass('hide-if-js', true);
+                        $('#transifex_live_settings_api_enable_seo_missing').toggleClass('hide-if-js', false);
+                    },
+                    events: {change: 'validating', validating: 'validating'}
                 },
                 none: {
                     onEnter: function () {
@@ -700,68 +732,7 @@ function updateTransifexSettingsFields(obj) {
     )
 })(jQuery);
 
-(function ($) {
-    $('#transifex_live_settings_enable_seo').machine(
-            {
-                defaultState: {
-                    onEnter: function () {
-                        $.log.debug('transifex_live_settings_enable_seo::defaultState::onEnter');
-                        if (this.prop('checked')) {
-                            this.trigger('validating');
-                        } else {
-                            this.trigger('disable');
-                        }
-                    },
-                    events: {validating: 'validating', disable: 'disable'}
-                },
-                enable: {
-                    onEnter: function () {
-                        $.log.debug('transifex_live_settings_enable_seo::enable::onEnter');
-                        this.prop('disabled', false);
-                    },
-                    events: {click: 'disabled'}
-                },
-                validating: {
-                    onEnter: function () {
-                        $.log.debug('transifex_live_settings_enable_seo::validating::onEnter');
-                        $('#transifex_live_settings_api_enable_seo_validating').toggleClass('hide-if-js', false);
-                        transifexLanguages();
-                    },
-                    events: {success: 'valid', error: 'error', notranslation:'error'}
-                },
-                valid: {
-                    onEnter: function () {
-                        $.log.debug('transifex_live_settings_enable_seo::valid::onEnter');
-                        $('#transifex_live_settings_url_options_none').attr('disabled', false);
-                        $('#transifex_live_settings_url_options_subdirectory').attr('disabled', false);
-                        $('#transifex_live_settings_url_options_subdomain').attr('disabled', false);
-                        $('#transifex_live_settings_api_enable_seo_validating').toggleClass('hide-if-js', true);
-                        if (jQuery('#transifex_live_settings_language_map').val() == '[]' || languages_override) {
-                            $('#transifex_live_languages').trigger('load');
-                            languages_override = false;
-                        }
-                        this.trigger('enable');
-                    },
-                    events: {click: 'disable'}
-                },
-                error: {
-                    onEnter: function () {
-                        $.log.debug('transifex_live_settings_enable_seo::error:onEnter');
-                        $('#transifex_live_settings_api_enable_seo_validating').toggleClass('hide-if-js', true);
-                        $('#transifex_live_settings_api_enable_seo_missing').toggleClass('hide-if-js', false);
-                    },
-                    events: {change: 'validating', validating: 'validating'}
-                },
-                disable: {
-                    onEnter: function () {
-                        $.log.debug('transifex_live_settings_enable_seo::disable::onEnter');
-                        this.prop('disabled', true);
-                    },
-                    events: {validating: 'validating'}
-                }
-            }, {setClass: true}
-    );
-})(jQuery);
+
 
 (function ($) {
     $('#transifex_live_settings_prerender_url').machine(

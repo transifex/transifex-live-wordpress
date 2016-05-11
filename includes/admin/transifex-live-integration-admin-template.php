@@ -28,9 +28,12 @@
 		<p class="submit"><input disabled="true" type="button" name="start" id="transifex_live_start" class="button button-primary" value="<?php _e( 'Start Translating NOW', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>"></p>
 		<a id="start_link" class="hide-if-js" href="<?php echo site_url().'?transifex';?>">Start Translating NOW</a>
 		<h2><?php _e( 'Advanced SEO Settings', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></h2>
-		<p><input id="transifex_live_settings_enable_seo" disabled="true" target="blank" name="transifex_live_settings[enable_seo]" value="1" type="checkbox" <?php echo $checked_enable_seo ?>><?php _e( 'Enable', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
+		
 		<p>
-			<span id="transifex_live_settings_api_enable_seo_missing" class="hide-if-js"><?php _e( "D'oh! No languages have been published from Transifex Live yet.", TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></span>
+			<span id="transifex_live_settings_api_enable_seo_missing" class="hide-if-js">
+				<span style="font-weight: bold; color: rgb(255, 0, 0); font-size: 2em;">!</span>
+				<?php _e( "D'oh! No languages have been published from Transifex Live yet.", TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
+			</span>
 			<span id="transifex_live_settings_api_enable_seo_valid" class="hide-if-js"><?php _e( 'Success! Advanced SEO settings enabled.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></span>
 		</p>
 		<p><?php _e( 'This plugin lets you set unique, language/region-specific URLs for your site and tells search engines what language a page is in. This is done by creating new language subdirectories through the plugin, or by pointing to existing language subdomains. In all cases, the plugin will add the Transifex Live JavaScript snippet to your site.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
@@ -38,7 +41,7 @@
 			<tr>
 				<td>
 					<label for="transifex_live_settings_url_options">
-						<!-- p><input type="radio" disabled="true" id="transifex_live_settings_url_options_none" name="transifex_live_settings[url_options_none]" value="1" <?php echo $url_options_none ?>><?php _e( 'Disabled – Just add the Transifex Live JavaScript snippet to my site. <a target="_blank" href="http://docs.transifex.com/integrations/wordpress/#disabled"><b>Learn more</b></a>.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p-->
+						<p><input type="radio" disabled="true" id="transifex_live_settings_url_options_none" name="transifex_live_settings[url_options_none]" value="1" <?php echo $url_options_none ?>><?php _e('Disabled – Just add the Transifex Live JavaScript snippet to my site. <a target="_blank" href="http://docs.transifex.com/integrations/wordpress/#disabled"><b>Learn more</b></a>.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
 						<p><input type="radio" disabled="true" id="transifex_live_settings_url_options_subdirectory" name="transifex_live_settings[url_options_subdirectory]" value="1" <?php echo $url_options_subdirectory ?>><?php _e( 'Subdirectory – Create new language subdirectories through the plugin, e.g. <code>http://www.example.com/fr/</code>. <a target="_blank" href="http://docs.transifex.com/integrations/wordpress/#subdirectories"><b>Learn more</b></a>.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
 						<p><input type="radio" disabled="true" id="transifex_live_settings_url_options_subdomain" name="transifex_live_settings[url_options_subdomain]" value="1" <?php echo $url_options_subdomain ?>><?php _e( 'Subdomain – Point the plugin to existing language subdomains, e.g. <code>http://fr.example.com</code>. <a target="_blank" href="http://docs.transifex.com/integrations/wordpress/#subdomains"><b>Learn more</b></a>.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
 						<input type="hidden" id="transifex_live_settings_url_options" name="transifex_live_settings[url_options]" value="<?php echo $url_options ?>" >
@@ -46,7 +49,7 @@
 					<p class="description"><?php _e( '<b>Note:</b> When you choose the Subdirectory or Subdomain options, the plugin will automatically <a target="_blank" href="http://docs.transifex.com/integrations/wordpress/#hreflang-tag"><b>add hreflang tags</b></a> to the header of your site.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
 				</td></tr></table>
 		<table class="form-table">
-			<tr class="custom-urls-settings">
+			<tr class="custom-urls-settings hide-if-js">
 				<th scope="row" class="titledesc adds-rewrites"><?php _e( 'Published Languages', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></th>
 				<td>
 					<p class="url-structure-subdirectory"><?php _e( 'Below is a list of languages published from Transifex Live. For each language, you can set the name of the subdirectory. Your URLs will follow the pattern of <code>www.example.com/%lang%/</code>, with the language code always appearing immediately after your domain.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
@@ -71,7 +74,7 @@
 					<p class="description" id="transifex_live_tagline-description"><?php _e( 'Tweak your localized urls changing the language codes above.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
 				</td>
 			</tr>
-			<tr class="url-structure-subdirectory">
+			<tr class="url-structure-subdirectory hide-if-js">
 				<th><?php _e( 'Subdirectory Options', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></th>
 				<td>
 					<p><?php _e( 'Choose which WordPress content types you want to enable language subdirectories for.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
