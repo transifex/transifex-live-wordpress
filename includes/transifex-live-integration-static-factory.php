@@ -4,12 +4,10 @@
  * Static factory library functions 
  * @package TransifexLiveIntegration
  */
-
 /*
  * Functions to instantiate plugin libraries
  */
 class Transifex_Live_Integration_Static_Factory {
-	
 	/*
 	 * Creates HREFLANG object
 	 * @param array $settings Settings array from the db
@@ -59,7 +57,6 @@ class Transifex_Live_Integration_Static_Factory {
 	 * Factory function to create a subdomain object
 	 * @param array $settings Associative array used to store plugin settings.
 	 */
-	
 	static function create_subdomains( $settings ) {
 		Plugin_Debug::logTrace();
 		if ( !isset( $settings['languages'] ) ) {
@@ -79,7 +76,6 @@ class Transifex_Live_Integration_Static_Factory {
 	 * Factory function to create a rewrite object
 	 * @param array $settings Associative array used to store plugin settings.
 	 */
-	
 	static function create_rewrite( $settings, $rewrite_options ) {
 		Plugin_Debug::logTrace();
 		if ( !isset( $settings['languages'] ) ) {
@@ -148,14 +144,14 @@ class Transifex_Live_Integration_Static_Factory {
 			Plugin_Debug::logTrace( 'No URL option set, skipping prerender' );
 			return false;
 		}
-		
+
 		if ( $settings['url_options'] !== '2' && $settings['url_options'] != '3' ) {
 			Plugin_Debug::logTrace( 'URL option is none, skipping prerender' );
 			return false;
 		}
 
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/lib/transifex-live-integration-prerender.php';
-		$enable_prerender_check = (isset($settings['enable_prerender_check']))?true:false;
+		$enable_prerender_check = (isset( $settings['enable_prerender_check'] )) ? true : false;
 		return new Transifex_Live_Integration_Prerender( $settings['prerender_url'], $enable_prerender_check, $settings );
 	}
 
