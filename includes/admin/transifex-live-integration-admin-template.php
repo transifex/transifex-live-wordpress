@@ -13,7 +13,7 @@
                         <p>
 							<input required name="transifex_live_settings[api_key]" type="text" id="transifex_live_settings_api_key" value="<?php echo $settings['api_key']; ?>" class="regular-text" placeholder="<?php _e( 'This field is required.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>">
 							<input type="hidden" value="<?php echo $settings['api_key']; ?>" name="transifex_live_settings[previous_api_key]" id="transifex_live_settings_raw_transifex_previous_api_key" />
-							<input type="button" disabled="true" name="check" id="transifex_live_settings_api_key_button" class="button button-primary" value="Check">
+							<input type="submit" disabled="true" name="check" id="transifex_live_settings_api_key_button" class="button button-primary" value="Save">
 						</p>
 						<p id="transifex_live_settings_api_key_message">
 							<span id="transifex_live_settings_api_key_message_validating" class="hide-if-js"><?php _e( 'Validating your key!', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></span>							
@@ -28,7 +28,7 @@
 		<p class="submit"><input disabled="true" type="button" name="start" id="transifex_live_start" class="button button-primary" value="<?php _e( 'Start Translating NOW', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>"></p>
 		<a id="start_link" class="hide-if-js" href="<?php echo site_url().'?transifex';?>">Start Translating NOW</a>
 		<h2><?php _e( 'Advanced SEO Settings', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></h2>
-		<p><input id="transifex_live_settings_enable_seo" target="blank" name="transifex_live_settings[enable_seo]" value="1" type="checkbox" <?php echo $checked_enable_seo ?>><?php _e( 'Enable', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
+		<p><input id="transifex_live_settings_enable_seo" disabled="true" target="blank" name="transifex_live_settings[enable_seo]" value="1" type="checkbox" <?php echo $checked_enable_seo ?>><?php _e( 'Enable', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
 		<p>
 			<span id="transifex_live_settings_api_enable_seo_missing" class="hide-if-js"><?php _e( "D'oh! No languages have been published from Transifex Live yet.", TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></span>
 			<span id="transifex_live_settings_api_enable_seo_valid" class="hide-if-js"><?php _e( 'Success! Advanced SEO settings enabled.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></span>
