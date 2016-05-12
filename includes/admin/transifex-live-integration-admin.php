@@ -108,7 +108,7 @@ class Transifex_Live_Integration_Admin {
 		ob_start();
 		checked( $settings['enable_seo'], 1 );
 		$checked_enable_seo = ob_get_clean();
-		
+
 		// These are used by the template: DO NOT REMOVE - Mjj 2/22/2016
 		$languages = [ ];
 		if ( $settings['transifex_languages'] !== '' ) {
@@ -134,7 +134,7 @@ class Transifex_Live_Integration_Admin {
 		if ( $settings['language_map'] !== '' ) {
 			$language_map = $settings['language_map'];
 		}
-		
+
 		$hreflang_map = [ ];
 		if ( $settings['hreflang_map'] !== '' ) {
 			$hreflang_map = $settings['hreflang_map'];
@@ -215,14 +215,14 @@ class Transifex_Live_Integration_Admin {
 
 		$languages = '';
 		$languages_regex = '';
-		if ($transifex_languages!=null  )
-		foreach ($transifex_languages as $lang) {
-			$trim = true;
-			$languages .= $languages_map[0][$lang];
-			$languages .= ",";
-			$languages_regex .= $languages_map[0][$lang];
-			$languages_regex .= "|";
-		}
+		if ( $transifex_languages != null )
+			foreach ($transifex_languages as $lang) {
+				$trim = true;
+				$languages .= $languages_map[0][$lang];
+				$languages .= ",";
+				$languages_regex .= $languages_map[0][$lang];
+				$languages_regex .= "|";
+			}
 
 		$languages = ($trim) ? rtrim( $languages, ',' ) : '';
 		$languages_regex = ($trim) ? rtrim( $languages_regex, '|' ) : '';
@@ -300,6 +300,7 @@ class Transifex_Live_Integration_Admin {
 		$settings['transifex_live_settings']['languages'] = ( isset( $settings['transifex_live_settings']['languages'] )) ? sanitize_text_field( stripslashes( $settings['transifex_live_settings']['languages'] ) ) : '';
 		$settings['transifex_live_settings']['language_lookup'] = ( isset( $settings['transifex_live_settings']['language_lookup'] )) ? sanitize_text_field( stripslashes( $settings['transifex_live_settings']['language_lookup'] ) ) : '';
 		$settings['transifex_live_settings']['language_map'] = ( isset( $settings['transifex_live_settings']['language_map'] )) ? sanitize_text_field( stripslashes( $settings['transifex_live_settings']['language_map'] ) ) : '';
+		$settings['transifex_live_settings']['hreflang_map'] = ( isset( $settings['transifex_live_settings']['hreflang_map'] )) ? sanitize_text_field( stripslashes( $settings['transifex_live_settings']['hreflang_map'] ) ) : '';
 		$settings['transifex_live_settings']['source_language'] = ( isset( $settings['transifex_live_settings']['source_language'] )) ? sanitize_text_field( $settings['transifex_live_settings']['source_language'] ) : '';
 		$settings['transifex_live_settings']['subdomain_pattern'] = ( isset( $settings['transifex_live_settings']['subdomain_pattern'] )) ? sanitize_text_field( $settings['transifex_live_settings']['subdomain_pattern'] ) : '';
 		$settings['transifex_live_settings']['languages_regex'] = ( isset( $settings['transifex_live_settings']['languages_regex'] )) ? sanitize_text_field( $settings['transifex_live_settings']['languages_regex'] ) : '';

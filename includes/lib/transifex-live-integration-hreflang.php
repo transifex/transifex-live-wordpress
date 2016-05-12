@@ -92,7 +92,7 @@ class Transifex_Live_Integration_Hreflang {
 	 */
 
 	private function generate_languages_hreflang( $raw_url, $languages,
-			$language_map
+			$language_map, $hreflang_map
 	) {
 		Plugin_Debug::logTrace();
 		$url_map = Transifex_Live_Integration_Common::generate_language_url_map( $raw_url, $this->tokenized_url, $language_map );
@@ -101,7 +101,7 @@ class Transifex_Live_Integration_Hreflang {
 			$arr = [ ];
 
 			$arr['href'] = $url_map[$language];
-			$arr['hreflang'] = $language_map[$language];
+			$arr['hreflang'] = $hreflang_map[$language];
 			array_push( $ret, $arr );
 		}
 		return $ret;
@@ -128,7 +128,7 @@ class Transifex_Live_Integration_Hreflang {
 		$hreflang_out .= <<<SOURCE
 <link rel="alternate" href="$source_url" hreflang="$source"/>\n		
 SOURCE;
-		$hreflangs = $this->generate_languages_hreflang( $source_url_path, $this->languages, $this->hreflang_map );
+		$hreflangs = $this->generate_languages_hreflang( $source_url_path, $this->languages, $this->language_map, $this->hreflang_map  );
 		foreach ($hreflangs as $hreflang) {
 			$href_attr = $hreflang['href'];
 			$hreflang_attr = $hreflang['hreflang'];

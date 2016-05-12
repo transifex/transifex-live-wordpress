@@ -53,7 +53,7 @@ function transifex_live_integration_convert(l) {
                 arr['code'] = o['code'];
                 language_lookup.push(arr);
                 arrr[o['code']] = o['code'];
-                arrrr[o['code']] = o['code'].toLowerCase().replace('_','-');
+                arrrr[o['code']] = o['code'].toLowerCase().replace('_', '-');
             }
     );
     language_map.push(arrr);
@@ -155,7 +155,7 @@ function addTransifexLanguages(obj) {
                         jQuery(this).find('span.tx-language').text(o.caption);
                         if (tlslm.length < 1) {
                             jQuery(this).find('input.tx-code').attr('id', o.id).attr('name', o.name).val(o.value);
-                            jQuery(this).find('input.tx-hreflang').attr('id', o.hreflangid).attr('name', o.hreflangname).val(o.value.toLowerCase().replace('_','-'));
+                            jQuery(this).find('input.tx-hreflang').attr('id', o.hreflangid).attr('name', o.hreflangname).val(o.value.toLowerCase().replace('_', '-'));
                         } else {
                             jQuery(this).find('input.tx-code').attr('id', o.id).attr('name', o.name).val(tlslm[0][o.value]);
                             jQuery(this).find('input.tx-hreflang').attr('id', o.hreflangid).attr('name', o.hreflangname).val(tlshm[0][o.value]);
@@ -236,7 +236,7 @@ function updateTransifexSettingsFields(obj) {
                 defaultState: {
                     onEnter: function () {
                         $.log.debug('transifex_live_settings_api_key_button::defaultState::onEnter');
-                        ($('#transifex_live_settings_api_key').val() !== '') ? this.trigger('hidden') : this.trigger('wait');
+                        ($('#transifex_live_settings_api_key').val() === '') ? this.trigger('wait') : this.trigger('checking');
                     },
                     events: {wait: 'wait', hidden: 'hidden'}
                 },
@@ -246,7 +246,7 @@ function updateTransifexSettingsFields(obj) {
                         this.show();
                         this.attr('disabled', false);
                     },
-                    events: {click: 'checking'}
+                    events: {}
                 },
                 checking: {
                     onEnter: function () {
@@ -362,21 +362,21 @@ function updateTransifexSettingsFields(obj) {
 
 (function ($) {
     $('#transifex_live_settings_url_options_none').machine(
-        {
-            defaultState: {
-                onEnter: function () {
-                    $.log.debug('transifex_live_settings_url_options_none::defaultState::onEnter');
+            {
+                defaultState: {
+                    onEnter: function () {
+                        $.log.debug('transifex_live_settings_url_options_none::defaultState::onEnter');
+                    },
+                    events: {click: 'on'}
                 },
-                events: {click: 'on'}
-            },
-            on: {
-                onEnter: function () {
-                    $.log.debug('transifex_live_settings_url_options_none::on::onEnter');
-                    $('#transifex_live_settings_url_options').trigger('none');
+                on: {
+                    onEnter: function () {
+                        $.log.debug('transifex_live_settings_url_options_none::on::onEnter');
+                        $('#transifex_live_settings_url_options').trigger('none');
+                    },
+                    events: {click: 'on'}
                 },
-                events: {click: 'on'}
-            },
-        }, {setClass: true}
+            }, {setClass: true}
     );
 })(jQuery);
 
@@ -427,7 +427,13 @@ function updateTransifexSettingsFields(obj) {
                 defaultState: {
                     onEnter: function () {
                         $.log.debug('transifex_live_settings_url_options::defaultState::onEnter');
-                        this.trigger('validating');
+                        this.trigger('wait');
+                    },
+                    events: {wait: 'wait'}
+                },
+                wait: {
+                    onEnter: function () {
+                        $.log.debug('transifex_live_settings_url_options::wait::onEnter');
                     },
                     events: {validating: 'validating'}
                 },
@@ -435,9 +441,11 @@ function updateTransifexSettingsFields(obj) {
                     onEnter: function () {
                         $.log.debug('transifex_live_settings_url_options::validating::onEnter');
                         $('#transifex_live_settings_api_enable_seo_validating').toggleClass('hide-if-js', false);
+                        $('#transifex_live_settings_api_enable_seo_valid').toggleClass('hide-if-js', true);
+                        $('#transifex_live_settings_api_enable_seo_missing').toggleClass('hide-if-js', true);
                         transifexLanguages();
                     },
-                    events: {success: 'valid', error: 'error', notranslation:'error'}
+                    events: {success: 'valid', error: 'error', notranslation: 'error'}
                 },
                 valid: {
                     onEnter: function () {
@@ -446,6 +454,8 @@ function updateTransifexSettingsFields(obj) {
                         $('#transifex_live_settings_url_options_subdirectory').attr('disabled', false);
                         $('#transifex_live_settings_url_options_subdomain').attr('disabled', false);
                         $('#transifex_live_settings_api_enable_seo_validating').toggleClass('hide-if-js', true);
+                        $('#transifex_live_settings_api_enable_seo_valid').toggleClass('hide-if-js', false);
+                        $('#transifex_live_settings_api_enable_seo_missing').toggleClass('hide-if-js', true);
                         if (jQuery('#transifex_live_settings_language_map').val() == '[]' || languages_override) {
                             $('#transifex_live_languages').trigger('load');
                             languages_override = false;
@@ -459,6 +469,7 @@ function updateTransifexSettingsFields(obj) {
                         $.log.debug('transifex_live_settings_url_options::error:onEnter');
                         $('#transifex_live_settings_api_enable_seo_validating').toggleClass('hide-if-js', true);
                         $('#transifex_live_settings_api_enable_seo_missing').toggleClass('hide-if-js', false);
+                        $('#transifex_live_settings_api_enable_seo_valid').toggleClass('hide-if-js', true);
                     },
                     events: {change: 'validating', validating: 'validating'}
                 },
@@ -627,7 +638,6 @@ function updateTransifexSettingsFields(obj) {
                     },
                     events: {enable: 'enable'}
                 },
-
             }, {setClass: true}
     );
 })(jQuery);
