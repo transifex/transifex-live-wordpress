@@ -1,26 +1,11 @@
 <div class="wrap transifex-live-settings">
     <h2><?php _e( 'Transifex Live Translation Plugin Settings', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></h2>
 						<p id="transifex_live_settings_api_key_message">
-							<div id="transifex_live_settings_api_key_message_validating" class="notice notice-info hide-if-js">
-								<p><strong><?php _e( 'Validating your key!', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></strong></p>
-							</div>
-							<div id="transifex_live_settings_api_key_message_valid" class="notice notice-success hide-if-js">
-								<p><strong><?php _e( 'Success! Transifex Live sidebar enabled.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></strong></p>
-							</div>
 							<div id="transifex_live_settings_api_key_message_error" class="notice notice-error hide-if-js">
 								<p><strong><?php _e( "Oops! Please make sure you've entered a valid API key.", TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></strong></p>
-							</div>
-						</p>
-	
-			<p>
-			<div id="transifex_live_settings_api_enable_seo_validating" class="notice notice-info hide-if-js">
-				<p><strong><?php _e( 'Checking your languages!', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></strong></p>
-			</div>							
+							</div>				
 			<div id="transifex_live_settings_api_enable_seo_missing" class="notice notice-error hide-if-js">
 				<p><strong><?php _e( "Oops! No languages have been published from Transifex Live yet.", TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></strong></p>
-			</div>
-			<div id="transifex_live_settings_api_enable_seo_valid" class="notice notice-success hide-if-js">
-				<p><strong><?php _e( 'Success! Advanced SEO settings enabled.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></strong></p>
 			</div>
 		</p>
 	<form id="transifex_live_settings_form" method="post" enctype="multipart/form-data">
