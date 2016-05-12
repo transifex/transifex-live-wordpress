@@ -16,3 +16,8 @@ $I->executeJS('jQuery("#transifex_live_settings_api_key_button").click();');
 
 $I->wait(5);
 $I->see('Success! Transifex Live sidebar enabled');
+
+$I->amOnPage('/');
+$I->seeInSource('src="//cdn.transifex.com/live.js"');
+$I->seeInSource('window.liveSettings');
+$I->seeInSource('"api_key":"2699bc66df6546008d0a14acf26732a1"');

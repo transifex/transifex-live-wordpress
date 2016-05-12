@@ -7,17 +7,13 @@ $I->amOnPage('/wp-login.php');
 $I->fillField('Username', 'admin');
 $I->fillField('Password','admin');
 $I->click('Log In');
+
 $I->see('Dashboard');
 $I->amOnPage('/wp-admin/options-general.php?page=transifex-live-integration');
 $I->see('Transifex Live Translation Plugin Settings','h2');
-$I->assertTrue($I->executeJS('return (jQuery("#transifex_live_settings_api_key").val()=="")?true:false;'));
-$I->executeJS('jQuery("#transifex_live_settings_api_key").val("2699bc66df6546008d0a14acf26732a1");');
-$I->executeJS('jQuery("#transifex_live_settings_api_key_button").click();');
+$I->assertTrue($I->executeJS('return (jQuery("#transifex_live_settings_api_key").val()=="2699bc66df6546008d0a14acf26732a1")?true:false;'));
+$I->see('Success! Transifex Live sidebar enabled');
 
-$I->wait(5);
-$I->see('Success! Transifex Live sidebar enabled.');
-
-$I->executeJS('jQuery("#transifex_live_settings_enable_seo").trigger("click");');
 $I->executeJS('jQuery("#transifex_live_settings_url_options_subdirectory").trigger("click");');
 $I->seeElement('#transifex-integration-live-zh_CN');
 $I->seeElement('#transifex-integration-live-de_DE');
