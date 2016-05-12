@@ -34,7 +34,7 @@ $I->waitForText('Your changes to the settings have been saved!', 7);
 $I->amOnPage('/wp-admin/options-permalink.php');
 $I->amOnPage('/');
 $I->seeInSource('hreflang="en"');
-$I->seeInSource('hreflang="cn-zh"');
+$I->seeInSource('hreflang="zh-cn"');
 $I->seeInSource('hreflang="de-de"');
 $I->seeInSource('src="//cdn.transifex.com/live.js"');
 $I->seeInSource('window.liveSettings');
@@ -44,7 +44,7 @@ $I->seeInSource('"detectlang":function() { return "en";}');
 
 $I->amOnPage('/cn/');
 $I->seeInSource('hreflang="en"');
-$I->seeInSource('hreflang="cn-zh"');
+$I->seeInSource('hreflang="zh-cn"');
 $I->seeInSource('hreflang="de-de"');
 $I->seeInSource('src="//cdn.transifex.com/live.js"');
 $I->seeInSource('window.liveSettings');
@@ -57,7 +57,7 @@ $I->seeLink('Blog','http://192.168.99.100:32777/cn/blog/');
 
 $I->amOnPage('/de/');
 $I->seeInSource('hreflang="en"');
-$I->seeInSource('hreflang="cn-zh"');
+$I->seeInSource('hreflang="zh-cn"');
 $I->seeInSource('hreflang="de-de"');
 $I->seeInSource('src="//cdn.transifex.com/live.js"');
 $I->seeInSource('window.liveSettings');

@@ -20,7 +20,7 @@ $I->see('Success! Advanced SEO settings enabled.');
 $I->executeJS('jQuery("#transifex_live_settings_url_options_subdirectory").trigger("click");');
 $I->seeElement('#transifex-integration-live-zh_CN');
 $I->seeElement('#transifex-integration-live-de_DE');
-$I->seeElement('#transifex_live_submit', ['disabled' => 'true']);
+
 $I->executeJS('jQuery("#transifex_live_settings_rewrite_option_all").trigger("click");');
 $I->dontSeeElement('#transifex_live_submit', ['disabled' => 'true']);
 $I->executeJS('jQuery("input#transifex_live_submit").click();');
