@@ -11,8 +11,11 @@ $I->see('Dashboard');
 $I->amOnPage('/wp-admin/options-general.php?page=transifex-live-integration');
 $I->see('Transifex Live Translation Plugin Settings','h2');
 $I->assertTrue($I->executeJS('return (jQuery("#transifex_live_settings_api_key").val()=="2699bc66df6546008d0a14acf26732a1")?true:false;'));
+
 $I->wait(5);
+$I->see('Success! Transifex Live sidebar enabled.');
 $I->see('Success! Advanced SEO settings enabled.');
+
 $I->executeJS('jQuery("input#transifex_live_settings_url_options_subdomain").click();');
 $I->seeElement('#transifex-integration-live-zh_CN', ['value' => 'cn'] );
 $I->seeElement('#transifex-integration-live-de_DE', ['value' => 'de']);
@@ -24,9 +27,9 @@ $I->waitForText('Your changes to the settings have been saved!', 7);
 $I->amOnPage('/wp-admin/options-permalink.php');
 $I->amOnPage('/');
 $I->seeInSource('hreflang="en"');
-$I->seeInSource('hreflang="cn"');
+$I->seeInSource('hreflang="cn-zh"');
 $I->seeInSource('href="http://cn.168.99.100:32777/"');
-$I->seeInSource('hreflang="de"');
+$I->seeInSource('hreflang="de-de"');
 $I->seeInSource('href="http://de.168.99.100:32777/"');
 $I->seeInSource('src="//cdn.transifex.com/live.js"');
 $I->seeInSource('window.liveSettings');

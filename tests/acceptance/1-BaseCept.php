@@ -15,7 +15,8 @@ $I->executeJS('jQuery("#transifex_live_settings_api_key").val("2699bc66df6546008
 $I->executeJS('jQuery("#transifex_live_settings_api_key_button").click();');
 
 $I->wait(5);
-$I->see('Success! Transifex Live sidebar enabled');
+$I->see('Success! Transifex Live sidebar enabled.');
+$I->see('Success! Advanced SEO settings enabled.');
 
 $I->amOnPage('/');
 $I->seeInSource('src="//cdn.transifex.com/live.js"');
