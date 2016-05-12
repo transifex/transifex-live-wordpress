@@ -72,7 +72,7 @@ $I->amOnPage('/sample-page/');
 $I->seeInSource('href="http://192.168.99.100:32777/sample-page/"');
 $I->seeInSource('hreflang="en"');
 $I->seeInSource('href="http://192.168.99.100:32777/cn/sample-page/"');
-$I->seeInSource('hreflang="cn-zh"');
+$I->seeInSource('hreflang="zh-cn"');
 $I->seeInSource('href="http://192.168.99.100:32777/de/sample-page/"');
 $I->seeInSource('hreflang="de-de"');
 $I->seeInSource('src="//cdn.transifex.com/live.js"');
@@ -89,7 +89,7 @@ $I->waitForText('Your changes to the settings have been saved!', 7);
 
 $I->amOnPage('/de/sample-page/');
 $I->dontSeeInSource('hreflang="en"');
-$I->dontSeeInSource('hreflang="cn-zh"');
+$I->dontSeeInSource('hreflang="zh-cn"');
 $I->dontSeeInSource('hreflang="de-de"');
 $I->seeInSource('src="//cdn.transifex.com/live.js"');
 $I->seeInSource('window.liveSettings');

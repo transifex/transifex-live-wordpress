@@ -27,7 +27,7 @@ $I->waitForText('Your changes to the settings have been saved!', 7);
 $I->amOnPage('/wp-admin/options-permalink.php');
 $I->amOnPage('/');
 $I->seeInSource('hreflang="en"');
-$I->seeInSource('hreflang="cn-zh"');
+$I->seeInSource('hreflang="zh-cn"');
 $I->seeInSource('href="http://cn.168.99.100:32777/"');
 $I->seeInSource('hreflang="de-de"');
 $I->seeInSource('href="http://de.168.99.100:32777/"');

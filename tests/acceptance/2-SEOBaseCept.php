@@ -39,8 +39,8 @@ $I->seeInSource('"detectlang":function() { return "en";}');
 
 $I->amOnPage('/zh_CN/');
 $I->seeInSource('hreflang="en"');
-$I->seeInSource('hreflang="zh_CN"');
-$I->seeInSource('hreflang="de_DE"');
+$I->seeInSource('hreflang="zh-cn"');
+$I->seeInSource('hreflang="de-de"');
 $I->seeInSource('src="//cdn.transifex.com/live.js"');
 $I->seeInSource('window.liveSettings');
 $I->seeInSource('"api_key":"2699bc66df6546008d0a14acf26732a1"');
@@ -52,8 +52,8 @@ $I->seeLink('Blog','http://192.168.99.100:32777/zh_CN/blog/');
 
 $I->amOnPage('/de_DE/');
 $I->seeInSource('hreflang="en"');
-$I->seeInSource('hreflang="zh_CN"');
-$I->seeInSource('hreflang="de_DE"');
+$I->seeInSource('hreflang="zh-cn"');
+$I->seeInSource('hreflang="de-de"');
 $I->seeInSource('src="//cdn.transifex.com/live.js"');
 $I->seeInSource('window.liveSettings');
 $I->seeInSource('"api_key":"2699bc66df6546008d0a14acf26732a1"');
