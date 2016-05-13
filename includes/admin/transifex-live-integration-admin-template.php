@@ -1,6 +1,13 @@
 <div class="wrap transifex-live-settings">
     <h2><?php _e( 'Transifex Live Translation Plugin Settings', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></h2>
-
+						<p id="transifex_live_settings_api_key_message">
+							<div id="transifex_live_settings_api_key_message_error" class="notice notice-error hide-if-js">
+								<p><strong><?php _e( "Oops! Please make sure you've entered a valid API key.", TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></strong></p>
+							</div>				
+			<div id="transifex_live_settings_api_enable_seo_missing" class="notice notice-error hide-if-js">
+				<p><strong><?php _e( "Oops! No languages have been published from Transifex Live yet.", TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></strong></p>
+			</div>
+		</p>
 	<form id="transifex_live_settings_form" method="post" enctype="multipart/form-data">
 		<?php wp_nonce_field( 'transifex_live_settings', 'transifex_live_nonce' ); ?>
 		<p><?php _e( 'Translate your WordPress site without complexities.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
@@ -15,33 +22,21 @@
 							<input type="hidden" value="<?php echo $settings['api_key']; ?>" name="transifex_live_settings[previous_api_key]" id="transifex_live_settings_raw_transifex_previous_api_key" />
 							<input type="submit" disabled="true" name="check" id="transifex_live_settings_api_key_button" class="button button-primary" value="Save">
 						</p>
-						<p id="transifex_live_settings_api_key_message">
-							<span id="transifex_live_settings_api_key_message_validating" class="hide-if-js"><?php _e( 'Validating your key!', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></span>							
-						<span id="transifex_live_settings_api_key_message_valid" class="hide-if-js"><?php _e( 'Success! Transifex Live sidebar enabled', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></span>	
-							<span id="transifex_live_settings_api_key_message_error" class="hide-if-js"><?php _e( "Oops! Please make sure you've entered a valid API key.", TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></span>
-						</p>
 					</td>
                 </tr>
 				<tr valign="top">
 				</tr></table>
+
 		<h2><?php _e( '', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></h2>
 		<p class="submit"><input disabled="true" type="button" name="start" id="transifex_live_start" class="button button-primary" value="<?php _e( 'Start Translating NOW', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>"></p>
-		<a id="start_link" class="hide-if-js" href="<?php echo site_url().'?transifex';?>">Start Translating NOW</a>
+		<a id="start_link" class="hide-if-js" href="<?php echo site_url() . '?transifex'; ?>">Start Translating NOW</a>
 		<h2><?php _e( 'Advanced SEO Settings', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></h2>
-		
-		<p>
-			<span id="transifex_live_settings_api_enable_seo_missing" class="hide-if-js">
-				<span style="font-weight: bold; color: rgb(255, 0, 0); font-size: 2em;">!</span>
-				<?php _e( "D'oh! No languages have been published from Transifex Live yet.", TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
-			</span>
-			<span id="transifex_live_settings_api_enable_seo_valid" class="hide-if-js"><?php _e( 'Success! Advanced SEO settings enabled.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></span>
-		</p>
 		<p><?php _e( 'This plugin lets you set unique, language/region-specific URLs for your site and tells search engines what language a page is in. This is done by creating new language subdirectories through the plugin, or by pointing to existing language subdomains. In all cases, the plugin will add the Transifex Live JavaScript snippet to your site.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
 		<table class="form-table">
 			<tr>
 				<td>
 					<label for="transifex_live_settings_url_options">
-						<p><input type="radio" disabled="true" id="transifex_live_settings_url_options_none" name="transifex_live_settings[url_options_none]" value="1" <?php echo $url_options_none ?>><?php _e('Disabled – Just add the Transifex Live JavaScript snippet to my site. <a target="_blank" href="http://docs.transifex.com/integrations/wordpress/#disabled"><b>Learn more</b></a>.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
+						<p><input type="radio" disabled="true" id="transifex_live_settings_url_options_none" name="transifex_live_settings[url_options_none]" value="1" <?php echo $url_options_none ?>><?php _e( 'Disabled – Just add the Transifex Live JavaScript snippet to my site. <a target="_blank" href="http://docs.transifex.com/integrations/wordpress/#disabled"><b>Learn more</b></a>.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
 						<p><input type="radio" disabled="true" id="transifex_live_settings_url_options_subdirectory" name="transifex_live_settings[url_options_subdirectory]" value="1" <?php echo $url_options_subdirectory ?>><?php _e( 'Subdirectory – Create new language subdirectories through the plugin, e.g. <code>http://www.example.com/fr/</code>. <a target="_blank" href="http://docs.transifex.com/integrations/wordpress/#subdirectories"><b>Learn more</b></a>.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
 						<p><input type="radio" disabled="true" id="transifex_live_settings_url_options_subdomain" name="transifex_live_settings[url_options_subdomain]" value="1" <?php echo $url_options_subdomain ?>><?php _e( 'Subdomain – Point the plugin to existing language subdomains, e.g. <code>http://fr.example.com</code>. <a target="_blank" href="http://docs.transifex.com/integrations/wordpress/#subdomains"><b>Learn more</b></a>.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
 						<input type="hidden" id="transifex_live_settings_url_options" name="transifex_live_settings[url_options]" value="<?php echo $url_options ?>" >
