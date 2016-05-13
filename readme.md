@@ -113,3 +113,6 @@ Patch for Prerender logic
 
 = 1.3.2 =
 Added additional Prerender options for caching
+
+= 1.3.3 =
+A few minor fixes.  Revised admin UI

@@ -84,11 +84,11 @@ class Transifex_Live_Integration_Admin {
 		ob_start();
 		checked( $settings['enable_prerender'], 1 );
 		$checked_enable_prerender = ob_get_clean();
-		
+
 		ob_start();
 		checked( $settings['enable_prerender_check'], 1 );
 		$checked_enable_prerender_check = ob_get_clean();
-		
+
 		ob_start();
 		checked( $settings['prerender_enable_response_header'], 1 );
 		$checked_prerender_enable_response_header = ob_get_clean();
@@ -104,6 +104,10 @@ class Transifex_Live_Integration_Admin {
 		ob_start();
 		checked( $settings['static_frontpage_support'], 1 );
 		$checked_static_frontpage_support = ob_get_clean();
+
+		ob_start();
+		checked( $settings['enable_seo'], 1 );
+		$checked_enable_seo = ob_get_clean();
 
 		// These are used by the template: DO NOT REMOVE - Mjj 2/22/2016
 		$languages = [ ];
@@ -121,7 +125,7 @@ class Transifex_Live_Integration_Admin {
 			$source_language = $settings['source_language'];
 		}
 
-		$language_lookup = [ ];
+		$language_lookup = '';
 		if ( $settings['language_lookup'] !== '' ) {
 			$language_lookup = $settings['language_lookup'];
 		}
@@ -130,17 +134,22 @@ class Transifex_Live_Integration_Admin {
 		if ( $settings['language_map'] !== '' ) {
 			$language_map = $settings['language_map'];
 		}
-		
+
+		$hreflang_map = [ ];
+		if ( $settings['hreflang_map'] !== '' ) {
+			$hreflang_map = $settings['hreflang_map'];
+		}
+
 		$prerender_response_headers = '';
 		if ( $settings['prerender_response_headers'] !== '' ) {
 			$prerender_response_headers = $settings['prerender_response_headers'];
 		}
-		
+
 		$prerender_cookie = '';
 		if ( $settings['prerender_cookie'] !== '' ) {
 			$prerender_cookie = $settings['prerender_cookie'];
-		}		
-		
+		}
+
 		$checked_custom_urls = ($settings['enable_custom_urls'] === "1") ? "1" : "0";
 
 		$url_options = $settings['url_options'];
@@ -153,8 +162,8 @@ class Transifex_Live_Integration_Admin {
 		ob_start();
 		checked( $settings['url_options'], '3' );
 		$url_options_subdirectory = ob_get_clean();
-		
-		
+
+
 		$site_url = site_url();
 		$site_url_subdirectory_example = $site_url . '/%lang%';
 		$site_url_array = explode( '/', $site_url );
@@ -206,13 +215,14 @@ class Transifex_Live_Integration_Admin {
 
 		$languages = '';
 		$languages_regex = '';
-		foreach ($transifex_languages as $lang) {
-			$trim = true;
-			$languages .= $languages_map[0][$lang];
-			$languages .= ",";
-			$languages_regex .= $languages_map[0][$lang];
-			$languages_regex .= "|";
-		}
+		if ( $transifex_languages != null )
+			foreach ($transifex_languages as $lang) {
+				$trim = true;
+				$languages .= $languages_map[0][$lang];
+				$languages .= ",";
+				$languages_regex .= $languages_map[0][$lang];
+				$languages_regex .= "|";
+			}
 
 		$languages = ($trim) ? rtrim( $languages, ',' ) : '';
 		$languages_regex = ($trim) ? rtrim( $languages_regex, '|' ) : '';
@@ -271,7 +281,7 @@ class Transifex_Live_Integration_Admin {
 		}
 
 		if ( $is_admin_page_notice ) {
-			echo '<div class="notice is-dismissable">' . $notice . '</div>';
+			echo '<div class="notice notice-success is-dismissable">' . $notice . '</div>';
 		}
 		if ( $is_admin_dashboard_notice ) {
 			echo '<div class="clear"></div>';
@@ -290,6 +300,7 @@ class Transifex_Live_Integration_Admin {
 		$settings['transifex_live_settings']['languages'] = ( isset( $settings['transifex_live_settings']['languages'] )) ? sanitize_text_field( stripslashes( $settings['transifex_live_settings']['languages'] ) ) : '';
 		$settings['transifex_live_settings']['language_lookup'] = ( isset( $settings['transifex_live_settings']['language_lookup'] )) ? sanitize_text_field( stripslashes( $settings['transifex_live_settings']['language_lookup'] ) ) : '';
 		$settings['transifex_live_settings']['language_map'] = ( isset( $settings['transifex_live_settings']['language_map'] )) ? sanitize_text_field( stripslashes( $settings['transifex_live_settings']['language_map'] ) ) : '';
+		$settings['transifex_live_settings']['hreflang_map'] = ( isset( $settings['transifex_live_settings']['hreflang_map'] )) ? sanitize_text_field( stripslashes( $settings['transifex_live_settings']['hreflang_map'] ) ) : '';
 		$settings['transifex_live_settings']['source_language'] = ( isset( $settings['transifex_live_settings']['source_language'] )) ? sanitize_text_field( $settings['transifex_live_settings']['source_language'] ) : '';
 		$settings['transifex_live_settings']['subdomain_pattern'] = ( isset( $settings['transifex_live_settings']['subdomain_pattern'] )) ? sanitize_text_field( $settings['transifex_live_settings']['subdomain_pattern'] ) : '';
 		$settings['transifex_live_settings']['languages_regex'] = ( isset( $settings['transifex_live_settings']['languages_regex'] )) ? sanitize_text_field( $settings['transifex_live_settings']['languages_regex'] ) : '';
