@@ -121,8 +121,10 @@ function addTransifexLanguages(obj) {
                             jQuery('#transifex_live_language_map_template').clone().show().addClass('cloned-language-map').each(
                             function (ii, oo) {
                                 jQuery(oo).find('span.tx-language').text(o.tx_name);
-                                jQuery(oo).find('input.tx-code').attr('id', myId).attr('name', myName).val(lm[0][o.code]);
-                                jQuery(oo).find('input.tx-hreflang').attr('id', myHreflangId).attr('name', myHreflangName).val(hm[0][o.code]);
+                                var lmval =  (typeof lm[0] != 'undefined')?lm[0][o.code]:'';
+                                jQuery(oo).find('input.tx-code').attr('id', myId).attr('name', myName).val(lmval);
+                                var hmval =  ( typeof hm[0] != 'undefined')?hm[0][o.code]:'';
+                                jQuery(oo).find('input.tx-hreflang').attr('id', myHreflangId).attr('name', myHreflangName).val(hmval);
                             }
                     )
                             );
