@@ -1,4 +1,3 @@
-jQuery.log.level('debug');
 function transifex_live_integration_mapper(l1) {
     return {
         'caption': l1['tx_name'],

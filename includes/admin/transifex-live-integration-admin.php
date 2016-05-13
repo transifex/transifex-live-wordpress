@@ -281,7 +281,7 @@ class Transifex_Live_Integration_Admin {
 		}
 
 		if ( $is_admin_page_notice ) {
-			echo '<div class="notice is-dismissable">' . $notice . '</div>';
+			echo '<div class="notice notice-success is-dismissable">' . $notice . '</div>';
 		}
 		if ( $is_admin_dashboard_notice ) {
 			echo '<div class="clear"></div>';
