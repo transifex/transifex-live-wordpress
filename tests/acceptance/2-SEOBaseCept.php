@@ -14,8 +14,6 @@ $I->see('Transifex Live Translation Plugin Settings','h2');
 $I->assertTrue($I->executeJS('return (jQuery("#transifex_live_settings_api_key").val()=="2699bc66df6546008d0a14acf26732a1")?true:false;'));
 
 $I->wait(5);
-$I->see('Success! Transifex Live sidebar enabled.');
-$I->see('Success! Advanced SEO settings enabled.');
 
 $I->executeJS('jQuery("#transifex_live_settings_url_options_subdirectory").trigger("click");');
 $I->seeElement('#transifex-integration-live-zh_CN');
