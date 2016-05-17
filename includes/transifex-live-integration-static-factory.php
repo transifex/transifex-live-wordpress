@@ -41,7 +41,7 @@ class Transifex_Live_Integration_Static_Factory {
 	 * @return object/false Returns new onject or false
 	 */
 
-	static function create_live_snippet( $settings ) {
+	static function create_live_snippet( $settings, $live_settings ) {
 		Plugin_Debug::logTrace();
 
 		if ( !isset( $settings['api_key'] ) ) {
@@ -50,7 +50,7 @@ class Transifex_Live_Integration_Static_Factory {
 		}
 
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/lib/transifex-live-integration-javascript.php';
-		return new Transifex_Live_Integration_Javascript( $settings );
+		return new Transifex_Live_Integration_Javascript( $settings, $live_settings );
 	}
 
 	/**

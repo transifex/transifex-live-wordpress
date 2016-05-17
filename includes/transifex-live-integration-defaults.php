@@ -56,15 +56,16 @@ class Transifex_Live_Integration_Defaults {
 	 */
 	static function transifex_settings() {
 		return [
-			'settings' => null,
-			'picker' => 'no-picker',
-			'domain' => 'wpliveplugin.onpressidium.com',
-			'ignore_tags' => [ ],
-			'autocollect' => false,
-			'parse_attr' => [ ],
-			'dynamic' => false,
-			'detectlang' => false,
-			'ignore_class' => [ ]
+			//'settings' => null,
+			//'picker' => 'no-picker',
+			//'domain' => '',
+			//'ignore_tags' => [ ],
+			//'autocollect' => false,
+			//'parse_attr' => [ ],
+			//'dynamic' => false,
+			//'detectlang' => false,
+			//'ignore_class' => [ ],
+			'wp' => true
 		];
 	}
 

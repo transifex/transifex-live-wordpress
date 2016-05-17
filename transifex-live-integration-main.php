@@ -22,6 +22,7 @@ class Transifex_Live_Integration {
 
 			$settings = Transifex_Live_Integration_Defaults::settings();
 		}
+		$live_settings = Transifex_Live_Integration_Defaults::transifex_settings();
 		$debug_mode = ($settings['debug']) ? true : false;
 
 		require_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/common/plugin-debug.php';
@@ -71,7 +72,7 @@ class Transifex_Live_Integration {
 
 			add_filter( 'query_vars', [ 'Transifex_Live_Integration_Util', 'query_vars_hook' ] );
 
-			$live_snippet = Transifex_Live_Integration_Static_Factory::create_live_snippet( $settings );
+			$live_snippet = Transifex_Live_Integration_Static_Factory::create_live_snippet( $settings, $live_settings );
 			if ( $live_snippet ) {
 				// We need to wait until wp is setup to retrieve query var
 				add_action( 'wp', [ $live_snippet, 'wp_hook' ] );
