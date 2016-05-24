@@ -118,3 +118,4 @@ Added additional Prerender options for caching
 A few minor fixes.  Revised admin UI
 
 = 1.3.4 =
+Minor patch release, cleared up some minor warning issues
