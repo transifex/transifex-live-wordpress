@@ -38,9 +38,10 @@ class Transifex_Live_Integration_Javascript {
 	 * Public constructor, sets local settings
 	 * @param array $settings Associative array of plugin settings.
 	 */
-	public function __construct( $settings ) {
+	public function __construct( $settings, $live_settings ) {
 		Plugin_Debug::logTrace();
-		$this->live_settings['api_key'] = $settings['api_key'];
+                $this->live_settings = $live_settings; // set defaults
+		$this->live_settings['api_key'] = $settings['api_key']; // add api key
 		$this->lang = false;
 		$this->source_language = $settings['source_language'];
 		$this->language_map = $settings['language_map'];
