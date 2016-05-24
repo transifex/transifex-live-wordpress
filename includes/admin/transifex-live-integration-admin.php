@@ -75,6 +75,7 @@ class Transifex_Live_Integration_Admin {
 		}
 
 		$transifex_settings = self::load_transifex_settings();
+		
 		$transifex_settings_settings = $transifex_settings['settings'];
 
 		ob_start();

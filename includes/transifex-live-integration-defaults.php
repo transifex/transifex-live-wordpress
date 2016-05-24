@@ -56,7 +56,7 @@ class Transifex_Live_Integration_Defaults {
 	 */
 	static function transifex_settings() {
 		return [
-			//'settings' => null,
+			'settings' => '',
 			//'picker' => 'no-picker',
 			//'domain' => '',
 			//'ignore_tags' => [ ],
