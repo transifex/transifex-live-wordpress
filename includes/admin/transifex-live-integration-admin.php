@@ -107,12 +107,12 @@ class Transifex_Live_Integration_Admin {
 		$checked_static_frontpage_support = ob_get_clean();
 
 		// These are used by the template: DO NOT REMOVE - Mjj 2/22/2016
-		$languages = [ ];
+		$languages = '';
 		if ( $settings['transifex_languages'] !== '' ) {
 			$languages = $settings['transifex_languages'];
 		}
 
-		$languages_regex = [ ];
+		$languages_regex = '';
 		if ( $settings['languages_regex'] !== '' ) {
 			$languages_regex = $settings['languages_regex'];
 		}
@@ -127,7 +127,7 @@ class Transifex_Live_Integration_Admin {
 			$language_lookup = $settings['language_lookup'];
 		}
 
-		$language_map = [ ];
+		$language_map = '';
 		if ( $settings['language_map'] !== '' ) {
 			$language_map = $settings['language_map'];
 		}
