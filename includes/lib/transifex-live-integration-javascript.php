@@ -33,6 +33,8 @@ class Transifex_Live_Integration_Javascript {
 	 * @var array
 	 */
 	private $language_map;
+	private $url_options;
+	private $subdomain_pattern;
 
 	/**
 	 * Public constructor, sets local settings
@@ -40,11 +42,13 @@ class Transifex_Live_Integration_Javascript {
 	 */
 	public function __construct( $settings, $live_settings ) {
 		Plugin_Debug::logTrace();
-                $this->live_settings = $live_settings; // set defaults
+		$this->live_settings = $live_settings; // set defaults
 		$this->live_settings['api_key'] = $settings['api_key']; // add api key
 		$this->lang = false;
 		$this->source_language = $settings['source_language'];
 		$this->language_map = $settings['language_map'];
+		$this->url_options = $settings['url_options'];
+		$this->subdomain_pattern = $settings['subdomain_pattern'];
 	}
 
 	/**
@@ -98,18 +102,48 @@ class Transifex_Live_Integration_Javascript {
 		Plugin_Debug::logTrace();
 		$lang = $this->lang;
 		$live_settings = $this->live_settings;
-		if ( $lang ) {
-			$detectlang = <<<DETECTLANG
+		$snippet = '';
+
+		$live_settings_string = '';
+		if ( $this->url_options == 2 ) {
+			$case_map = '';
+			$subdomain_pattern = $this->subdomain_pattern;
+			$source_language = $this->source_language;
+			$language_map = json_decode( $this->language_map, true )[0];
+						$escaped_subdomain_pattern = str_replace('/','\/',$subdomain_pattern);
+			foreach ($language_map as $key => $value) {
+				$case_map .= "case '$value': return '$key'; break; ";
+			}
+
+			$snippet .= <<<SUBDOMAIN
+<script type="text/javascript">							
+	function subdomain_detect_lang() {
+	   	var s = window.location.protocol+'\/\/'+window.location.host;			
+		var r = /$escaped_subdomain_pattern/i;
+		var m = r.exec(s);
+		if (m===null){return '$source_language';}
+		var a = m[1];
+		switch(a) { $case_map default: return '$source_language'; break;} return a;}
+</script>
+						
+SUBDOMAIN;
+			$detectlang = "subdomain_detect_lang";
+		} else {
+			if ( $lang ) {
+				$detectlang = <<<DETECTLANG
 function() { return "$lang";}
 DETECTLANG;
+			} else {
+				$live_settings_string = json_encode( $live_settings );
+			}
+		}
+		if ( !($live_settings_string ) ) {
 			$live_settings = array_merge( $live_settings, ['detectlang' => '%function%' ] );
 			$live_settings_json = json_encode( $live_settings );
 			$live_settings_string = str_replace( '"%function%"', $detectlang, $live_settings_json );
-		} else {
-			$live_settings_string = json_encode( $live_settings );
 		}
 
-		$snippet = <<<SNIPPET
+		$snippet .= <<<SNIPPET
 <script type="text/javascript">window.liveSettings=$live_settings_string;</script>
 <script type="text/javascript" src="//cdn.transifex.com/live.js"></script>\n
 SNIPPET;

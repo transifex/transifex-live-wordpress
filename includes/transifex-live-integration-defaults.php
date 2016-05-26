@@ -69,6 +69,19 @@ class Transifex_Live_Integration_Defaults {
 		];
 	}
 
+	static function calc_default_subdomain () {
+		$site_url = site_url();
+		$site_url_array = explode( '/', $site_url );
+		$site_url_array[2] = '%lang%.' . $site_url_array[2];
+		$site_url_subdomain_example = implode( '/', $site_url_array );
+		return $site_url_subdomain_example;
+	}
+	
+	static function calc_default_subdirectory() {
+		$site_url = site_url();
+		return $site_url . '/%lang%';
+	}
+	
 	/**
 	 * Static function for settings defaults
 	 * @return array Returns the settings array
@@ -97,7 +110,8 @@ class Transifex_Live_Integration_Defaults {
 			'languages' => '',
 			'hreflang' => false,
 			'url_options' => 1,
-			'subdomain_pattern' => '',
+			'subdomain_pattern' => $this->calc_default_subdomain(),
+			'subdirectory_pattern' => $this->calc_default_subdirectory(),
 			'static_frontpage_support' => false,
 			'enable_prerender' => 0,
 			'prerender_url' => '',

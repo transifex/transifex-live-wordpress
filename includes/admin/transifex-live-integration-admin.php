@@ -161,11 +161,9 @@ class Transifex_Live_Integration_Admin {
 		$url_options_subdirectory = ob_get_clean();
 
 
-		$site_url = site_url();
-		$site_url_subdirectory_example = $site_url . '/%lang%';
-		$site_url_array = explode( '/', $site_url );
-		$site_url_array[2] = '%lang%.' . $site_url_array[2];
-		$site_url_subdomain_example = implode( '/', $site_url_array );
+//TODO deprecated Mjj 20160527		$site_url = site_url();
+		$site_url_subdirectory_example = $settings['subdirectory_pattern'];
+		$site_url_subdomain_example = $settings['subdomain_pattern'];
 
 
 		ob_start();
