@@ -69,19 +69,27 @@ class Transifex_Live_Integration_Defaults {
 		];
 	}
 
-	static function calc_default_subdomain () {
-		$site_url = site_url();
+	static function calc_default_subdomain() {
+		if ( function_exists( 'site_url' ) ) { // sometimes we might run outside of WP
+			$site_url = site_url();
+		} else {
+			$site_url = 'http://%lang%.mydomain.com';
+		}
 		$site_url_array = explode( '/', $site_url );
 		$site_url_array[2] = '%lang%.' . $site_url_array[2];
 		$site_url_subdomain_example = implode( '/', $site_url_array );
 		return $site_url_subdomain_example;
 	}
-	
+
 	static function calc_default_subdirectory() {
-		$site_url = site_url();
+		if ( function_exists( 'site_url' ) ) { // sometimes we might run outside of WP
+			$site_url = site_url();
+		} else {
+			$site_url = 'http://www.mydomain.com/%lang%';
+		}
 		return $site_url . '/%lang%';
 	}
-	
+
 	/**
 	 * Static function for settings defaults
 	 * @return array Returns the settings array
