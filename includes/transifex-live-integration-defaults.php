@@ -24,7 +24,7 @@ class Transifex_Live_Integration_Defaults {
 			'add_rewrites_category' => 0,
 			'add_rewrites_search' => 0,
 			'add_rewrites_root' => 0,
-			'add_rewrites_reverse_template_links' => 0,
+			'add_rewrites_reverse_template_links' => 1,
 			'add_rewrites_permalink_tag' => 0
 		];
 	}

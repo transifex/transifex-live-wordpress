@@ -111,7 +111,7 @@ class Transifex_Live_Integration {
 			$hreflang = Transifex_Live_Integration_Static_Factory::create_hreflang( $settings, $rewrite_options );
 			($hreflang) ? Plugin_Debug::logTrace( 'adding hreflang' ) : Plugin_Debug::logTrace( 'skipping hreflang' );
 			if ( $hreflang ) {
-					add_action( 'wp_head', [ $hreflang, 'render_hreflang' ], 1 );
+				add_action( 'wp_head', [ $hreflang, 'render_hreflang' ], 1 );
 			}
 
 			$picker = Transifex_Live_Integration_Static_Factory::create_picker( $settings );
@@ -126,8 +126,10 @@ class Transifex_Live_Integration {
 				add_action( 'parse_query', [ $subdomain, 'parse_query_hook' ] );
 			}
 		}
-		$rewrite = Transifex_Live_Integration_Static_Factory::create_rewrite( $settings, $rewrite_options );
-		($rewrite) ? Plugin_Debug::logTrace( 'rewrite created' ) : Plugin_Debug::logTrace( 'rewrite skipped' );
+
+		//kjkjkjk
+		$rewrite = Transifex_Live_Integration_Static_Factory::create_subdirectory( $settings, $rewrite_options );
+		($rewrite) ? Plugin_Debug::logTrace( 'subdirectory created' ) : Plugin_Debug::logTrace( 'subdirectory skipped' );
 		if ( $rewrite ) {
 			if ( isset( $rewrite_options['add_rewrites_reverse_template_links'] ) ) {
 				Plugin_Debug::logTrace( 'adding reverse template links' );
@@ -142,12 +144,20 @@ class Transifex_Live_Integration {
 				add_filter( 'year_link', [$rewrite, 'year_link_hook' ], 10, 2 );
 				add_filter( 'home_url', [$rewrite, 'home_url_hook' ] );
 			}
+		}
+		//jkkjkkjjk
+		$subdirectory = Transifex_Live_Integration_Static_Factory::create_subdirectory( $settings, $rewrite_options );
+		($subdirectory) ? Plugin_Debug::logTrace( 'subdirectory created' ) : Plugin_Debug::logTrace( 'subdirectory skipped' );
+		if ( $subdirectory ) {
+
+			// Adds 'lang' to query_vars for use in the template.
 			add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
 			$static_frontpage_support = (isset( $settings['static_frontpage_support'] )) ? true : false;
 			if ( $static_frontpage_support ) {
 				add_action( 'parse_query', [ $rewrite, 'parse_query_root_hook' ] );
 			}
-			foreach ($rewrite->rewrite_options as $option) {
+
+			foreach ($subdirectory->rewrite_options as $option) {
 				switch ($option) {
 					case 'post';
 						add_filter( 'post_rewrite_rules', [ $rewrite, 'post_rewrite_rules_hook' ] );

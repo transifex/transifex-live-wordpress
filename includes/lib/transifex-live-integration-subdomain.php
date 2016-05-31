@@ -54,7 +54,9 @@ class Transifex_Live_Integration_Subdomain {
 	 */
 	function parse_query_hook( $query ) {
 		$m = array();
+		Plugin_Debug::logTrace('checking subdomain:'.$this->subdomain_pattern);
 		if ( preg_match( $this->subdomain_pattern, site_url(), $m ) ) {
+			Plugin_Debug::logTrace($m);
 			$query->query_vars['lang'] = $m[1];
 		} else {
 			$query->query_vars['lang'] = $this->source_language;

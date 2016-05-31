@@ -71,7 +71,34 @@ class Transifex_Live_Integration_Static_Factory {
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/lib/transifex-live-integration-subdomain.php';
 		return new Transifex_Live_Integration_Subdomain( $settings );
 	}
+	/**
+	 * Factory function to create a rewrite object
+	 * @param array $settings Associative array used to store plugin settings.
+	 */
+	static function create_subdirectory( $settings, $rewrite_options ) {
+		Plugin_Debug::logTrace();
+		if ( !isset( $settings['languages'] ) ) {
+			Plugin_Debug::logTrace( 'settings[languages] not set' );
+			return false;
+		}
+		if ( !isset( $settings['languages_regex'] ) ) {
+			Plugin_Debug::logTrace( 'settings[languages_regex] not set' );
+			return false;
+		}
 
+		if ( $settings['url_options'] != '3' ) {
+			Plugin_Debug::logTrace( 'settings[url_options] not subdirectory' );
+			return false;
+		}
+
+		if ( !preg_match( TRANSIFEX_LIVE_INTEGRATION_REGEX_PATTERN_CHECK_PATTERN, $settings['languages_regex'] ) ) {
+			Plugin_Debug::logTrace( 'settings[languages_regex] failed pattern check' );
+			return false;
+		}
+		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/lib/transifex-live-integration-subdirectory.php';
+		return new Transifex_Live_Integration_Subdirectory( $settings, $rewrite_options );
+	}
+	
 	/**
 	 * Factory function to create a rewrite object
 	 * @param array $settings Associative array used to store plugin settings.
@@ -87,8 +114,8 @@ class Transifex_Live_Integration_Static_Factory {
 			return false;
 		}
 
-		if ( $settings['url_options'] != '3' ) {
-			Plugin_Debug::logTrace( 'settings[url_options] not subdirectory' );
+		if ( $settings['url_options'] == '1' ) {
+			Plugin_Debug::logTrace( 'settings[url_options] is disabled' );
 			return false;
 		}
 
