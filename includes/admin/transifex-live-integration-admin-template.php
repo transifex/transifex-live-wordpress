@@ -129,6 +129,8 @@
 	<input type="hidden" value="<?php echo htmlentities( stripslashes( $hreflang_map ) ) ?>" name="transifex_live_settings[hreflang_map]" id="transifex_live_settings_hreflang_map" />
 	<input type="hidden" value="<?php echo htmlentities( stripslashes( $transifex_settings_settings ) ) ?>" name="transifex_live_transifex_settings[settings]" id="transifex_live_transifex_settings_settings" />
 	<input type="hidden" value="<?php echo htmlentities( $settings['subdomain_pattern'] ) ?>" name="transifex_live_settings[subdomain_pattern]" id="transifex_live_settings_subdomain_pattern" />
+	<input type="hidden" value="<?php echo htmlentities( $settings['subdirectory_pattern'] ) ?>" name="transifex_live_settings[subdirectory_pattern]" id="transifex_live_settings_subdirectory_pattern" />	
+	<input type="hidden" value="<?php echo htmlentities( $settings['rewrite_pattern'] ) ?>" name="transifex_live_settings[rewrite_pattern]" id="transifex_live_settings_rewrite_pattern" />
 	<input type="hidden" value="<?php echo htmlentities( stripslashes( $languages_regex ) ) ?>" name="transifex_live_settings[languages_regex]" id="transifex_live_settings_languages_regex" />
 	<input type="hidden" value="<?php echo htmlentities( stripslashes( $languages ) ) ?>" name="transifex_live_settings[transifex_languages]" id="transifex_live_settings_transifex_languages" />
 	<input type="hidden" value="<?php echo htmlentities( stripslashes( $language_lookup ) ) ?>" name="transifex_live_settings[language_lookup]" id="transifex_live_settings_language_lookup" />

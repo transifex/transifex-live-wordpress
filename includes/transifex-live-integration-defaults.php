@@ -69,25 +69,22 @@ class Transifex_Live_Integration_Defaults {
 		];
 	}
 
-	static function calc_default_subdomain() {
+	static function calc_default_subdomain($source_name) {
 		if ( function_exists( 'site_url' ) ) { // sometimes we might run outside of WP
 			$site_url = site_url();
 		} else {
-			$site_url = 'http://%lang%.mydomain.com';
+			$site_url = 'http://www.mydomain.com';
 		}
-		$site_url_array = explode( '/', $site_url );
-		$site_url_array[2] = '%lang%.' . $site_url_array[2];
-		$site_url_subdomain_example = implode( '/', $site_url_array );
-		return $site_url_subdomain_example;
+		return str_replace($source_name,'%LANG%',$site_url);
 	}
 
 	static function calc_default_subdirectory() {
 		if ( function_exists( 'site_url' ) ) { // sometimes we might run outside of WP
 			$site_url = site_url();
 		} else {
-			$site_url = 'http://www.mydomain.com/%lang%';
+			$site_url = 'http://www.mydomain.com';
 		}
-		return $site_url . '/%lang%';
+		return $site_url . '/%LANG%';
 	}
 
 	/**
@@ -118,7 +115,8 @@ class Transifex_Live_Integration_Defaults {
 			'languages' => '',
 			'hreflang' => false,
 			'url_options' => 1,
-			'subdomain_pattern' => self::calc_default_subdomain(),
+			'source_alias' => 'www',
+			'subdomain_pattern' => self::calc_default_subdomain('www'),
 			'subdirectory_pattern' => self::calc_default_subdirectory(),
 			'static_frontpage_support' => false,
 			'enable_prerender' => 0,

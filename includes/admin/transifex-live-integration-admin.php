@@ -75,7 +75,7 @@ class Transifex_Live_Integration_Admin {
 		}
 
 		$transifex_settings = self::load_transifex_settings();
-		
+
 		$transifex_settings_settings = $transifex_settings['settings'];
 
 		ob_start();
@@ -161,11 +161,6 @@ class Transifex_Live_Integration_Admin {
 		$url_options_subdirectory = ob_get_clean();
 
 
-//TODO deprecated Mjj 20160527		$site_url = site_url();
-		$site_url_subdirectory_example = $settings['subdirectory_pattern'];
-		$site_url_subdomain_example = $settings['subdomain_pattern'];
-
-
 		ob_start();
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/admin/transifex-live-integration-admin-template.php';
 		$content = ob_get_clean();
@@ -225,15 +220,21 @@ class Transifex_Live_Integration_Admin {
 
 
 		if ( isset( $languages_regex ) ) {
-			$array_url = explode( "/", site_url() );
-			$array_domain = explode( ".", $array_url[2] );
-			$array_domain[0] = $languages_regex;
-			$array_url[2] = implode( '.', $array_domain );
-			$subdomain_pattern = implode( '/', $array_url );
+			$subdomain_pattern = $settings['transifex_live_settings']['subdomain_pattern'];
+
+			$subdirectory_pattern = $settings['transifex_live_settings']['subdomain_pattern'];
+			$subdirectory_pattern = $subdirectory_pattern . '/.*';
+			if ( $settings['transifex_live_settings']['url_options'] == 2 ) {
+				$rewrite_pattern = str_replace( '%LANG%', $languages_regex, $subdomain_pattern );
+			} else {
+				$rewrite_pattern = str_replace( '%LANG%', $languages_regex, $subdirectory_pattern );
+			}
 		}
 
 
 		$settings['transifex_live_settings']['subdomain_pattern'] = $subdomain_pattern;
+		$settings['transifex_live_settings']['subdirectory_pattern'] = $subdirectory_pattern;
+		$settings['transifex_live_settings']['rewrite_pattern'] = $rewrite_pattern;
 		$settings['transifex_live_settings']['languages_regex'] = $languages_regex;
 		$settings['transifex_live_settings']['languages'] = $languages;
 		if ( isset( $settings['transifex_live_settings'] ) ) {
@@ -298,6 +299,8 @@ class Transifex_Live_Integration_Admin {
 		$settings['transifex_live_settings']['hreflang_map'] = ( isset( $settings['transifex_live_settings']['hreflang_map'] )) ? sanitize_text_field( stripslashes( $settings['transifex_live_settings']['hreflang_map'] ) ) : '';
 		$settings['transifex_live_settings']['source_language'] = ( isset( $settings['transifex_live_settings']['source_language'] )) ? sanitize_text_field( $settings['transifex_live_settings']['source_language'] ) : '';
 		$settings['transifex_live_settings']['subdomain_pattern'] = ( isset( $settings['transifex_live_settings']['subdomain_pattern'] )) ? sanitize_text_field( $settings['transifex_live_settings']['subdomain_pattern'] ) : '';
+		$settings['transifex_live_settings']['subdirectory_pattern'] = ( isset( $settings['transifex_live_settings']['subdirectory_pattern'] )) ? sanitize_text_field( $settings['transifex_live_settings']['subdirectory_pattern'] ) : '';
+		$settings['transifex_live_settings']['rewrite_pattern'] = ( isset( $settings['transifex_live_settings']['rewrite_pattern'] )) ? sanitize_text_field( $settings['transifex_live_settings']['rewrite_pattern'] ) : '';
 		$settings['transifex_live_settings']['languages_regex'] = ( isset( $settings['transifex_live_settings']['languages_regex'] )) ? sanitize_text_field( $settings['transifex_live_settings']['languages_regex'] ) : '';
 		$settings['transifex_live_settings']['transifex_languages'] = ( isset( $settings['transifex_live_settings']['transifex_languages'] )) ? sanitize_text_field( stripslashes( $settings['transifex_live_settings']['transifex_languages'] ) ) : '';
 
