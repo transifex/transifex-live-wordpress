@@ -2,7 +2,6 @@
 
 class CalculateDefaultsTest extends \PHPUnit_Framework_TestCase
 {
-
     private $data_subdomain;
 	private $data_subdirectory;
     protected function setUp()

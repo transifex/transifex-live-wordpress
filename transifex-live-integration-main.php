@@ -151,43 +151,43 @@ class Transifex_Live_Integration {
 		if ( $subdirectory ) {
 
 			// Adds 'lang' to query_vars for use in the template.
-			add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
+			add_action( 'parse_query', [ $subdirectory, 'parse_query_hook' ] );
 			$static_frontpage_support = (isset( $settings['static_frontpage_support'] )) ? true : false;
 			if ( $static_frontpage_support ) {
-				add_action( 'parse_query', [ $rewrite, 'parse_query_root_hook' ] );
+				add_action( 'parse_query', [ $subdirectory, 'parse_query_root_hook' ] );
 			}
 
 			foreach ($subdirectory->rewrite_options as $option) {
 				switch ($option) {
 					case 'post';
-						add_filter( 'post_rewrite_rules', [ $rewrite, 'post_rewrite_rules_hook' ] );
+						add_filter( 'post_rewrite_rules', [ $subdirectory, 'post_rewrite_rules_hook' ] );
 						break;
 					case 'date';
-						add_filter( 'date_rewrite_rules', [ $rewrite, 'date_rewrite_rules_hook' ] );
+						add_filter( 'date_rewrite_rules', [ $subdirectory, 'date_rewrite_rules_hook' ] );
 						break;
 					case 'page';
-						add_filter( 'page_rewrite_rules', [ $rewrite, 'page_rewrite_rules_hook' ] );
+						add_filter( 'page_rewrite_rules', [ $subdirectory, 'page_rewrite_rules_hook' ] );
 						break;
 					case 'author';
-						add_filter( 'author_rewrite_rules', [ $rewrite, 'author_rewrite_rules_hook' ] );
+						add_filter( 'author_rewrite_rules', [ $subdirectory, 'author_rewrite_rules_hook' ] );
 						break;
 					case 'tag';
-						add_filter( 'tag_rewrite_rules', [ $rewrite, 'tag_rewrite_rules_hook' ] );
+						add_filter( 'tag_rewrite_rules', [ $subdirectory, 'tag_rewrite_rules_hook' ] );
 						break;
 					case 'category';
-						add_filter( 'category_rewrite_rules', [ $rewrite, 'category_rewrite_rules_hook' ] );
+						add_filter( 'category_rewrite_rules', [ $subdirectory, 'category_rewrite_rules_hook' ] );
 						break;
 					case 'search';
-						add_filter( 'search_rewrite_rules', [ $rewrite, 'search_rewrite_rules_hook' ] );
+						add_filter( 'search_rewrite_rules', [ $subdirectory, 'search_rewrite_rules_hook' ] );
 						break;
 					case 'feed';
-						add_filter( 'feed_rewrite_rules', [ $rewrite, 'feed_rewrite_rules_hook' ] );
+						add_filter( 'feed_rewrite_rules', [ $subdirectory, 'feed_rewrite_rules_hook' ] );
 						break;
 					case 'root';
-						add_filter( 'root_rewrite_rules', [ $rewrite, 'root_rewrite_rules_hook' ] );
+						add_filter( 'root_rewrite_rules', [ $subdirectory, 'root_rewrite_rules_hook' ] );
 						break;
 					case 'permalink_tag';
-						add_action( 'init', [ $rewrite, 'init_hook' ] );
+						add_action( 'init', [ $subdirectory, 'init_hook' ] );
 						break;
 				}
 			}
