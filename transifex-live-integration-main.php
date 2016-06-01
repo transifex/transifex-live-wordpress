@@ -128,9 +128,18 @@ class Transifex_Live_Integration {
 		}
 
 		//kjkjkjk
-		$rewrite = Transifex_Live_Integration_Static_Factory::create_subdirectory( $settings, $rewrite_options );
-		($rewrite) ? Plugin_Debug::logTrace( 'subdirectory created' ) : Plugin_Debug::logTrace( 'subdirectory skipped' );
+		$rewrite = Transifex_Live_Integration_Static_Factory::create_rewrite( $settings, $rewrite_options );
+		($rewrite) ? Plugin_Debug::logTrace( 'rewrite created' ) : Plugin_Debug::logTrace( 'rewrite skipped' );
 		if ( $rewrite ) {
+			
+			// check for TDK enabled
+			if (true) {
+				global $transifex_live_integration_tdk;
+				$transifex_live_integration_tdk = $rewrite;
+				add_shortcode( 'get_language_url', [$rewrite,'get_language_url'] );
+				add_shortcode( 'detect_language', [$rewrite,'detect_language'] );
+				add_shortcode( 'is_language', [$rewrite,'is_language'] );
+			}
 			if ( isset( $rewrite_options['add_rewrites_reverse_template_links'] ) ) {
 				Plugin_Debug::logTrace( 'adding reverse template links' );
 				add_action( 'wp', [ $rewrite, 'wp_hook' ] );

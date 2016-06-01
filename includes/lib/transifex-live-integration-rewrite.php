@@ -8,7 +8,7 @@
 /**
  * Static class for subdirectory rewrite functions
  */
-class Transifex_Live_Integration_Rewrite {
+class Transifex_Live_Integration_Rewrite implements Transifex_Live_Integration_Rewrite_Interface {
 
 	/**
 	 * Source language used by rewrite
@@ -90,6 +90,24 @@ class Transifex_Live_Integration_Rewrite {
 		}
 	}
 
+	public function get_language_url( $atts ) {
+		$a = shortcode_atts( array(
+			'url' => home_url(),
+				), $atts );
+		return reverse_hard_link( $this->detect_language, $a['url'], $this->languages_map, $this->source_language, $this->rewrite_pattern );
+	}
+
+	public function detect_language() {
+		return $this->lang;
+	}
+
+	public function is_language( $atts ) {
+		$a = shortcode_atts( array(
+			'language' => $this->detect_language(),
+				), $atts );
+		return ($a['language'] == $this->detect_language()) ? true : false;
+	}
+
 	/*
 	 * This function takes any WP link and associated language configuration and returns a localized url
 	 * 
@@ -121,7 +139,7 @@ class Transifex_Live_Integration_Rewrite {
 		if ( !empty( $lang ) ) {
 			$reverse_url = ($reverse_url) ? (!strpos( $modified_link, $lang )) : false;
 		}
-		$reverse_url = ($reverse_url) ? (in_array( $lang, array_values($languages_map) )) : false;
+		$reverse_url = ($reverse_url) ? (in_array( $lang, array_values( $languages_map ) )) : false;
 		$reverse_url = ($reverse_url) ? (!($source_lang == $lang)) : false;
 
 		if ( $reverse_url ) {
