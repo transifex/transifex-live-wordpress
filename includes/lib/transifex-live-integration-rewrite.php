@@ -8,7 +8,7 @@
 /**
  * Static class for subdirectory rewrite functions
  */
-class Transifex_Live_Integration_Rewrite implements Transifex_Live_Integration_Rewrite_Interface {
+class Transifex_Live_Integration_Rewrite  {
 
 	/**
 	 * Source language used by rewrite

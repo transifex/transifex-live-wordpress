@@ -104,7 +104,7 @@ class Transifex_Live_Integration_Defaults {
 			'languages_regex' => null,
 			'rewrite_option_all' => 0,
 			'enable_custom_urls' => 0,
-			'enabled_tdk' => 0,
+			'enable_tdk' => 0,
 			'urls' => [
 				'rate_us' => 'https://wordpress.org/support/view/plugin-reviews/transifex-live-integration?rate=5#postform',
 				'api_key_landing_page' => 'https://www.transifex.com/signup/?utm_source=liveplugin',
