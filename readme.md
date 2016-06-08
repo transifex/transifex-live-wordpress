@@ -119,3 +119,6 @@ A few minor fixes.  Revised admin UI
 
 = 1.3.4 =
 Minor patch release, cleared up some minor warning issues
+
+= 1.3.5-pre -
+Patch release for improved static front page support
