@@ -121,21 +121,16 @@ class Transifex_Live_Integration_Rewrite {
 	 */
 
 	function parse_query_root_hook( $query ) {
-		if ( !Transifex_Live_Integration_Validators::is_query_ok( $query ) ) {
-			return $query;
+		$check_type = ($query->get( 'post_type' )) ? true : false;
+		if ( !$check_type ) {
+
+
+			global $wp_query;
+			$wp_query->is_page = true;
+			$wp_query->is_home = false;
+			$wp_query->is_singular = true;
+			$query->set( 'page_id', get_option( 'page_on_front' ) );
 		}
-		$qv = &$query->query_vars;
-		if ( $query->is_home && 'page' == get_option( 'show_on_front' ) && get_option( 'page_on_front' ) ) {
-			$query->is_page = true;
-			$query->is_home = false;
-// Dep'd 3/30/2016 Mjj			$qv['page_id'] = get_option( 'page_on_front' );
-			// Correct <!--nextpage--> for page_on_front
-			if ( !empty( $qv['paged'] ) ) {
-				$qv['page'] = $qv['paged'];
-				unset( $qv['paged'] );
-			}
-		}
-		return $query;
 	}
 
 	/*
