@@ -121,15 +121,17 @@ class Transifex_Live_Integration_Rewrite {
 	 */
 
 	function parse_query_root_hook( $query ) {
-		$check_type = ($query->get( 'post_type' )) ? true : false;
-		if ( !$check_type ) {
-
-
-			global $wp_query;
-			$wp_query->is_page = true;
-			$wp_query->is_home = false;
-			$wp_query->is_singular = true;
-			$query->set( 'page_id', get_option( 'page_on_front' ) );
+		global $wp_query;
+		if ( $wp_query->is_home ) {
+			// Once post_type is set, don't mangle the $wp_query object
+			$check_type = (!($query->get( 'post_type' ))) ? true : false;
+			$check_page_on_front = (get_option( 'page_on_front' ))?true:false;
+			if ( $check_type && $check_page_on_front ) {
+				$wp_query->is_page = true;
+				$wp_query->is_home = false;
+				$wp_query->is_singular = true;
+				$query->set( 'page_id', get_option( 'page_on_front' ) );
+			}
 		}
 	}
 
