@@ -122,19 +122,16 @@ class Transifex_Live_Integration_Rewrite {
 
 	function parse_query_root_hook( $query ) {
 		global $wp_query;
-		$check_for_lang = ($query->get( 'lang' ) !== 'en') ? true : false;
+		$check_for_lang = ($query->get( 'lang' ) !== $this->source_language) ? true : false;
 		$check_page = (null !== $query->get( 'page' ) ) ? true : false;
 		$check_pagename = ($query->get( 'pagename' )) ? true : false;
 		$check_page_on_front = (get_option( 'page_on_front' )) ? true : false;
 		if ( $check_for_lang && $check_page_on_front && $wp_query->is_home ) {
-			echo 'LANG IS TRUE' . $query->get( 'lang' );
 			if (  $check_page && $check_pagename ) {
-				echo 'PAGE FOR POSTS' . get_option( 'page_for_posts' );
 				$wp_query->is_page = false;
 				$wp_query->is_home = true;
 				$wp_query->is_posts_page = true;
 			} else {
-				echo 'FRONTPAGE';
 				$wp_query->is_page = true;
 				$wp_query->is_home = false;
 				$wp_query->is_singular = true;
