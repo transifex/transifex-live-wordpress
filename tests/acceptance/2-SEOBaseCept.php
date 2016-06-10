@@ -1,6 +1,8 @@
 <?php 
 date_default_timezone_set('America/New_York');
 
+//Live project
+//https://www.transifex.com/test-organization-4/wordpress-test-project/wptransifexdevnet-1/
 $I = new AcceptanceTester($scenario);
 $I->assertTrue(true);
 $I->amOnPage('/wp-login.php');
@@ -46,7 +48,7 @@ $I->seeInSource('"detectlang":function() { return "zh_CN";}');
 $I->seeLink('Sample Page','http://192.168.99.100:32777/zh_CN/sample-page/');
 $I->seeLink('Hello world!','http://192.168.99.100:32777/zh_CN/2015/12/17/hello-world/');
 $I->seeLink('Home','http://192.168.99.100:32777/zh_CN/home/');
-$I->seeLink('Blog','http://192.168.99.100:32777/zh_CN/blog/');
+$I->seeLink('博客','http://192.168.99.100:32777/zh_CN/blog/'); // Blog
 
 $I->amOnPage('/de_DE/');
 $I->seeInSource('hreflang="en"');

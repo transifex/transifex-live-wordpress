@@ -1,6 +1,8 @@
 <?php 
 date_default_timezone_set('America/New_York');
 
+//Live project
+//https://www.transifex.com/test-organization-4/wordpress-test-project/wptransifexdevnet-1/
 $I = new AcceptanceTester($scenario);
 $I->assertTrue(true);
 $I->amOnPage('/wp-login.php');
