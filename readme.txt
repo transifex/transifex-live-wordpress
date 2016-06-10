@@ -4,7 +4,7 @@ Contributors: txmatthew, ThemeBoy, brooksx
 Tags: transifex, translate, translations, localize, localise, localization, localisation, multilingual, t9n, l10n, i18n, language, switcher, live, translation, translator
 Requires at least: 3.5.2
 Tested up to: 4.5.2
-Stable tag: 1.3.4
+Stable tag: 1.3.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -128,5 +128,5 @@ A few minor fixes.  Revised admin UI
 = 1.3.4 =
 Minor patch release, cleared up some minor warning issues
 
-= 1.3.5-pre -
+= 1.3.5 =
 Patch release for improved static front page support
