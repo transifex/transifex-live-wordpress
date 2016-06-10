@@ -8,7 +8,7 @@
 /**
  * Static class for subdirectory rewrite functions
  */
-class Transifex_Live_Integration_Rewrite  {
+class Transifex_Live_Integration_Rewrite {
 
 	/**
 	 * Source language used by rewrite
@@ -106,6 +106,46 @@ class Transifex_Live_Integration_Rewrite  {
 			'language' => $this->detect_language(),
 				), $atts );
 		return ($a['language'] == $this->detect_language()) ? true : false;
+
+		/**
+		 * Callback function to the WP parse_query hook
+		 * @param array $query WP query object.
+		 */
+		function parse_query_hook( $query ) {
+			if ( !Transifex_Live_Integration_Validators::is_query_ok( $query ) ) {
+				return $query;
+			}
+			$qv = &$query->query_vars;
+			$qv['lang'] = isset( $query->query_vars['lang'] ) ? $query->query_vars['lang'] : $this->source_language;
+			return $query;
+		}
+
+		/*
+		 * WP parse_query filter,additional logic to support localized static frontpages
+		 * @param array $query WP query object. 
+		 * @return array Returns the filtered query object
+		 */
+
+		function parse_query_root_hook( $query ) {
+			global $wp_query;
+			$check_for_lang = ($query->get( 'lang' ) !== $this->source_language) ? true : false;
+			$check_page = (null !== $query->get( 'page' ) ) ? true : false;
+			$check_pagename = ($query->get( 'pagename' )) ? true : false;
+			$check_page_on_front = (get_option( 'page_on_front' )) ? true : false;
+			if ( $check_for_lang && $check_page_on_front && $wp_query->is_home ) {
+				if ( $check_page && $check_pagename ) {
+					$wp_query->is_page = false;
+					$wp_query->is_home = true;
+					$wp_query->is_posts_page = true;
+				} else {
+					$wp_query->is_page = true;
+					$wp_query->is_home = false;
+					$wp_query->is_singular = true;
+					$query->set( 'page_id', get_option( 'page_on_front' ) );
+				}
+			}
+		}
+
 	}
 
 	/*

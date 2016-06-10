@@ -129,4 +129,8 @@ A few minor fixes.  Revised admin UI
 Minor patch release, cleared up some minor warning issues
 
 = 1.3.5 =
+Patch release for improved static front page support
+
+= 1.3.6 =
 Fix to allow custom hreflang code and enhanced subdomain language detection
+
