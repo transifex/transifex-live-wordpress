@@ -70,8 +70,33 @@ Automatic updates should work like a charm; as always though, ensure you backup 
 
 == Changelog ==
 
-= 1.0.0 =
-Full release.  Restructured plugin to follow boilerplate.  Added unit tests.
+= 1.3.5 =
+Patch release for improved static front page support
+
+= 1.3.4 =
+Minor patch release, cleared up some minor warning issues
+
+= 1.3.3 =
+A few minor fixes.  Revised admin UI
+
+= 1.3.2 =
+Added additional Prerender options for caching
+
+= 1.3.1 =
+Patch for Prerender logic
+
+= 1.3.0 =
+Fixed support for PHP 5.4
+Fixed hreflang tag output for subdirectories
+Improved admin UI
+Added picker support that respects locale
+Additional admin API key validation
+Added Prerendering capability
+Fixed some timing issues with the WP loop
+
+= 1.2.0 =
+Added support for subdomains
+Added reverse lookups for many link types
 
 = 1.1.0 =
 Cleaned up readme and notes
@@ -83,30 +108,12 @@ Removing staging option (use Transifex dashboard to control it)
 SEO and lang urls and HREFLANG enabled
 Custom language picker color options removed
 
-= 1.2.0 =
-Added support for subdomains
-Added reverse lookups for many link types
+= 1.0.0 =
+Full release.  Restructured plugin to follow boilerplate.  Added unit tests.
 
-= 1.3.0 =
-Fixed support for PHP 5.4
-Fixed hreflang tag output for subdirectories
-Improved admin UI
-Added picker support that respects locale
-Additional admin API key validation
-Added Prerendering capability
-Fixed some timing issues with the WP loop
 
-= 1.3.1 =
-Patch for Prerender logic
 
-= 1.3.2 =
-Added additional Prerender options for caching
 
-= 1.3.3 =
-A few minor fixes.  Revised admin UI
 
-= 1.3.4 =
-Minor patch release, cleared up some minor warning issues
 
-= 1.3.5 =
-Patch release for improved static front page support
+
