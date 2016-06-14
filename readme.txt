@@ -73,25 +73,13 @@ Automatic updates should work like a charm; as always though, ensure you backup 
 = 1.0.0 =
 Full release.  Restructured plugin to follow boilerplate.  Added unit tests.
 
-= 1.0.1 =
-Cleaned up readme and notes
-
-= 1.0.2 =
-Fixed brittle js ordering and namespace
-
-= 1.0.3 =
-Removed settings that can now be controlled in Transifex Live dashboard
-
-= 1.0.4 =
-Initial implementation of SEO and lang urls
-
-= 1.0.5 =
-SEO and lang urls feature switch set to off
-
-= 1.0.6 =
-Removing staging option (use Transifex dashboard to control it)
-
 = 1.1.0 =
+Cleaned up readme and notes
+Fixed brittle js ordering and namespace
+Removed settings that can now be controlled in Transifex Live dashboard
+Initial implementation of SEO and lang urls
+SEO and lang urls feature switch set to off
+Removing staging option (use Transifex dashboard to control it)
 SEO and lang urls and HREFLANG enabled
 Custom language picker color options removed
 
@@ -99,20 +87,12 @@ Custom language picker color options removed
 Added support for subdomains
 Added reverse lookups for many link types
 
-= 1.2.1 =
+= 1.3.0 =
 Fixed support for PHP 5.4
-
-= 1.2.2 =
 Fixed hreflang tag output for subdirectories
-
-= 1.2.3 =
 Improved admin UI
-
-= 1.2.4 =
 Added picker support that respects locale
 Additional admin API key validation
-
-= 1.3.0 =
 Added Prerendering capability
 Fixed some timing issues with the WP loop
 
