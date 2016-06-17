@@ -4,7 +4,7 @@ Contributors: txmatthew, ThemeBoy, brooksx
 Tags: transifex, translate, translations, localize, localise, localization, localisation, multilingual, t9n, l10n, i18n, language, switcher, live, translation, translator
 Requires at least: 3.5.2
 Tested up to: 4.5.2
-Stable tag: 1.3.5
+Stable tag: 1.3.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -70,9 +70,11 @@ Automatic updates should work like a charm; as always though, ensure you backup 
 
 == Changelog ==
 
-= 1.3.6 =
+= 1.3.7 =
 Fix to allow custom hreflang code and enhanced subdomain language detection
 
+= 1.3.6 =
+Patch release for rewrite fix when locale is in url
 
 = 1.3.5 =
 Patch release for improved static front page support

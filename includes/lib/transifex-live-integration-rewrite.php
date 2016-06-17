@@ -177,7 +177,7 @@ class Transifex_Live_Integration_Rewrite {
 		$reverse_url = ($reverse_url) ? (isset( $lang )) : false;
 
 		if ( !empty( $lang ) ) {
-			$reverse_url = ($reverse_url) ? (!strpos( $modified_link, $lang )) : false;
+			$reverse_url = ($reverse_url) ? (!strpos( $modified_link, '/'.$lang.'/' )) : false;
 		}
 		$reverse_url = ($reverse_url) ? (in_array( $lang, array_values( $languages_map ) )) : false;
 		$reverse_url = ($reverse_url) ? (!($source_lang == $lang)) : false;
