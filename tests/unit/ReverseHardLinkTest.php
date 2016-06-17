@@ -79,6 +79,22 @@ class ReverseHardLinkTest extends \PHPUnit_Framework_TestCase
             'souce_lang' => 'en',
 			'pattern' => '/http:\/\/(cn|de_DE|www).mydomain.com\/.*/',
             'result'=> 'http://cn.mydomain.com/page-markup-and-formatting'
+            ],
+			[ //10 plex case
+            'lang' => 'de',
+            'link' => 'http://www.mydomain.com/page-markup-and-formatting-de',
+            'languages_map' => ["zh_CN" => "cn", "de_DE" => "de"],
+            'souce_lang' => 'en',
+			'pattern' => '/http:\/\/www.mydomain.com\/(cn|de)\//',
+            'result'=> 'http://www.mydomain.com/de/page-markup-and-formatting-de'
+            ],
+			[ //11
+            'lang' => 'de',
+            'link' => 'http://www.mydomain.com/page-markup-and-formatting-de',
+            'languages_map' => ["zh_CN" => "cn", "de_DE" => "de"],
+            'souce_lang' => 'en',
+			'pattern' => '/http:\/\/(cn|de|www).mydomain.com\/.*/',
+            'result'=> 'http://de.mydomain.com/page-markup-and-formatting-de'
             ]
             ];
     }
