@@ -49,7 +49,14 @@ class ReverseHardLinkTest extends \PHPUnit_Framework_TestCase
             'languages_map' => null,
             'souce_lang' => 'en',
             'result'=> 'http://192.168.99.100:32777/'
-            ]
+            ],
+			[
+            'lang' => 'de',
+            'link' => 'https://stage-www.plex.tv/apps/streaming-devices/amazon-fire-tv/',
+            'languages_map' => ["zh_CN" => "cn", "de_DE" => "de"],
+            'souce_lang' => 'en',
+            'result'=> 'https://stage-www.plex.tv/de/apps/streaming-devices/amazon-fire-tv/'
+            ],
             ];
     }
 
