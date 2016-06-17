@@ -62,6 +62,9 @@ The WP-Translations project for plugin translations can be found [here](https://
 
 == Changelog ==
 
+= 1.3.6 =
+Patch release for rewrite fix when locale is in url
+
 = 1.3.5 =
 Patch release for improved static front page support
 
