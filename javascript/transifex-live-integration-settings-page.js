@@ -31,6 +31,30 @@ function transifex_live_integration_map_update(tl) {
     return true;
 }
 
+function transifex_live_integration_hreflang_update(tl) {
+    if (typeof (tl) != 'undefined') {
+        var t = tl;
+    } else {
+        var t = transifex_languages;
+    }
+    var h = [];
+    var local_lm = [];
+    var arr = {};
+    // loop through transifex languages
+    jQuery.each(
+            t, function (i, s) {
+                var l = jQuery('#transifex-integration-live-hreflang-' + s).val();
+                arr[s] = l;
+            }
+    );
+    local_lm.push(arr);
+    jQuery('#transifex_live_settings_hreflang_map').val(JSON.stringify(local_lm));
+    return true;
+}
+
+
+
+
 
 function transifex_live_integration_convert(l) {
     var r = {"type": "div",
@@ -121,9 +145,17 @@ function addTransifexLanguages(obj) {
                             jQuery('#transifex_live_language_map_template').clone().show().addClass('cloned-language-map').each(
                             function (ii, oo) {
                                 jQuery(oo).find('span.tx-language').text(o.tx_name);
-                                var lmval =  (typeof lm[0] != 'undefined')?lm[0][o.code]:'';
+                                if (lm.length > 1) {
+                                    var lmval = (typeof lm[i] != 'undefined') ? lm[i][o.code] : '';
+                                } else {
+                                    var lmval = (typeof lm[0] != 'undefined') ? lm[0][o.code] : '';
+                                }
                                 jQuery(oo).find('input.tx-code').attr('id', myId).attr('name', myName).val(lmval);
-                                var hmval =  ( typeof hm[0] != 'undefined')?hm[0][o.code]:'';
+                                if (lm.length > 1) {
+                                    var hmval = (typeof hm[i] != 'undefined') ? hm[i][o.code] : '';
+                                } else {
+                                    var hmval = (typeof hm[0] != 'undefined') ? hm[0][o.code] : '';
+                                }
                                 jQuery(oo).find('input.tx-hreflang').attr('id', myHreflangId).attr('name', myHreflangName).val(hmval);
                             }
                     )
@@ -136,6 +168,16 @@ function addTransifexLanguages(obj) {
                     jQuery('#transifex-integration-live-' + o.code).machine(
                             {defaultState: {onEnter: function () {
                                         transifex_live_integration_map_update(tl);
+                                    },
+                                    events: {change: 'defaultState'}}, }
+                    );
+                }
+        );
+        jQuery.each(
+                obj, function (i, o) {
+                    jQuery('#transifex-integration-live-hreflang-' + o.code).machine(
+                            {defaultState: {onEnter: function () {
+                                        transifex_live_integration_hreflang_update(tl);
                                     },
                                     events: {change: 'defaultState'}}, }
                     );
@@ -170,9 +212,11 @@ function addTransifexLanguages(obj) {
                         jQuery(this).machine(
                                 {defaultState: {onEnter: function () {
                                             transifex_live_integration_map_update();
+                                            transifex_live_integration_hreflang_update();
                                         },
                                         events: {change: 'defaultState'}}, }
                         );
+
                     }
             )
                     );
@@ -441,6 +485,7 @@ function updateTransifexSettingsFields(obj) {
                         $.log.debug('transifex_live_settings_url_options::validating::onEnter');
                         $('#transifex_live_settings_api_enable_seo_missing').toggleClass('hide-if-js', true);
                         transifexLanguages();
+
                     },
                     events: {success: 'valid', error: 'error', notranslation: 'error'}
                 },
@@ -452,6 +497,7 @@ function updateTransifexSettingsFields(obj) {
                         $('#transifex_live_settings_url_options_subdomain').attr('disabled', false);
                         $('#transifex_live_settings_api_enable_seo_missing').toggleClass('hide-if-js', true);
                         if (jQuery('#transifex_live_settings_language_map').val() == '[]' || languages_override) {
+                            addTransifexLanguages();
                             $('#transifex_live_languages').trigger('load');
                             languages_override = false;
                         }
@@ -494,7 +540,7 @@ function updateTransifexSettingsFields(obj) {
                         this.val('3');
                         $('input#transifex_live_submit').trigger('enable');
                     },
-                    events: {none: 'none', subdomain: 'subdomain', subdirectory: 'subdirectory'}
+                    events: {none: 'none', subdomain: 'subdomain', subdirectory: 'subdirectory', validating: 'validating'}
                 },
                 subdomain: {
                     onEnter: function () {
@@ -663,8 +709,9 @@ function updateTransifexSettingsFields(obj) {
                     onEnter: function () {
                         $.log.debug('input#transifex_live_sync::refresh::onEnter');
                         languages_override = true;
-                        jQuery('#transifex_live_settings_api_key').trigger('validating');
-
+                        jQuery('#transifex_live_settings_url_options').trigger('validating');
+                        jQuery('#transifex_live_settings_language_map').val('[]');
+                        jQuery('#transifex_live_settings_hreflang_map').val('[]');
                         this.trigger('wait');
                     },
                     events: {wait: 'wait'}
