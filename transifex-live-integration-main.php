@@ -130,7 +130,6 @@ class Transifex_Live_Integration {
 		$rewrite = Transifex_Live_Integration_Static_Factory::create_rewrite( $settings, $rewrite_options );
 		($rewrite) ? Plugin_Debug::logTrace( 'rewrite created' ) : Plugin_Debug::logTrace( 'rewrite skipped' );
 		if ( $rewrite ) {
-			
 			// check for TDK enabled
 			if (isset( $settings['enable_tdk'] )) {
 				add_shortcode( 'get_language_url', [$rewrite,'get_language_url'] );

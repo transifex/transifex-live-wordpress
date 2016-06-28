@@ -44,7 +44,7 @@ class Transifex_Live_Integration_Rewrite {
 		$this->languages_regex = $settings['languages_regex'];
 		$this->source_language = $settings['source_language'];
 		$this->languages_map = json_decode( $settings['language_map'], true )[0];
-		$this->lang = false;
+		$this->lang = false; // need to wait before initting
 		if ( isset( $rewrite_options['add_rewrites_post'] ) ) {
 			$this->rewrite_options[] = ($rewrite_options['add_rewrites_post']) ? 'post' : '';
 		}
@@ -94,11 +94,11 @@ class Transifex_Live_Integration_Rewrite {
 		$a = shortcode_atts( array(
 			'url' => home_url(),
 				), $atts );
-		return reverse_hard_link( $this->detect_language, $a['url'], $this->languages_map, $this->source_language, $this->rewrite_pattern );
+		return $this->reverse_hard_link( $this->detect_language, $a['url'], $this->languages_map, $this->source_language, $this->rewrite_pattern );
 	}
 
 	public function detect_language() {
-		return $this->lang;
+		return get_query_var( 'lang' );
 	}
 
 	public function is_language( $atts ) {
@@ -106,46 +106,50 @@ class Transifex_Live_Integration_Rewrite {
 			'language' => $this->detect_language(),
 				), $atts );
 		return ($a['language'] == $this->detect_language()) ? true : false;
+	}
 
-		/**
-		 * Callback function to the WP parse_query hook
-		 * @param array $query WP query object.
-		 */
-		function parse_query_hook( $query ) {
-			if ( !Transifex_Live_Integration_Validators::is_query_ok( $query ) ) {
-				return $query;
-			}
-			$qv = &$query->query_vars;
-			$qv['lang'] = isset( $query->query_vars['lang'] ) ? $query->query_vars['lang'] : $this->source_language;
+	/**
+	 * Callback function to the WP parse_query hook
+	 * @param array $query WP query object.
+	 */
+	function parse_query_hook( $query ) {
+		if ( !Transifex_Live_Integration_Validators::is_query_ok( $query ) ) {
 			return $query;
 		}
+		$qv = &$query->query_vars;
+		$qv['lang'] = isset( $query->query_vars['lang'] ) ? $query->query_vars['lang'] : $this->source_language;
+		return $query;
+	}
 
-		/*
-		 * WP parse_query filter,additional logic to support localized static frontpages
-		 * @param array $query WP query object. 
-		 * @return array Returns the filtered query object
-		 */
+	function wp_hook() {
+		Plugin_Debug::logTrace();
+		$this->lang = get_query_var( 'lang' );
+	}
 
-		function parse_query_root_hook( $query ) {
-			global $wp_query;
-			$check_for_lang = ($query->get( 'lang' ) !== $this->source_language) ? true : false;
-			$check_page = (null !== $query->get( 'page' ) ) ? true : false;
-			$check_pagename = ($query->get( 'pagename' )) ? true : false;
-			$check_page_on_front = (get_option( 'page_on_front' )) ? true : false;
-			if ( $check_for_lang && $check_page_on_front && $wp_query->is_home ) {
-				if ( $check_page && $check_pagename ) {
-					$wp_query->is_page = false;
-					$wp_query->is_home = true;
-					$wp_query->is_posts_page = true;
-				} else {
-					$wp_query->is_page = true;
-					$wp_query->is_home = false;
-					$wp_query->is_singular = true;
-					$query->set( 'page_id', get_option( 'page_on_front' ) );
-				}
+	/*
+	 * WP parse_query filter,additional logic to support localized static frontpages
+	 * @param array $query WP query object. 
+	 * @return array Returns the filtered query object
+	 */
+
+	function parse_query_root_hook( $query ) {
+		global $wp_query;
+		$check_for_lang = ($query->get( 'lang' ) !== $this->source_language) ? true : false;
+		$check_page = (null !== $query->get( 'page' ) ) ? true : false;
+		$check_pagename = ($query->get( 'pagename' )) ? true : false;
+		$check_page_on_front = (get_option( 'page_on_front' )) ? true : false;
+		if ( $check_for_lang && $check_page_on_front && $wp_query->is_home ) {
+			if ( $check_page && $check_pagename ) {
+				$wp_query->is_page = false;
+				$wp_query->is_home = true;
+				$wp_query->is_posts_page = true;
+			} else {
+				$wp_query->is_page = true;
+				$wp_query->is_home = false;
+				$wp_query->is_singular = true;
+				$query->set( 'page_id', get_option( 'page_on_front' ) );
 			}
 		}
-
 	}
 
 	/*
@@ -162,7 +166,7 @@ class Transifex_Live_Integration_Rewrite {
 			$pattern ) {
 		Plugin_Debug::logTrace();
 		if ( !(isset( $pattern )) ) {
-			$pattern = $this->rewrite_pattern;
+			return $link;
 		}
 
 		if ( empty( $lang ) ) {
@@ -177,7 +181,7 @@ class Transifex_Live_Integration_Rewrite {
 		$reverse_url = ($reverse_url) ? (isset( $lang )) : false;
 
 		if ( !empty( $lang ) ) {
-			$reverse_url = ($reverse_url) ? (!strpos( $modified_link, '/'.$lang.'/' )) : false;
+			$reverse_url = ($reverse_url) ? (!strpos( $modified_link, '/' . $lang . '/' )) : false;
 		}
 		$reverse_url = ($reverse_url) ? (in_array( $lang, array_values( $languages_map ) )) : false;
 		$reverse_url = ($reverse_url) ? (!($source_lang == $lang)) : false;
@@ -230,7 +234,7 @@ class Transifex_Live_Integration_Rewrite {
 		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $termlink ) ) {
 			return $termlink;
 		}
-		$retlink = $this->reverse_hard_link( $this->lang, $termlink, $this->languages_map, $this->source_language );
+		$retlink = $this->reverse_hard_link( $this->lang, $termlink, $this->languages_map, $this->source_language, $this->rewrite_pattern );
 		return $retlink;
 	}
 
@@ -246,7 +250,7 @@ class Transifex_Live_Integration_Rewrite {
 		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $permalink ) ) {
 			return $permalink;
 		}
-		$retlink = $this->reverse_hard_link( $this->lang, $permalink, $this->languages_map, $this->source_language );
+		$retlink = $this->reverse_hard_link( $this->lang, $permalink, $this->languages_map, $this->source_language, $this->rewrite_pattern );
 		return $retlink;
 	}
 
@@ -261,7 +265,7 @@ class Transifex_Live_Integration_Rewrite {
 		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $link ) ) {
 			return $link;
 		}
-		$retlink = $this->reverse_hard_link( $this->lang, $link, $this->languages_map, $this->source_language );
+		$retlink = $this->reverse_hard_link( $this->lang, $link, $this->languages_map, $this->source_language, $this->rewrite_pattern );
 		return $retlink;
 	}
 
@@ -278,7 +282,7 @@ class Transifex_Live_Integration_Rewrite {
 		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $daylink ) ) {
 			return $daylink;
 		}
-		$retlink = $this->reverse_hard_link( $this->lang, $daylink, $this->languages_map, $this->source_language );
+		$retlink = $this->reverse_hard_link( $this->lang, $daylink, $this->languages_map, $this->source_language, $this->rewrite_pattern );
 		return $retlink;
 	}
 
@@ -294,7 +298,7 @@ class Transifex_Live_Integration_Rewrite {
 		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $monthlink ) ) {
 			return $monthlink;
 		}
-		$retlink = $this->reverse_hard_link( $this->lang, $monthlink, $this->languages_map, $this->source_language );
+		$retlink = $this->reverse_hard_link( $this->lang, $monthlink, $this->languages_map, $this->source_language, $this->rewrite_pattern );
 		return $retlink;
 	}
 
@@ -309,7 +313,7 @@ class Transifex_Live_Integration_Rewrite {
 		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $yearlink ) ) {
 			return $yearlink;
 		}
-		$retlink = $this->reverse_hard_link( $this->lang, $yearlink, $this->languages_map, $this->source_language );
+		$retlink = $this->reverse_hard_link( $this->lang, $yearlink, $this->languages_map, $this->source_language, $this->rewrite_pattern );
 		return $retlink;
 	}
 
@@ -325,7 +329,7 @@ class Transifex_Live_Integration_Rewrite {
 		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $link ) ) {
 			return $link;
 		}
-		$retlink = $this->reverse_hard_link( $this->lang, $link, $this->languages_map, $this->source_language );
+		$retlink = $this->reverse_hard_link( $this->lang, $link, $this->languages_map, $this->source_language, $this->rewrite_pattern );
 		return $retlink;
 	}
 
@@ -339,7 +343,7 @@ class Transifex_Live_Integration_Rewrite {
 		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $url ) ) {
 			return $url;
 		}
-		$retlink = $this->reverse_hard_link( $this->lang, $url, $this->languages_map, $this->source_language );
+		$retlink = $this->reverse_hard_link( $this->lang, $url, $this->languages_map, $this->source_language, $this->rewrite_pattern );
 		return $retlink;
 	}
 

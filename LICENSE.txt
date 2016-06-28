@@ -22,14 +22,8 @@ permission notices:
   Transifex is released under the GPL
   https://github.com/transifex/transifex/
 
-  Themeboy's Transifex Live Plugin
-  https://github.com/ThemeBoy/transifex-live
-
-  HEX to RGB code by c.bavota
-  http://bavotasan.com/2011/convert-hex-color-to-rgb-using-php/
-
   Wherever third party code has been used, credit has been given in the code's
-  comments and ThemeBoy.
+  comments.
 
   Transifex Live Integration is released under the GPL
 

@@ -125,6 +125,7 @@
 		</tbody>
 	</table>
 	<input name="transifex_live_settings[enable_custom_urls]" id="transifex_live_settings_custom_urls" type="hidden" value="<?php echo $checked_custom_urls ?>" >
+	<input name="transifex_live_settings[enable_tdk]" id="transifex_live_settings_enable_tdk" type="hidden" value="<?php echo $enable_tdk ?>" >
 	<input type="hidden" value="<?php echo htmlentities( stripslashes( $language_map ) ) ?>" name="transifex_live_settings[language_map]" id="transifex_live_settings_language_map" />
 	<input type="hidden" value="<?php echo htmlentities( stripslashes( $hreflang_map ) ) ?>" name="transifex_live_settings[hreflang_map]" id="transifex_live_settings_hreflang_map" />
 	<input type="hidden" value="<?php echo htmlentities( stripslashes( $transifex_settings_settings ) ) ?>" name="transifex_live_transifex_settings[settings]" id="transifex_live_transifex_settings_settings" />

@@ -149,6 +149,8 @@ class Transifex_Live_Integration_Admin {
 
 		$checked_custom_urls = ($settings['enable_custom_urls'] === "1") ? "1" : "0";
 
+		$enable_tdk = ($settings['enable_tdk'] === "1") ? "1" : "0";
+		
 		$url_options = $settings['url_options'];
 		ob_start();
 		checked( $settings['url_options'], '1' );
