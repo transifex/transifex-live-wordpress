@@ -88,14 +88,14 @@ class Transifex_Live_Integration_Rewrite {
 		} else {
 			$this->rewrite_pattern = $settings['subdirectory_pattern'];
 		}
-		if ($this->rewrite_pattern) {
-			$pattern = $this->pattern;
-				//Check for delimiters and add them if missing
-			if ( !(substr( $pattern, 0,1) =='/' && substr( $pattern, -1) =='/') ) {
-				$pattern = trim($pattern, '/');
-				$pattern = '/'.$pattern.'/';
+		if ( $this->rewrite_pattern ) {
+			$pattern = $this->rewrite_pattern;
+			//Check for delimiters and add them if missing
+			if ( !(substr( $pattern, 0, 1 ) == '#' && substr( $pattern, -1 ) == '#') ) {
+				$pattern = trim( $pattern, '#' );
+				$pattern = '#' . $pattern . '#';
 				$this->rewrite_pattern = $pattern;
-			} 
+			}
 		}
 	}
 
@@ -177,7 +177,11 @@ class Transifex_Live_Integration_Rewrite {
 		if ( !(isset( $pattern )) ) {
 			return $link;
 		}
-		
+		if ( !(substr( $pattern, 0, 1 ) == '#' && substr( $pattern, -1 ) == '#'))  {
+			Plugin_Debug::logTrace('Pattern:'.$pattern.'||Missing delimiters.');
+			return $link;
+		}
+
 		if ( empty( $lang ) ) {
 			return $link;
 		}
@@ -197,7 +201,7 @@ class Transifex_Live_Integration_Rewrite {
 
 		if ( $reverse_url ) {
 			preg_match( $pattern, $link, $m );
-			if ( count( $m ) > 0 ) {
+			if ( count( $m ) > 1 ) {
 				$modified_link = str_replace( $m[1], $lang, $m[0] );
 			} else {
 				if ( 3 <= substr_count( $link, '/' ) ) {
