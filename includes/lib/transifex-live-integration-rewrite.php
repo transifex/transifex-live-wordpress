@@ -88,24 +88,33 @@ class Transifex_Live_Integration_Rewrite {
 		} else {
 			$this->rewrite_pattern = $settings['subdirectory_pattern'];
 		}
+		if ($this->rewrite_pattern) {
+			$pattern = $this->pattern;
+				//Check for delimiters and add them if missing
+			if ( !(substr( $pattern, 0,1) =='/' && substr( $pattern, -1) =='/') ) {
+				$pattern = trim($pattern, '/');
+				$pattern = '/'.$pattern.'/';
+				$this->rewrite_pattern = $pattern;
+			} 
+		}
 	}
 
 	public function get_language_url( $atts ) {
 		$a = shortcode_atts( array(
 			'url' => home_url(),
 				), $atts );
-		return $this->reverse_hard_link( $this->detect_language, $a['url'], $this->languages_map, $this->source_language, $this->rewrite_pattern );
+		return $this->reverse_hard_link( $this->lang, $a['url'], $this->languages_map, $this->source_language, $this->rewrite_pattern );
 	}
 
 	public function detect_language() {
-		return get_query_var( 'lang' );
+		return $this->lang;
 	}
 
 	public function is_language( $atts ) {
 		$a = shortcode_atts( array(
-			'language' => $this->detect_language(),
+			'language' => $this->lang,
 				), $atts );
-		return ($a['language'] == $this->detect_language()) ? true : false;
+		return ($a['language'] == $this->lang) ? true : false;
 	}
 
 	/**
@@ -168,7 +177,7 @@ class Transifex_Live_Integration_Rewrite {
 		if ( !(isset( $pattern )) ) {
 			return $link;
 		}
-
+		
 		if ( empty( $lang ) ) {
 			return $link;
 		}
