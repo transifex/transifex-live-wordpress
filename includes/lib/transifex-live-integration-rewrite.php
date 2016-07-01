@@ -177,9 +177,11 @@ class Transifex_Live_Integration_Rewrite {
 		if ( !(isset( $pattern )) ) {
 			return $link;
 		}
-		if ( !(substr( $pattern, 0, 1 ) == '#' && substr( $pattern, -1 ) == '#'))  {
-			Plugin_Debug::logTrace('Pattern:'.$pattern.'||Missing delimiters.');
-			return $link;
+		if ( !(substr( $pattern, 0, 1 ) == '#' && substr( $pattern, -1 ) == '#') ) {
+			if ( !(substr( $pattern, 0, 1 ) == '/' && substr( $pattern, -1 ) == '/') ) {
+				Plugin_Debug::logTrace( 'Pattern:' . $pattern . '||Missing delimiters.' );
+				return $link;
+			}
 		}
 
 		if ( empty( $lang ) ) {
