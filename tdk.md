@@ -17,23 +17,23 @@ detect_language - returns the current locale code used by the plugin.
 is_language - expects a 'language' param with the locale code to check for. returns a boolean if the current locale matches.  if no language is given it will return 'true'.
 
 
-== Examples ==
+##Examples
 For a page current using subdirectories in French
 
-```[get_language_url url=http://www.mysite.com/mypost]```
+`[get_language_url url=http://www.mysite.com/mypost]`
 
->>http://www.mysite.com/fr/mypost
+output->http://www.mysite.com/fr/mypost
 
 
 For a page currently using French (Canadian)
 
-```[detect_language]```
+`[detect_language]`
 
->>fr_CA
+output->fr_CA
 
 
 For a page currently using English (US)
 
-```[is_language language=en_US]```
+`[is_language language=en_US]`
 
->>1
+output->1
