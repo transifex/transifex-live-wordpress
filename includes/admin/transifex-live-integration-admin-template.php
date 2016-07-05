@@ -22,6 +22,9 @@
 						<input type="hidden" value="<?php echo $settings['api_key']; ?>" name="transifex_live_settings[previous_api_key]" id="transifex_live_settings_raw_transifex_previous_api_key" />
 						<input type="submit" disabled="true" name="check" id="transifex_live_settings_api_key_button" class="button button-primary" value="Save">
 					</p>
+					<p>
+						<input id="transifex_live_settings_enable_staging" name="transifex_live_settings[enable_staging]" value="1" type="checkbox" <?php echo $checked_enable_staging ?>><?php _e( 'Staging?', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
+					</p>
 				</td>
 			</tr>
 			<tr valign="top">

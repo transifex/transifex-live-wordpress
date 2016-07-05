@@ -95,6 +95,7 @@ class Transifex_Live_Integration_Defaults {
 		return array(
 			'debug' => '0',
 			'api_key' => null, // This is the only required field and needs to be copied from Live
+			'enable_staging' => 0,
 			'previous_api_key' => null,
 			'raw_transifex_languages' => null,
 			'transifex_languages' => null,

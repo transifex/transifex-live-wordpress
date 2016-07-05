@@ -79,6 +79,10 @@ class Transifex_Live_Integration_Admin {
 		$transifex_settings_settings = $transifex_settings['settings'];
 
 		ob_start();
+		checked( $settings['enable_staging'], 1 );
+		$checked_enable_staging = ob_get_clean();
+		
+		ob_start();
 		checked( $settings['rewrite_option_all'], 1 );
 		$checked_rewrite_option_all = ob_get_clean();
 
