@@ -62,6 +62,9 @@ The WP-Translations project for plugin translations can be found [here](https://
 
 == Changelog ==
 
+= 1.3.8 =
+Added staging checkbox to admin page
+
 = 1.3.7 =
 Fix to allow custom hreflang code and enhanced subdomain language detection
 
