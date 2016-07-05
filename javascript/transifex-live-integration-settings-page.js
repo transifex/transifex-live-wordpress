@@ -104,9 +104,10 @@ function transifex_live_integration_convert(l) {
 function transifexLanguages() {
     var apikey = jQuery('#transifex_live_settings_api_key').val();
     if (apikey != '') {
+        var env = (jQuery('#transifex_live_settings_enable_staging').prop('checked'))?'staging.':'';
         jQuery.ajax(
                 {
-                    url: "https://cdn.transifex.com/" + apikey + "/latest/languages.jsonp",
+                    url: "https://cdn.transifex.com/" + apikey + "/latest/languages."+env+"jsonp",
                     jsonpCallback: "transifex_languages",
                     jsonp: true,
                     dataType: "jsonp",

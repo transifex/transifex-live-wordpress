@@ -28,7 +28,8 @@ window.Transifex = window.Transifex || {};
     self.validate = function (obj) {
         var ret = false;
         var expected_keys = ['picker', 'domain'];
-        var keys = Object.keys(obj['production']);
+        var env = ($('#transifex_live_settings_enable_staging').prop('checked'))?'staging':'production';
+        var keys = Object.keys(obj[env]);
         var diff = [];
         $.grep(
             expected_keys, function (e) {
