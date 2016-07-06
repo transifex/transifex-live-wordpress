@@ -23,12 +23,8 @@ function transifex_live_integration_map_update(tl) {
     var arrr = {};
     var updateOk = true;
     // loop through transifex languages
-    console.log(t);
     jQuery.each(
             t, function (i, s) {
-                console.log('transifex_live_integration_map_update');
-                console.log(jQuery('#transifex-integration-live-' + s).val());
-                console.log(jQuery('#transifex-integration-live-hreflang-' + s).val());
                 var l = jQuery('#transifex-integration-live-' + s).val();
                 var h = jQuery('#transifex-integration-live-hreflang-' + s).val();
                 arrr[s] = h;
@@ -57,11 +53,8 @@ function transifex_live_integration_hreflang_update(tl) {
     var arr = {};
     var updateOk = true;
     // loop through transifex languages
-    console.log(t);
     jQuery.each(
             t, function (i, s) {
-                console.log('transifex_live_integration_hreflang_update');
-                console.log(jQuery('#transifex-integration-live-hreflang-' + s).val());
                 var l = jQuery('#transifex-integration-live-hreflang-' + s).val();
                 updateOk = (l) ? true : false;
                 arr[s] = l;
