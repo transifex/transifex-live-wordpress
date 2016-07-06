@@ -28,10 +28,10 @@ function transifex_live_integration_map_update(tl) {
                 var h = jQuery('#transifex-integration-live-hreflang-' + s).val();
                 arrr[s] = h;
                 arr[s] = l;
+                local_lm.push(arr);
+                local_hreflm.push(arrr);
             }
     );
-    local_lm.push(arr);
-    local_hreflm.push(arrr);
     jQuery('#transifex_live_settings_language_map').val(JSON.stringify(local_lm));
     jQuery('#transifex_live_settings_hreflang_map').val(JSON.stringify(local_hreflm));
     return true;
@@ -51,9 +51,9 @@ function transifex_live_integration_hreflang_update(tl) {
             t, function (i, s) {
                 var l = jQuery('#transifex-integration-live-hreflang-' + s).val();
                 arr[s] = l;
+                local_lm.push(arr);
             }
     );
-    local_lm.push(arr);
     jQuery('#transifex_live_settings_hreflang_map').val(JSON.stringify(local_lm));
     return true;
 }
