@@ -56,6 +56,7 @@ $I->see('Permalink structure updated.');
 
 
 $I->amOnPage('/');
+$I->see('Home');
 $I->see('Note that you will probably want to test this page in conjunction with the Blog page.');
 $I->seeInSource('hreflang="en"');
 $I->seeInSource('hreflang="zh-cn"');
@@ -67,6 +68,7 @@ $I->seeInSource('"detectlang":function() { return "en";}');
 
 $I->amOnPage('/cn/');
 $I->see('首页'); //Home
+$I->see('Note that you will probably want to test this page in conjunction with the Blog page.');
 $I->seeInSource('hreflang="en"');
 $I->seeInSource('hreflang="zh-cn"');
 $I->seeInSource('hreflang="de-de"');
@@ -81,6 +83,7 @@ $I->seeLink('博客','http://192.168.99.100:32777/cn/blog/'); //Blog
 
 $I->amOnPage('/de/');
 $I->see('Haus'); // Home
+$I->see('Note that you will probably want to test this page in conjunction with the Blog page.');
 $I->seeInSource('hreflang="en"');
 $I->seeInSource('hreflang="zh-cn"');
 $I->seeInSource('hreflang="de-de"');
@@ -136,6 +139,7 @@ $I->see('Settings saved.');
 
 $I->amOnPage('/blog/');
 $I->see('Blog');
+$I->see('Note that you will probably want to test this page in conjunction with the Home page.');
 $I->seeInSource('href="http://192.168.99.100:32777/blog/"');
 $I->seeInSource('hreflang="en"');
 $I->seeInSource('href="http://192.168.99.100:32777/cn/blog/"');
@@ -149,6 +153,7 @@ $I->seeInSource('"detectlang":function() { return "en";}');
 
 $I->amOnPage('/de/blog/');
 $I->see('Blog');
+$I->see('Note that you will probably want to test this page in conjunction with the Home page.');
 $I->seeInSource('hreflang="en"');
 $I->seeInSource('hreflang="zh-cn"');
 $I->seeInSource('hreflang="de-de"');
@@ -159,6 +164,7 @@ $I->seeInSource('"detectlang":function() { return "de_DE";}');
 
 $I->amOnPage('/cn/blog/');
 $I->see('博客'); //Blog
+$I->see('Note that you will probably want to test this page in conjunction with the Home page.');
 $I->seeInSource('hreflang="en"');
 $I->seeInSource('hreflang="zh-cn"');
 $I->seeInSource('hreflang="de-de"');
