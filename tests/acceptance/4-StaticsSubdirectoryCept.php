@@ -45,12 +45,18 @@ $I->executeJS('jQuery("#submit").click();');
 $I->wait(5);
 $I->see('Settings saved.');
 
-
 $I->amOnPage('/wp-admin/options-permalink.php');
+$I->executeJS('jQuery("#custom_selection").prop("checked",true);');
+$I->executeJS('jQuery("#permalink_structure").val("/blog/%postname%/");');
+
 $I->assertTrue($I->executeJS('return (jQuery("#permalink_structure").val() === "/blog/%postname%/");'));
+$I->executeJS('jQuery("#submit").click();');
+$I->wait(5);
+$I->see('Permalink structure updated.');
+
 
 $I->amOnPage('/');
-$I->see('Home');
+$I->see('Note that you will probably want to test this page in conjunction with the Blog page.');
 $I->seeInSource('hreflang="en"');
 $I->seeInSource('hreflang="zh-cn"');
 $I->seeInSource('hreflang="de-de"');
@@ -70,7 +76,7 @@ $I->seeInSource('"api_key":"2699bc66df6546008d0a14acf26732a1"');
 $I->seeInSource('"detectlang":function() { return "zh_CN";}');
 $I->seeLink('Sample Page','http://192.168.99.100:32777/cn/sample-page/');
 $I->seeLink('Hello world!','http://192.168.99.100:32777/cn/blog/hello-world/');
-$I->seeLink('Home','http://192.168.99.100:32777/cn/home/');
+$I->seeLink('首页','http://192.168.99.100:32777/cn/');
 $I->seeLink('博客','http://192.168.99.100:32777/cn/blog/'); //Blog
 
 $I->amOnPage('/de/');
