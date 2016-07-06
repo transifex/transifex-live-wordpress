@@ -47,7 +47,7 @@ $I->seeInSource('"api_key":"2699bc66df6546008d0a14acf26732a1"');
 $I->seeInSource('"detectlang":function() { return "zh_CN";}');
 $I->seeLink('Sample Page','http://192.168.99.100:32777/zh_CN/sample-page/');
 $I->seeLink('Hello world!','http://192.168.99.100:32777/zh_CN/2015/12/17/hello-world/');
-$I->seeLink('Home','http://192.168.99.100:32777/zh_CN/home/');
+$I->seeLink('首页','http://192.168.99.100:32777/zh_CN/');
 $I->seeLink('博客','http://192.168.99.100:32777/zh_CN/blog/'); // Blog
 
 $I->amOnPage('/de_DE/');
@@ -60,7 +60,7 @@ $I->seeInSource('"api_key":"2699bc66df6546008d0a14acf26732a1"');
 $I->seeInSource('"detectlang":function() { return "de_DE";}');
 $I->seeLink('Sample Page','http://192.168.99.100:32777/de_DE/sample-page/');
 $I->seeLink('Hello world!','http://192.168.99.100:32777/de_DE/2015/12/17/hello-world/');
-$I->seeLink('Home','http://192.168.99.100:32777/de_DE/home/');
+$I->seeLink('Haus','http://192.168.99.100:32777/de_DE/');
 $I->seeLink('Blog','http://192.168.99.100:32777/de_DE/blog/');
 
 

@@ -45,6 +45,7 @@ $I->executeJS('jQuery("#submit").click();');
 $I->wait(5);
 $I->see('Settings saved.');
 
+
 $I->amOnPage('/wp-admin/options-permalink.php');
 $I->assertTrue($I->executeJS('return (jQuery("#permalink_structure").val() === "/blog/%postname%/");'));
 
@@ -68,7 +69,7 @@ $I->seeInSource('window.liveSettings');
 $I->seeInSource('"api_key":"2699bc66df6546008d0a14acf26732a1"');
 $I->seeInSource('"detectlang":function() { return "zh_CN";}');
 $I->seeLink('Sample Page','http://192.168.99.100:32777/cn/sample-page/');
-$I->seeLink('Hello world!','http://192.168.99.100:32777/cn/2015/12/17/hello-world/');
+$I->seeLink('Hello world!','http://192.168.99.100:32777/cn/blog/hello-world/');
 $I->seeLink('Home','http://192.168.99.100:32777/cn/home/');
 $I->seeLink('博客','http://192.168.99.100:32777/cn/blog/'); //Blog
 
@@ -82,7 +83,7 @@ $I->seeInSource('window.liveSettings');
 $I->seeInSource('"api_key":"2699bc66df6546008d0a14acf26732a1"');
 $I->seeInSource('"detectlang":function() { return "de_DE";}');
 $I->seeLink('Sample Page','http://192.168.99.100:32777/de/sample-page/');
-$I->seeLink('Hello world!','http://192.168.99.100:32777/de/2015/12/17/hello-world/');
+$I->seeLink('Hello world!','http://192.168.99.100:32777/de/blog/hello-world/');
 $I->seeLink('Home','http://192.168.99.100:32777/de/home/');
 $I->seeLink('Blog','http://192.168.99.100:32777/de/blog/');
 
