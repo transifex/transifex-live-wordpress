@@ -3,7 +3,8 @@ branches:
     - master
     - devel
 
-sudo: true
+sudo: required
+dist: trusty
 language: php
 
 notifications:
@@ -11,7 +12,6 @@ notifications:
   on_failure: change
 
 php:
-  - 5.5
   - 5.6
 
 env:
@@ -24,8 +24,15 @@ matrix:
 before_script:
   - sudo whoami
   - pwd
-  - sudo apt-get update
-  - sudo apt-get install apache2 libapache2-mod-fastcgi
+  - sudo apt-add-repository multiverse && sudo apt-get update
+  - sudo apt-get -y install mariadb-server
+  - sudo apt-get -y install npm
+  - sudo find -name "pyenv"
+  - sudo pyenv versions
+  - sudo python -V
+  - sudo pip install urllib3 --upgrade
+  - sudo pip install transifex-client
+  - sudo apt-get -y install apache2 libapache2-mod-fastcgi
   - sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
   - sudo cat ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
   - sudo a2enmod rewrite actions fastcgi alias
@@ -40,6 +47,10 @@ before_script:
   - echo "$(curl -fsSL https://gist.githubusercontent.com/matthewjackowski/3b26061241545564ae8d/raw/install-wp-tests.sh)" | sudo tee ./install-wp-tests.sh > /dev/null
   - bash ./install-wp-tests.sh test root '' localhost $WP_VERSION
   - sudo service apache2 restart
+  - sudo echo $'[https://www.transifex.com]\nhostname = https://www.transifex.com\nusername = $TXUSER\npassword = $TXPASSWD\ntoken =' > ~/.transifexrc
+  - cat ~/.transifexrc
+  - sudo npm install
+  - sudo npm install -g grunt-cli
 
 
 script:
@@ -47,6 +58,7 @@ script:
   - "wget http://codeception.com/codecept.phar"
   - php ./codecept.phar build
   - php ./codecept.phar run
+  - grunt tx-push
   - echo "$(curl -fsSL https://gist.githubusercontent.com/matthewjackowski/56bdf337d014f2fe0646/raw/wp-plugin-deploy.sh)" | sudo tee ./wp-plugin-deploy.sh > /dev/null
   - sudo chmod +x ./wp-plugin-deploy.sh
   - ./wp-plugin-deploy.sh

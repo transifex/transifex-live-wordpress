@@ -8,6 +8,7 @@ nbproject/
 bin/
 node_modules/
 grunt/
+grunt
 
 languages/
 build/
