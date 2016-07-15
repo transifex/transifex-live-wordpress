@@ -27,14 +27,6 @@ before_script:
   - sudo apt-add-repository multiverse && sudo apt-get update
   - sudo apt-get -y install mariadb-server
   - sudo apt-get -y install npm
-  - sudo wget https://www.python.org/ftp/python/2.7.11/Python-2.7.11.tgz
-  - sudo tar xfz Python-2.7.11.tgz
-  - sudo cd Python-2.7.11/
-  - sudo ./configure --prefix /usr/local/lib/python2.7.11 --enable-ipv6
-  - sudo make
-  - sudo make install
-  - sudo /usr/local/lib/python2.7.11/bin/python -V
-  - sudo pip install transifex-client
   - sudo apt-get -y install apache2 libapache2-mod-fastcgi
   - sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
   - sudo cat ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
@@ -50,7 +42,7 @@ before_script:
   - echo "$(curl -fsSL https://gist.githubusercontent.com/matthewjackowski/3b26061241545564ae8d/raw/install-wp-tests.sh)" | sudo tee ./install-wp-tests.sh > /dev/null
   - bash ./install-wp-tests.sh test root '' localhost $WP_VERSION
   - sudo service apache2 restart
-  - sudo echo $'[https://www.transifex.com]\nhostname = https://www.transifex.com\nusername = $TXUSER\npassword = $TXPASSWD\ntoken =' > ~/.transifexrc
+  - sudo echo $'[https://www.transifex.com]\nhostname = https://www.transifex.com\nusername = '"$TX_USERNAME"$'\npassword = '"$TX_PASSWORD"$'\ntoken =' > ~/.transifexrc
   - cat ~/.transifexrc
   - sudo npm install
   - sudo npm install -g grunt-cli
@@ -58,6 +50,10 @@ before_script:
 
 script:
   - pwd
+  - pyenv install 2.7.10
+  - pyenv versions
+  - pyenv global 2.7.10
+  - pip install transifex-client
   - "wget http://codeception.com/codecept.phar"
   - php ./codecept.phar build
   - php ./codecept.phar run
