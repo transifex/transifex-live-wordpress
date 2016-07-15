@@ -1,5 +1,5 @@
 <div class="wrap transifex-live-settings">
-    <h2><?php _e( 'Transifex Live Translation Plugin Settings', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></h2>
+    <h2><?php _e( 'Transifex International SEO Administration', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></h2>
 	<p id="transifex_live_settings_api_key_message">
 	<div id="transifex_live_settings_api_key_message_error" class="notice notice-warning hide-if-js">
 		<p><strong><?php _e( "Oops! Please make sure you've entered a valid API key.", TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></strong></p>
@@ -10,7 +10,7 @@
 </p>
 <form id="transifex_live_settings_form" method="post" enctype="multipart/form-data">
 	<?php wp_nonce_field( 'transifex_live_settings', 'transifex_live_nonce' ); ?>
-	<p><?php _e( 'Translate your WordPress site without complexities.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
+	<p><?php _e( 'Translate your WordPress powered website using Transifex.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
 	<p><?php _e( 'Before using this plugin, be sure you have a Transifex Live API key. ' ); ?>&nbsp;<a target="_blank" href="<?php echo $settings['urls']['api_key_landing_page']; ?>"><?php _e( 'Click here to sign up and get an API key.' ) ?></a>
 	<table class="form-table">
 		<tbody>

@@ -14,9 +14,6 @@ notifications:
 php:
   - 5.6
 
-python:
-  - 2.7.10
-
 env:
   - WP_PROJECT_TYPE=plugin WP_VERSION=latest WP_MULTISITE=0 WP_TEST_URL=http://localhost:80 WP_TEST_USER=test WP_TEST_USER_PASS=test
 
@@ -30,8 +27,13 @@ before_script:
   - sudo apt-add-repository multiverse && sudo apt-get update
   - sudo apt-get -y install mariadb-server
   - sudo apt-get -y install npm
-  - sudo python -V
-  - sudo pip install urllib3 --upgrade
+  - sudo wget https://www.python.org/ftp/python/2.7.11/Python-2.7.11.tgz
+  - sudo tar xfz Python-2.7.11.tgz
+  - sudo cd Python-2.7.11/
+  - sudo ./configure --prefix /usr/local/lib/python2.7.11 --enable-ipv6
+  - sudo make
+  - sudo make install
+  - sudo /usr/local/lib/python2.7.11/bin/python -V
   - sudo pip install transifex-client
   - sudo apt-get -y install apache2 libapache2-mod-fastcgi
   - sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
