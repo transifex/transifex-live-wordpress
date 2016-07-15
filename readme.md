@@ -1,28 +1,24 @@
 [![Build Status](https://travis-ci.org/transifex/transifex-live-wordpress.svg?branch=devel)](https://travis-ci.org/transifex/transifex-live-wordpress)
 
-#Transifex Live Translation Plugin
+#Transifex International SEO
 
 
 [What is Transifex?](https://www.transifex.com/product/?utm_source=github&utm_medium=web&utm_campaign=tx-live-wp-plugin)
 
 
 
-[What is Transifex Live?](https://www.transifex.com/product/transifexlive/)
-
-
 == Description ==
 
-In order to use Transifex Live, you will need to [sign up here for an account](https://www.transifex.com/signup/?utm_source=github&utm_medium=web&utm_campaign=tx-live-wp-plugin). This plugin also requires a Transifex Live API key.  More information about how to obtain a key can be found in the [plugin documentation here](http://docs.transifex.com/integrations/wordpress/#getting-your-transifex-live-api-key/?utm_source=github&utm_medium=web&utm_campaign=tx-live-wp-plugin) if you don't have a key yet.  
+The Transifex International SEO is a WordPress plugin designed to be used with Transifex.  In order to use Transifex, you will need to [sign up here for an account](https://www.transifex.com/signup/?utm_source=github&utm_medium=web&utm_campaign=tx-live-wp-plugin). Please note that a Transifex Live API key is required in order to use the plugin.  More information about how to obtain a key can be found in the [plugin documentation here](http://docs.transifex.com/integrations/wordpress/#getting-your-transifex-live-api-key/?utm_source=github&utm_medium=web&utm_campaign=tx-live-wp-plugin) if you don't have a key yet.  
 
 == Features ==
 
-* Simple installation of Transifex Live.
-* Automatically identify new or changed content on your site.
-* Translate your website in context.
-* Easily set unique language or region-specific URLs either by subdomain or subdirectory.
-* Integrated language picker 
-* Add hreflang tags to your pages and tell search engines what language a page is in.
-* Supports using a prerendered server for SEO purposes
+* Integrates Transifex into WordPress
+* Adds support for localized language URLs either by subdomain or subdirectory.
+* Adds support rewriting all URLs on the page
+* Automatically adds hreflang tags to your pages.
+* Adds supports for using an external prerendered server for SEO purposes
+* Works with WordPress multisite
 
 == Get Involved ==
 
@@ -40,9 +36,10 @@ Translators can contribute new languages to this plugin or our other WordPress p
 
 == Automatic Installation ==
 
-Automatic installation is the easiest option as WordPress handles the file transfers itself and you don’t need to leave your web browser. To do an automatic install of Transifex Live, log in to your WordPress admin panel, navigate to the Plugins menu and click Add New.
+To do an automatic install of Transifex Live, log in to your WordPress admin panel, navigate to the Plugins menu and click Add New.
 
-In the search field type "Transifex Live" and click Search Plugins. Once you’ve found the plugin you can view details about it such as the point release, rating, and description. Most importantly of course, you can install it by simply clicking Install Now. After clicking that link you will be asked if you’re sure you want to install the plugin. Click "yes" and WordPress will automatically complete the installation.
+In the search field type "Transifex Live" and click Search Plugins. Once you’ve found the plugin you can view details about it such as the point release, rating, and description. You can install it by simply clicking Install Now. After clicking that link you will be asked if you’re sure you want to install the plugin. Click "yes" and WordPress will automatically complete the installation.
+After installation a new menu setting option will appear called 'Transifex Live'.  You will need to complete the admin form before the plugin will become active.
 
 == Manual Installation ==
 
@@ -51,6 +48,7 @@ Manual installation involves downloading the plugin and uploading it to your web
 1. Download the plugin file to your computer and unzip it
 2. Using an FTP program, or your hosting control panel, upload the unzipped plugin folder to your WordPress installation’s wp-content/plugins/ directory.
 3. Activate the plugin from the Plugins menu within the WordPress admin.
+After installation a new menu setting option will appear called 'Transifex Live'.  You will need to complete the admin form before the plugin will become active.
 
 == Upgrading ==
 
