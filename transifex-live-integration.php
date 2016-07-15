@@ -10,11 +10,7 @@
  * @wordpress-plugin
  * Plugin Name:       Transifex International SEO
  * Plugin URI:        http://docs.transifex.com/developer/integrations/wordpress
-<<<<<<< HEAD
- * Description:       Translate your WordPress website or blog without the usual complex setups.
-=======
  * Description:       Translate your WordPress powered website using Transifex.
->>>>>>> 9a961e46759e2f277d2ac9816dbf842a2a058865
  * Version:           1.3.8
  * License:           GNU General Public License
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
