@@ -43,7 +43,6 @@ before_script:
   - bash ./install-wp-tests.sh test root '' localhost $WP_VERSION
   - sudo service apache2 restart
   - sudo echo $'[https://www.transifex.com]\nhostname = https://www.transifex.com\nusername = '"$TX_USERNAME"$'\npassword = '"$TX_PASSWORD"$'\ntoken =' > ~/.transifexrc
-  - cat ~/.transifexrc
   - sudo npm install
   - sudo npm install -g grunt-cli
 
