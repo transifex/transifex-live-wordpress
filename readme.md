@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/transifex/transifex-live-wordpress.svg?branch=devel)](https://travis-ci.org/transifex/transifex-live-wordpress)
 
-#Transifex International SEO
+#International SEO by Transifex
 
 
 [What is Transifex?](https://www.transifex.com/product/?utm_source=github&utm_medium=web&utm_campaign=tx-live-wp-plugin)
@@ -59,6 +59,9 @@ Automatic updates should work like a charm; as always though, ensure you backup 
 The WP-Translations project for plugin translations can be found [here](https://www.transifex.com/wp-translations/transifex-live/transifex-live/).
 
 == Changelog ==
+
+= 1.3.9 =
+Cosmetic changes to plugin copy and WordPress.org assets
 
 = 1.3.8 =
 Added staging checkbox to admin page

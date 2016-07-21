@@ -1,10 +1,10 @@
 === Plugin Name ===
-Name: Transifex International SEO
+Name: International SEO by Transifex
 Contributors: txmatthew, ThemeBoy, brooksx
 Tags: transifex, translate, translations, localize, localise, localization, localisation, multilingual, t9n, l10n, i18n, language, switcher, live, translation, translator
 Requires at least: 3.5.2
 Tested up to: 4.5.2
-Stable tag: 1.3.8
+Stable tag: 1.3.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -68,6 +68,9 @@ Automatic updates should work like a charm; as always though, ensure you backup 
 3. screenshot-3.jpg
 
 == Changelog ==
+
+= 1.3.9 =
+Cosmetic changes to plugin copy and WordPress.org assets
 
 = 1.3.8 =
 Added staging checkbox to admin page
