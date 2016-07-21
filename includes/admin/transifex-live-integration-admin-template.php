@@ -1,5 +1,5 @@
 <div class="wrap transifex-live-settings">
-    <h2><?php _e( 'Transifex International SEO Administration', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></h2>
+    <h2><?php _e( 'International SEO by Transifex', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></h2>
 	<p id="transifex_live_settings_api_key_message">
 	<div id="transifex_live_settings_api_key_message_error" class="notice notice-warning hide-if-js">
 		<p><strong><?php _e( "Oops! Please make sure you've entered a valid API key.", TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></strong></p>
