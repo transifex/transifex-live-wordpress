@@ -1,7 +1,7 @@
 === Plugin Name ===
 Name: International SEO by Transifex
 Contributors: txmatthew, ThemeBoy, brooksx
-Tags: transifex, translate, translations, localize, localise, localization, localisation, multilingual, t9n, l10n, i18n, language, switcher, live, translation, translator
+Tags: transifex, localize, localization, multilingual, international, SEO
 Requires at least: 3.5.2
 Tested up to: 4.5.2
 Stable tag: 1.3.9
