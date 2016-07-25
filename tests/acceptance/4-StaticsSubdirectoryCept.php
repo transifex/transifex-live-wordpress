@@ -11,7 +11,7 @@ $I->fillField('Password','admin');
 $I->click('Log In');
 $I->see('Dashboard');
 $I->amOnPage('/wp-admin/options-general.php?page=transifex-live-integration');
-$I->see('Transifex Live Translation Plugin Settings','h2');
+$I->see('International SEO by Transifex','h2');
 $I->assertTrue($I->executeJS('return (jQuery("#transifex_live_settings_api_key").val()=="2699bc66df6546008d0a14acf26732a1")?true:false;'));
 
 $I->wait(5);
@@ -93,7 +93,7 @@ $I->seeInSource('"api_key":"2699bc66df6546008d0a14acf26732a1"');
 $I->seeInSource('"detectlang":function() { return "de_DE";}');
 $I->seeLink('Sample Page','http://192.168.99.100:32777/de/sample-page/');
 $I->seeLink('Hello world!','http://192.168.99.100:32777/de/blog/hello-world/');
-$I->seeLink('Home','http://192.168.99.100:32777/de/home/');
+$I->seeLink('Haus','http://192.168.99.100:32777/de/');
 $I->seeLink('Blog','http://192.168.99.100:32777/de/blog/');
 
 $I->amOnPage('/blog/');
