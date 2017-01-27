@@ -1,0 +1,24 @@
+version: '2'
+services:
+  wordpress:
+    build: ./wordpress
+    ports:
+      - 8080:80
+      - 443:443
+    volumes:
+      - ./data:/data
+      - ../transifex-live-wordpress:/app/wp-content/plugins/transifex-live-wordpress # Plugin development
+    environment:
+      DB_NAME: wordpress
+      DB_PASS: root
+      PLUGINS: >-
+        [local]transifex-live-wordpress
+      WP_DEBUG: 'true'
+  db:
+    image: mariadb:10 # or mysql:5.7
+    volumes:
+      - data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+volumes:
+  data: {}
