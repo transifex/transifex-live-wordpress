@@ -20,15 +20,14 @@ env:
 matrix:
   allow_failures:
     - php: nightly
+    
+addons:
+  mariadb: '10.0'
 
 before_script:
   - sudo whoami
   - pwd
   - sudo apt-add-repository multiverse && sudo apt-get update
-  - sudo apt-get install software-properties-common
-  - sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db 
-  - sudo add-apt-repository 'deb [arch=amd64,i386,ppc64el] http://mirror.klaus-uwe.me/mariadb/repo/10.1/ubuntu trusty main'
-  - sudo apt-get -y install mariadb-server
   - sudo apt-get -y install npm
   - sudo apt-get -y install apache2 libapache2-mod-fastcgi
   - sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
