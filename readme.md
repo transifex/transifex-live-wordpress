@@ -60,6 +60,9 @@ The WP-Translations project for plugin translations can be found [here](https://
 
 == Changelog ==
 
+= 1.3.10 =
+Update keywords
+
 = 1.3.9 =
 Cosmetic changes to plugin copy and WordPress.org assets
 
