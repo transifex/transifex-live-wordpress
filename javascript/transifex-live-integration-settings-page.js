@@ -111,35 +111,35 @@ function transifex_live_integration_convert(l) {
 
 
 function transifexLanguages() {
-    var apikey = jQuery('#transifex_live_settings_api_key').val();
-    if (apikey != '') {
-        var env = (jQuery('#transifex_live_settings_enable_staging').prop('checked')) ? 'staging.' : '';
-        jQuery.ajax(
-                {
-                    url: "https://cdn.transifex.com/" + apikey + "/latest/languages." + env + "jsonp",
-                    jsonpCallback: "transifex_languages",
-                    jsonp: true,
-                    dataType: "jsonp",
-                    timeout: 3000
-                }
-        ).done(
-                function (data) {
-                    if (data['translation'] != undefined && data['translation'].length > 0) {
-                        globaldata = data;
-                        transifex_language_fields = transifex_live_integration_convert(data);
-                        jQuery('#transifex_live_settings_url_options').trigger('success');
-                    } else {
-                        jQuery('#transifex_live_settings_url_options').trigger('notranslation');
-                    }
-                }
-        ).fail(
-                function () {
-                    jQuery('#transifex_live_settings_url_options').trigger('error');
-                }
-        );
-    } else {
-        jQuery('#transifex_live_settings_api_key').trigger('blank');
-    }
+  var env = (jQuery('#transifex_live_settings_enable_staging').prop('checked')) ? 'staging.' : '';
+
+  if (apikey != '') {
+      jQuery.ajax(
+              {
+                  url: "https://cdn.transifex.com/" + apikey + "/latest/languages." + env + "jsonp",
+                  jsonpCallback: "transifex_languages",
+                  jsonp: true,
+                  dataType: "jsonp",
+                  timeout: 3000
+              }
+      ).done(
+              function (data) {
+                  if (data['translation'] != undefined && data['translation'].length > 0) {
+                      globaldata = data;
+                      transifex_language_fields = transifex_live_integration_convert(data);
+                      jQuery('#transifex_live_settings_url_options').trigger('success');
+                  } else {
+                      jQuery('#transifex_live_settings_url_options').trigger('notranslation');
+                  }
+              }
+      ).fail(
+              function () {
+                  jQuery('#transifex_live_settings_url_options').trigger('error');
+              }
+      );
+  } else {
+      jQuery('#transifex_live_settings_api_key').trigger('blank');
+  }
 }
 
 function addTransifexLanguages(obj) {
@@ -255,7 +255,18 @@ function addTransifexLanguages(obj) {
 }
 
 function updateTransifexSettingsFields(obj) {
-    jQuery('#transifex_live_transifex_settings_settings').val(JSON.stringify(obj));
+    var env = (jQuery('#transifex_live_settings_enable_staging').prop('checked')) ? 'staging.' : '';
+    if (!obj.languages) {
+        jQuery('#transifex_live_settings_url_options').trigger('error');
+    } else {
+        window.transifex_languages = obj.languages[env];
+    }
+
+
+
+    jQuery('#transifex_live_transifex_settings_settings').val(
+        JSON.stringify(obj.settings)
+    );
 }
 
 (function ($) {
@@ -365,7 +376,7 @@ function updateTransifexSettingsFields(obj) {
                         $('#transifex_live_settings_api_key_message_missing').toggleClass('hide-if-js', true);
 
                         transifex_settings_params = {
-                            url: "https://cdn.transifex.com/" + this.val() + "/latest/settings.all.jsonp",
+                            url: "https://cdn.transifex.com/" + this.val() + "/latest/manifest.jsonp",
                             done: function (data) {
                                 if (data) {
                                     updateTransifexSettingsFields(data);

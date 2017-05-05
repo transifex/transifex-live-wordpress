@@ -42,6 +42,7 @@ class Transifex_Live_Integration_Javascript {
 	 */
 	public function __construct( $settings, $live_settings ) {
 		Plugin_Debug::logTrace();
+		$this->setts = $settings;
 		$this->live_settings = $live_settings; // set defaults
 		$this->live_settings['api_key'] = $settings['api_key']; // add api key
 		$this->lang = false;
@@ -64,7 +65,7 @@ class Transifex_Live_Integration_Javascript {
 	/*
 	 * Checks the language against our language map and source language in order to determine
 	 * 		what to render as far as our javascript include
-	 * 
+	 *
 	 * @param string $query_var The current language code passed from the url
 	 * @param string $source_language The current source language, generally set by settings
 	 * @param array $language_map A key/value array that maps Transifex locale->plugin code
@@ -116,16 +117,16 @@ class Transifex_Live_Integration_Javascript {
 			}
 
 			$snippet .= <<<SUBDOMAIN
-<script type="text/javascript">							
+<script type="text/javascript">
 	function subdomain_detect_lang() {
-	   	var s = window.location.protocol+'\/\/'+window.location.host;			
+	   	var s = window.location.protocol+'\/\/'+window.location.host;
 		var r = /$escaped_subdomain_pattern/i;
 		var m = r.exec(s);
 		if (m===null){return '$source_language';}
 		var a = m[1];
 		switch(a) { $case_map default: return '$source_language'; break;} return a;}
 </script>
-						
+
 SUBDOMAIN;
 			$detectlang = "subdomain_detect_lang";
 		} else {

@@ -26,7 +26,7 @@ class Transifex_Live_Integration {
 		$debug_mode = ($settings['debug']) ? true : false;
 
 		require_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/common/plugin-debug.php';
-		new Plugin_Debug( $debug_mode );
+		new Plugin_Debug( true );
 		Plugin_Debug::logTrace( 'debug initialized' );
 
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-static-factory.php';
