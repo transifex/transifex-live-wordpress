@@ -127,8 +127,6 @@ function transifexLanguages() {
 }
 
 function addTransifexLanguages(obj) {
-
-
     if (typeof (obj) !== 'undefined' && obj !== null) {
         lm = jQuery.parseJSON(jQuery('#transifex_live_settings_language_map').val());
         hm = jQuery.parseJSON(jQuery('#transifex_live_settings_hreflang_map').val());
@@ -292,22 +290,31 @@ function updateTransifexSettingsFields(obj) {
 
 
 (function ($) {
+    var oldapikey = jQuery('#transifex_live_settings_api_key').val();
     $('#transifex_live_settings_api_key_button').machine(
             {
                 defaultState: {
                     onEnter: function () {
+                        var c_api_key = $('#transifex_live_settings_api_key').val();
                         $.log.debug('transifex_live_settings_api_key_button::defaultState::onEnter');
-                        ($('#transifex_live_settings_api_key').val() === '') ? this.trigger('wait') : this.trigger('checking');
+                        if (c_api_key === '' || (c_api_key == oldapikey && oldapikey.length != 0)) {
+                          this.attr('disabled', true);
+                        }
                     },
-                    events: {wait: 'wait', hidden: 'hidden'}
+                    events: {wait: 'wait'}
                 },
                 wait: {
                     onEnter: function () {
                         $.log.debug('transifex_live_settings_api_key_button::wait::onEnter');
-                        this.show();
-                        this.attr('disabled', false);
+                        this.attr('disabled', $('#transifex_live_settings_api_key').val() === oldapikey);
                     },
-                    events: {}
+                    events: {wait: 'wait', invalid: 'invalid'}
+                },
+                invalid: {
+                  onEnter: function() {
+                    this.attr('disabled', true);
+                  },
+                  events: {wait: 'wait', invalid: 'invalid'}
                 },
                 checking: {
                     onEnter: function () {
@@ -315,28 +322,22 @@ function updateTransifexSettingsFields(obj) {
                         $('#transifex_live_settings_api_key').trigger('validating');
                         this.attr('disabled', true);
                     },
-                    events: {wait: 'wait', hidden: 'hidden'}
-                },
-                hidden: {
-                    onEnter: function () {
-                        $.log.debug('transifex_live_settings_api_key_button::hidden::onEnter');
-                        this.hide();
-                    },
                     events: {wait: 'wait'}
-                }
+                },
             }, {setClass: true}
     );
 })(jQuery);
 
 
 (function (Transifex, $) {
+    var oldapikey = jQuery('#transifex_live_settings_api_key').val();
     $('#transifex_live_settings_api_key').machine(
             {
                 defaultState: {
                     onEnter: function () {
                         $.log.debug('transifex_live_settings_api_key:defaultState:onEnter');
                         languages_override = false;
-                        (this.val() !== '') ? this.trigger('validating') : this.trigger('wait');
+                        (this.val() !== '' || this.val() !== oldapikey) ? this.trigger('validating') : this.trigger('wait');
                     },
                     events: {validating: 'validating', wait: 'wait'}
                 },
@@ -378,7 +379,7 @@ function updateTransifexSettingsFields(obj) {
                 valid: {
                     onEnter: function () {
                         $.log.debug('#transifex_live_settings_api_key:valid:onEnter');
-                        $('#transifex_live_settings_api_key_button').trigger('hidden');
+                        $('#transifex_live_settings_api_key_button').trigger('wait');
                         $('#transifex_live_settings_url_options').trigger('validating');
                         $('#transifex_live_settings_api_key_message_error').toggleClass('hide-if-js', true);
                         $('#transifex_live_settings_api_key_message_missing').toggleClass('hide-if-js', true);
@@ -389,7 +390,7 @@ function updateTransifexSettingsFields(obj) {
                 error: {
                     onEnter: function () {
                         $.log.debug('error:onEnter');
-                        $('#transifex_live_settings_api_key_button').trigger('wait');
+                        $('#transifex_live_settings_api_key_button').trigger('fail');
                         $('#transifex_live_settings_api_key_message_validating').toggleClass('hide-if-js', true);
                         $('#transifex_live_settings_api_key_message_error').toggleClass('hide-if-js', false);
                     },
@@ -409,7 +410,7 @@ function updateTransifexSettingsFields(obj) {
                 missing: {
                     onEnter: function () {
                         $.log.debug('#transifex_live_settings_api_key:missing:onEnter');
-                        $('#transifex_live_settings_api_key_button').trigger('wait');
+                        $('#transifex_live_settings_api_key_button').trigger('fail');
                         $('#transifex_live_settings_api_key_message_validating').toggleClass('hide-if-js', true);
                         $('#transifex_live_settings_api_key_message_missing').toggleClass('hide-if-js', false);
                     },
