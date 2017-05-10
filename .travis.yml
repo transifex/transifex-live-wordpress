@@ -16,11 +16,12 @@ php:
 
 env:
   - WP_PROJECT_TYPE=plugin WP_VERSION=latest WP_MULTISITE=0 WP_TEST_URL=http://localhost:80 WP_TEST_USER=test WP_TEST_USER_PASS=test
+  - TRAVIS_NODE_VERSION="4"
 
 matrix:
   allow_failures:
     - php: nightly
-    
+
 addons:
   mariadb: '10.0'
 
@@ -28,7 +29,7 @@ before_script:
   - sudo whoami
   - pwd
   - sudo apt-add-repository multiverse && sudo apt-get update
-  - sudo apt-get -y install npm
+  - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $TRAVIS_NODE_VERSION
   - sudo apt-get -y install apache2 libapache2-mod-fastcgi
   - sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
   - sudo cat ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
@@ -45,8 +46,8 @@ before_script:
   - bash ./install-wp-tests.sh test root '' localhost $WP_VERSION
   - sudo service apache2 restart
   - sudo echo $'[https://www.transifex.com]\nhostname = https://www.transifex.com\nusername = '"$TX_USERNAME"$'\npassword = '"$TX_PASSWORD"$'\ntoken =' > ~/.transifexrc
-  - sudo npm install
-  - sudo npm install -g grunt-cli
+  - npm install
+  - npm install -g grunt-cli
 
 
 script:
@@ -63,7 +64,7 @@ script:
   - sudo chmod +x ./wp-plugin-deploy.sh
   - ./wp-plugin-deploy.sh
 
-after_failure: 
+after_failure:
   - sudo cat /var/log/apache2/error.log
   - cat /home/travis/build/transifex/transifex-live-wordpress/tests/_output/ConfigurePluginCept.fail.html
   - cat /home/travis/build/transifex/transifex-live-wordpress/tests/_output/CheckLiveSnippetCept.fail.html
