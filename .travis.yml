@@ -16,7 +16,6 @@ php:
 
 env:
   - WP_PROJECT_TYPE=plugin WP_VERSION=latest WP_MULTISITE=0 WP_TEST_URL=http://localhost:80 WP_TEST_USER=test WP_TEST_USER_PASS=test
-  - TRAVIS_NODE_VERSION="4"
 
 matrix:
   allow_failures:
@@ -29,7 +28,9 @@ before_script:
   - sudo whoami
   - pwd
   - sudo apt-add-repository multiverse && sudo apt-get update
-  - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $TRAVIS_NODE_VERSION
+  - sudo add-apt-repository -y ppa:chris-lea/node.js
+  - sudo apt-get -y update
+  - sudo apt-get -y install nodejs
   - sudo apt-get -y install apache2 libapache2-mod-fastcgi
   - sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
   - sudo cat ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
@@ -46,8 +47,8 @@ before_script:
   - bash ./install-wp-tests.sh test root '' localhost $WP_VERSION
   - sudo service apache2 restart
   - sudo echo $'[https://www.transifex.com]\nhostname = https://www.transifex.com\nusername = '"$TX_USERNAME"$'\npassword = '"$TX_PASSWORD"$'\ntoken =' > ~/.transifexrc
-  - npm install
-  - npm install -g grunt-cli
+  - sudo npm install
+  - sudo npm install -g grunt-cli
 
 
 script:
