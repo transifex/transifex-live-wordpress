@@ -20,15 +20,19 @@ env:
 matrix:
   allow_failures:
     - php: nightly
-    
+
 addons:
   mariadb: '10.0'
 
 before_script:
   - sudo whoami
   - pwd
+  - composer global require "codeception/codeception:*"
+  - sudo ln -s /home/travis/.config/composer/vendor/bin/codecept /usr/local/bin/codecept
   - sudo apt-add-repository multiverse && sudo apt-get update
-  - sudo apt-get -y install npm
+  - sudo add-apt-repository -y ppa:chris-lea/node.js
+  - sudo apt-get -y update
+  - sudo apt-get -y install nodejs
   - sudo apt-get -y install apache2 libapache2-mod-fastcgi
   - sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
   - sudo cat ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
@@ -55,15 +59,13 @@ script:
   - pyenv versions
   - pyenv global 2.7.10
   - pip install transifex-client
-  - "wget http://codeception.com/codecept.phar"
-  - php ./codecept.phar build
-  - php ./codecept.phar run
+  - codecept run
   - grunt tx-push
-  - echo "$(curl -fsSL https://gist.githubusercontent.com/matthewjackowski/56bdf337d014f2fe0646/raw/98f4b090aed09ee9a684cddebf644001ec851e96/wp-plugin-deploy.sh)" | sudo tee ./wp-plugin-deploy.sh > /dev/null
-  - sudo chmod +x ./wp-plugin-deploy.sh
-  - ./wp-plugin-deploy.sh
+  # - echo "$(curl -fsSL https://gist.githubusercontent.com/matthewjackowski/56bdf337d014f2fe0646/raw/98f4b090aed09ee9a684cddebf644001ec851e96/wp-plugin-deploy.sh)" | sudo tee ./wp-plugin-deploy.sh > /dev/null
+  # - sudo chmod +x ./wp-plugin-deploy.sh
+  # - ./wp-plugin-deploy.sh
 
-after_failure: 
+after_failure:
   - sudo cat /var/log/apache2/error.log
   - cat /home/travis/build/transifex/transifex-live-wordpress/tests/_output/ConfigurePluginCept.fail.html
   - cat /home/travis/build/transifex/transifex-live-wordpress/tests/_output/CheckLiveSnippetCept.fail.html

@@ -8,7 +8,7 @@ window.Transifex = window.Transifex || {};
         $.ajax(
             {
                 url: params.url || "BADURL",
-                jsonpCallback: params.jsonpCallback || "transifex_settings",
+                jsonpCallback: params.jsonpCallback || "transifex_manifest",
                 jsonp: params.jsonp || true,
                 dataType: params.dataType || "jsonp",
                 timeout: params.timeout || 3000
@@ -29,7 +29,7 @@ window.Transifex = window.Transifex || {};
         var ret = false;
         var expected_keys = ['picker', 'domain'];
         var env = ($('#transifex_live_settings_enable_staging').prop('checked'))?'staging':'production';
-        var keys = Object.keys(obj[env]);
+        var keys = Object.keys(obj.settings[env]);
         var diff = [];
         $.grep(
             expected_keys, function (e) {
