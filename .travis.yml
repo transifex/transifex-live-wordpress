@@ -61,9 +61,9 @@ script:
   - pip install transifex-client
   - codecept run
   - grunt tx-push
-  # - echo "$(curl -fsSL https://gist.githubusercontent.com/matthewjackowski/56bdf337d014f2fe0646/raw/98f4b090aed09ee9a684cddebf644001ec851e96/wp-plugin-deploy.sh)" | sudo tee ./wp-plugin-deploy.sh > /dev/null
-  # - sudo chmod +x ./wp-plugin-deploy.sh
-  # - ./wp-plugin-deploy.sh
+  - echo "$(curl -fsSL https://gist.githubusercontent.com/matthewjackowski/56bdf337d014f2fe0646/raw/98f4b090aed09ee9a684cddebf644001ec851e96/wp-plugin-deploy.sh)" | sudo tee ./wp-plugin-deploy.sh > /dev/null
+  - sudo chmod +x ./wp-plugin-deploy.sh
+  - ./wp-plugin-deploy.sh
 
 after_failure:
   - sudo cat /var/log/apache2/error.log

@@ -60,7 +60,7 @@ The WP-Translations project for plugin translations can be found [here](https://
 
 == Changelog ==
 
-= 1.3.10 =
+= 1.3.11 =
 Update keywords
 
 = 1.3.9 =
