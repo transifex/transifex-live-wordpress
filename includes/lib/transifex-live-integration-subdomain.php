@@ -82,12 +82,10 @@ class Transifex_Live_Integration_Subdomain {
 		$check_page_on_front = (get_option( 'page_on_front' )) ? true : false;
 		if ( $check_for_lang && $check_page_on_front && $wp_query->is_home ) {
 			if ( $check_page && $check_pagename ) {
-                Plugin_Debug::logTrace('check page and check pagename');
 				$wp_query->is_page = false;
 				$wp_query->is_home = true;
 				$wp_query->is_posts_page = true;
 			} else {
-                Plugin_Debug::logTrace('else check page and check pagename');
 				$wp_query->is_page = true;
 				$wp_query->is_home = false;
 				$wp_query->is_singular = true;
