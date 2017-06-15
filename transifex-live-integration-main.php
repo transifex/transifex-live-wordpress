@@ -124,6 +124,7 @@ class Transifex_Live_Integration {
 			($subdomain) ? Plugin_Debug::logTrace( 'subdomains created' ) : Plugin_Debug::logTrace( 'subdomains skipped' );
 			if ( $subdomain ) {
 				add_action( 'parse_query', [ $subdomain, 'parse_query_hook' ] );
+                add_action( 'parse_query', [ $subdomain, 'parse_query_root_hook' ] );
 			}
 		}
 
