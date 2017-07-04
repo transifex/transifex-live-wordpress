@@ -1,5 +1,5 @@
 === Plugin Name ===
-Name: International SEO by Transifex
+International SEO by Transifex
 Contributors: txmatthew, ThemeBoy, brooksx
 Tags: transifex, localize, localization, multilingual, international, SEO
 Requires at least: 3.5.2
