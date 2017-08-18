@@ -297,7 +297,7 @@ function updateTransifexSettingsFields(obj) {
                     onEnter: function () {
                         var c_api_key = $('#transifex_live_settings_api_key').val();
                         $.log.debug('transifex_live_settings_api_key_button::defaultState::onEnter');
-                        if (c_api_key === '' || (c_api_key == oldapikey && oldapikey.length != 0)) {
+                        if (c_api_key == oldapikey && oldapikey.length != 0) {
                           this.attr('disabled', true);
                         }
                     },
