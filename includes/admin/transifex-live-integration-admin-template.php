@@ -122,7 +122,7 @@
 							<input name="transifex_live_settings[generic_bot_types]" type="text" id="transifex_live_settings_generic_bot_types" value="<?php echo $settings['generic_bot_types']; ?>" class="regular-text" placeholder="<?php _e( 'Regex list of crawler type keywords.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>">
 						</p>
 					</div>
-					<p class="description"><?php _e( 'Important so crawler and bots can see your translated content <a target="_blank" href="#">Check out our docs for details.</a>', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
+					<p class="description"><?php _e( 'Important so crawler and bots can see your translated content <a target="_blank" href="https://docs.transifex.com/integrations/wordpress#helping-bots-read-translations">Check out our docs for details.</a>', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
 				</div>
 			</td></tr>
 		</tbody>
