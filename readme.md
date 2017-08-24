@@ -60,6 +60,9 @@ The WP-Translations project for plugin translations can be found [here](https://
 
 == Changelog ==
 
+= 1.3.12 =
+Minor fixes
+
 = 1.3.11 =
 Support Live's manifest.jsonp file
 

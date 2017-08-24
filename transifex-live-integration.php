@@ -5,7 +5,7 @@
  *
  * @link    http://docs.transifex.com/developer/integrations/wordpress
  * @package TransifexLiveIntegration
- * @version 1.3.11
+ * @version 1.3.12
  *
  * @wordpress-plugin
  * Plugin Name:       International SEO by Transifex
