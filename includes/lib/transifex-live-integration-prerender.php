@@ -40,7 +40,7 @@ class Transifex_Live_Integration_Prerender {
 
 	public function __construct( $prerender_url, $enable_prerender_check, $settings ) {
 		Plugin_Debug::logTrace();
-		$this->prerender_url = $prerender_url;
+		$this->prerender_url = rtrim( $prerender_url, '/' ) . '/';
 		$this->enable_prerender_check = ($enable_prerender_check) ? true : false;
 		$this->prerender_enable_vary_header = (isset( $settings['prerender_enable_vary_header'] )) ? true : false;
 		$this->prerender_vary_header_value = $settings['prerender_vary_header_value'];
