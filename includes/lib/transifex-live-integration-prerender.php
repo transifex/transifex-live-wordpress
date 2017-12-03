@@ -168,7 +168,7 @@ STATUS;
 		$debug_html = '<!--' . "\n";
 		$page_url = home_url( $wp->request );
 		if ( !empty($lang) ) {
-			$page_url = str_replace('www', $lang, $page_url);
+			$page_url = Transifex_Live_Integration_Util::replace_lang_subdomain($page_url, $lang);
 		}
 		$page_url = rtrim( $page_url, '/' ) . '/';
 		if ( function_exists( 'curl_version' ) ) {
