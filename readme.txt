@@ -4,7 +4,7 @@ Contributors: txmatthew, ThemeBoy, brooksx
 Tags: transifex, localize, localization, multilingual, international, SEO
 Requires at least: 3.5.2
 Tested up to: 4.5.2
-Stable tag: 1.3.12
+Stable tag: 1.3.13
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -68,6 +68,10 @@ Automatic updates should work like a charm; as always though, ensure you backup 
 3. screenshot-3.jpg
 
 == Changelog ==
+
+= 1.3.13 =
+Support X-Transifex-Lang header to set correct language for prerender request
+Minor fixes in the way prerender url is handled
 
 = 1.3.12 =
 Minor fixes
