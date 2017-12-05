@@ -20,7 +20,7 @@
 					<p>
 						<input required name="transifex_live_settings[api_key]" type="text" id="transifex_live_settings_api_key" value="<?php echo $settings['api_key']; ?>" class="regular-text" placeholder="<?php _e( 'This field is required.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>">
 						<input type="hidden" value="<?php echo $settings['api_key']; ?>" name="transifex_live_settings[previous_api_key]" id="transifex_live_settings_raw_transifex_previous_api_key" />
-						<input type="submit" disabled="true" name="check" id="transifex_live_settings_api_key_button" class="button button-primary" value="Save">
+						<input type="submit" name="check" id="transifex_live_settings_api_key_button" class="button button-primary" value="Save">
 					</p>
 					<p>
 						<input id="transifex_live_settings_enable_staging" name="transifex_live_settings[enable_staging]" value="1" type="checkbox" <?php echo $checked_enable_staging ?>><?php _e( 'Staging?', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
@@ -122,7 +122,7 @@
 							<input name="transifex_live_settings[generic_bot_types]" type="text" id="transifex_live_settings_generic_bot_types" value="<?php echo $settings['generic_bot_types']; ?>" class="regular-text" placeholder="<?php _e( 'Regex list of crawler type keywords.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>">
 						</p>
 					</div>
-					<p class="description"><?php _e( 'Important so crawler and bots can see your translated content <a target="_blank" href="#">Check out our docs for details.</a>', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
+					<p class="description"><?php _e( 'Important so crawler and bots can see your translated content <a target="_blank" href="https://docs.transifex.com/integrations/wordpress#helping-bots-read-translations">Check out our docs for details.</a>', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
 				</div>
 			</td></tr>
 		</tbody>

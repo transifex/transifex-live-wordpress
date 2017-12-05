@@ -159,37 +159,26 @@ class Transifex_Live_Integration_Rewrite {
 			}
 		}
 
-		if ( empty( $lang ) ) {
+		if ( empty( $lang ) || empty( $languages_map ) ) {
 			return $link;
 		}
-		if ( empty( $languages_map ) ) {
+                elseif ( !in_array( $lang, array_values( $languages_map ) ) || $source_lang == $lang ) {
 			return $link;
 		}
-		$modified_link = $link;
-		$reverse_url = true;
 
-		$reverse_url = ($reverse_url) ? (isset( $lang )) : false;
-
-		if ( !empty( $lang ) ) {
-			$reverse_url = ($reverse_url) ? (!strpos( $modified_link, '/' . $lang . '/' )) : false;
-		}
-		$reverse_url = ($reverse_url) ? (in_array( $lang, array_values( $languages_map ) )) : false;
-		$reverse_url = ($reverse_url) ? (!($source_lang == $lang)) : false;
-
-		if ( $reverse_url ) {
-			preg_match( $pattern, $link, $m );
-			if ( count( $m ) > 1 ) {
-				$modified_link = str_replace( $m[1], $lang, $m[0] );
-			} else {
-				if ( 3 <= substr_count( $link, '/' ) ) {
-					$array_url = explode( '/', $link );
-					$array_url[3] = $lang . '/' . $array_url[3];
-					$modified_link = implode( '/', $array_url );
-				}
+		preg_match( $pattern, $link, $m );
+		if ( count( $m ) > 1 ) {
+			$link = str_replace( $m[1], $lang, $m[0] );
+		} else {
+			/* Check if the path starts with the language code,
+			 * otherwise prepend it. */
+			$parsed = parse_url( $link );
+			if ( substr($parsed['path'], 1, strlen($lang))  != $lang ) {
+				$parsed['path'] = '/' . $lang . $parsed['path'];
 			}
+			$link = Transifex_Live_Integration_Util::unparse_url( $parsed );
 		}
-		$modified_link = ($modified_link) ? $modified_link : $link;
-		return $modified_link;
+		return $link;
 	}
 
 	/*

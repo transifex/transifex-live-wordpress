@@ -40,7 +40,7 @@ class Transifex_Live_Integration_Prerender {
 
 	public function __construct( $prerender_url, $enable_prerender_check, $settings ) {
 		Plugin_Debug::logTrace();
-		$this->prerender_url = $prerender_url;
+		$this->prerender_url = rtrim( $prerender_url, '/' ) . '/';
 		$this->enable_prerender_check = ($enable_prerender_check) ? true : false;
 		$this->prerender_enable_vary_header = (isset( $settings['prerender_enable_vary_header'] )) ? true : false;
 		$this->prerender_vary_header_value = $settings['prerender_vary_header_value'];
@@ -158,8 +158,18 @@ STATUS;
 	function callback( $buffer ) {
 		global $wp;
 		$output = $buffer;
+
+		# Try to get language code from the Transifex-Lang header.
+		# This is used in the instance where subdomains have been configured
+		# outside Wordpress so it does not have any knowledge of other
+		# subdomains.
+		$lang = urlencode($_SERVER['HTTP_X_TRANSIFEX_LANG']);
+
 		$debug_html = '<!--' . "\n";
 		$page_url = home_url( $wp->request );
+		if ( !empty($lang) ) {
+			$page_url = Transifex_Live_Integration_Util::replace_lang_subdomain($page_url, $lang);
+		}
 		$page_url = rtrim( $page_url, '/' ) . '/';
 		if ( function_exists( 'curl_version' ) ) {
 			$curl_response = $this->call_curl( $this->prerender_url . $page_url );
