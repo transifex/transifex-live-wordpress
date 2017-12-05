@@ -13,5 +13,4 @@ grunt
 languages/
 build/
 
-wp-plugin-deploy.sh
 tests/_output/*
