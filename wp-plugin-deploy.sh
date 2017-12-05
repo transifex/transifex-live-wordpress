@@ -45,4 +45,4 @@ tree .
 svn add --force .
 svn st | grep ^! | awk '{print " --force "$2}' | xargs svn rm
 svn status --show-updates
-#svn commit -m "Version $PLUGIN_VERSION Released" --username $SVN_USERNAME --password $SVN_PASSWORD --no-auth-cache
+svn commit -m "Version $PLUGIN_VERSION Released" --username $SVN_USERNAME --password $SVN_PASSWORD --no-auth-cache

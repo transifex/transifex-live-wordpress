@@ -62,7 +62,7 @@ script:
   - codecept run
   - grunt tx-push
   - sudo chmod +x ./wp-plugin-deploy.sh
-  - if [ $TRAVIS_BRANCH = 'master' ]; ./wp-plugin-deploy.sh
+  - if [ $TRAVIS_BRANCH = 'master' ]; ./wp-plugin-deploy.sh; fi
 
 after_failure:
   - sudo cat /var/log/apache2/error.log
