@@ -170,6 +170,7 @@ STATUS;
 		$page_url = home_url( $wp->request );
 		if ( !empty($lang) ) {
 			$page_url = Transifex_Live_Integration_Util::replace_lang_subdomain($page_url, $lang);
+			header('X-Transifex-Lang: ' . $lang);
 		}
 		$page_url = rtrim( $page_url, '/' ) . '/';
 		if ( function_exists( 'curl_version' ) ) {
