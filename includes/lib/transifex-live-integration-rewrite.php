@@ -325,5 +325,24 @@ class Transifex_Live_Integration_Rewrite {
 		$retlink = $this->reverse_hard_link( $this->lang, $url, $this->languages_map, $this->source_language, $this->rewrite_pattern );
 		return $retlink;
 	}
-
+	
+	/*
+	 * WP the_content_hook hook, filters links using the the_content function
+	 * @param string $string The string to filter
+	 * @return string The filtered string
+	 */
+	 function the_content_hook( $string) {
+ 		
+ 		// Regular expression that extracts all urls from a string
+ 		preg_match_all('#\b(https|http)?://[^,\s()<>]+(?:\([\w\d]+\)|([^,[:punct:]\s]|/))#', $string, $matchArray);
+ 		// Iterate through all links, rewrite when needed
+ 		foreach($matchArray as $match){
+ 				if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $match[0] ) ) {
+ 				    continue;
+ 				}
+ 		    $retlink = $this->reverse_hard_link( $this->lang, $match[0], $this->languages_map, $this->source_language, $this->rewrite_pattern );
+ 				$string = str_replace($match[0], $retlink, $string);
+ 		}
+ 		return $string;
+ 	}
 }
