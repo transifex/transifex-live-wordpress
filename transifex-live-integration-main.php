@@ -148,6 +148,7 @@ class Transifex_Live_Integration {
 				add_filter( 'month_link', [$rewrite, 'month_link_hook' ], 10, 3 );
 				add_filter( 'year_link', [$rewrite, 'year_link_hook' ], 10, 2 );
 				add_filter( 'home_url', [$rewrite, 'home_url_hook' ] );
+				add_filter( 'the_content', [$rewrite, 'the_content_hook' ], 10);
 			}
 		}
 		$subdirectory = Transifex_Live_Integration_Static_Factory::create_subdirectory( $settings, $rewrite_options );
