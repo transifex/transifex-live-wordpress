@@ -60,6 +60,9 @@ The WP-Translations project for plugin translations can be found [here](https://
 
 == Changelog ==
 
+= 1.3.14 =
+Add hook for handling content's url rewrites
+
 = 1.3.13 =
 Support X-Transifex-Lang header to set correct language for prerender request
 Minor fixes in the way prerender url is handled
