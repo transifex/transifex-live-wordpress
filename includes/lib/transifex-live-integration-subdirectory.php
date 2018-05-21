@@ -167,7 +167,33 @@ class Transifex_Live_Integration_Subdirectory {
 		$this->post_permastruct = $pp;
 		$rr = Transifex_Live_Integration_Generate_Rewrite_Rules::generate_rewrite_rules( $pp, EP_PERMALINK, true, false, false, true );
 		$rewrite = array_merge( $rr, $rules );
+		
+		// Handle custom post types from custom filter
+		$custom_rewrite = $this->custom_type_rules_hook();
+		$rewrite = array_merge( $custom_rewrite, $rewrite);
+		
 		return $rewrite;
+	}
+	
+	/**
+	 * Callback function to the WP page_rewrite_rules
+	 *
+	 * It applies a custom filter, allowing 3rd party modules to add their own
+	 * permalink rewrite rules.
+	 *
+	 * @return array Returns custom rewrite rules
+	 */
+	 function custom_type_rules_hook(){
+		// Get custom rules from 3rd party module, if our own filter is being used
+		$custom_types_array = apply_filters('transifex_generate_rewrite_rules', $custom_types_array);
+		$rewrite_array = array();
+		foreach($custom_types_array as $custom_type_regex => $custom_type_action){
+			// Replace the lang placeholder with the language regex for this configuation
+			$custom_type_regex = str_replace("%lang%", $this->languages_regex, $custom_type_regex);
+			// Add permalink to array
+			$rewrite_array[$custom_type_regex] = $custom_type_action;
+		}
+		return $rewrite_array;
 	}
 
 	/**
