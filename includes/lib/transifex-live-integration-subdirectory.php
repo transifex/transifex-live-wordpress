@@ -185,6 +185,7 @@ class Transifex_Live_Integration_Subdirectory {
 	 */
 	 function custom_type_rules_hook(){
 		// Get custom rules from 3rd party module, if our own filter is being used
+		$custom_types_array = array();
 		$custom_types_array = apply_filters('transifex_generate_rewrite_rules', $custom_types_array);
 		$rewrite_array = array();
 		foreach($custom_types_array as $custom_type_regex => $custom_type_action){
