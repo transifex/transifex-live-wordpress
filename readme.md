@@ -60,6 +60,9 @@ The WP-Translations project for plugin translations can be found [here](https://
 
 == Changelog ==
 
+= 1.3.15 =
+Add filter for custom rewrite rules
+
 = 1.3.14 =
 Add hook for handling content's url rewrites
 
