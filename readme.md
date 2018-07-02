@@ -70,6 +70,9 @@ Ex. $updated_content = apply_filters('tx_link', $original_content);
 
 == Changelog ==
 
+= 1.3.16 =
+Add link filter hook for custom type blocks
+
 = 1.3.15 =
 Add filter for custom rewrite rules
 
