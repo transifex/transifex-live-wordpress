@@ -149,6 +149,9 @@ class Transifex_Live_Integration {
 				add_filter( 'year_link', [$rewrite, 'year_link_hook' ], 10, 2 );
 				add_filter( 'home_url', [$rewrite, 'home_url_hook' ] );
 				add_filter( 'the_content', [$rewrite, 'the_content_hook' ], 10);
+				add_filter( 'widget_text', [$rewrite, 'the_content_hook' ], 10);
+				// Add filter for custom content that is not triggered by any other hook
+				add_filter('tx_link',  [ $rewrite,'the_content_hook'], 10 ,1);
 			}
 		}
 		$subdirectory = Transifex_Live_Integration_Static_Factory::create_subdirectory( $settings, $rewrite_options );
