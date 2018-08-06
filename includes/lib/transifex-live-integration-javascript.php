@@ -50,6 +50,9 @@ class Transifex_Live_Integration_Javascript {
 		$this->language_map = $settings['language_map'];
 		$this->url_options = $settings['url_options'];
 		$this->subdomain_pattern = $settings['subdomain_pattern'];
+		if(isset($settings['enable_prerender'])){
+		    $this->live_settings['prerender'] = (bool)$settings['enable_prerender'];
+		}
 	}
 
 	/**
