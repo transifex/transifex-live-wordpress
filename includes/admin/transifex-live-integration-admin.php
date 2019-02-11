@@ -11,6 +11,8 @@
  */
 class Transifex_Live_Integration_Admin {
 
+	const TX_URL = 'https://www.transifex.com/api/2/';
+
 	/**
 	 * Loads plugin settings from db, merges with defaults if any are missing
 	 * @return array List of all key->value settings
@@ -205,6 +207,7 @@ class Transifex_Live_Integration_Admin {
 		$languages_map = $settings['transifex_live_settings']['language_map'];
 		$languages_map_string = $languages_map; // TODO: Switch to wp_json_encode.
 
+	    self::ping_tx($settings["transifex_live_settings"]["api_key"]);
 
 		$languages_map = (array) json_decode( stripslashes( $languages_map ), true );
 		$trim = false;
@@ -313,6 +316,35 @@ class Transifex_Live_Integration_Admin {
 
 		$settings['transifex_live_transifex_settings']['settings'] = ( isset( $settings['transifex_live_transifex_settings']['settings'] )) ? sanitize_text_field( stripslashes( $settings['transifex_live_transifex_settings']['settings'] ) ) : '';
 		return $settings;
+	}
+
+	/**
+	 * Function that makes a (dummy) ping call to the Transifex API, in order to keep
+	 * information about the Wordpress instance. This information will help us
+	 * identify and provide better support for specific versions.
+	 *
+	 * The actual API endpoint doesn't matter (in fact the provided api key is Live
+	 * specific and can't be used for an API call), we are only interested in the
+	 * request itself.
+	 *
+	 * @param string $api_key
+	 */
+	static public function ping_tx($api_key){
+	    global $wp_version;
+
+		$agent = array(
+		 "transifex-live-wordpress-version/" . $wp_version,
+		 "transifex-live-wordpress-user/" . md5($api_key)
+		);
+		$ch = curl_init(self::TX_URL);
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+		curl_setopt($ch, CURLOPT_USERAGENT, implode(" ", $agent));
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+		 'Content-Type: application/json'
+	 ));
+		$response = curl_exec($ch);
+		curl_close($ch);
 	}
 
 }
