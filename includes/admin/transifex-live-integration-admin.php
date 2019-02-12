@@ -207,7 +207,7 @@ class Transifex_Live_Integration_Admin {
 		$languages_map = $settings['transifex_live_settings']['language_map'];
 		$languages_map_string = $languages_map; // TODO: Switch to wp_json_encode.
 
-	    self::ping_tx($settings["transifex_live_settings"]["api_key"]);
+		self::ping_tx($settings["transifex_live_settings"]["api_key"]);
 
 		$languages_map = (array) json_decode( stripslashes( $languages_map ), true );
 		$trim = false;
@@ -323,7 +323,7 @@ class Transifex_Live_Integration_Admin {
 	 * information about the Wordpress instance. This information will help us
 	 * identify and provide better support for specific versions.
 	 *
-	 * The actual API endpoint doesn't matter (in fact the provided api key is Live
+	 * The actual API endpoint doesn't matter (in fact the provided API key is Live
 	 * specific and can't be used for an API call), we are only interested in the
 	 * request itself.
 	 *
