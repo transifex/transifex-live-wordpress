@@ -70,6 +70,10 @@ Ex. $updated_content = apply_filters('tx_link', $original_content);
 
 == Changelog ==
 
+= 1.3.18 =
+Update the latest tested Wordpress version
+Add metrics for Wordpress versions used by the plugin
+
 = 1.3.17 =
 Add missing prerender value to Transifex live settings
 
