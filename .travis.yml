@@ -2,6 +2,7 @@ branches:
   only:
     - master
     - devel
+    - update-travis-credentials
 
 sudo: required
 dist: trusty
@@ -48,9 +49,7 @@ before_script:
   - echo "$(curl -fsSL https://gist.githubusercontent.com/matthewjackowski/3b26061241545564ae8d/raw/install-wp-tests.sh)" | sudo tee ./install-wp-tests.sh > /dev/null
   - bash ./install-wp-tests.sh test root '' localhost $WP_VERSION
   - sudo service apache2 restart
-  - sudo echo $'[https://www.transifex.com]\nhostname = https://www.transifex.com\nusername = '"$TX_USERNAME"$'\npassword = '"$TX_PASSWORD"$'\ntoken =' > ~/.transifexrc
-  - sudo npm install
-  - sudo npm install -g grunt-cli
+  - sudo echo $'[https://www.transifex.com]\nhostname = https://www.transifex.com\npassword = '"$TX_PASSWORD"$'\ntoken =api' > ~/.transifexrc
 
 
 script:
@@ -60,7 +59,6 @@ script:
   - pyenv global 2.7.10
   - pip install transifex-client
   - codecept run
-  - grunt tx-push
   - sudo chmod +x ./wp-plugin-deploy.sh
   - if [ $TRAVIS_BRANCH = 'master' ]; then ./wp-plugin-deploy.sh; fi
 
