@@ -162,7 +162,7 @@ class Transifex_Live_Integration_Rewrite {
 		if ( empty( $lang ) || empty( $languages_map ) ) {
 			return $link;
 		}
-                elseif ( !in_array( $lang, array_values( $languages_map ) ) || $source_lang == $lang ) {
+		elseif ( !in_array( $lang, array_values( $languages_map ) ) || $source_lang == $lang ) {
 			return $link;
 		}
 
@@ -170,13 +170,19 @@ class Transifex_Live_Integration_Rewrite {
 		if ( count( $m ) > 1 ) {
 			$link = str_replace( $m[1], $lang, $m[0] );
 		} else {
-			/* Check if the path starts with the language code,
-			 * otherwise prepend it. */
-			$parsed = parse_url( $link );
-			if ( substr($parsed['path'], 1, strlen($lang))  != $lang ) {
-				$parsed['path'] = '/' . $lang . $parsed['path'];
+			$site_host = parse_url(site_url())['host'];
+			$parsed_url = parse_url($link);
+			$link_host = isset($parsed_url['host']) ? $parsed_url['host'] : '';
+			// change only wordpress links - not links reffering to other domains
+			if ( $link_host === $site_host ) {
+				/* Check if the path starts with the language code,
+				* otherwise prepend it. */
+				$parsed = parse_url( $link );
+				if ( substr($parsed['path'], 1, strlen($lang))  != $lang ) {
+					$parsed['path'] = '/' . $lang . $parsed['path'];
+				}
+				$link = Transifex_Live_Integration_Util::unparse_url( $parsed );
 			}
-			$link = Transifex_Live_Integration_Util::unparse_url( $parsed );
 		}
 		return $link;
 	}
