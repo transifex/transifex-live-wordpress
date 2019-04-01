@@ -70,6 +70,9 @@ Ex. $updated_content = apply_filters('tx_link', $original_content);
 
 == Changelog ==
 
+= 1.3.19 =
+Fix subfolder url rewritting for external domains
+
 = 1.3.18 =
 Update the latest tested Wordpress version
 Add metrics for Wordpress versions used by the plugin
