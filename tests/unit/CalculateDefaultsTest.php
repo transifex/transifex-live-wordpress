@@ -1,6 +1,7 @@
 <?php
+include_once __DIR__ .'/BaseTestCase.php';
 
-class CalculateDefaultsTest extends \PHPUnit_Framework_TestCase
+class CalculateDefaultsTest extends BaseTestCase
 {
     private $data_subdomain;
 	private $data_subdirectory;

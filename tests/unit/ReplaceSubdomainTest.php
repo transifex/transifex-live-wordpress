@@ -1,6 +1,7 @@
 <?php
+include_once __DIR__ .'/BaseTestCase.php';
 
-class ReplaceSubdomainTest extends \PHPUnit_Framework_TestCase
+class ReplaceSubdomainTest extends BaseTestCase
 {
 
     private $data;
@@ -9,6 +10,7 @@ class ReplaceSubdomainTest extends \PHPUnit_Framework_TestCase
     {
         include_once './includes/common/plugin-debug.php';
         include_once './includes/common/transifex-live-integration-common.php';
+        include_once './includes/transifex-live-integration-util.php';
         $this->data = [
         [
         'page_url' => 'https://www.foo.bar/about/',

@@ -1,6 +1,7 @@
 <?php
+include_once __DIR__ .'/BaseTestCase.php';
 
-class GenerateLanguageUrlMapTest extends \PHPUnit_Framework_TestCase
+class GenerateLanguageUrlMapTest extends BaseTestCase
 {
 
     private $data;

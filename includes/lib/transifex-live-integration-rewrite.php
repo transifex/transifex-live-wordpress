@@ -40,6 +40,7 @@ class Transifex_Live_Integration_Rewrite {
 		Plugin_Debug::logTrace();
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/common/transifex-live-integration-validators.php';
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/override/transifex-live-integration-generate-rewrite-rules.php';
+		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/lib/transifex-live-integration-wp-services.php';
 		$this->rewrite_options = [ ];
 		$this->languages_regex = $settings['languages_regex'];
 		$this->source_language = $settings['source_language'];
@@ -97,6 +98,7 @@ class Transifex_Live_Integration_Rewrite {
 				$this->rewrite_pattern = $pattern;
 			}
 		}
+		$this->wp_services = new Transifex_Live_Integration_WP_Services();
 	}
 
 	public function get_language_url( $atts ) {
@@ -146,7 +148,7 @@ class Transifex_Live_Integration_Rewrite {
 	 * @return string Returns modified link
 	 */
 
-	static function reverse_hard_link( $lang, $link, $languages_map, $source_lang,
+	function reverse_hard_link( $lang, $link, $languages_map, $source_lang,
 			$pattern ) {
 		Plugin_Debug::logTrace();
 		if ( !(isset( $pattern )) ) {
@@ -170,7 +172,7 @@ class Transifex_Live_Integration_Rewrite {
 		if ( count( $m ) > 1 ) {
 			$link = str_replace( $m[1], $lang, $m[0] );
 		} else {
-			$site_host = parse_url(site_url())['host'];
+			$site_host = parse_url($this->wp_services->get_site_url())['host'];
 			$parsed_url = parse_url($link);
 			$link_host = isset($parsed_url['host']) ? $parsed_url['host'] : '';
 			// change only wordpress links - not links reffering to other domains
