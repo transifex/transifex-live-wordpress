@@ -5,6 +5,7 @@ class ReverseHardLinkTest extends \PHPUnit_Framework_TestCase {
 	private $data;
 
 	protected function setUp() {
+		include_once '../../../../../wp-load.php';
 		include_once './includes/common/plugin-debug.php';
 		include_once './includes/lib/transifex-live-integration-rewrite.php';
 		$this->data = [[ //1
