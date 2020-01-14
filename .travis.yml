@@ -28,6 +28,7 @@ before_script:
   - sudo whoami
   - pwd
   - COMPOSER_MEMORY_LIMIT=-1 composer global require "codeception/codeception:*"
+  - COMPOSER_MEMORY_LIMIT=-1 composer global require "codeception/module-asserts"
   - sudo ln -s /home/travis/.config/composer/vendor/bin/codecept /usr/local/bin/codecept
   - sudo apt-add-repository multiverse && sudo apt-get update
   - sudo add-apt-repository -y ppa:chris-lea/node.js
