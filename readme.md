@@ -9,7 +9,7 @@
 
 == Description ==
 
-The Transifex International SEO is a WordPress plugin designed to be used with Transifex.  In order to use Transifex, you will need to [sign up here for an account](https://www.transifex.com/signup/?utm_source=github&utm_medium=web&utm_campaign=tx-live-wp-plugin). Please note that a Transifex Live API key is required in order to use the plugin.  More information about how to obtain a key can be found in the [plugin documentation here](http://docs.transifex.com/integrations/wordpress/#getting-your-transifex-live-api-key/?utm_source=github&utm_medium=web&utm_campaign=tx-live-wp-plugin) if you don't have a key yet.  
+The Transifex International SEO is a WordPress plugin designed to be used with Transifex.  In order to use Transifex, you will need to [sign up here for an account](https://www.transifex.com/signup/?utm_source=github&utm_medium=web&utm_campaign=tx-live-wp-plugin). Please note that a Transifex Live API key is required in order to use the plugin.  More information about how to obtain a key can be found in the [plugin documentation here](http://docs.transifex.com/integrations/wordpress/#getting-your-transifex-live-api-key/?utm_source=github&utm_medium=web&utm_campaign=tx-live-wp-plugin) if you don't have a key yet.
 
 == Features ==
 
@@ -62,13 +62,16 @@ The WP-Translations project for plugin translations can be found [here](https://
 
 * The Transifex Live plugin uses Wordpress hooks to manipulate the links found in your website's content, so they always point to the appropriate language. If you use custom post types (or one of your plugins does) that emits the 'the_content' filter, our code might not be triggered.
 
-For those cases, it is recommended to manually trigger our custom filter 'tx_link' before you return your content, as seen in the example below: 
+For those cases, it is recommended to manually trigger our custom filter 'tx_link' before you return your content, as seen in the example below:
 
 Ex. $updated_content = apply_filters('tx_link', $original_content);
 
 * It is also recommended  to use [widgets](https://codex.wordpress.org/Widgets_API) in your theme instead of custom code, since this allows you to make your integration more future proof against incompatibilities with 3rd party modules.
 
 == Changelog ==
+
+= 1.3.20 =
+Update the latest tested WordPress version (5.3.2)
 
 = 1.3.19 =
 Fix subfolder url rewritting for external domains
