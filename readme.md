@@ -70,6 +70,9 @@ Ex. $updated_content = apply_filters('tx_link', $original_content);
 
 == Changelog ==
 
+= 1.3.21 =
+Update the latest tested WordPress version (5.4)
+
 = 1.3.20 =
 Update the latest tested WordPress version (5.3.2)
 
