@@ -5,13 +5,13 @@
  *
  * @link    http://docs.transifex.com/developer/integrations/wordpress
  * @package TransifexLiveIntegration
- * @version 1.3.20
+ * @version 1.3.21
  *
  * @wordpress-plugin
  * Plugin Name:       International SEO by Transifex
  * Plugin URI:        http://docs.transifex.com/developer/integrations/wordpress
  * Description:       Translate your WordPress powered website using Transifex.
- * Version:           1.3.20
+ * Version:           1.3.21
  * License:           GNU General Public License
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       transifex-live-integration
@@ -75,7 +75,7 @@ if ( !defined( 'TRANSIFEX_LIVE_INTEGRATION_REGEX_PATTERN_CHECK_PATTERN' ) ) {
 }
 
 define( 'LANG_PARAM', 'lang' );
-$version = '1.3.20';
+$version = '1.3.21';
 
 require_once( dirname( __FILE__ ) . '/transifex-live-integration-main.php' );
 Transifex_Live_Integration::do_plugin( is_admin(), $version );
