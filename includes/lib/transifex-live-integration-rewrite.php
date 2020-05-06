@@ -306,11 +306,10 @@ class Transifex_Live_Integration_Rewrite {
 	 * WP page_link filter, filters page link
 	 * @param string $link The link to filter
 	 * @param number $id The page id
-	 * @param ??? $sample I don't even know
 	 * @return string The filtered link
 	 */
 
-	function page_link_hook( $link, $id, $sample ) {
+	function page_link_hook( $link, $id ) {
 		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $link ) ) {
 			return $link;
 		}
