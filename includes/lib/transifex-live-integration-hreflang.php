@@ -20,19 +20,19 @@ class Transifex_Live_Integration_Hreflang {
 
 	/*
 	 * A key/value array that maps Transifex locale->plugin code
-	 * @var language_map array 
+	 * @var language_map array
 	 */
 	private $language_map;
 
 	/*
 	 * A list of Transifex locales, for enabled languages
-	 * @var languages array 
+	 * @var languages array
 	 */
 	private $languages;
 
 	/*
 	 * The site_url with a placeholder for language
-	 * @var tokenized_url string 
+	 * @var tokenized_url string
 	 */
 	private $tokenized_url;
 	private $rewrite_options;
@@ -99,8 +99,16 @@ class Transifex_Live_Integration_Hreflang {
 		$ret = [ ];
 		foreach ($languages as $language) {
 			$arr = [ ];
-
-			$arr['href'] = $url_map[$language];
+			$site_url = site_url();
+			$href_link = $url_map[$language];
+			$href_link_parts = explode(':', $href_link);
+			if (count($href_link_parts) && ($href_link_parts[0] === 'http' || $href_link_parts[0] === 'https')) {
+				$protocol = Transifex_Live_Integration_Util::get_http_requested_protocol();
+				$href_link_parts[0] = $protocol;
+				$arr['href'] = implode($href_link_parts, ':');
+			} else {
+				$arr['href'] = $url_map[$language];
+			}
 			$arr['hreflang'] = $hreflang_map[$language];
 			array_push( $ret, $arr );
 		}
@@ -126,7 +134,7 @@ class Transifex_Live_Integration_Hreflang {
 		$source_url = rtrim( $unslashed_source_url, '/' ) . '/';
 		$hreflang_out = '';
 		$hreflang_out .= <<<SOURCE
-<link rel="alternate" href="$source_url" hreflang="$source"/>\n		
+<link rel="alternate" href="$source_url" hreflang="$source"/>\n
 SOURCE;
 		$hreflangs = $this->generate_languages_hreflang( $source_url_path, $this->languages, $this->language_map, $this->hreflang_map  );
 		foreach ($hreflangs as $hreflang) {

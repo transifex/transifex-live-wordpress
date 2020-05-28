@@ -1,6 +1,10 @@
 {
     "require": {
         "psy/psysh": "@stable",
-        "codeception/codeception": "^2.1"
+        "codeception/codeception": "^4.0"
+    },
+    "require-dev": {
+        "codeception/module-asserts": "^1.2",
+        "phpunit/phpunit": "^7.0"
     }
 }

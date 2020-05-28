@@ -1,10 +1,12 @@
 <?php
 
-class CalculateDefaultsTest extends \PHPUnit_Framework_TestCase
+include_once __DIR__ .'/BaseTestCase.php';
+
+class CalculateDefaultsTest extends BaseTestCase
 {
     private $data_subdomain;
 	private $data_subdirectory;
-    protected function setUp()
+    protected function setUp(): void
     {
         include_once './includes/common/plugin-debug.php';
         include_once './includes/transifex-live-integration-defaults.php';

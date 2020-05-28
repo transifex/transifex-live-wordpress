@@ -1,11 +1,13 @@
 <?php
 
-class GenerateLanguageUrlMapTest extends \PHPUnit_Framework_TestCase
+include_once __DIR__ .'/BaseTestCase.php';
+
+class GenerateLanguageUrlMapTest extends BaseTestCase
 {
 
     private $data;
 
-    protected function setUp() 
+    protected function setUp(): void
     {
         include_once './includes/common/plugin-debug.php';
         include_once './includes/common/transifex-live-integration-common.php';
@@ -31,7 +33,7 @@ class GenerateLanguageUrlMapTest extends \PHPUnit_Framework_TestCase
 
     }
 
-    public function testMe() 
+    public function testMe()
     {
         foreach ($this->data as $d) {
             $result = Transifex_Live_Integration_Common::generate_language_url_map($d['raw_url'], $d['tokenized_url'], $d['language_map']);
