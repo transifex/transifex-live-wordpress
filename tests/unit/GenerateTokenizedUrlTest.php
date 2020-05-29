@@ -1,6 +1,7 @@
 <?php
+include_once __DIR__ .'/BaseTestCase.php';
 
-class GenerateTokenizedUrlTest extends \PHPUnit_Framework_TestCase
+class GenerateTokenizedUrlTest extends BaseTestCase
 {
 
     private $data;

@@ -1,6 +1,7 @@
 <?php
+include_once __DIR__ .'/BaseTestCase.php';
 
-class PrerenderCheckTest extends \PHPUnit_Framework_TestCase
+class PrerenderCheckTest extends BaseTestCase
 {
 
     private $data;
