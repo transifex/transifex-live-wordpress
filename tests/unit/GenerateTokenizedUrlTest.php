@@ -1,11 +1,13 @@
 <?php
 
-class GenerateTokenizedUrlTest extends \PHPUnit_Framework_TestCase
+include_once __DIR__ .'/BaseTestCase.php';
+
+class GenerateTokenizedUrlTest extends BaseTestCase
 {
 
     private $data;
 
-    protected function setUp() 
+    protected function setUp(): void
     {
         include_once './includes/common/plugin-debug.php';
         include_once './includes/admin/transifex-live-integration-admin-util.php';
@@ -27,7 +29,7 @@ class GenerateTokenizedUrlTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testMe() 
+    public function testMe()
     {
         foreach ($this->data as $d) {
             $result = Transifex_Live_Integration_Admin_Util::generate_tokenized_url($d['site_url'], $d['url_option_setting']);

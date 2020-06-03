@@ -17,7 +17,7 @@ class Transifex_Live_Integration_Rewrite {
 	private $source_language;
 
 	/**
-	 * List of languages used by rewrite 
+	 * List of languages used by rewrite
 	 * @var array
 	 */
 	private $language_codes;
@@ -38,8 +38,14 @@ class Transifex_Live_Integration_Rewrite {
 	 */
 	public function __construct( $settings, $rewrite_options ) {
 		Plugin_Debug::logTrace();
+		if ( !defined( 'TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE' ) ) {
+			define( 'TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE', dirname( __FILE__, 3));
+		}
+
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/common/transifex-live-integration-validators.php';
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/override/transifex-live-integration-generate-rewrite-rules.php';
+		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE .'/includes/lib/transifex-live-integration-wp-services.php';
+
 		$this->rewrite_options = [ ];
 		$this->languages_regex = $settings['languages_regex'];
 		$this->source_language = $settings['source_language'];
@@ -97,6 +103,7 @@ class Transifex_Live_Integration_Rewrite {
 				$this->rewrite_pattern = $pattern;
 			}
 		}
+		$this->wp_services = new Transifex_Live_Integration_WP_Services();
 	}
 
 	public function get_language_url( $atts ) {
@@ -138,7 +145,7 @@ class Transifex_Live_Integration_Rewrite {
 
 	/*
 	 * This function takes any WP link and associated language configuration and returns a localized url
-	 * 
+	 *
 	 * @param string $lang Current language
 	 * @param string $link The url to localize
 	 * @param array $languages_map A key/value array that maps Transifex locale->plugin code
@@ -146,7 +153,7 @@ class Transifex_Live_Integration_Rewrite {
 	 * @return string Returns modified link
 	 */
 
-	static function reverse_hard_link( $lang, $link, $languages_map, $source_lang,
+	function reverse_hard_link( $lang, $link, $languages_map, $source_lang,
 			$pattern ) {
 		Plugin_Debug::logTrace();
 		if ( !(isset( $pattern )) ) {
@@ -170,7 +177,7 @@ class Transifex_Live_Integration_Rewrite {
 		if ( count( $m ) > 1 ) {
 			$link = str_replace( $m[1], $lang, $m[0] );
 		} else {
-			$site_host = parse_url(site_url())['host'];
+			$site_host = parse_url($this->wp_services->get_site_url())['host'];
 			$parsed_url = parse_url($link);
 			$link_host = isset($parsed_url['host']) ? $parsed_url['host'] : '';
 			// change only wordpress links - not links reffering to other domains
@@ -188,11 +195,11 @@ class Transifex_Live_Integration_Rewrite {
 	}
 
 	/*
-	 * WP pre_post_link filter, adds lang to permalink 
+	 * WP pre_post_link filter, adds lang to permalink
 	 * @param string $permalink The permalink to filter
 	 * @param object $post The post object
 	 * @param ??? $leavename what this is I dont even know
-	 * @return string filtered permalink 
+	 * @return string filtered permalink
 	 */
 
 	function pre_post_link_hook( $permalink, $post, $leavename ) {
@@ -331,7 +338,7 @@ class Transifex_Live_Integration_Rewrite {
 		$retlink = $this->reverse_hard_link( $this->lang, $url, $this->languages_map, $this->source_language, $this->rewrite_pattern );
 		return $retlink;
 	}
-	
+
 	/*
 	* WP the_content_hook hook, filters links using the the_content function
 	* @param string $string The string to filter

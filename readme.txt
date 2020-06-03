@@ -4,7 +4,7 @@ Contributors: txmatthew, ThemeBoy, brooksx
 Tags: transifex, localize, localization, multilingual, international, SEO
 Requires at least: 3.5.2
 Tested up to: 5.4
-Stable tag: 1.3.21
+Stable tag: 1.3.22
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -78,6 +78,10 @@ Ex. $updated_content = apply_filters('tx_link', $original_content);
 It is also recommended  to use [widgets](https://codex.wordpress.org/Widgets_API) in your theme instead of custom code, since this allows you to make your integration more future proof against incompatibilities with 3rd party modules.
 
 == Changelog ==
+
+= 1.3.22 =
+Fix a bug related with the generation of the HTTP version of the links
+that have the hreflang attribute.
 
 = 1.3.21 =
 Update the latest tested WordPress version (5.4)

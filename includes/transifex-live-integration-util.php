@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Common util functions 
+ * Common util functions
  * @package TransifexLiveIntegration
  */
 /*
- * Common util 
+ * Common util
  */
 class Transifex_Live_Integration_Util {
 
@@ -18,6 +18,11 @@ class Transifex_Live_Integration_Util {
 		Plugin_Debug::logTrace();
 		$vars[] = 'lang';
 		return $vars;
+	}
+
+	static function get_http_requested_protocol() {
+		Plugin_Debug::logTrace();
+    return (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https" : "http";
 	}
 
 	/*
@@ -68,12 +73,12 @@ class Transifex_Live_Integration_Util {
 
 	/*
 	 * This function is the core backend check to determine if user agent should be prerender'd
-	 * 
+	 *
 	 * @param string $req_user_agent User agent string, generally from browser
 	 * @param string $req_escaped_fragment Escaped fragment string, generally from browser
 	 * @param string $bot_types A regex string list of bot keywords for quick matching
 	 * @param string $whitelist_names A regex string list of whitelisted bots
-	 * @return bool Checks a given user agent for bot-ability 
+	 * @return bool Checks a given user agent for bot-ability
 	 */
 
 	static function prerender_check( $req_user_agent, $req_escaped_fragment,

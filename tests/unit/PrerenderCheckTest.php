@@ -1,11 +1,13 @@
 <?php
 
-class PrerenderCheckTest extends \PHPUnit_Framework_TestCase
+include_once __DIR__ .'/BaseTestCase.php';
+
+class PrerenderCheckTest extends BaseTestCase
 {
 
     private $data;
 
-    protected function setUp() 
+    protected function setUp(): void
     {
         include_once './includes/common/plugin-debug.php';
         include_once './includes/transifex-live-integration-util.php';
@@ -31,7 +33,7 @@ class PrerenderCheckTest extends \PHPUnit_Framework_TestCase
         'bot_types' => $bot_types,
         'whitelist' => $whitelist,
         'result' => false
-        ], [ // Standard Googlebot  
+        ], [ // Standard Googlebot
         'agent' => 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
         'fragment' => false,
         'bot_types' => $bot_types,
@@ -65,7 +67,7 @@ class PrerenderCheckTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testMe() 
+    public function testMe()
     {
         foreach ($this->data as $i) {
             $result = Transifex_Live_Integration_Util::prerender_check($i['agent'], $i['fragment'], $i['bot_types'], $i['whitelist']);
