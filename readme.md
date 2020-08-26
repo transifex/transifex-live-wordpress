@@ -70,6 +70,13 @@ Ex. $updated_content = apply_filters('tx_link', $original_content);
 
 == Changelog ==
 
+= 1.3.23 =
+Update the latest tested WordPress version (5.5)
+
+= 1.3.22 =
+Fix a bug related with the generation of the HTTP version of the links
+that have the hreflang attribute.
+
 = 1.3.21 =
 Update the latest tested WordPress version (5.4)
 
