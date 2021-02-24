@@ -105,7 +105,7 @@ class Transifex_Live_Integration_Hreflang {
 			if (count($href_link_parts) && ($href_link_parts[0] === 'http' || $href_link_parts[0] === 'https')) {
 				$protocol = Transifex_Live_Integration_Util::get_http_requested_protocol();
 				$href_link_parts[0] = $protocol;
-				$arr['href'] = implode($href_link_parts, ':');
+				$arr['href'] = implode(':', $href_link_parts);
 			} else {
 				$arr['href'] = $url_map[$language];
 			}
