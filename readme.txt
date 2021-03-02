@@ -79,6 +79,9 @@ It is also recommended  to use [widgets](https://codex.wordpress.org/Widgets_API
 
 == Changelog ==
 
+= 1.3.26 =
+Skip static when calling prerender
+
 = 1.3.25 =
 Fix deprecated implode and unparenthesized warnings
 
