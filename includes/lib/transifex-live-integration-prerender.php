@@ -149,7 +149,7 @@ STATUS;
 	}
 
 	/*
-	 * This aptly named filter function is used to make the prerender call, 
+	 * This aptly named filter function is used to make the prerender call,
 	 * 		ideally it should be executed after the template render is finished but before sending to the browser
 	 * 	@param string $buffer This is a very large string containing the entire page out
 	 * @return string Returns the page buffer back to the browser
@@ -169,6 +169,9 @@ STATUS;
 		$page_url = home_url( $wp->request );
 		if ( !empty($lang) ) {
 			$page_url = Transifex_Live_Integration_Util::replace_lang_subdomain($page_url, $lang);
+		}
+		if (preg_match("/^.*\.(js|css|xml|less|png|jpg|jpeg|gif|pdf|doc|txt|ico|rss|zip|mp3|rar|exe|wmv|doc|avi|ppt|mpg|mpeg|tif|wav|mov|psd|ai|xls|mp4|m4a|swf|dat|dmg|iso|flv|m4v|torrent|ttf|woff|svg|eot)$/i", $page_url)) {
+			return $output;
 		}
 		$page_url = rtrim( $page_url, '/' ) . '/';
 		if ( function_exists( 'curl_version' ) ) {
