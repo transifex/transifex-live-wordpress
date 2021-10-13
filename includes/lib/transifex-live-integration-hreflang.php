@@ -130,6 +130,7 @@ class Transifex_Live_Integration_Hreflang {
 		$source = $this->settings['source_language'];
 		$site_url_slash_maybe = site_url();
 		$site_url = rtrim( $site_url_slash_maybe, '/' ) . '/';
+		$source_url_path = ltrim( $source_url_path, '/' );
 		$unslashed_source_url = $site_url . $source_url_path;
 		$source_url = rtrim( $unslashed_source_url, '/' ) . '/';
 		$hreflang_out = '';
@@ -147,7 +148,6 @@ HREFLANG;
 		echo $hreflang_out;
 		return true;
 	}
-
 }
 
 ?>
