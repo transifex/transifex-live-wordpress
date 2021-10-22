@@ -24,12 +24,11 @@ addons:
 before_script:
   - sudo whoami
   - pwd
-  - COMPOSER_MEMORY_LIMIT=-1 composer global require "codeception/module-asserts:1.3"
-  - COMPOSER_MEMORY_LIMIT=-1 composer global require "codeception/codeception:4.1.5"
+  - composer self-update
+  - COMPOSER_MEMORY_LIMIT=-1 composer global require "codeception/module-asserts"
+  - COMPOSER_MEMORY_LIMIT=-1 composer global require "codeception/codeception"
   - sudo ln -s /home/travis/.config/composer/vendor/bin/codecept /usr/local/bin/codecept
-  - sudo apt-add-repository multiverse && sudo apt-get update
   - sudo add-apt-repository -y ppa:chris-lea/node.js
-  - sudo apt-get -y update
   - sudo apt-get -y install nodejs
   - sudo apt-get -y install apache2 libapache2-mod-fastcgi
   - sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
@@ -50,9 +49,8 @@ before_script:
 
 script:
   - pwd
-  - pyenv install 2.7.10
   - pyenv versions
-  - pyenv global 2.7.10
+  - pyenv global 3.6.3
   - pip install transifex-client
   - codecept run
   - sudo chmod +x ./wp-plugin-deploy.sh
