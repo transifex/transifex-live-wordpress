@@ -3,13 +3,13 @@
 /**
  * Translate your WordPress powered website using Transifex.
  *
- * @link    http://docs.transifex.com/developer/integrations/wordpress
+ * @link    https://help.transifex.com/en/articles/6261241-wordpress
  * @package TransifexLiveIntegration
  * @version 1.3.28
  *
  * @wordpress-plugin
  * Plugin Name:       International SEO by Transifex
- * Plugin URI:        http://docs.transifex.com/developer/integrations/wordpress
+ * Plugin URI:        https://help.transifex.com/en/articles/6261241-wordpress
  * Description:       Translate your WordPress powered website using Transifex.
  * Version:           1.3.28
  * License:           GNU General Public License

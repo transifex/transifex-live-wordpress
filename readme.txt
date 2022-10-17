@@ -14,7 +14,7 @@ Translate your WordPress powered website using Transifex.
 
 This plugin is designed to be used with Transifex localization platform. There’s no need to create one language per post, insert language tags, or have multiple WordPress instances. Your site’s content is automatically detected and ready to be saved to the Transifex localization platform, where you can translate with the help of your existing translators, or order professional translations from Transifex partners.
 
-In order to use Transifex, you will need to [sign up here for an account](https://www.transifex.com/signup/?utm_source=wp-directory&utm_campaign=int-wp). This plugin also requires a Transifex Live API key. More information about how to obtain a key can be found in the [plugin documentation](http://docs.transifex.com/integrations/wordpress/#getting-your-transifex-live-api-key/?utm_source=wp-directory&utm_campaign=int-wp).
+In order to use Transifex, you will need to [sign up here for an account](https://www.transifex.com/signup/?utm_source=wp-directory&utm_campaign=int-wp). This plugin also requires a Transifex Live API key. More information about how to obtain a key can be found in the [plugin documentation](https://help.transifex.com/en/articles/6261241-wordpress#h_2339ce4961).
 
 Features:
 

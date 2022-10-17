@@ -39,12 +39,12 @@
 		<tr>
 			<td>
 				<label for="transifex_live_settings_url_options">
-					<p><input type="radio" disabled="true" id="transifex_live_settings_url_options_none" name="transifex_live_settings[url_options_none]" value="1" <?php echo $url_options_none ?>><?php _e( 'Disabled – Just add the Transifex Live JavaScript snippet to my site. <a target="_blank" href="http://docs.transifex.com/integrations/wordpress/#disabled"><b>Learn more</b></a>.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
-					<p><input type="radio" disabled="true" id="transifex_live_settings_url_options_subdirectory" name="transifex_live_settings[url_options_subdirectory]" value="1" <?php echo $url_options_subdirectory ?>><?php _e( 'Subdirectory – Create new language subdirectories through the plugin, e.g. <code>http://www.example.com/fr/</code>. <a target="_blank" href="http://docs.transifex.com/integrations/wordpress/#subdirectories"><b>Learn more</b></a>.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
-					<p><input type="radio" disabled="true" id="transifex_live_settings_url_options_subdomain" name="transifex_live_settings[url_options_subdomain]" value="1" <?php echo $url_options_subdomain ?>><?php _e( 'Subdomain – Point the plugin to existing language subdomains, e.g. <code>http://fr.example.com</code>. <a target="_blank" href="http://docs.transifex.com/integrations/wordpress/#subdomains"><b>Learn more</b></a>.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
+					<p><input type="radio" disabled="true" id="transifex_live_settings_url_options_none" name="transifex_live_settings[url_options_none]" value="1" <?php echo $url_options_none ?>><?php _e( 'Disabled – Just add the Transifex Live JavaScript snippet to my site. <a target="_blank" href="https://help.transifex.com/en/articles/6261241-wordpress#h_c053feadce"><b>Learn more</b></a>.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
+					<p><input type="radio" disabled="true" id="transifex_live_settings_url_options_subdirectory" name="transifex_live_settings[url_options_subdirectory]" value="1" <?php echo $url_options_subdirectory ?>><?php _e( 'Subdirectory – Create new language subdirectories through the plugin, e.g. <code>http://www.example.com/fr/</code>. <a target="_blank" href="https://help.transifex.com/en/articles/6261241-wordpress#h_c053feadce"><b>Learn more</b></a>.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
+					<p><input type="radio" disabled="true" id="transifex_live_settings_url_options_subdomain" name="transifex_live_settings[url_options_subdomain]" value="1" <?php echo $url_options_subdomain ?>><?php _e( 'Subdomain – Point the plugin to existing language subdomains, e.g. <code>http://fr.example.com</code>. <a target="_blank" href="https://help.transifex.com/en/articles/6261241-wordpress#h_c053feadce"><b>Learn more</b></a>.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
 					<input type="hidden" id="transifex_live_settings_url_options" name="transifex_live_settings[url_options]" value="<?php echo $url_options ?>" >
 				</label>
-				<p class="description"><?php _e( '<b>Note:</b> When you choose the Subdirectory or Subdomain options, the plugin will automatically <a target="_blank" href="http://docs.transifex.com/integrations/wordpress/#hreflang-tag"><b>add hreflang tags</b></a> to the header of your site.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
+				<p class="description"><?php _e( '<b>Note:</b> When you choose the Subdirectory or Subdomain options, the plugin will automatically <a target="_blank" href="https://help.transifex.com/en/articles/6261241-wordpress#h_c053feadce"><b>add hreflang tags</b></a> to the header of your site.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
 			</td></tr></table>
 	<table class="form-table">
 		<tr class="custom-urls-settings hide-if-js">
@@ -89,7 +89,7 @@
 					<?php Transifex_Live_Integration_Admin_Util::render_url_options( $rewrite_options_array ); ?>
 				</table>
 				</p>
-				<p class="url-structure-subdirectory description"><?php _e( 'Having trouble getting language/region-specific URLs working? <a target="_blank" href="http://docs.transifex.com/integrations/wordpress/#troubleshooting-tips">Check out our additional troubleshooting tips!', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></a></p>
+				<p class="url-structure-subdirectory description"><?php _e( 'Having trouble getting language/region-specific URLs working? <a target="_blank" href="https://help.transifex.com/en/articles/6261241-wordpress#h_d6f3378e42">Check out our additional troubleshooting tips!', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></a></p>
 			</td></tr>
 		<tr class="prerender-options hide-if-js">
 			<th><?php _e( 'Prerender for Crawlers', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></th>
@@ -122,7 +122,7 @@
 							<input name="transifex_live_settings[generic_bot_types]" type="text" id="transifex_live_settings_generic_bot_types" value="<?php echo $settings['generic_bot_types']; ?>" class="regular-text" placeholder="<?php _e( 'Regex list of crawler type keywords.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>">
 						</p>
 					</div>
-					<p class="description"><?php _e( 'Important so crawler and bots can see your translated content <a target="_blank" href="https://docs.transifex.com/integrations/wordpress#helping-bots-read-translations">Check out our docs for details.</a>', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
+					<p class="description"><?php _e( 'Important so crawler and bots can see your translated content <a target="_blank" href="https://help.transifex.com/en/articles/6261241-wordpress#h_9fc24903e0">Check out our docs for details.</a>', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
 				</div>
 			</td></tr>
 		</tbody>
@@ -144,7 +144,7 @@
 	<p class="submit"><input disabled="true" type="submit" name="submit" id="transifex_live_submit" class="button button-primary" value="<?php _e( 'Save Changes', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>"></p>
 </form>
 <p>
-	<a href="http://docs.transifex.com/integrations/wordpress/" target="_blank" ><?php _e( 'Plugin documentation', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></a> | <?php _e( 'Thank you for using Transifex!', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
+	<a href="https://help.transifex.com/en/articles/6261241-wordpress" target="_blank" ><?php _e( 'Plugin documentation', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></a> | <?php _e( 'Thank you for using Transifex!', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>
 	</a>
 </p>
 </div>
