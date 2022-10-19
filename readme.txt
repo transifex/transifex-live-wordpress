@@ -4,7 +4,7 @@ Contributors: txmatthew, ThemeBoy, brooksx
 Tags: transifex, localize, localization, multilingual, international, SEO
 Requires at least: 3.5.2
 Tested up to: 6.0
-Stable tag: 1.3.28
+Stable tag: 1.3.29
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,7 +14,7 @@ Translate your WordPress powered website using Transifex.
 
 This plugin is designed to be used with Transifex localization platform. There’s no need to create one language per post, insert language tags, or have multiple WordPress instances. Your site’s content is automatically detected and ready to be saved to the Transifex localization platform, where you can translate with the help of your existing translators, or order professional translations from Transifex partners.
 
-In order to use Transifex, you will need to [sign up here for an account](https://www.transifex.com/signup/?utm_source=wp-directory&utm_campaign=int-wp). This plugin also requires a Transifex Live API key. More information about how to obtain a key can be found in the [plugin documentation](http://docs.transifex.com/integrations/wordpress/#getting-your-transifex-live-api-key/?utm_source=wp-directory&utm_campaign=int-wp).
+In order to use Transifex, you will need to [sign up here for an account](https://www.transifex.com/signup/?utm_source=wp-directory&utm_campaign=int-wp). This plugin also requires a Transifex Live API key. More information about how to obtain a key can be found in the [plugin documentation](https://help.transifex.com/en/articles/6261241-wordpress#h_2339ce4961).
 
 Features:
 
@@ -78,6 +78,9 @@ Ex. $updated_content = apply_filters('tx_link', $original_content);
 It is also recommended  to use [widgets](https://codex.wordpress.org/Widgets_API) in your theme instead of custom code, since this allows you to make your integration more future proof against incompatibilities with 3rd party modules.
 
 == Changelog ==
+
+= 1.3.29 =
+Update documentation urls
 
 = 1.3.28 =
 Update the latest tested WordPress version (6.0)
