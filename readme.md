@@ -70,6 +70,12 @@ Ex. $updated_content = apply_filters('tx_link', $original_content);
 
 == Changelog ==
 
+= 1.3.29 =
+Update documentation urls
+
+= 1.3.28 =
+Update the latest tested WordPress version (6.0)
+
 = 1.3.27 =
 Fix hreflang
 
