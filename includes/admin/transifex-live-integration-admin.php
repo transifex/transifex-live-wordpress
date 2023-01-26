@@ -316,3 +316,4 @@ class Transifex_Live_Integration_Admin {
 		return $settings;
 	}
 
+}
