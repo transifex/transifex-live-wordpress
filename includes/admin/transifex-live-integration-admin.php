@@ -10,9 +10,6 @@
  * All functions to render and update admin page
  */
 class Transifex_Live_Integration_Admin {
-
-	const TX_URL = 'https://www.transifex.com/api/2/';
-
 	/**
 	 * Loads plugin settings from db, merges with defaults if any are missing
 	 * @return array List of all key->value settings
@@ -83,7 +80,7 @@ class Transifex_Live_Integration_Admin {
 		ob_start();
 		checked( $settings['enable_staging'], 1 );
 		$checked_enable_staging = ob_get_clean();
-		
+
 		ob_start();
 		checked( $settings['rewrite_option_all'], 1 );
 		$checked_rewrite_option_all = ob_get_clean();
@@ -156,7 +153,7 @@ class Transifex_Live_Integration_Admin {
 		$checked_custom_urls = ($settings['enable_custom_urls'] === "1") ? "1" : "0";
 
 		$enable_tdk = ($settings['enable_tdk'] === "1") ? "1" : "0";
-		
+
 		$url_options = $settings['url_options'];
 		ob_start();
 		checked( $settings['url_options'], '1' );

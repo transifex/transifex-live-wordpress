@@ -9,7 +9,7 @@
 
 == Description ==
 
-The Transifex International SEO is a WordPress plugin designed to be used with Transifex.  In order to use Transifex, you will need to [sign up here for an account](https://www.transifex.com/signup/?utm_source=github&utm_medium=web&utm_campaign=tx-live-wp-plugin). Please note that a Transifex Live API key is required in order to use the plugin.  More information about how to obtain a key can be found in the [plugin documentation here](https://help.transifex.com/en/articles/6261241-wordpress#h_2339ce4961) if you don't have a key yet.
+The Transifex International SEO is a WordPress plugin designed to be used with Transifex.  In order to use Transifex, you will need to [sign up here for an account](https://app.transifex.com/signup/?utm_source=github&utm_medium=web&utm_campaign=tx-live-wp-plugin). Please note that a Transifex Live API key is required in order to use the plugin.  More information about how to obtain a key can be found in the [plugin documentation here](https://help.transifex.com/en/articles/6261241-wordpress#h_2339ce4961) if you don't have a key yet.
 
 == Features ==
 
@@ -24,7 +24,7 @@ The Transifex International SEO is a WordPress plugin designed to be used with T
 
 Developers can contribute via this repository. Please send a Pull Request.
 
-Translators can contribute new languages to this plugin or our other WordPress plugins through [Transifex](https://www.transifex.com/projects/p/transifex-live/).
+Translators can contribute new languages to this plugin or our other WordPress plugins through [Transifex](https://explore.transifex.com/wp-translations/transifex-live/).
 
 == Minimum Requirements ==
 
@@ -56,7 +56,7 @@ Automatic updates should work like a charm; as always though, ensure you backup 
 
 == Plugin Translations ==
 
-The WP-Translations project for plugin translations can be found [here](https://www.transifex.com/wp-translations/transifex-live/transifex-live/).
+The WP-Translations project for plugin translations can be found [here](https://explore.transifex.com/wp-translations/transifex-live/).
 
 == Tips for developers ==
 
@@ -69,6 +69,9 @@ Ex. $updated_content = apply_filters('tx_link', $original_content);
 * It is also recommended  to use [widgets](https://codex.wordpress.org/Widgets_API) in your theme instead of custom code, since this allows you to make your integration more future proof against incompatibilities with 3rd party modules.
 
 == Changelog ==
+
+= 1.3.31 =
+Maintenance release
 
 = 1.3.30 =
 Maintenance release
