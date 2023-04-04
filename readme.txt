@@ -4,7 +4,7 @@ Contributors: txmatthew, ThemeBoy, brooksx
 Tags: transifex, localize, localization, multilingual, international, SEO
 Requires at least: 3.5.2
 Tested up to: 6.0
-Stable tag: 1.3.30
+Stable tag: 1.3.31
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,7 +14,7 @@ Translate your WordPress powered website using Transifex.
 
 This plugin is designed to be used with Transifex localization platform. There’s no need to create one language per post, insert language tags, or have multiple WordPress instances. Your site’s content is automatically detected and ready to be saved to the Transifex localization platform, where you can translate with the help of your existing translators, or order professional translations from Transifex partners.
 
-In order to use Transifex, you will need to [sign up here for an account](https://www.transifex.com/signup/?utm_source=wp-directory&utm_campaign=int-wp). This plugin also requires a Transifex Live API key. More information about how to obtain a key can be found in the [plugin documentation](https://help.transifex.com/en/articles/6261241-wordpress#h_2339ce4961).
+In order to use Transifex, you will need to [sign up here for an account](https://app.transifex.com/signup/?utm_source=wp-directory&utm_campaign=int-wp). This plugin also requires a Transifex Live API key. More information about how to obtain a key can be found in the [plugin documentation](https://help.transifex.com/en/articles/6261241-wordpress#h_2339ce4961).
 
 Features:
 
@@ -25,13 +25,13 @@ Features:
 * Adds supports for using an external prerendered server for SEO purposes
 * Works with WordPress multisite
 
-Learn more about the [Transifex Live Translation Plugin](https://www.transifex.com/integrations/wordpress-multilingual-plugin/?utm_source=wp-directory&utm_campaign=int-wp).
+Learn more about the [Transifex Live Translation Plugin](https://www.transifex.com/integrations/wordpress/?utm_source=wp-directory&utm_campaign=int-wp).
 
 Get Involved:
 
 Developers can contribute via the plugin's [GitHub Repository](https://github.com/transifex/transifex-live-wordpress).
 
-Translators can contribute new languages to this plugin or our other WordPress plugins through [Transifex](https://www.transifex.com/wp-translations/transifex-live/?utm_source=wp-directory&utm_campaign=int-wp).
+Translators can contribute new languages to this plugin or our other WordPress plugins through [Transifex](https://explore.transifex.com/wp-translations/transifex-live/?utm_source=wp-directory&utm_campaign=int-wp).
 
 Minimum Requirements:
 
@@ -78,6 +78,9 @@ Ex. $updated_content = apply_filters('tx_link', $original_content);
 It is also recommended  to use [widgets](https://codex.wordpress.org/Widgets_API) in your theme instead of custom code, since this allows you to make your integration more future proof against incompatibilities with 3rd party modules.
 
 == Changelog ==
+
+= 1.3.31 =
+Maintenance release
 
 = 1.3.30 =
 Maintenance release
