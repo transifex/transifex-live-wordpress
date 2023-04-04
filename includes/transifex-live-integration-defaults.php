@@ -108,7 +108,7 @@ class Transifex_Live_Integration_Defaults {
 			'enable_tdk' => 0,
 			'urls' => [
 				'rate_us' => 'https://wordpress.org/support/view/plugin-reviews/transifex-live-integration?rate=5#postform',
-				'api_key_landing_page' => 'https://www.transifex.com/signup/?utm_source=liveplugin',
+				'api_key_landing_page' => 'https://app.transifex.com/signup/?utm_source=liveplugin',
 			],
 			'enable_language_urls' => false,
 			'enable_picker' => false,
