@@ -79,6 +79,9 @@ It is also recommended  to use [widgets](https://codex.wordpress.org/Widgets_API
 
 == Changelog ==
 
+= 1.3.32 =
+Send a small request to transifex.com for analytics
+
 = 1.3.31 =
 Maintenance release
 
