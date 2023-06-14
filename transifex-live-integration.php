@@ -75,7 +75,11 @@ if ( !defined( 'TRANSIFEX_LIVE_INTEGRATION_REGEX_PATTERN_CHECK_PATTERN' ) ) {
 }
 
 define( 'LANG_PARAM', 'lang' );
+
 $version = '1.3.31';
+if ( !defined( 'TRANSIFEX_LIVE_INTEGRATION_PLUGIN_VERSION' ) ) {
+	define( 'TRANSIFEX_LIVE_INTEGRATION_PLUGIN_VERSION', $version );
+}
 
 require_once( dirname( __FILE__ ) . '/transifex-live-integration-main.php' );
 Transifex_Live_Integration::do_plugin( is_admin(), $version );

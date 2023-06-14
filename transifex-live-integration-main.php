@@ -200,6 +200,24 @@ class Transifex_Live_Integration {
 				}
 			}
 		}
+
+		add_action( 'wp_loaded', [ 'Transifex_Live_Integration', 'ping_tx' ] );
+	}
+
+	static function ping_tx() {
+		global $wp_version;
+		$settings = get_option( 'transifex_live_settings', array() );
+		if (isset($settings['api_key'])) {
+			$user_agent = array(
+				"transifex-live-wordpress-version/" . $wp_version,
+				"transifex-live-wordpress-plugin-version/" . TRANSIFEX_LIVE_INTEGRATION_PLUGIN_VERSION,
+				"transifex-live-wordpress-api-key/" . $settings['api_key']
+			);
+			wp_remote_get(
+				'https://app.transifex.com',
+				array( 'headers' => array( 'User-Agent' => implode(" ", $user_agent) ) )
+			);
+		}
 	}
 
 	/**
