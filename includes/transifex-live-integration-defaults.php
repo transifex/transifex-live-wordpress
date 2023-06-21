@@ -65,7 +65,8 @@ class Transifex_Live_Integration_Defaults {
 			//'dynamic' => false,
 			//'detectlang' => false,
 			//'ignore_class' => [ ],
-			'wp' => true
+			'wp' => true,
+            'integration' => 'wordpress'
 		];
 	}
 
