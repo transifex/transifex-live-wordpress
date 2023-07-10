@@ -67,6 +67,9 @@ function transifex_live_integration_hreflang_update(tl) {
     return true;
 }
 
+function build_cdn_manifest_url(apikey) {
+    return "https://cdn.transifex.com/" + apikey + "/latest/manifest.jsonp";
+}
 
 
 
@@ -111,19 +114,27 @@ function transifex_live_integration_convert(l) {
 
 
 function transifexLanguages() {
-  var env = (jQuery('#transifex_live_settings_enable_staging').prop('checked')) ? 'staging.' : '';
-  var apikey = jQuery('#transifex_live_settings_api_key').val();
-  if (apikey != '') {
-      var data = window.transifex_languages;
-      if (data['translation'] != undefined && data['translation'].length > 0) {
-          transifex_language_fields = transifex_live_integration_convert(data);
-          jQuery('#transifex_live_settings_url_options').trigger('success');
-      } else {
-          jQuery('#transifex_live_settings_url_options').trigger('notranslation');
-      }
-  } else {
+    var apikey = jQuery('#transifex_live_settings_api_key').val();
+    if (apikey != '') {
+        transifex_settings_params = {
+            url: build_cdn_manifest_url(apikey),
+            done: function (data) {
+                if (data) {
+                    updateTransifexSettingsFields(data);
+                    var data = window.transifex_languages;
+                    if (data['translation'] != undefined && data['translation'].length > 0) {
+                        transifex_language_fields = transifex_live_integration_convert(data);
+                        jQuery('#transifex_live_settings_url_options').trigger('success');
+                    } else {
+                        jQuery('#transifex_live_settings_url_options').trigger('notranslation');
+                    }
+                }
+            }
+        };
+        Transifex.httpGet(transifex_settings_params);
+    } else {
       jQuery('#transifex_live_settings_api_key').trigger('blank');
-  }
+    }
 }
 
 function addTransifexLanguages(obj) {
@@ -358,7 +369,7 @@ function updateTransifexSettingsFields(obj) {
                         $('#transifex_live_settings_api_key_message_missing').toggleClass('hide-if-js', true);
 
                         transifex_settings_params = {
-                            url: "https://cdn.transifex.com/" + this.val() + "/latest/manifest.jsonp",
+                            url: build_cdn_manifest_url(this.val()),
                             done: function (data) {
                                 if (data) {
                                     updateTransifexSettingsFields(data);
