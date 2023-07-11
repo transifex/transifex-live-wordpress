@@ -12,7 +12,7 @@
 The Transifex International SEO is a WordPress plugin designed to be used with Transifex.  In order to use Transifex, you will need to [sign up here for an account](https://app.transifex.com/signup/?utm_source=github&utm_medium=web&utm_campaign=tx-live-wp-plugin). Please note that a Transifex Live API key is required in order to use the plugin.  More information about how to obtain a key can be found in the [plugin documentation here](https://help.transifex.com/en/articles/6261241-wordpress#h_2339ce4961) if you don't have a key yet.
 
 == Features ==
-
+* Test bullet
 * Integrates Transifex into WordPress
 * Adds support for localized language URLs either by subdomain or subdirectory.
 * Adds support rewriting all URLs on the page
