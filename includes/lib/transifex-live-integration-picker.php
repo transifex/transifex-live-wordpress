@@ -65,6 +65,7 @@ class Transifex_Live_Integration_Picker {
 		$home_url = home_url( $wp->request );
 		$url_path = add_query_arg( array(), $wp->request );
 		$source_url_path = (substr( $url_path, 0, strlen( $lang ) ) === $lang) ? substr( $url_path, strlen( $lang ), strlen( $url_path ) ) : $url_path;
+	  var_dump($source_url_path);	
 		$url_map = Transifex_Live_Integration_Common::generate_language_url_map( $source_url_path, $this->tokenized_url, $this->language_map );
 		$unslashed_source_url = site_url() . $source_url_path;
 		$url_map[$this->source_language] = rtrim( $unslashed_source_url, '/' ) . '/';

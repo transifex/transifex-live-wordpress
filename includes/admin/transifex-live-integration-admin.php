@@ -241,6 +241,7 @@ class Transifex_Live_Integration_Admin {
 		$settings['transifex_live_settings']['rewrite_pattern'] = $rewrite_pattern;
 		$settings['transifex_live_settings']['languages_regex'] = $languages_regex;
 		$settings['transifex_live_settings']['languages'] = $languages;
+		$settings['transifex_live_settings']['subdirectory_path'] = $settings['transifex_live_settings']['subdirectory_path'];
 		if ( isset( $settings['transifex_live_settings'] ) ) {
 			update_option( 'transifex_live_settings', $settings['transifex_live_settings'] );
 		}
@@ -304,6 +305,7 @@ class Transifex_Live_Integration_Admin {
 		$settings['transifex_live_settings']['source_language'] = ( isset( $settings['transifex_live_settings']['source_language'] )) ? sanitize_text_field( $settings['transifex_live_settings']['source_language'] ) : '';
 		$settings['transifex_live_settings']['subdomain_pattern'] = ( isset( $settings['transifex_live_settings']['subdomain_pattern'] )) ? sanitize_text_field( $settings['transifex_live_settings']['subdomain_pattern'] ) : '';
 		$settings['transifex_live_settings']['subdirectory_pattern'] = ( isset( $settings['transifex_live_settings']['subdirectory_pattern'] )) ? sanitize_text_field( $settings['transifex_live_settings']['subdirectory_pattern'] ) : '';
+		$settings['transifex_live_settings']['subdirectory_path'] = ( isset( $settings['transifex_live_settings']['subdirectory_path'] )) ? sanitize_text_field( $settings['transifex_live_settings']['subdirectory_path'] ) : '';
 		$settings['transifex_live_settings']['rewrite_pattern'] = ( isset( $settings['transifex_live_settings']['rewrite_pattern'] )) ? sanitize_text_field( $settings['transifex_live_settings']['rewrite_pattern'] ) : '';
 		$settings['transifex_live_settings']['languages_regex'] = ( isset( $settings['transifex_live_settings']['languages_regex'] )) ? sanitize_text_field( $settings['transifex_live_settings']['languages_regex'] ) : '';
 		$settings['transifex_live_settings']['transifex_languages'] = ( isset( $settings['transifex_live_settings']['transifex_languages'] )) ? sanitize_text_field( stripslashes( $settings['transifex_live_settings']['transifex_languages'] ) ) : '';

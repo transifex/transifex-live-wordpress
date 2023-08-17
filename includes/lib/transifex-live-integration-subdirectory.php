@@ -158,6 +158,7 @@ class Transifex_Live_Integration_Subdirectory {
 	 * @return array Returns filtered rules array
 	 */
 	function post_rewrite_rules_hook( $rules ) {
+		// Plugin_Debug::logTrace();
 		if ( !Transifex_Live_Integration_Validators::is_rules_ok( $rules ) ) {
 			return $rules;
 		}

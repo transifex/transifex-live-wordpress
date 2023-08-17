@@ -24,6 +24,7 @@ class Transifex_Live_Integration {
 		}
 		$live_settings = Transifex_Live_Integration_Defaults::transifex_settings();
 		$debug_mode = ($settings['debug']) ? true : false;
+		$debug_mode = true;
 
 		require_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/common/plugin-debug.php';
 		new Plugin_Debug( $debug_mode );
@@ -138,10 +139,11 @@ class Transifex_Live_Integration {
 			}
 			if ( isset( $rewrite_options['add_rewrites_reverse_template_links'] ) ) {
 				Plugin_Debug::logTrace( 'adding reverse template links' );
+				// The next action is probably not needed, it does not execute something
 				add_action( 'wp', [ $rewrite, 'wp_hook' ] );
-				add_filter( 'pre_post_link', [$rewrite, 'pre_post_link_hook' ], 10, 3 );
+				// add_filter( 'pre_post_link', [$rewrite, 'pre_post_link_hook' ], 10, 3 );
 				add_filter( 'term_link', [$rewrite, 'term_link_hook' ], 10, 3 );
-				add_filter( 'post_link', [$rewrite, 'term_link_hook' ], 10, 3 );
+				add_filter( 'post_link', [$rewrite, 'post_link_hook' ], 10, 3 );
 				add_filter( 'post_type_archive_link', [$rewrite, 'post_type_archive_link_hook' ], 10, 2 );
 				add_filter( 'page_link', [$rewrite, 'page_link_hook' ], 10, 3 );
 				add_filter( 'day_link', [$rewrite, 'day_link_hook' ], 10, 4 );

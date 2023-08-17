@@ -155,7 +155,7 @@ class Transifex_Live_Integration_Rewrite {
 
 	function reverse_hard_link( $lang, $link, $languages_map, $source_lang,
 			$pattern ) {
-		Plugin_Debug::logTrace();
+		// Plugin_Debug::logTrace();
 		if ( !(isset( $pattern )) ) {
 			return $link;
 		}
@@ -187,6 +187,7 @@ class Transifex_Live_Integration_Rewrite {
 				$parsed = parse_url( $link );
 				if ( substr($parsed['path'], 1, strlen($lang))  != $lang ) {
 					$parsed['path'] = '/' . $lang . $parsed['path'];
+					Plugin_Debug::logTrace('to unparse: ' . print_r($link, true));
 				}
 				$link = Transifex_Live_Integration_Util::unparse_url( $parsed );
 			}
@@ -198,7 +199,7 @@ class Transifex_Live_Integration_Rewrite {
 	 * WP pre_post_link filter, adds lang to permalink
 	 * @param string $permalink The permalink to filter
 	 * @param object $post The post object
-	 * @param ??? $leavename what this is I dont even know
+	 * @param bool Whether to keep the postname
 	 * @return string filtered permalink
 	 */
 
@@ -223,6 +224,7 @@ class Transifex_Live_Integration_Rewrite {
 	 */
 
 	function term_link_hook( $termlink, $term, $taxonomy ) {
+		Plugin_Debug::logTrace();
 		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $termlink ) ) {
 			return $termlink;
 		}
@@ -239,6 +241,7 @@ class Transifex_Live_Integration_Rewrite {
 	 */
 
 	function post_link_hook( $permalink, $post, $leavename ) {
+		Plugin_Debug::logTrace();
 		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $permalink ) ) {
 			return $permalink;
 		}
@@ -254,6 +257,7 @@ class Transifex_Live_Integration_Rewrite {
 	 */
 
 	function post_type_archive_link_hook( $link, $post_type ) {
+		Plugin_Debug::logTrace();
 		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $link ) ) {
 			return $link;
 		}
@@ -271,6 +275,7 @@ class Transifex_Live_Integration_Rewrite {
 	 */
 
 	function day_link_hook( $daylink, $year, $month, $day ) {
+		Plugin_Debug::logTrace();
 		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $daylink ) ) {
 			return $daylink;
 		}
@@ -287,6 +292,7 @@ class Transifex_Live_Integration_Rewrite {
 	 */
 
 	function month_link_hook( $monthlink, $year, $month ) {
+		Plugin_Debug::logTrace();
 		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $monthlink ) ) {
 			return $monthlink;
 		}
@@ -302,6 +308,7 @@ class Transifex_Live_Integration_Rewrite {
 	 */
 
 	function year_link_hook( $yearlink, $year ) {
+		Plugin_Debug::logTrace();
 		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $yearlink ) ) {
 			return $yearlink;
 		}
@@ -318,6 +325,7 @@ class Transifex_Live_Integration_Rewrite {
 	 */
 
 	function page_link_hook( $link, $id, $sample ) {
+		Plugin_Debug::logTrace();
 		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $link ) ) {
 			return $link;
 		}
@@ -332,6 +340,7 @@ class Transifex_Live_Integration_Rewrite {
 	 */
 
 	function home_url_hook( $url ) {
+		Plugin_Debug::logTrace();
 		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $url ) ) {
 			return $url;
 		}
@@ -345,6 +354,7 @@ class Transifex_Live_Integration_Rewrite {
 	* @return string The filtered string
 	*/
 	function the_content_hook( $string) {
+		Plugin_Debug::logTrace();
 		// Regular expression that extracts all urls from a string
 		$regexp = "<a\s[^>]*href=(\"??)([^\" >]*?)\\1[^>]*>(.*)<\/a>";
 		preg_match_all("/$regexp/siU", $string, $matchArray);
