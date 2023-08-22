@@ -130,6 +130,7 @@ class Transifex_Live_Integration {
 		$rewrite = Transifex_Live_Integration_Static_Factory::create_rewrite( $settings, $rewrite_options );
 		($rewrite) ? Plugin_Debug::logTrace( 'rewrite created' ) : Plugin_Debug::logTrace( 'rewrite skipped' );
 		if ( $rewrite ) {
+			// add_action( 'parse_query', [ $rewrite, 'parse_query_hook' ] );
 			// check for TDK enabled
 			if (isset( $settings['enable_tdk'] )) {
 				add_shortcode( 'get_language_url', [$rewrite,'get_language_url'] );
@@ -139,9 +140,9 @@ class Transifex_Live_Integration {
 			if ( isset( $rewrite_options['add_rewrites_reverse_template_links'] ) ) {
 				Plugin_Debug::logTrace( 'adding reverse template links' );
 				add_action( 'wp', [ $rewrite, 'wp_hook' ] );
-				add_filter( 'pre_post_link', [$rewrite, 'pre_post_link_hook' ], 10, 3 );
+  			add_filter( 'pre_post_link', [$rewrite, 'pre_post_link_hook' ], 10, 3 );
 				add_filter( 'term_link', [$rewrite, 'term_link_hook' ], 10, 3 );
-				add_filter( 'post_link', [$rewrite, 'term_link_hook' ], 10, 3 );
+				add_filter( 'post_link', [$rewrite, 'post_link_hook' ], 10, 3 );
 				add_filter( 'post_type_archive_link', [$rewrite, 'post_type_archive_link_hook' ], 10, 2 );
 				add_filter( 'page_link', [$rewrite, 'page_link_hook' ], 10, 3 );
 				add_filter( 'day_link', [$rewrite, 'day_link_hook' ], 10, 4 );

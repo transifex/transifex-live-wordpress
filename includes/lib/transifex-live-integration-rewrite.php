@@ -32,6 +32,8 @@ class Transifex_Live_Integration_Rewrite {
 	private $rewrite_pattern;
 	public $rewrite_options;
 
+	private $subdirectory_prefix;
+
 	/**
 	 * Private constructor, initializes local vars based on settings
 	 * @param array $settings Associative array used to store plugin settings.
@@ -49,7 +51,8 @@ class Transifex_Live_Integration_Rewrite {
 		$this->rewrite_options = [ ];
 		$this->languages_regex = $settings['languages_regex'];
 		$this->source_language = $settings['source_language'];
-		$this->languages_map = json_decode( $settings['language_map'], true )[0];
+		$this->subdirectory_prefix = strlen(trim($settings['subdirectory_path'])) > 0 ? $settings['subdirectory_path'] : '';
+ 		$this->languages_map = json_decode( $settings['language_map'], true )[0];
 		$this->lang = false; // need to wait before initting
 		if ( isset( $rewrite_options['add_rewrites_post'] ) ) {
 			$this->rewrite_options[] = ($rewrite_options['add_rewrites_post']) ? 'post' : '';
@@ -104,13 +107,16 @@ class Transifex_Live_Integration_Rewrite {
 			}
 		}
 		$this->wp_services = new Transifex_Live_Integration_WP_Services();
+
+		// Plugin_Debug::logTrace('->language_codes: ' . print_r($this->language_codes, true));
 	}
 
 	public function get_language_url( $atts ) {
+		Plugin_Debug::logTrace('');
 		$a = shortcode_atts( array(
 			'url' => home_url(),
 				), $atts );
-		return $this->reverse_hard_link( $this->lang, $a['url'], $this->languages_map, $this->source_language, $this->rewrite_pattern );
+		return $this->reverse_hard_link( $this->lang, $a['url'], $this->languages_map, $this->source_language, $this->rewrite_pattern, null, 'get_language_url' );
 	}
 
 	public function detect_language() {
@@ -140,6 +146,7 @@ class Transifex_Live_Integration_Rewrite {
 	function wp_hook() {
 		Plugin_Debug::logTrace();
 		$this->lang = get_query_var( 'lang' );
+		Plugin_Debug::logTrace('rewrite->lang: ' . $this->lang);
 	}
 
 
@@ -154,7 +161,8 @@ class Transifex_Live_Integration_Rewrite {
 	 */
 
 	function reverse_hard_link( $lang, $link, $languages_map, $source_lang,
-			$pattern ) {
+			$pattern, $subdirectory_prefix = '', $caller = null ) {
+		$subdirectory_prefix = strlen( $subdirectory_prefix ) > 0 ? '/'. $subdirectory_prefix : $subdirectory_prefix;
 		Plugin_Debug::logTrace();
 		if ( !(isset( $pattern )) ) {
 			return $link;
@@ -185,8 +193,43 @@ class Transifex_Live_Integration_Rewrite {
 				/* Check if the path starts with the language code,
 				* otherwise prepend it. */
 				$parsed = parse_url( $link );
-				if ( substr($parsed['path'], 1, strlen($lang))  != $lang ) {
-					$parsed['path'] = '/' . $lang . $parsed['path'];
+				Plugin_Debug::logTrace('sudir prfx ========'. print_r($subdirectory_prefix, true));
+				Plugin_Debug::logTrace('parsed path ========'. print_r($parsed['path'], true));
+				Plugin_Debug::logTrace('substr ========'. print_r(substr($parsed['path'], 0, strlen($subdirectory_prefix)), true));
+				Plugin_Debug::logTrace('bool ========'. print_r((bool)$subdirectory_prefix, true));
+
+
+				if ( (bool)$subdirectory_prefix ) {
+					$check_subdirs = array($subdirectory_prefix . '/', $subdirectory_prefix);
+          foreach ($check_subdirs as $check_subdir) {
+						if (strpos($parsed['path'], $check_subdir) === 0) {
+							$stripped = substr($parsed['path'], strlen($check_subdir));
+							$stripped = strlen($stripped) > 0 && substr($stripped, 0, 1) === '/' ? $stripped : '/' . $stripped;
+							$parsed['path'] = $stripped;
+							Plugin_Debug::logTrace('parsed ***========'. print_r($parsed['path'], true));
+							break;
+						}
+					}
+				}
+				// $parsed['path'] doesnt' start with '/' . $lang . '/'
+				if (strpos($parsed['path'], '/'. $lang .'/') !== 0 ) {
+					// $parsed['path'] === '/' . $lang
+					if (strpos($parsed['path'], '/'. $lang) === 0 && strlen($parsed['path']) === 3) {
+						Plugin_Debug::logTrace('11111 '. strpos($parsed['path'], '/'. $lang));
+						if ( (bool)$subdirectory_prefix ) {
+							$parsed['path'] = $subdirectory_prefix . $parsed['path'];
+						} // else do not modify $parsed['path']
+					} else {
+						if ( (bool)$subdirectory_prefix ) {
+							$parsed['path'] = $subdirectory_prefix . '/' . $lang . $parsed['path'];
+						} else {
+							$parsed['path'] = '/' . $lang . $parsed['path'];
+						}
+					}
+				} else {
+					if ( (bool)$subdirectory_prefix ) {
+						$parsed['path'] = $subdirectory_prefix . $parsed['path'];
+					} // else do not modify $parsed['path']
 				}
 				$link = Transifex_Live_Integration_Util::unparse_url( $parsed );
 			}
@@ -203,6 +246,7 @@ class Transifex_Live_Integration_Rewrite {
 	 */
 
 	function pre_post_link_hook( $permalink, $post, $leavename ) {
+		Plugin_Debug::logTrace();
 		if ( !Transifex_Live_Integration_Validators::is_permalink_ok( $permalink ) ) {
 			return $permalink;
 		}
@@ -223,10 +267,11 @@ class Transifex_Live_Integration_Rewrite {
 	 */
 
 	function term_link_hook( $termlink, $term, $taxonomy ) {
+		Plugin_Debug::logTrace();
 		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $termlink ) ) {
 			return $termlink;
 		}
-		$retlink = $this->reverse_hard_link( $this->lang, $termlink, $this->languages_map, $this->source_language, $this->rewrite_pattern );
+		$retlink = $this->reverse_hard_link( $this->lang, $termlink, $this->languages_map, $this->source_language, $this->rewrite_pattern, $this->subdirectory_prefix, 'term_link_hook' );
 		return $retlink;
 	}
 
@@ -239,10 +284,11 @@ class Transifex_Live_Integration_Rewrite {
 	 */
 
 	function post_link_hook( $permalink, $post, $leavename ) {
+		Plugin_Debug::logTrace();
 		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $permalink ) ) {
 			return $permalink;
 		}
-		$retlink = $this->reverse_hard_link( $this->lang, $permalink, $this->languages_map, $this->source_language, $this->rewrite_pattern );
+		$retlink = $this->reverse_hard_link( $this->lang, $permalink, $this->languages_map, $this->source_language, $this->rewrite_pattern, $this->subdirectory_prefix, 'post_link_hook' );
 		return $retlink;
 	}
 
@@ -257,7 +303,7 @@ class Transifex_Live_Integration_Rewrite {
 		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $link ) ) {
 			return $link;
 		}
-		$retlink = $this->reverse_hard_link( $this->lang, $link, $this->languages_map, $this->source_language, $this->rewrite_pattern );
+		$retlink = $this->reverse_hard_link( $this->lang, $link, $this->languages_map, $this->source_language, $this->rewrite_pattern, $this->subdirectory_prefix, 'post_type_archive_link_hook' );
 		return $retlink;
 	}
 
@@ -271,10 +317,11 @@ class Transifex_Live_Integration_Rewrite {
 	 */
 
 	function day_link_hook( $daylink, $year, $month, $day ) {
+		Plugin_Debug::logTrace();
 		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $daylink ) ) {
 			return $daylink;
 		}
-		$retlink = $this->reverse_hard_link( $this->lang, $daylink, $this->languages_map, $this->source_language, $this->rewrite_pattern );
+		$retlink = $this->reverse_hard_link( $this->lang, $daylink, $this->languages_map, $this->source_language, $this->rewrite_pattern, $this->subdirectory_prefix, 'day_link_hook' );
 		return $retlink;
 	}
 
@@ -287,10 +334,11 @@ class Transifex_Live_Integration_Rewrite {
 	 */
 
 	function month_link_hook( $monthlink, $year, $month ) {
+		Plugin_Debug::logTrace();
 		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $monthlink ) ) {
 			return $monthlink;
 		}
-		$retlink = $this->reverse_hard_link( $this->lang, $monthlink, $this->languages_map, $this->source_language, $this->rewrite_pattern );
+		$retlink = $this->reverse_hard_link( $this->lang, $monthlink, $this->languages_map, $this->source_language, $this->rewrite_pattern, $this->subdirectory_prefix, 'month_link_hook' );
 		return $retlink;
 	}
 
@@ -302,10 +350,11 @@ class Transifex_Live_Integration_Rewrite {
 	 */
 
 	function year_link_hook( $yearlink, $year ) {
+		Plugin_Debug::logTrace();
 		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $yearlink ) ) {
 			return $yearlink;
 		}
-		$retlink = $this->reverse_hard_link( $this->lang, $yearlink, $this->languages_map, $this->source_language, $this->rewrite_pattern );
+		$retlink = $this->reverse_hard_link( $this->lang, $yearlink, $this->languages_map, $this->source_language, $this->rewrite_pattern, $this->subdirectory_prefix, 'year_link_hook' );
 		return $retlink;
 	}
 
@@ -318,10 +367,11 @@ class Transifex_Live_Integration_Rewrite {
 	 */
 
 	function page_link_hook( $link, $id, $sample ) {
+		Plugin_Debug::logTrace();
 		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $link ) ) {
 			return $link;
 		}
-		$retlink = $this->reverse_hard_link( $this->lang, $link, $this->languages_map, $this->source_language, $this->rewrite_pattern );
+		$retlink = $this->reverse_hard_link( $this->lang, $link, $this->languages_map, $this->source_language, $this->rewrite_pattern, $this->subdirectory_prefix, 'page_link_hook' );
 		return $retlink;
 	}
 
@@ -332,10 +382,13 @@ class Transifex_Live_Integration_Rewrite {
 	 */
 
 	function home_url_hook( $url ) {
+		Plugin_Debug::logTrace();
 		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $url ) ) {
+			Plugin_Debug::logTrace('NOT OK LINK -> ' . print_r($url, true));
 			return $url;
 		}
-		$retlink = $this->reverse_hard_link( $this->lang, $url, $this->languages_map, $this->source_language, $this->rewrite_pattern );
+		$retlink = $this->reverse_hard_link( $this->lang, $url, $this->languages_map, $this->source_language, $this->rewrite_pattern, $this->subdirectory_prefix, 'home_url_hook');
+		Plugin_Debug::logTrace('home_url_hook return -> ' . print_r($retlink, true));
 		return $retlink;
 	}
 
@@ -345,6 +398,7 @@ class Transifex_Live_Integration_Rewrite {
 	* @return string The filtered string
 	*/
 	function the_content_hook( $string) {
+		Plugin_Debug::logTrace();
 		// Regular expression that extracts all urls from a string
 		$regexp = "<a\s[^>]*href=(\"??)([^\" >]*?)\\1[^>]*>(.*)<\/a>";
 		preg_match_all("/$regexp/siU", $string, $matchArray);
@@ -353,7 +407,7 @@ class Transifex_Live_Integration_Rewrite {
 			if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $match ) ) {
 				continue;
 			}
-			$retlink = $this->reverse_hard_link( $this->lang, $match, $this->languages_map, $this->source_language, $this->rewrite_pattern );
+			$retlink = $this->reverse_hard_link( $this->lang, $match, $this->languages_map, $this->source_language, $this->rewrite_pattern, $this->subdirectory_prefix, 'the_content_hook' );
 			$string = str_replace($match, $retlink, $string);
 		}
 		return $string;

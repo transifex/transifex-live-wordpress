@@ -38,6 +38,11 @@
 	<table class="form-table">
 		<tr>
 			<td>
+				<p><label for="transifex_live_settings_subdirectory_path"><?php _e( 'Wordpress is installed under a subdirectory e.g. <code>http://www.example.com/cms/</code>', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN); ?>
+				<input name="transifex_live_settings[subdirectory_path]" type="text" id="transifex_live_settings_subdirectory_path" value="<?php echo $settings['subdirectory_path']; ?>" class="regular-text" placeholder="<?php _e( 'Put your subdirectory path here.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN); ?>"></p>
+			</td></tr></table>
+		<tr>
+			<td>
 				<label for="transifex_live_settings_url_options">
 					<p><input type="radio" disabled="true" id="transifex_live_settings_url_options_none" name="transifex_live_settings[url_options_none]" value="1" <?php echo $url_options_none ?>><?php _e( 'Disabled – Just add the Transifex Live JavaScript snippet to my site. <a target="_blank" href="https://help.transifex.com/en/articles/6261241-wordpress#h_c053feadce"><b>Learn more</b></a>.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
 					<p><input type="radio" disabled="true" id="transifex_live_settings_url_options_subdirectory" name="transifex_live_settings[url_options_subdirectory]" value="1" <?php echo $url_options_subdirectory ?>><?php _e( 'Subdirectory – Create new language subdirectories through the plugin, e.g. <code>http://www.example.com/fr/</code>. <a target="_blank" href="https://help.transifex.com/en/articles/6261241-wordpress#h_c053feadce"><b>Learn more</b></a>.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>

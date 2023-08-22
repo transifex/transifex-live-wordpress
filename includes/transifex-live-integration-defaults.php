@@ -117,6 +117,7 @@ class Transifex_Live_Integration_Defaults {
 			'languages' => '',
 			'hreflang' => false,
 			'url_options' => 1,
+			'subdirectory_path' => '',
 			'source_alias' => 'www',
 			'subdomain_pattern' => self::calc_default_subdomain('www'),
 			'subdirectory_pattern' => self::calc_default_subdirectory(),
