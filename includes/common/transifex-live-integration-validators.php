@@ -25,7 +25,7 @@ class Transifex_Live_Integration_Validators {
 			return false;
 		}
 		if ( 3 > substr_count( $link, '/' ) ) {  //Note: this will return for home urls wo the trailing slash
-			Plugin_Debug::logTrace( 'failed validator slash count' );
+			Plugin_Debug::logTrace( 'failed validator slash count '. $link );
 			return false;
 		}
 		return true;

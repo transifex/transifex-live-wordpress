@@ -1,5 +1,7 @@
 <?php
 
+include_once __DIR__ .'/lib/transifex-live-integration-wp-services.php';
+
 /**
  * Defaults for plugin settings
  * @package TransifexLiveIntegration
@@ -69,18 +71,23 @@ class Transifex_Live_Integration_Defaults {
 		];
 	}
 
-	static function calc_default_subdomain($source_name) {
+	static function calc_default_subdomain($source_name, $is_subdirectory_install = false) {
 		if ( function_exists( 'site_url' ) ) { // sometimes we might run outside of WP
-			$site_url = site_url();
+			// Refer below to calc_default_subdirectory() for explanation of is_subdirectory_install
+			$site_url = (new Transifex_Live_Integration_WP_Services())->get_site_url($is_subdirectory_install);
 		} else {
 			$site_url = 'http://www.mydomain.com';
 		}
 		return str_replace($source_name,'%LANG%',$site_url);
 	}
 
-	static function calc_default_subdirectory() {
+	static function calc_default_subdirectory($is_subdirectory_install = false) {
 		if ( function_exists( 'site_url' ) ) { // sometimes we might run outside of WP
-			$site_url = site_url();
+			// is_subdirectory_install == true is the case when the site is installed in a subdirectory like
+			// wwww.mydomain.com/cms but the site is accessible from www.mydomain.com (root url). In this case
+			// we dont' use the site_url() function because it contains the subdirectory and use the
+			// function home_url() instead.
+			$site_url = (new Transifex_Live_Integration_WP_Services())->get_site_url($is_subdirectory_install);
 		} else {
 			$site_url = 'http://www.mydomain.com';
 		}
@@ -96,6 +103,8 @@ class Transifex_Live_Integration_Defaults {
 			'debug' => '0',
 			'api_key' => null, // This is the only required field and needs to be copied from Live
 			'enable_staging' => 0,
+			// Wordpress is installed in a subdirectory like www.mydomain.com/cms but the site is accessible from www.mydomain.com
+			'is_subdirectory_install' => 0,
 			'previous_api_key' => null,
 			'raw_transifex_languages' => null,
 			'transifex_languages' => null,
@@ -118,6 +127,7 @@ class Transifex_Live_Integration_Defaults {
 			'hreflang' => false,
 			'url_options' => 1,
 			'source_alias' => 'www',
+			// calc_default_subdomain('www') won't work for domain names starting with non-www prefixes
 			'subdomain_pattern' => self::calc_default_subdomain('www'),
 			'subdirectory_pattern' => self::calc_default_subdirectory(),
 			'static_frontpage_support' => false,

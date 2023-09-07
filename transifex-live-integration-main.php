@@ -147,11 +147,13 @@ class Transifex_Live_Integration {
 				add_filter( 'day_link', [$rewrite, 'day_link_hook' ], 10, 4 );
 				add_filter( 'month_link', [$rewrite, 'month_link_hook' ], 10, 3 );
 				add_filter( 'year_link', [$rewrite, 'year_link_hook' ], 10, 2 );
-				add_filter( 'home_url', [$rewrite, 'home_url_hook' ] );
-				add_filter( 'the_content', [$rewrite, 'the_content_hook' ], 10);
-				add_filter( 'widget_text', [$rewrite, 'the_content_hook' ], 10);
+				// register 'home_url' with delayed priority to ensure $rewrite->lang is set
+				add_filter( 'home_url', [$rewrite, 'home_url_hook' ], 11, 1 );
+				add_filter( 'the_content', [$rewrite, 'the_content_hook' ], 10, 1);
+				add_filter( 'widget_text', [$rewrite, 'the_content_hook' ], 10, 1);
 				// Add filter for custom content that is not triggered by any other hook
 				add_filter('tx_link',  [ $rewrite,'the_content_hook'], 10 ,1);
+				add_filter( 'comment_form_field_comment', [ $rewrite, 'add_redirect_to_comments_form_hook'], 10, 1);
 			}
 		}
 		$subdirectory = Transifex_Live_Integration_Static_Factory::create_subdirectory( $settings, $rewrite_options );

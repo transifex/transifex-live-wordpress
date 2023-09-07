@@ -121,6 +121,7 @@ class Transifex_Live_Integration_Subdirectory {
 	 */
 
 	function parse_query_root_hook( $query ) {
+		Plugin_Debug::logTrace();
 		global $wp_query;
 		$check_for_lang = ($query->get( 'lang' ) !== $this->source_language) ? true : false;
 		$check_page = (null !== $query->get( 'page' ) ) ? true : false;
@@ -158,6 +159,7 @@ class Transifex_Live_Integration_Subdirectory {
 	 * @return array Returns filtered rules array
 	 */
 	function post_rewrite_rules_hook( $rules ) {
+		Plugin_Debug::logTrace();
 		if ( !Transifex_Live_Integration_Validators::is_rules_ok( $rules ) ) {
 			return $rules;
 		}
@@ -184,6 +186,7 @@ class Transifex_Live_Integration_Subdirectory {
 	 * @return array Returns custom rewrite rules
 	 */
 	 function custom_type_rules_hook(){
+		Plugin_Debug::logTrace();
 		// Get custom rules from 3rd party module, if our own filter is being used
 		$custom_types_array = array();
 		$custom_types_array = apply_filters('transifex_generate_rewrite_rules', $custom_types_array);
@@ -213,6 +216,7 @@ class Transifex_Live_Integration_Subdirectory {
 	 * @param array $rules Associative array of rewrite rules in WP.
 	 */
 	function date_rewrite_rules_hook( $rules ) {
+		Plugin_Debug::logTrace();
 		if ( !Transifex_Live_Integration_Validators::is_rules_ok( $rules ) ) {
 			return $rules;
 		}
@@ -241,6 +245,7 @@ class Transifex_Live_Integration_Subdirectory {
 	 * @return array Returns filtered rules
 	 */
 	function page_rewrite_rules_hook( $rules ) {
+		Plugin_Debug::logTrace();
 		if ( !Transifex_Live_Integration_Validators::is_rules_ok( $rules ) ) {
 			return $rules;
 		}
@@ -270,6 +275,7 @@ class Transifex_Live_Integration_Subdirectory {
 	 * @param array $rules Associative array of rewrite rules in WP.
 	 */
 	function author_rewrite_rules_hook( $rules ) {
+		Plugin_Debug::logTrace();
 		if ( !Transifex_Live_Integration_Validators::is_rules_ok( $rules ) ) {
 			return $rules;
 		}
@@ -297,6 +303,7 @@ class Transifex_Live_Integration_Subdirectory {
 	 * @param array $rules Associative array of rewrite rules in WP.
 	 */
 	function tag_rewrite_rules_hook( $rules ) {
+		Plugin_Debug::logTrace();
 		if ( !Transifex_Live_Integration_Validators::is_rules_ok( $rules ) ) {
 			return $rules;
 		}
@@ -324,6 +331,7 @@ class Transifex_Live_Integration_Subdirectory {
 	 * @param array $rules Associative array of rewrite rules in WP.
 	 */
 	function category_rewrite_rules_hook( $rules ) {
+		Plugin_Debug::logTrace();
 		if ( !Transifex_Live_Integration_Validators::is_rules_ok( $rules ) ) {
 			return $rules;
 		}
@@ -351,6 +359,7 @@ class Transifex_Live_Integration_Subdirectory {
 	 * @param array $rules Associative array of rewrite rules in WP.
 	 */
 	function search_rewrite_rules_hook( $rules ) {
+		Plugin_Debug::logTrace();
 		if ( !Transifex_Live_Integration_Validators::is_rules_ok( $rules ) ) {
 			return $rules;
 		}
@@ -378,6 +387,7 @@ class Transifex_Live_Integration_Subdirectory {
 	 * @param array $rules Associative array of rewrite rules in WP.
 	 */
 	function feed_rewrite_rules_hook( $rules ) {
+		Plugin_Debug::logTrace();
 		if ( !Transifex_Live_Integration_Validators::is_rules_ok( $rules ) ) {
 			return $rules;
 		}
@@ -403,6 +413,7 @@ class Transifex_Live_Integration_Subdirectory {
 	 * @param array $rules Associative array of rewrite rules in WP.
 	 */
 	function root_rewrite_rules_hook( $rules ) {
+		Plugin_Debug::logTrace();
 		if ( !Transifex_Live_Integration_Validators::is_rules_ok( $rules ) ) {
 			return $rules;
 		}

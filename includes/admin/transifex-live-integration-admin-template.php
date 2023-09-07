@@ -32,10 +32,15 @@
 
 	<h2><?php _e( '', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></h2>
 	<p class="submit"><input disabled="true" type="button" name="start" id="transifex_live_start" class="button button-primary" value="<?php _e( 'Start Translating NOW', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?>"></p>
-	<a id="start_link" class="hide-if-js" href="<?php echo site_url() . '?transifex'; ?>">Start Translating NOW</a>
+	<a id="start_link" class="hide-if-js" href="<?php echo $site_url . '?transifex'; ?>">Start Translating NOW</a>
 	<h2><?php _e( 'Advanced SEO Settings', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></h2>
 	<p><?php _e( 'This plugin lets you set unique, language/region-specific URLs for your site and tells search engines what language a page is in. This is done by creating new language subdirectories through the plugin, or by pointing to existing language subdomains. In all cases, the plugin will add the Transifex Live JavaScript snippet to your site.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
 	<table class="form-table">
+		<tr>
+			<td>
+				<p><label for="transifex_live_settings_is_subdirectory_install"><?php _e( 'Wordpress is installed under a subdirectory e.g. <code>http://www.example.com/cms/</code> but the site contents are accessed from the root path e.g. <code>http://www.example.com/</code>', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN); ?>
+				<input name="transifex_live_settings[is_subdirectory_install]" type="checkbox" id="transifex_live_settings_is_subdirectory_install" value="1" <?php echo $checked_is_subdirectory_install ?>></p>
+			</td></tr>
 		<tr>
 			<td>
 				<label for="transifex_live_settings_url_options">
