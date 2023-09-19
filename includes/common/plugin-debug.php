@@ -64,7 +64,7 @@ class Plugin_Debug
         }
     }
 
-    public function printLog() 
+    public static function printLog() 
     {
         if (self::$debug_mode ) {
             echo ('<div id="miw_debug" class="transparent notranslate" style="width:90%;margin: 1em auto;padding: 10px 160px;text-align: left;z-index: 999;">' . "\n");

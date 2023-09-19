@@ -47,6 +47,7 @@ class Transifex_Live_Integration_Admin_Util {
 			return false;
 		}
 
+		$site_url = rtrim($site_url, '/');
 		$slashes = explode( "/", $site_url );
 		if ( $url_option_setting === '3' ) { // Subdirectory option
 			array_push( $slashes, '%lang%' );
