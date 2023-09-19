@@ -70,6 +70,9 @@ Ex. $updated_content = apply_filters('tx_link', $original_content);
 
 == Changelog ==
 
+= 1.3.34 =
+Support Wordpress installation in a subfolder
+
 = 1.3.33 =
 Update the latest tested WordPress version (6.2)
 

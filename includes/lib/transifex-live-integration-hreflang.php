@@ -1,6 +1,7 @@
 <?php
 
 include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/common/transifex-live-integration-common.php';
+include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE .'/includes/lib/transifex-live-integration-wp-services.php';
 /**
  * Includes hreflang tag attribute on each page
  * @package TransifexLiveIntegration
@@ -99,7 +100,6 @@ class Transifex_Live_Integration_Hreflang {
 		$ret = [ ];
 		foreach ($languages as $language) {
 			$arr = [ ];
-			$site_url = site_url();
 			$href_link = $url_map[$language];
 			$href_link_parts = explode(':', $href_link);
 			if (count($href_link_parts) && ($href_link_parts[0] === 'http' || $href_link_parts[0] === 'https')) {
@@ -128,7 +128,7 @@ class Transifex_Live_Integration_Hreflang {
 		$url_path = add_query_arg( array(), $wp->request );
 		$source_url_path = (substr( $url_path, 0, strlen( $lang ) ) === $lang) ? substr( $url_path, strlen( $lang ), strlen( $url_path ) ) : $url_path;
 		$source = $this->settings['source_language'];
-		$site_url_slash_maybe = site_url();
+		$site_url_slash_maybe = (new Transifex_Live_Integration_WP_Services($this->settings))->get_site_url();
 		$site_url = rtrim( $site_url_slash_maybe, '/' ) . '/';
 		$source_url_path = ltrim( $source_url_path, '/' );
 		$unslashed_source_url = $site_url . $source_url_path;

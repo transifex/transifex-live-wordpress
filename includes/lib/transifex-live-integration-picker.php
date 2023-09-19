@@ -1,6 +1,7 @@
 <?php
 
 include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/common/transifex-live-integration-common.php';
+include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE .'/includes/lib/transifex-live-integration-wp-services.php';
 
 /**
  * Includes language picker javascript snippet
@@ -37,6 +38,12 @@ class Transifex_Live_Integration_Picker {
 	private $source_language;
 
 	/**
+ 	 * Is the site installed in a subdirectory? (see settings defaults)
+ 	 * @var bool
+ 	 */
+	private $is_subdirectory_install;
+
+	/**
 	 * Constructor
 	 * 
 	 * @param array $language_map A key/value array that maps Transifex locale->plugin code
@@ -45,13 +52,14 @@ class Transifex_Live_Integration_Picker {
 	 * @param string $source_language Current source language
 	 */
 	public function __construct( $language_map, $tokenized_url, $enable_picker,
-			$source_language
+			$source_language, $is_subdirectory_install
 	) {
 		Plugin_Debug::logTrace();
 		$this->language_map = json_decode( $language_map, true )[0];
 		$this->tokenized_url = $tokenized_url;
 		$this->enable_picker = $enable_picker;
 		$this->source_language = $source_language;
+		$this->is_subdirectory_install = $is_subdirectory_install;
 	}
 
 	/*
@@ -66,7 +74,8 @@ class Transifex_Live_Integration_Picker {
 		$url_path = add_query_arg( array(), $wp->request );
 		$source_url_path = (substr( $url_path, 0, strlen( $lang ) ) === $lang) ? substr( $url_path, strlen( $lang ), strlen( $url_path ) ) : $url_path;
 		$url_map = Transifex_Live_Integration_Common::generate_language_url_map( $source_url_path, $this->tokenized_url, $this->language_map );
-		$unslashed_source_url = site_url() . $source_url_path;
+		$site_url = (new Transifex_Live_Integration_WP_Services())->get_site_url($this->is_subdirectory_install);
+		$unslashed_source_url = $site_url . $source_url_path;
 		$url_map[$this->source_language] = rtrim( $unslashed_source_url, '/' ) . '/';
 		$string_url_map = json_encode( $url_map, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
 

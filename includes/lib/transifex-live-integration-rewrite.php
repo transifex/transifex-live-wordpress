@@ -103,7 +103,7 @@ class Transifex_Live_Integration_Rewrite {
 				$this->rewrite_pattern = $pattern;
 			}
 		}
-		$this->wp_services = new Transifex_Live_Integration_WP_Services();
+		$this->wp_services = new Transifex_Live_Integration_WP_Services($settings);
 	}
 
 	public function get_language_url( $atts ) {
@@ -153,8 +153,7 @@ class Transifex_Live_Integration_Rewrite {
 	 * @return string Returns modified link
 	 */
 
-	function reverse_hard_link( $lang, $link, $languages_map, $source_lang,
-			$pattern ) {
+	function reverse_hard_link( $lang, $link, $languages_map, $source_lang, $pattern ) {
 		Plugin_Debug::logTrace();
 		if ( !(isset( $pattern )) ) {
 			return $link;
@@ -180,8 +179,8 @@ class Transifex_Live_Integration_Rewrite {
 			$site_host = parse_url($this->wp_services->get_site_url())['host'];
 			$parsed_url = parse_url($link);
 			$link_host = isset($parsed_url['host']) ? $parsed_url['host'] : '';
-			// change only wordpress links - not links reffering to other domains
-			if ( $link_host === $site_host ) {
+			// change only wordpress non-admin links - not links reffering to other domains
+			if ( $link_host === $site_host && strpos($link, '/wp-admin') === false ) {
 				/* Check if the path starts with the language code,
 				* otherwise prepend it. */
 				$parsed = parse_url( $link );
@@ -332,10 +331,23 @@ class Transifex_Live_Integration_Rewrite {
 	 */
 
 	function home_url_hook( $url ) {
-		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $url ) ) {
-			return $url;
+		Plugin_Debug::logTrace();
+		// remove early and add late this filter to avoid recursion when calculating home urls
+		remove_filter('home_url', array($this, 'home_url_hook'));
+		$link = $url;
+
+		// Appending suffix `/` to home url to pass `is_hard_link_ok()` check and rewrite it.
+		if ($this->lang && $this->lang !== $this->source_language) {
+			if (substr($link, -1) !== '/') {
+				$link = $link . '/';
+			}
 		}
-		$retlink = $this->reverse_hard_link( $this->lang, $url, $this->languages_map, $this->source_language, $this->rewrite_pattern );
+		if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $link) ) {
+			add_filter('home_url', array($this, 'home_url_hook'), 11, 1);
+			return $link;
+		}
+		$retlink = $this->reverse_hard_link( $this->lang, $link, $this->languages_map, $this->source_language, $this->rewrite_pattern );
+		add_filter('home_url', array($this, 'home_url_hook'), 11, 1);
 		return $retlink;
 	}
 
@@ -359,4 +371,17 @@ class Transifex_Live_Integration_Rewrite {
 		return $string;
 	}
 
+	/*
+	 * WP comment_form_field_comment filter, to add a hidden field to the comment form 
+	 * that will be used to redirect the user to the same page after submitting the comment.
+	 * We append the the comment field HTML with the hidden field.
+	 * @param string $comment_form_field_comment The comment field HTML
+	 * @return string The filtered comment field HTML 
+	 */
+	function add_redirect_to_comments_form_hook( $comment_form_field_comment) {
+		Plugin_Debug::logTrace();
+		global $wp;
+		$current_url =  add_query_arg( $wp->query_vars, home_url( $wp->request ) );
+		return $comment_form_field_comment. '<input type="hidden" name="redirect_to" value="' . $current_url . '" />';
+	}
 }

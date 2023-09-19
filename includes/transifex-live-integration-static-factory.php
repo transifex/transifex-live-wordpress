@@ -148,7 +148,9 @@ class Transifex_Live_Integration_Static_Factory {
 			return false;
 		}
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/lib/transifex-live-integration-picker.php';
-		return new Transifex_Live_Integration_Picker( $settings['language_map'], $settings['tokenized_url'], $settings['enable_picker'], $settings['source_language'] );
+		return new Transifex_Live_Integration_Picker( 
+			$settings['language_map'], $settings['tokenized_url'], $settings['enable_picker'], 
+			$settings['source_language'], $settings['is_subdirectory_install'] );
 	}
 
 	/*
