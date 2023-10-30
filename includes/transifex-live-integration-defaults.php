@@ -105,6 +105,7 @@ class Transifex_Live_Integration_Defaults {
 			'enable_staging' => 0,
 			// Wordpress is installed in a subdirectory like www.mydomain.com/cms but the site is accessible from www.mydomain.com
 			'is_subdirectory_install' => 0,
+			'translate_urls' => false,
 			'previous_api_key' => null,
 			'raw_transifex_languages' => null,
 			'transifex_languages' => null,
@@ -118,6 +119,7 @@ class Transifex_Live_Integration_Defaults {
 			'urls' => [
 				'rate_us' => 'https://wordpress.org/support/view/plugin-reviews/transifex-live-integration?rate=5#postform',
 				'api_key_landing_page' => 'https://app.transifex.com/signup/?utm_source=liveplugin',
+				'translate_urls' => 'https://help.transifex.com/en/articles/6259014-technical-instructions#h_e9a258ad3b',
 			],
 			'enable_language_urls' => false,
 			'enable_picker' => false,
