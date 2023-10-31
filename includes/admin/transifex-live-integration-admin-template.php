@@ -3,7 +3,7 @@
 	<p id="transifex_live_settings_api_key_message">
 	<div id="transifex_live_settings_api_key_message_error" class="notice notice-warning hide-if-js">
 		<p><strong><?php _e( "Oops! Please make sure you've entered a valid API key.", TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></strong></p>
-	</div>				
+	</div>
 	<div id="transifex_live_settings_api_enable_seo_missing" class="notice notice-warning hide-if-js">
 		<p><strong><?php _e( "The Transifex Live JavaScript snippet has been added to your site! To enable advanced SEO settings, publish translations first.", TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></strong></p>
 	</div>
@@ -37,10 +37,15 @@
 	<p><?php _e( 'This plugin lets you set unique, language/region-specific URLs for your site and tells search engines what language a page is in. This is done by creating new language subdirectories through the plugin, or by pointing to existing language subdomains. In all cases, the plugin will add the Transifex Live JavaScript snippet to your site.', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN ); ?></p>
 	<table class="form-table">
 		<tr>
-			<td>
-				<p><label for="transifex_live_settings_is_subdirectory_install"><?php _e( 'Wordpress is installed under a subdirectory e.g. <code>http://www.example.com/cms/</code> but the site contents are accessed from the root path e.g. <code>http://www.example.com/</code>', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN); ?>
-				<input name="transifex_live_settings[is_subdirectory_install]" type="checkbox" id="transifex_live_settings_is_subdirectory_install" value="1" <?php echo $checked_is_subdirectory_install ?>></p>
-			</td></tr>
+			<td style="padding-right:0px; padding-bottom: 1px;">
+				<input name="transifex_live_settings[is_subdirectory_install]" type="checkbox" id="transifex_live_settings_is_subdirectory_install" value="1" <?php echo $checked_is_subdirectory_install ?>><?php _e( 'Wordpress is installed under a subdirectory e.g. <code>http://www.example.com/cms/</code> but the site contents are accessed from the root path e.g. <code>http://www.example.com/</code>', TRANSIFEX_LIVE_INTEGRATION_TEXT_DOMAIN); ?>
+			</td>
+		</tr>
+		<tr>
+			<td style="padding-right:0px">
+				<input name="transifex_live_settings[translate_urls]" type="checkbox" id="transifex_live_settings_translate_urls" value="1" <?php echo $checked_translate_urls ?>><?php _e( 'Make images and links translatable' ); ?>&nbsp;<a target="_blank" href="<?php echo $settings['urls']['translate_urls']; ?>"><b><?php _e( 'Learn more' ) ?></b></a>.
+			</td>
+		</tr>
 		<tr>
 			<td>
 				<label for="transifex_live_settings_url_options">
@@ -138,7 +143,7 @@
 	<input type="hidden" value="<?php echo htmlentities( stripslashes( $hreflang_map ) ) ?>" name="transifex_live_settings[hreflang_map]" id="transifex_live_settings_hreflang_map" />
 	<input type="hidden" value="<?php echo htmlentities( stripslashes( $transifex_settings_settings ) ) ?>" name="transifex_live_transifex_settings[settings]" id="transifex_live_transifex_settings_settings" />
 	<input type="hidden" value="<?php echo htmlentities( $settings['subdomain_pattern'] ) ?>" name="transifex_live_settings[subdomain_pattern]" id="transifex_live_settings_subdomain_pattern" />
-	<input type="hidden" value="<?php echo htmlentities( $settings['subdirectory_pattern'] ) ?>" name="transifex_live_settings[subdirectory_pattern]" id="transifex_live_settings_subdirectory_pattern" />	
+	<input type="hidden" value="<?php echo htmlentities( $settings['subdirectory_pattern'] ) ?>" name="transifex_live_settings[subdirectory_pattern]" id="transifex_live_settings_subdirectory_pattern" />
 	<input type="hidden" value="<?php echo htmlentities( $settings['rewrite_pattern'] ) ?>" name="transifex_live_settings[rewrite_pattern]" id="transifex_live_settings_rewrite_pattern" />
 	<input type="hidden" value="<?php echo htmlentities( stripslashes( $languages_regex ) ) ?>" name="transifex_live_settings[languages_regex]" id="transifex_live_settings_languages_regex" />
 	<input type="hidden" value="<?php echo htmlentities( stripslashes( $languages ) ) ?>" name="transifex_live_settings[transifex_languages]" id="transifex_live_settings_transifex_languages" />

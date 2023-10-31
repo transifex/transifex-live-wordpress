@@ -77,6 +77,9 @@ class Transifex_Live_Integration {
 				// We need to wait until wp is setup to retrieve query var
 				add_action( 'wp', [ $live_snippet, 'wp_hook' ] );
 				add_action( 'wp_head', [ $live_snippet, 'wp_head_hook' ], 1 );
+				if (!empty($settings['translate_urls'])) {
+					add_action( 'wp_footer', [ $live_snippet, 'wp_footer_hook' ], 1 );
+				}
 			}
 
 
