@@ -82,10 +82,14 @@ class Transifex_Live_Integration_Admin {
 		ob_start();
 		checked( $settings['enable_staging'], 1 );
 		$checked_enable_staging = ob_get_clean();
-		
+
 		ob_start();
 		checked( $settings['is_subdirectory_install'], 1 );
 		$checked_is_subdirectory_install = ob_get_clean();
+
+		ob_start();
+		checked( $settings['translate_urls'], 1 );
+		$checked_translate_urls = ob_get_clean();
 
 		ob_start();
 		checked( $settings['rewrite_option_all'], 1 );
@@ -207,14 +211,14 @@ class Transifex_Live_Integration_Admin {
 
 		$transifex_languages = json_decode( stripslashes( $settings['transifex_live_settings']['transifex_languages'] ), true );
 
-		$is_subdirectory_install = false;	
+		$is_subdirectory_install = false;
 		if ( isset($settings['transifex_live_settings']['is_subdirectory_install'])) {
 			$is_subdirectory_install = $settings['transifex_live_settings']['is_subdirectory_install'];
 		}
 		$site_url = (new Transifex_Live_Integration_WP_Services($settings['transifex_live_settings']))->get_site_url();
 		$tokenized_url = Transifex_Live_Integration_Admin_Util::generate_tokenized_url( $site_url, $settings['transifex_live_settings']['url_options'] );
 		$settings['transifex_live_settings']['tokenized_url'] = $tokenized_url;
-		
+
 		$languages_map = $settings['transifex_live_settings']['language_map'];
 		$languages_map_string = $languages_map; // TODO: Switch to wp_json_encode.
 

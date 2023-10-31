@@ -53,6 +53,13 @@ class Transifex_Live_Integration_Javascript {
 		if(isset($settings['enable_prerender'])){
 		    $this->live_settings['prerender'] = (bool)$settings['enable_prerender'];
 		}
+		if (!empty($settings['translate_urls'])) {
+			$this->live_settings['translate_urls'] = true;
+			# To handle dynamic content with href attributes we need to
+			# initialize manually the transifex live.js after adding within
+			# body the tx-content attribute
+			$this->live_settings['manual_init'] = true;
+		}
 	}
 
 	/**
@@ -100,7 +107,7 @@ class Transifex_Live_Integration_Javascript {
 	}
 
 	/**
-	 * Renders javascript includes in the page
+	 * Renders javascript includes in the header of page
 	 */
 	function wp_head_hook() {
 		Plugin_Debug::logTrace();
@@ -154,4 +161,23 @@ SNIPPET;
 		echo $snippet;
 	}
 
+	/**
+	 * Renders javascript included in the footer of page
+	 * This hook is triggered only if user has enabled the option to treat
+	 * This hook activates when the user has chosen to consider href attributes as
+	 * translatable text. To accommodate dynamic content, follow these steps:
+	 * 1. Insert the tx-content attribute within the document's body.
+     * 2. Manually initiate the Tranifex live.js script.
+	 */
+	function wp_footer_hook() {
+		$snippet = <<<SNIPPET
+<script type="text/javascript">
+	const elements = document.getElementsByTagName('body');
+	elements[0].setAttribute('tx-content', 'translate_urls');
+</script>
+<script type="text/javascript">Transifex.live.init()</script>\n
+SNIPPET;
+
+		echo $snippet;
+	}
 }

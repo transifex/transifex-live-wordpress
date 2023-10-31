@@ -5,7 +5,7 @@
  *
  * @link    https://help.transifex.com/en/articles/6261241-wordpress
  * @package TransifexLiveIntegration
- * @version 1.3.34
+ * @version 1.3.35
  *
  * @wordpress-plugin
  * Plugin Name:       International SEO by Transifex
@@ -75,7 +75,7 @@ if ( !defined( 'TRANSIFEX_LIVE_INTEGRATION_REGEX_PATTERN_CHECK_PATTERN' ) ) {
 }
 
 define( 'LANG_PARAM', 'lang' );
-$version = '1.3.34';
+$version = '1.3.35';
 
 require_once( dirname( __FILE__ ) . '/transifex-live-integration-main.php' );
 Transifex_Live_Integration::do_plugin( is_admin(), $version );
