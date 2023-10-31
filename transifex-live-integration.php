@@ -11,7 +11,7 @@
  * Plugin Name:       International SEO by Transifex
  * Plugin URI:        https://help.transifex.com/en/articles/6261241-wordpress
  * Description:       Translate your WordPress powered website using Transifex.
- * Version:           1.3.34
+ * Version:           1.3.35
  * License:           GNU General Public License
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       transifex-live-integration
