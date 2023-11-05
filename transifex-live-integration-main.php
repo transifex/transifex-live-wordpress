@@ -146,7 +146,7 @@ class Transifex_Live_Integration {
 				add_filter( 'term_link', [$rewrite, 'term_link_hook' ], 10, 3 );
 				add_filter( 'post_link', [$rewrite, 'term_link_hook' ], 10, 3 );
 				add_filter( 'post_type_archive_link', [$rewrite, 'post_type_archive_link_hook' ], 10, 2 );
-				add_filter( 'page_link', [$rewrite, 'page_link_hook' ], 10, 3 );
+				add_filter( 'page_link', [$rewrite, 'page_link_hook' ], 10, 2 );
 				add_filter( 'day_link', [$rewrite, 'day_link_hook' ], 10, 4 );
 				add_filter( 'month_link', [$rewrite, 'month_link_hook' ], 10, 3 );
 				add_filter( 'year_link', [$rewrite, 'year_link_hook' ], 10, 2 );
