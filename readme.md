@@ -70,6 +70,9 @@ Ex. $updated_content = apply_filters('tx_link', $original_content);
 
 == Changelog ==
 
+= 1.3.36 =
+Support Wordpress custom post types
+
 = 1.3.35 =
 Support Transifex live settings translate_urls
 
