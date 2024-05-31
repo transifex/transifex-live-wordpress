@@ -17,7 +17,7 @@ class Transifex_Live_Integration_Subdirectory {
 	private $source_language;
 
 	/**
-	 * List of languages used by rewrite 
+	 * List of languages used by rewrite
 	 * @var array
 	 */
 	private $language_codes;
@@ -116,7 +116,7 @@ class Transifex_Live_Integration_Subdirectory {
 
 	/*
 	 * WP parse_query filter,additional logic to support localized static frontpages
-	 * @param array $query WP query object. 
+	 * @param array $query WP query object.
 	 * @return array Returns the filtered query object
 	 */
 
@@ -169,14 +169,16 @@ class Transifex_Live_Integration_Subdirectory {
 		$this->post_permastruct = $pp;
 		$rr = Transifex_Live_Integration_Generate_Rewrite_Rules::generate_rewrite_rules( $pp, EP_PERMALINK, true, false, false, true );
 		$rewrite = array_merge( $rr, $rules );
-		
+
 		// Handle custom post types from custom filter
 		$custom_rewrite = $this->custom_type_rules_hook();
-		$rewrite = array_merge( $custom_rewrite, $rewrite);
-		
+		if ($custom_rewrite) {
+			$rewrite = array_merge( $custom_rewrite, $rewrite);
+		}
+
 		return $rewrite;
 	}
-	
+
 	/**
 	 * Callback function to the WP page_rewrite_rules
 	 *
@@ -190,7 +192,10 @@ class Transifex_Live_Integration_Subdirectory {
 		// Get custom rules from 3rd party module, if our own filter is being used
 		$custom_types_array = array();
 		$custom_types_array = apply_filters('transifex_generate_rewrite_rules', $custom_types_array);
-		$rewrite_array = array();
+
+		// Get rules for custom post type
+		$custom_post_types_rewrite_rules = $this->custom_post_type_rewrite_rules_hook();
+		$custom_types_array = array_merge($custom_post_types_rewrite_rules, $custom_types_array);
 		foreach($custom_types_array as $custom_type_regex => $custom_type_action){
 			// Replace the lang placeholder with the language regex for this configuation
 			$custom_type_regex = str_replace("%lang%", $this->languages_regex, $custom_type_regex);
@@ -198,6 +203,29 @@ class Transifex_Live_Integration_Subdirectory {
 			$rewrite_array[$custom_type_regex] = $custom_type_action;
 		}
 		return $rewrite_array;
+	}
+
+	/**
+	 * Generates custom rewrite rules for custom post types.
+	 *
+	 * This function retrieves all custom post types that are not built-in,
+	 * and for each custom post type, it generates a set of rewrite rules
+	 * based on the post type's slug and a specified permalink structure.
+	 *
+	 * @return array An array of generated rewrite rules for custom post types.
+	 */
+	function custom_post_type_rewrite_rules_hook() {
+		$rules = array();
+		$custom_post_types = get_post_types(array('_builtin' => false));
+		foreach ($custom_post_types as $post_type) {
+			$post_type_object = get_post_type_object($post_type);
+			$slug = $post_type_object->rewrite['slug'];
+			if ($slug) {
+			$post_type_object = get_post_type_object($post_type);
+				$rules['%lang%/' . $slug .'/([^/]+)/?$'] =  'index.php?lang=$matches[1]&' . $post_type . '=$matches[2]';
+			}
+		}
+		return $rules;
 	}
 
 	/**
