@@ -1,0 +1,94 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [7.2]
+    continue-on-error: false
+
+    services:
+      mariadb:
+        image: mariadb:10.0
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping"
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+
+    env:
+      PLUGIN_VERSION: 1.3.37
+      WP_PROJECT_TYPE: plugin
+      WP_VERSION: latest
+      WP_MULTISITE: 0
+      WP_TEST_URL: http://localhost:80
+      WP_TEST_USER: test
+      WP_TEST_USER_PASS: test
+
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 7.2
+        extensions: mbstring, xml, ctype, iconv, intl, mysql
+        ini-values: post_max_size=256M, short_open_tag=On
+        tools: composer:v2
+
+    - name: Install system packages
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y apache2 libapache2-mod-fcgid nodejs php-fpm
+        sudo a2enmod rewrite actions fcgid alias proxy_fcgi setenvif
+        sudo a2enconf php7.2-fpm
+
+
+    - name: Composer Global Packages
+      run: |
+        composer self-update
+        COMPOSER_MEMORY_LIMIT=-1 composer global require "codeception/module-asserts"
+        COMPOSER_MEMORY_LIMIT=-1 composer global require "codeception/codeception"
+
+    - name: Configure PHP and Apache
+      run: |
+        echo "cgi.fix_pathinfo = 1" | sudo tee -a /etc/php/7.2/fpm/php.ini
+        # Apache configuration steps
+        cd ..
+        echo "$(curl -fsSL https://gist.github.com/matthewjackowski/b772ab278efb0e6f30ad/raw/travisci-apache)" | sed -e "s,%TRAVIS_BUILD_DIR%,`pwd`/wordpress,g" | sudo tee /etc/apache2/sites-available/default > /dev/null
+        cd transifex-live-wordpress
+        git clone https://github.com/Seravo/wordpress-test-template wordpress-test-template
+        echo "$(curl -fsSL https://gist.githubusercontent.com/matthewjackowski/3b26061241545564ae8d/raw/install-wp-tests.sh)" | sed -e "s@/home/travis/build/transifex/@/home/runner/work/transifex-live-wordpress/@g" |sudo tee ./install-wp-tests.sh > /dev/null
+        bash ./install-wp-tests.sh test root '' 127.0.0.1 $WP_VERSION
+        sudo service apache2 restart
+        sudo service php7.2-fpm restart
+
+
+    - name: Run tests
+      run: |
+        codecept run
+
+    - name: Deploy
+      if: github.ref == 'refs/heads/master'
+      env:
+        SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+        SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+      run: |
+        sudo chmod +x ./wp-plugin-deploy.sh
+        ./wp-plugin-deploy.sh
+
+    - name: Log failure
+      if: failure()
+      run: |
+        sudo cat /var/log/apache2/error.log
+        cat ./tests/_output/ConfigurePluginCept.fail.html
+        cat ./tests/_output/CheckLiveSnippetCept.fail.html
