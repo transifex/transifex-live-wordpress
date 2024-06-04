@@ -49,9 +49,6 @@ before_script:
 
 script:
   - pwd
-  - pyenv versions
-  - pyenv global 3.6.3
-  - pip install transifex-client
   - codecept run
   - sudo chmod +x ./wp-plugin-deploy.sh
   - if [ $TRAVIS_BRANCH = 'master' ]; then ./wp-plugin-deploy.sh; fi
