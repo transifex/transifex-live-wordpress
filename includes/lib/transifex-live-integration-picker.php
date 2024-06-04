@@ -45,7 +45,7 @@ class Transifex_Live_Integration_Picker {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param array $language_map A key/value array that maps Transifex locale->plugin code
 	 * @param string $tokenized_url Site_url with language pattern for substitution
 	 * @param bool $enable_picker Should picker be enabled?
@@ -74,7 +74,9 @@ class Transifex_Live_Integration_Picker {
 		$url_path = add_query_arg( array(), $wp->request );
 		$source_url_path = (substr( $url_path, 0, strlen( $lang ) ) === $lang) ? substr( $url_path, strlen( $lang ), strlen( $url_path ) ) : $url_path;
 		$url_map = Transifex_Live_Integration_Common::generate_language_url_map( $source_url_path, $this->tokenized_url, $this->language_map );
-		$site_url = (new Transifex_Live_Integration_WP_Services())->get_site_url($this->is_subdirectory_install);
+		$site_url_slash_maybe = (new Transifex_Live_Integration_WP_Services())->get_site_url($this->is_subdirectory_install);
+		$site_url = rtrim( $site_url_slash_maybe, '/' ) . '/';
+		$source_url_path = ltrim( $source_url_path, '/' );
 		$unslashed_source_url = $site_url . $source_url_path;
 		$url_map[$this->source_language] = rtrim( $unslashed_source_url, '/' ) . '/';
 		$string_url_map = json_encode( $url_map, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );

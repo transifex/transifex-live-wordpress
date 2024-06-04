@@ -194,7 +194,7 @@ class Transifex_Live_Integration_Subdirectory {
 		$custom_types_array = apply_filters('transifex_generate_rewrite_rules', $custom_types_array);
 
 		// Get rules for custom post type
-		$custom_post_types_rewrite_rules = $this->custom_post_type_rewrite_rules_hook();
+		$custom_post_types_rewrite_rules = $this->custom_slug_rewrite_rules_hook();
 		$custom_types_array = array_merge($custom_post_types_rewrite_rules, $custom_types_array);
 		foreach($custom_types_array as $custom_type_regex => $custom_type_action){
 			// Replace the lang placeholder with the language regex for this configuation
@@ -214,19 +214,39 @@ class Transifex_Live_Integration_Subdirectory {
 	 *
 	 * @return array An array of generated rewrite rules for custom post types.
 	 */
-	function custom_post_type_rewrite_rules_hook() {
-		$rules = array();
-		$custom_post_types = get_post_types(array('_builtin' => false));
-		foreach ($custom_post_types as $post_type) {
-			$post_type_object = get_post_type_object($post_type);
-			$slug = $post_type_object->rewrite['slug'];
-			if ($slug) {
-			$post_type_object = get_post_type_object($post_type);
-				$rules['%lang%/' . $slug .'/([^/]+)/?$'] =  'index.php?lang=$matches[1]&' . $post_type . '=$matches[2]';
+	function custom_slug_rewrite_rules_hook() {
+        $rules = array();
+        $custom_post_types = get_post_types(array('_builtin' => false));
+		$builtin_post_types = array('post', 'page');
+		// Combine custom and built-in post, page types
+		$all_post_types = array_merge($custom_post_types, $builtin_post_types);
+
+		foreach ($all_post_types as $post_type) {
+            $post_type_object = get_post_type_object($post_type);
+            $slug = $post_type_object->rewrite['slug'];
+			$posts = get_posts(array(
+				'post_type' => $post_type,
+				'numberposts' => -1
+			));
+			foreach ($posts as $post) {
+				if ($slug ||
+					($post->post_type == 'post' || $post->post_type == 'page')
+				) {
+					$current_permalink = get_permalink($post->ID);
+					$parsed_url = parse_url($current_permalink);
+					$path = trim($parsed_url['path'], '/');
+					if ($post_type === 'post') {
+						$rules['%lang%/' . $path . '?$'] = 'index.php?lang=$matches[1]&name=' . $post->post_name;
+					} elseif ($post_type === 'page') {
+						$rules['%lang%/' . $path . '?$'] = 'index.php?lang=$matches[1]&pagename=' . $post->post_name;
+					} else {
+						$rules['%lang%/' . $path . '?$'] = 'index.php?lang=$matches[1]&' . $post_type . '=' . $post->post_name;
+					}
+				}
 			}
-		}
-		return $rules;
-	}
+        }
+        return $rules;
+    }
 
 	/**
 	 * Function to build page permastructs
