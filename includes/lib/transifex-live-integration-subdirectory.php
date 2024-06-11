@@ -240,7 +240,7 @@ class Transifex_Live_Integration_Subdirectory {
 					} elseif ($post_type === 'page') {
 						$rules['%lang%/' . $path . '?$'] = 'index.php?lang=$matches[1]&pagename=' . $post->post_name;
 					} else {
-						$rules['%lang%/' . $path . '?$'] = 'index.php?lang=$matches[1]&' . $post_type . '=' . $post->post_name;
+						$rules['%lang%/' . $path . '?$'] = 'index.php?lang=$matches[1]&post_type=' . $post->post_type . '&p=' . $post->ID;
 					}
 				}
 			}
