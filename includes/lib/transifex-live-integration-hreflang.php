@@ -145,6 +145,9 @@ SOURCE;
 <link rel="alternate" href="$href_attr" hreflang="$hreflang_attr"/>\n
 HREFLANG;
 		}
+      $hreflang_out .= <<<XDEFAULT
+<link rel="alternate" href="$source_url" hreflang="x-default"/>\n
+XDEFAULT;
 		echo $hreflang_out;
 		return true;
 	}
