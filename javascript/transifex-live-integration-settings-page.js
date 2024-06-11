@@ -78,13 +78,24 @@ function transifex_live_integration_convert(l) {
     var r = {"type": "div",
         "id": "transifex-languages"};
     var t = l['translation'];
+    var k = l['source'];
     var h = [];
     transifex_languages = [];
     language_lookup = [];
     language_map = [];
     hreflang_map = [];
+    var arr = {};
     var arrr = {};
     var arrrr = {};
+
+    h.push(transifex_live_integration_mapper(k));
+    transifex_languages.push(k['code']);
+    arr['tx_name'] = k['tx_name'];
+    arr['code'] = k['code'];
+    language_lookup.push(arr);
+    arrr[k['code']] = k['code'];
+    arrrr[k['code']] = k['code'].toLowerCase().replace('_', '-');
+
     jQuery.each(
             t, function (i, o) {
                 h.push(transifex_live_integration_mapper(o));
