@@ -148,6 +148,15 @@ HREFLANG;
       $hreflang_out .= <<<XDEFAULT
 <link rel="alternate" href="$source_url" hreflang="x-default"/>\n
 XDEFAULT;
+    $canonical_url = home_url('/');
+    if (!empty($url_path)) {
+        $canonical_url = home_url($url_path);
+    }
+    $canonical_url = rtrim($canonical_url, '/') . '/';
+
+    $hreflang_out .= <<<CANONICAL
+<link rel="canonical" href="$canonical_url"/>\n
+CANONICAL;
 		echo $hreflang_out;
 		return true;
 	}
