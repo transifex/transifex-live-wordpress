@@ -224,6 +224,12 @@ class Transifex_Live_Integration_Subdirectory {
 		foreach ($all_post_types as $post_type) {
             $post_type_object = get_post_type_object($post_type);
             $slug = $post_type_object->rewrite['slug'];
+
+			// Handle archive templates of custom post types
+			if (!empty($post_type_object->has_archive)) {
+				$rules['%lang%/' . $post_type_object->has_archive . '?$'] = 'index.php?post_type=' . $post_type . '&lang=$matches[1]';
+			}
+
 			$posts = get_posts(array(
 				'post_type' => $post_type,
 				'numberposts' => -1
