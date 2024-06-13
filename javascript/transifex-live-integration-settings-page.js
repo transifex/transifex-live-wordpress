@@ -71,56 +71,53 @@ function build_cdn_manifest_url(apikey) {
     return "https://cdn.transifex.com/" + apikey + "/latest/manifest.jsonp";
 }
 
-
-
-
-function transifex_live_integration_convert(l) {
-    var r = {"type": "div",
+function transifex_live_integration_convert(data) {
+    var result = {"type": "div",
         "id": "transifex-languages"};
-    var t = l['translation'];
-    var k = l['source'];
-    var h = [];
+    var translation = data['translation'];
+    var source = data['source'];
+    var html = [];
     transifex_languages = [];
     language_lookup = [];
     language_map = [];
     hreflang_map = [];
-    var arr = {};
-    var arrr = {};
-    var arrrr = {};
+    var language_data = {};
+    var language = {};
+    var hreflang = {};
 
-    h.push(transifex_live_integration_mapper(k));
-    transifex_languages.push(k['code']);
-    arr['tx_name'] = k['tx_name'];
-    arr['code'] = k['code'];
-    language_lookup.push(arr);
-    arrr[k['code']] = k['code'];
-    arrrr[k['code']] = k['code'].toLowerCase().replace('_', '-');
+    html.push(transifex_live_integration_mapper(source));
+    transifex_languages.push(source['code']);
+    language_data['tx_name'] = source['tx_name'];
+    language_data['code'] = source['code'];
+    language_lookup.push(language_data);
+    language[source['code']] = source['code'];
+    hreflang[source['code']] = source['code'].toLowerCase().replace('_', '-');
 
     jQuery.each(
-            t, function (i, o) {
-                h.push(transifex_live_integration_mapper(o));
+            translation, function (i, o) {
+                html.push(transifex_live_integration_mapper(o));
                 transifex_languages.push(o['code']);
-                var arr = {};
-                arr['tx_name'] = o['tx_name'];
-                arr['code'] = o['code'];
-                language_lookup.push(arr);
-                arrr[o['code']] = o['code'];
-                arrrr[o['code']] = o['code'].toLowerCase().replace('_', '-');
+                var language_data = {};
+                language_data['tx_name'] = o['tx_name'];
+                language_data['code'] = o['code'];
+                language_lookup.push(language_data);
+                language[o['code']] = o['code'];
+                hreflang[o['code']] = o['code'].toLowerCase().replace('_', '-');
             }
     );
-    language_map.push(arrr);
-    hreflang_map.push(arrrr);
+    language_map.push(language);
+    hreflang_map.push(hreflang);
     var s = {
-        caption: 'Source:' + l['source']['tx_name'],
+        caption: 'Source:' + source['tx_name'],
         name: "transifex-integration-live-source-language",
         id: "transifex-integration-live-[source-language]",
         type: "text",
-        value: l['source']['code']
+        value: source['code']
     };
-    source_language = l['source']['code'];
-    r['source'] = s;
-    r['html'] = h;
-    return r;
+    source_language = source['code'];
+    result['source'] = s;
+    result['html'] = html;
+    return result;
 }
 
 
@@ -205,7 +202,6 @@ function addTransifexLanguages(obj) {
                     );
                 }
         );
-
 
     } else {
         var tlslm = JSON.parse(jQuery('#transifex_live_settings_language_map').val());
