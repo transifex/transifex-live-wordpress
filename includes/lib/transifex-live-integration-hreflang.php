@@ -139,9 +139,10 @@ class Transifex_Live_Integration_Hreflang {
 		$hreflangs = $this->generate_languages_hreflang( $source_url_path, $this->languages, $this->language_map, $this->hreflang_map  );
     $source_hreflang = '';
 
-    foreach ($hreflangs as $hreflang) {
+    foreach ($hreflangs as $index => $hreflang) {
         if ($hreflang['is_source']) {
             $source_hreflang = $hreflang['hreflang'];
+            unset($hreflangs[$index]);
             break;
         }
     }
