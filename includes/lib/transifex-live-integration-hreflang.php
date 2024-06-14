@@ -96,6 +96,7 @@ class Transifex_Live_Integration_Hreflang {
 			$language_map, $hreflang_map
 	) {
 		Plugin_Debug::logTrace();
+		$source = $this->settings['source_language'];
 		$url_map = Transifex_Live_Integration_Common::generate_language_url_map( $raw_url, $this->tokenized_url, $language_map );
 		$ret = [ ];
 		foreach ($languages as $language) {
@@ -106,10 +107,11 @@ class Transifex_Live_Integration_Hreflang {
 				$protocol = Transifex_Live_Integration_Util::get_http_requested_protocol();
 				$href_link_parts[0] = $protocol;
 				$arr['href'] = implode(':', $href_link_parts);
-			} else {
-				$arr['href'] = $url_map[$language];
+      		} else {
+        		$arr['href'] = $url_map[$language];
 			}
 			$arr['hreflang'] = $hreflang_map[$language];
+      		$arr['is_source'] = ($language === $source);
 			array_push( $ret, $arr );
 		}
 		return $ret;
@@ -134,10 +136,23 @@ class Transifex_Live_Integration_Hreflang {
 		$unslashed_source_url = $site_url . $source_url_path;
 		$source_url = rtrim( $unslashed_source_url, '/' ) . '/';
 		$hreflang_out = '';
-		$hreflang_out .= <<<SOURCE
-<link rel="alternate" href="$source_url" hreflang="$source"/>\n
-SOURCE;
 		$hreflangs = $this->generate_languages_hreflang( $source_url_path, $this->languages, $this->language_map, $this->hreflang_map  );
+    $source_hreflang = '';
+
+    foreach ($hreflangs as $hreflang) {
+        if ($hreflang['is_source']) {
+            $source_hreflang = $hreflang['hreflang'];
+            break;
+        }
+    }
+    // If source_hreflang is not found,
+    // use the source language as default
+    if (empty($source_hreflang)) {
+        $source_hreflang = $source;
+    }
+		$hreflang_out .= <<<SOURCE
+<link rel="alternate" href="$source_url" hreflang="$source_hreflang"/>\n
+SOURCE;
 		foreach ($hreflangs as $hreflang) {
 			$href_attr = $hreflang['href'];
 			$hreflang_attr = $hreflang['hreflang'];
