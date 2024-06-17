@@ -106,6 +106,7 @@ class Transifex_Live_Integration_Defaults {
 			// Wordpress is installed in a subdirectory like www.mydomain.com/cms but the site is accessible from www.mydomain.com
 			'is_subdirectory_install' => 0,
 			'translate_urls' => false,
+      'canonical_urls' => false,
 			'previous_api_key' => null,
 			'raw_transifex_languages' => null,
 			'transifex_languages' => null,
