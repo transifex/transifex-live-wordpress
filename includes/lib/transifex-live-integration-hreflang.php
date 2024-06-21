@@ -126,6 +126,7 @@ class Transifex_Live_Integration_Hreflang {
 			return false;
 		}
 		global $wp;
+		$disable_canonical_urls = $this->settings['canonical_urls'];
 		$lang = get_query_var( 'lang' );
 		$url_path = add_query_arg( array(), $wp->request );
 		$source_url_path = (substr( $url_path, 0, strlen( $lang ) ) === $lang) ? substr( $url_path, strlen( $lang ), strlen( $url_path ) ) : $url_path;
@@ -164,6 +165,19 @@ HREFLANG;
       $hreflang_out .= <<<XDEFAULT
 <link rel="alternate" href="$source_url" hreflang="x-default"/>\n
 XDEFAULT;
+    if (!$disable_canonical_urls) {
+      $canonical_url = home_url('/');
+      foreach ($hreflangs as $hreflang) {
+          if (!empty($url_path) && strpos($hreflang['href'], $url_path) !== false) {
+            $canonical_url = $hreflang['href'];
+            break;
+          } else {}
+      }
+
+      $hreflang_out .= <<<CANONICAL
+  <link rel="canonical" href="$canonical_url"/>\n
+  CANONICAL;
+    }
 		echo $hreflang_out;
 		return true;
 	}
