@@ -42,8 +42,13 @@
 			</td>
 		</tr>
 		<tr>
-			<td style="padding-right:0px">
+			<td style="padding-right:0px; padding-bottom: 1px;">
 				<input name="transifex_live_settings[translate_urls]" type="checkbox" id="transifex_live_settings_translate_urls" value="1" <?php echo $checked_translate_urls ?>><?php _e( 'Make images and links translatable' ); ?>&nbsp;<a target="_blank" href="<?php echo $settings['urls']['translate_urls']; ?>"><b><?php _e( 'Learn more' ) ?></b></a>.
+			</td>
+		</tr>
+		<tr>
+			<td style="padding-right:0px">
+				<input name="transifex_live_settings[canonical_urls]" type="checkbox" id="transifex_live_settings_canonical_urls" value="1" <?php echo $checked_canonical_urls ?>><?php _e( 'Disable rendering canonical URLs' ); ?>.
 			</td>
 		</tr>
 		<tr>

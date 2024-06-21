@@ -92,6 +92,10 @@ class Transifex_Live_Integration_Admin {
 		$checked_translate_urls = ob_get_clean();
 
 		ob_start();
+		checked( $settings['canonical_urls'], 1 );
+		$checked_canonical_urls = ob_get_clean();
+
+		ob_start();
 		checked( $settings['rewrite_option_all'], 1 );
 		$checked_rewrite_option_all = ob_get_clean();
 
@@ -212,8 +216,12 @@ class Transifex_Live_Integration_Admin {
 		$transifex_languages = json_decode( stripslashes( $settings['transifex_live_settings']['transifex_languages'] ), true );
 
 		$is_subdirectory_install = false;
+		$disable_canonical_urls = false;
 		if ( isset($settings['transifex_live_settings']['is_subdirectory_install'])) {
 			$is_subdirectory_install = $settings['transifex_live_settings']['is_subdirectory_install'];
+		}
+		if ( isset($settings['transifex_live_settings']['disable_canonical_urls'])) {
+			$disable_canonical_urls = $settings['transifex_live_settings']['disable_canonical_urls'];
 		}
 		$site_url = (new Transifex_Live_Integration_WP_Services($settings['transifex_live_settings']))->get_site_url();
 		$tokenized_url = Transifex_Live_Integration_Admin_Util::generate_tokenized_url( $site_url, $settings['transifex_live_settings']['url_options'] );
@@ -255,6 +263,7 @@ class Transifex_Live_Integration_Admin {
 		$settings['transifex_live_settings']['rewrite_pattern'] = $rewrite_pattern;
 		$settings['transifex_live_settings']['languages_regex'] = $languages_regex;
 		$settings['transifex_live_settings']['languages'] = $languages;
+		$settings['transifex_live_settings']['disable_canonical_urls'] = $disable_canonical_urls;
 		if ( isset( $settings['transifex_live_settings'] ) ) {
 			update_option( 'transifex_live_settings', $settings['transifex_live_settings'] );
 		}
