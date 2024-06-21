@@ -223,11 +223,27 @@ class Transifex_Live_Integration_Subdirectory {
 
 		foreach ($all_post_types as $post_type) {
             $post_type_object = get_post_type_object($post_type);
-            $slug = $post_type_object->rewrite['slug'];
+			$slug = '';
+			if (!empty($post_type_object->rewrite['slug'])) {
+				$slug = $post_type_object->rewrite['slug'];
+			}
 
 			// Handle archive templates of custom post types
 			if (!empty($post_type_object->has_archive)) {
-				$rules['%lang%/' . $post_type_object->has_archive . '?$'] = 'index.php?post_type=' . $post_type . '&lang=$matches[1]';
+				if (is_string($post_type_object->has_archive)) {
+					// If has_archive is a string, use it directly as the slug
+					$has_archive_slug = $post_type_object->has_archive;
+				} else {
+					// If has_archive is boolean, check if a custom slug is defined
+					// in the rewrite parameter, otherwise use the post type
+					if ($slug) {
+						$has_archive_slug = $slug;
+					} else {
+						$has_archive_slug = $post_type;
+					}
+				}
+
+				$rules['%lang%/' . $has_archive_slug . '?$'] = 'index.php?post_type=' . $post_type . '&lang=$matches[1]';
 			}
 
 			$posts = get_posts(array(
