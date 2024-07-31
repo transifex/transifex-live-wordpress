@@ -22,6 +22,9 @@ class Transifex_Live_Integration {
 
 			$settings = Transifex_Live_Integration_Defaults::settings();
 		}
+		if (!isset($settings['is_subdirectory_install'])) {
+			$settings['is_subdirectory_install'] = 0;
+		}
 		$live_settings = Transifex_Live_Integration_Defaults::transifex_settings();
 		$debug_mode = ($settings['debug']) ? true : false;
 
