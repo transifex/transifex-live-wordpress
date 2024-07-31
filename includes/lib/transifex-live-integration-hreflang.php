@@ -126,7 +126,7 @@ class Transifex_Live_Integration_Hreflang {
 			return false;
 		}
 		global $wp;
-		$disable_canonical_urls = $this->settings['canonical_urls'];
+		$disable_canonical_urls = isset($this->settings['canonical_urls']) ? $this->settings['canonical_urls'] : false;
 		$lang = get_query_var( 'lang' );
 		$url_path = add_query_arg( array(), $wp->request );
 		$source_url_path = (substr( $url_path, 0, strlen( $lang ) ) === $lang) ? substr( $url_path, strlen( $lang ), strlen( $url_path ) ) : $url_path;

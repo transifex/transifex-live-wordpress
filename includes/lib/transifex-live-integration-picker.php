@@ -72,7 +72,16 @@ class Transifex_Live_Integration_Picker {
 		$lang = get_query_var( 'lang' );
 		$home_url = home_url( $wp->request );
 		$url_path = add_query_arg( array(), $wp->request );
-		$source_url_path = (substr($url_path, 0, strlen($lang) + 1) === $lang . '/') ? substr($url_path, strlen($lang) + 1) : $url_path;
+
+		// If url contains the language prefix, make sure we don't remove it from url
+		// in this case return the url_path with e.g engagement => /engagement
+		// Otherwise remove the part from url string until the language prefix
+		// e.g el/sample_page =>sample_page
+		if (strpos($url_path, $lang ) !== false && $url_path !== $lang && strpos($url_path, $lang .'/' ) === false) {
+			$source_url_path = '/' . $url_path;
+		} else {
+			$source_url_path = (substr($url_path, 0, strlen($lang)) === $lang) ? substr($url_path, strlen($lang)) : $url_path;
+		}
 		$url_map = Transifex_Live_Integration_Common::generate_language_url_map( $source_url_path, $this->tokenized_url, $this->language_map );
 		$site_url_slash_maybe = (new Transifex_Live_Integration_WP_Services())->get_site_url($this->is_subdirectory_install);
 		$site_url = rtrim( $site_url_slash_maybe, '/' ) . '/';
