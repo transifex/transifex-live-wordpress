@@ -69,6 +69,9 @@ Ex. $updated_content = apply_filters('tx_link', $original_content);
 * It is also recommended  to use [widgets](https://codex.wordpress.org/Widgets_API) in your theme instead of custom code, since this allows you to make your integration more future proof against incompatibilities with 3rd party modules.
 
 == Changelog ==
+= 1.3.44 =
+Fix for language picker
+
 = 1.3.43 =
 Fix for archive pages with customized slug
 
