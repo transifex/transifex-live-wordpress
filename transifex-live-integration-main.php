@@ -22,9 +22,6 @@ class Transifex_Live_Integration {
 
 			$settings = Transifex_Live_Integration_Defaults::settings();
 		}
-		if (!isset($settings['is_subdirectory_install'])) {
-			$settings['is_subdirectory_install'] = 0;
-		}
 		$live_settings = Transifex_Live_Integration_Defaults::transifex_settings();
 		$debug_mode = ($settings['debug']) ? true : false;
 
@@ -160,6 +157,10 @@ class Transifex_Live_Integration {
 				// Add filter for custom content that is not triggered by any other hook
 				add_filter('tx_link',  [ $rewrite,'the_content_hook'], 10 ,1);
 				add_filter( 'comment_form_field_comment', [ $rewrite, 'add_redirect_to_comments_form_hook'], 10, 1);
+
+				// Add filters for custom post types
+				add_filter( 'post_type_link', [$rewrite, 'pre_post_link_hook'], 10, 3 );
+				add_filter( 'post_type_link', [$rewrite, 'post_link_hook'], 10, 3 );
 			}
 		}
 		$subdirectory = Transifex_Live_Integration_Static_Factory::create_subdirectory( $settings, $rewrite_options );
