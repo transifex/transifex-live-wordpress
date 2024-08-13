@@ -245,6 +245,32 @@ class Transifex_Live_Integration_Rewrite {
 		return $retlink;
 	}
 
+	/**
+	 * Filters and processes the given field value to handle URLs and localize content.
+	 *
+	 * This function determines whether the provided field value is a valid URL. If it is a URL,
+	 * it localizes the URL by calling the `reverse_hard_link` method. If the field value is not a URL,
+	 * the method `the_content_hook` is invoked to localize all anchor (`<a>`) href links within the text content.
+	 *
+	 * This function can be triggered as following:
+	 * e.g add_filter('acf/format_value', [$rewrite, 'custom_field_link_hook'], 10, 3 );
+	 *
+	 * @param string $field_value The field value to be processed, which can be a URL or custom content.
+	 * @return string The processed field value after handling URLs or applying content hooks.
+	 */
+	function custom_field_link_hook($field_value) {
+		if (filter_var($field_value, FILTER_VALIDATE_URL)) {
+			if ( !Transifex_Live_Integration_Validators::is_hard_link_ok( $field_value ) ) {
+				return $field_value;
+			}
+			$field_value = $this->reverse_hard_link( $this->lang, $field_value, $this->languages_map, $this->source_language, $this->rewrite_pattern );
+		} else {
+			$field_value = $this->the_content_hook($field_value);
+		}
+
+		return $field_value;
+	}
+
 	/*
 	 * WP post_type_archive_link filter, filters archive links
 	 * @param string $link The link to filter
@@ -372,11 +398,11 @@ class Transifex_Live_Integration_Rewrite {
 	}
 
 	/*
-	 * WP comment_form_field_comment filter, to add a hidden field to the comment form 
+	 * WP comment_form_field_comment filter, to add a hidden field to the comment form
 	 * that will be used to redirect the user to the same page after submitting the comment.
 	 * We append the the comment field HTML with the hidden field.
 	 * @param string $comment_form_field_comment The comment field HTML
-	 * @return string The filtered comment field HTML 
+	 * @return string The filtered comment field HTML
 	 */
 	function add_redirect_to_comments_form_hook( $comment_form_field_comment) {
 		Plugin_Debug::logTrace();

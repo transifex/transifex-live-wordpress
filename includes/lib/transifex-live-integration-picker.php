@@ -78,7 +78,7 @@ class Transifex_Live_Integration_Picker {
 		// Otherwise remove the part from url string until the language prefix
 		// e.g el/sample_page =>sample_page
 		if (strpos($url_path, $lang ) !== false && $url_path !== $lang && strpos($url_path, $lang .'/' ) === false) {
-			$source_url_path = '/' . $url_path;
+			$source_url_path = '/' . ltrim( $url_path, '/' );
 		} else {
 			$source_url_path = (substr($url_path, 0, strlen($lang)) === $lang) ? substr($url_path, strlen($lang)) : $url_path;
 		}
