@@ -161,6 +161,9 @@ class Transifex_Live_Integration {
 				// Add filters for custom post types
 				add_filter( 'post_type_link', [$rewrite, 'pre_post_link_hook'], 10, 3 );
 				add_filter( 'post_type_link', [$rewrite, 'post_link_hook'], 10, 3 );
+
+				// Add filters for custom acf fields
+				add_filter( 'acf/format_value', [$rewrite, 'custom_field_link_hook'], 10, 3 );
 			}
 		}
 		$subdirectory = Transifex_Live_Integration_Static_Factory::create_subdirectory( $settings, $rewrite_options );
