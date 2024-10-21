@@ -83,6 +83,14 @@ class Transifex_Live_Integration_Picker {
 			$source_url_path = (substr($url_path, 0, strlen($lang)) === $lang) ? substr($url_path, strlen($lang)) : $url_path;
 		}
 		$url_map = Transifex_Live_Integration_Common::generate_language_url_map( $source_url_path, $this->tokenized_url, $this->language_map );
+
+		// Ensure image URLs are not modified by the language prefix
+		foreach ($url_map as $key => $url) {
+			if (strpos($url, '/wp-content/uploads/') !== false) {
+				continue;
+			}
+			$url_map[$key] = rtrim($url, '/') . '/';
+		}
 		$site_url_slash_maybe = (new Transifex_Live_Integration_WP_Services())->get_site_url($this->is_subdirectory_install);
 		$site_url = rtrim( $site_url_slash_maybe, '/' ) . '/';
 		$source_url_path = ltrim( $source_url_path, '/' );
