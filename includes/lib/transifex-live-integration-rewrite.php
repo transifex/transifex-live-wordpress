@@ -180,7 +180,9 @@ class Transifex_Live_Integration_Rewrite {
 			$parsed_url = parse_url($link);
 			$link_host = isset($parsed_url['host']) ? $parsed_url['host'] : '';
 			// change only wordpress non-admin links - not links reffering to other domains
-			if ( $link_host === $site_host && strpos($link, '/wp-admin') === false ) {
+			if ( $link_host === $site_host && strpos($link, '/wp-admin') === false
+				&& strpos($link, '/wp-content/uploads') === false
+			) {
 				/* Check if the path starts with the language code,
 				* otherwise prepend it. */
 				$parsed = parse_url( $link );
