@@ -38,6 +38,16 @@ class Transifex_Live_Integration_Hreflang {
 	private $tokenized_url;
 	private $rewrite_options;
 
+	/*
+	 * URL option human readable name. Takes 3 possible values:
+	 * - 'subdirectory'
+	 * - 'subdomain'
+	 * - 'none'
+	 *
+	 * @var url_option_name string
+	 */
+	private $url_option_name;
+
 	/**
 	 * Public constructor, sets the settings
 	 * @param array $settings Associative array used to store plugin settings.
@@ -50,6 +60,13 @@ class Transifex_Live_Integration_Hreflang {
 		$this->tokenized_url = $settings['tokenized_url'];
 		$this->rewrite_options = $rewrite_options;
 		$this->hreflang_map = json_decode( $settings['hreflang_map'], true )[0];
+		if ( $settings['url_options'] == '2' ) {
+			$this->url_option_name = 'subdomain';
+		} else if ( $settings['url_options'] == '3' ) {
+			$this->url_option_name = 'subdirectory';
+		} else {  // Transifex_Live_Integration_Hreflang should not be used if url_options is set to none
+			$this->url_option_name = 'none';
+		}
 	}
 
 	public function check_rewrite_options() {
@@ -129,7 +146,11 @@ class Transifex_Live_Integration_Hreflang {
 		$disable_canonical_urls = isset($this->settings['canonical_urls']) ? $this->settings['canonical_urls'] : false;
 		$lang = get_query_var( 'lang' );
 		$url_path = add_query_arg( array(), $wp->request );
-		$source_url_path = (substr( $url_path, 0, strlen( $lang ) ) === $lang) ? substr( $url_path, strlen( $lang ), strlen( $url_path ) ) : $url_path;
+		if ( $this->url_option_name == 'subdomain' ) {
+			$source_url_path = (substr( $url_path, 0, strlen( $lang ) ) === $lang) ? substr( $url_path, strlen( $lang ), strlen( $url_path ) ) : $url_path;
+		} else if ( $this->url_option_name == 'subdirectory' ) {
+			$source_url_path = (substr( $url_path, 0, strlen( $lang ) + 1 ) === $lang .'/') ? substr( $url_path, strlen( $lang ) + 1, strlen( $url_path ) ) : $url_path;
+		}
 		$source = $this->settings['source_language'];
 		$site_url_slash_maybe = (new Transifex_Live_Integration_WP_Services($this->settings))->get_site_url();
 		$site_url = rtrim( $site_url_slash_maybe, '/' ) . '/';
