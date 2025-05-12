@@ -77,6 +77,7 @@ Ex. $updated_content = apply_filters('tx_link', $original_content);
 
 It is also recommended  to use [widgets](https://codex.wordpress.org/Widgets_API) in your theme instead of custom code, since this allows you to make your integration more future proof against incompatibilities with 3rd party modules.
 
+
 == Changelog ==
 = 1.3.47 =
 Fix render hreflang for subdirectories url option
