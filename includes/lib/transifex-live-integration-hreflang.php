@@ -149,7 +149,11 @@ class Transifex_Live_Integration_Hreflang {
 		if ( $this->url_option_name == 'subdomain' ) {
 			$source_url_path = (substr( $url_path, 0, strlen( $lang ) ) === $lang) ? substr( $url_path, strlen( $lang ), strlen( $url_path ) ) : $url_path;
 		} else if ( $this->url_option_name == 'subdirectory' ) {
-			$source_url_path = (substr( $url_path, 0, strlen( $lang ) + 1 ) === $lang .'/') ? substr( $url_path, strlen( $lang ) + 1, strlen( $url_path ) ) : $url_path;
+			if ($url_path == $lang) {
+				$source_url_path = (substr( $url_path, 0, strlen( $lang ) ) === $lang) ? substr( $url_path, strlen( $lang ), strlen( $url_path ) ) : $url_path;
+			} else {
+				$source_url_path = (substr( $url_path, 0, strlen( $lang ) + 1 ) === $lang .'/') ? substr( $url_path, strlen( $lang ) + 1, strlen( $url_path ) ) : $url_path;
+			}
 		}
 		$source = $this->settings['source_language'];
 		$site_url_slash_maybe = (new Transifex_Live_Integration_WP_Services($this->settings))->get_site_url();
