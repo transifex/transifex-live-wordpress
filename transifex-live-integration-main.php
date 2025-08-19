@@ -159,7 +159,6 @@ class Transifex_Live_Integration {
 				add_filter( 'comment_form_field_comment', [ $rewrite, 'add_redirect_to_comments_form_hook'], 10, 1);
 
 				// Add filters for custom post types
-				add_filter( 'post_type_link', [$rewrite, 'pre_post_link_hook'], 10, 3 );
 				add_filter( 'post_type_link', [$rewrite, 'post_link_hook'], 10, 3 );
 			}
 		}
