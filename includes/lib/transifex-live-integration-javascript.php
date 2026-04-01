@@ -89,7 +89,12 @@ class Transifex_Live_Integration_Javascript {
 			return false;
 		}
 
-		$lm = json_decode( $language_map, true )[0];
+        $decoded = json_decode( $language_map, true );
+        if ( !is_array( $decoded ) || !isset( $decoded[0] ) ) {
+          Plugin_Debug::logTrace( 'language_map is empty or invalid, defaulting to native lang detection' );
+          return false;
+        }
+        $lm = $decoded[0];
 		$lang = false;
 		if ( $query_var == $source_language ) {
 			$lang = $source_language;
