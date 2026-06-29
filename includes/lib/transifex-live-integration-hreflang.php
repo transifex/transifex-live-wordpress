@@ -55,11 +55,11 @@ class Transifex_Live_Integration_Hreflang {
 	public function __construct( $settings, $rewrite_options ) {
 		Plugin_Debug::logTrace();
 		$this->settings = $settings;
-		$this->language_map = json_decode( $settings['language_map'], true )[0];
+		$this->language_map = json_decode( $settings['language_map'], true )[0] ?? array();
 		$this->languages = json_decode( $settings['transifex_languages'], true );
 		$this->tokenized_url = $settings['tokenized_url'];
 		$this->rewrite_options = $rewrite_options;
-		$this->hreflang_map = json_decode( $settings['hreflang_map'], true )[0];
+		$this->hreflang_map = json_decode( $settings['hreflang_map'], true )[0] ?? array();
 		if ( $settings['url_options'] == '2' ) {
 			$this->url_option_name = 'subdomain';
 		} else if ( $settings['url_options'] == '3' ) {

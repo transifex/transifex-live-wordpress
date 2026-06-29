@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [7.2]
+        php: [8.1]
     continue-on-error: false
 
     services:
@@ -40,28 +40,29 @@ jobs:
     - name: Set up PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: 7.2
-        extensions: mbstring, xml, ctype, iconv, intl, mysql
+        php-version: 8.1
+        extensions: mbstring, xml, ctype, iconv, intl, mysql, curl
         ini-values: post_max_size=256M, short_open_tag=On
         tools: composer:v2
 
     - name: Install system packages
       run: |
         sudo apt-get update
-        sudo apt-get install -y apache2 libapache2-mod-fcgid nodejs php-fpm
+        sudo apt-get install -y apache2 libapache2-mod-fcgid nodejs php8.1-fpm
         sudo a2enmod rewrite actions fcgid alias proxy_fcgi setenvif
-        sudo a2enconf php7.2-fpm
+        sudo a2enconf php8.1-fpm
 
 
     - name: Composer Global Packages
       run: |
         composer self-update
-        COMPOSER_MEMORY_LIMIT=-1 composer global require "codeception/module-asserts"
-        COMPOSER_MEMORY_LIMIT=-1 composer global require "codeception/codeception"
+        COMPOSER_MEMORY_LIMIT=-1 composer global require "codeception/codeception:^4.2"
+        COMPOSER_MEMORY_LIMIT=-1 composer global require "behat/gherkin:~4.12.0"
+        COMPOSER_MEMORY_LIMIT=-1 composer global require "codeception/module-asserts:^2"
 
     - name: Configure PHP and Apache
       run: |
-        echo "cgi.fix_pathinfo = 1" | sudo tee -a /etc/php/7.2/fpm/php.ini
+        echo "cgi.fix_pathinfo = 1" | sudo tee -a /etc/php/8.1/fpm/php.ini
         # Apache configuration steps
         cd ..
         echo "$(curl -fsSL https://gist.github.com/matthewjackowski/b772ab278efb0e6f30ad/raw/travisci-apache)" | sed -e "s,%TRAVIS_BUILD_DIR%,`pwd`/wordpress,g" | sudo tee /etc/apache2/sites-available/default > /dev/null
@@ -70,7 +71,7 @@ jobs:
         echo "$(curl -fsSL https://gist.githubusercontent.com/matthewjackowski/3b26061241545564ae8d/raw/install-wp-tests.sh)" | sed -e "s@/home/travis/build/transifex/@/home/runner/work/transifex-live-wordpress/@g" |sudo tee ./install-wp-tests.sh > /dev/null
         bash ./install-wp-tests.sh test root '' 127.0.0.1 $WP_VERSION
         sudo service apache2 restart
-        sudo service php7.2-fpm restart
+        sudo service php8.1-fpm restart
 
 
     - name: Run tests

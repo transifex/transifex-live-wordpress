@@ -42,7 +42,7 @@ class Transifex_Live_Integration_Subdirectory {
 		$this->rewrite_options = [ ];
 		$this->languages_regex = $settings['languages_regex'];
 		$this->source_language = $settings['source_language'];
-		$this->languages_map = json_decode( $settings['language_map'], true )[0];
+		$this->languages_map = json_decode( $settings['language_map'], true )[0] ?? array();
 		$this->lang = false;
 		if ( isset( $rewrite_options['add_rewrites_post'] ) ) {
 			$this->rewrite_options[] = ($rewrite_options['add_rewrites_post']) ? 'post' : '';
@@ -256,7 +256,7 @@ class Transifex_Live_Integration_Subdirectory {
 				) {
 					$current_permalink = get_permalink($post->ID);
 					$parsed_url = parse_url($current_permalink);
-					$path = trim($parsed_url['path'], '/');
+					$path = isset($parsed_url['path']) ? trim($parsed_url['path'], '/') : '';
 					if ($post_type === 'post') {
 						$rules['%lang%/' . $path . '?$'] = 'index.php?lang=$matches[1]&name=' . $post->post_name;
 					} elseif ($post_type === 'page') {
