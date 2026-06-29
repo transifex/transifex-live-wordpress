@@ -42,7 +42,7 @@ class Transifex_Live_Integration_Subdirectory {
 		$this->rewrite_options = [ ];
 		$this->languages_regex = $settings['languages_regex'];
 		$this->source_language = $settings['source_language'];
-		$this->languages_map = json_decode( $settings['language_map'], true )[0];
+		$this->languages_map = json_decode( $settings['language_map'], true )[0] ?? array();
 		$this->lang = false;
 		if ( isset( $rewrite_options['add_rewrites_post'] ) ) {
 			$this->rewrite_options[] = ($rewrite_options['add_rewrites_post']) ? 'post' : '';
