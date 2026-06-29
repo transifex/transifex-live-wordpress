@@ -246,6 +246,7 @@ class Transifex_Live_Integration_Subdirectory {
 				$rules['%lang%/' . $has_archive_slug . '?$'] = 'index.php?post_type=' . $post_type . '&lang=$matches[1]';
 			}
 
+			//testtest
 			$posts = get_posts(array(
 				'post_type' => $post_type,
 				'numberposts' => -1
