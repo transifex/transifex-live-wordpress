@@ -246,24 +246,35 @@ class Transifex_Live_Integration_Subdirectory {
 				$rules['%lang%/' . $has_archive_slug . '?$'] = 'index.php?post_type=' . $post_type . '&lang=$matches[1]';
 			}
 
+			// Per-post rules are only produced for built-in post/page or for
+			// custom post types that declare a rewrite slug. For any other type
+			// the inner loop below would emit nothing, so skip the (potentially
+			// very large) post query entirely. This condition is constant for
+			// all posts of the type, so hoisting it here is equivalent to the
+			// previous per-post check.
+			if ( !( $slug || $post_type === 'post' || $post_type === 'page' ) ) {
+				continue;
+			}
+
 			$posts = get_posts(array(
 				'post_type' => $post_type,
-				'numberposts' => -1
+				'numberposts' => -1,
+				// We only need the ID, name and type to build the rules, so avoid
+				// priming the post meta and term caches for every post. This is
+				// the bulk of the memory cost when enumerating large catalogs.
+				'update_post_meta_cache' => false,
+				'update_post_term_cache' => false,
 			));
 			foreach ($posts as $post) {
-				if ($slug ||
-					($post->post_type == 'post' || $post->post_type == 'page')
-				) {
-					$current_permalink = get_permalink($post->ID);
-					$parsed_url = parse_url($current_permalink);
-					$path = trim($parsed_url['path'], '/');
-					if ($post_type === 'post') {
-						$rules['%lang%/' . $path . '?$'] = 'index.php?lang=$matches[1]&name=' . $post->post_name;
-					} elseif ($post_type === 'page') {
-						$rules['%lang%/' . $path . '?$'] = 'index.php?lang=$matches[1]&pagename=' . $post->post_name;
-					} else {
-						$rules['%lang%/' . $path . '?$'] = 'index.php?lang=$matches[1]&post_type=' . $post->post_type . '&p=' . $post->ID;
-					}
+				$current_permalink = get_permalink($post->ID);
+				$parsed_url = parse_url($current_permalink);
+				$path = isset($parsed_url['path']) ? trim($parsed_url['path'], '/') : '';
+				if ($post_type === 'post') {
+					$rules['%lang%/' . $path . '?$'] = 'index.php?lang=$matches[1]&name=' . $post->post_name;
+				} elseif ($post_type === 'page') {
+					$rules['%lang%/' . $path . '?$'] = 'index.php?lang=$matches[1]&pagename=' . $post->post_name;
+				} else {
+					$rules['%lang%/' . $path . '?$'] = 'index.php?lang=$matches[1]&post_type=' . $post->post_type . '&p=' . $post->ID;
 				}
 			}
         }
