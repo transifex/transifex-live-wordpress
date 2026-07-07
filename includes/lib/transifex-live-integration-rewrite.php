@@ -176,7 +176,7 @@ class Transifex_Live_Integration_Rewrite {
 		if ( count( $m ) > 1 ) {
 			$link = str_replace( $m[1], $lang, $m[0] );
 		} else {
-				$site_host = parse_url($this->wp_services->get_site_url())['host'] ?? '';
+			$site_host = parse_url($this->wp_services->get_site_url())['host'] ?? '';
 			$parsed_url = parse_url($link);
 			$link_host = isset($parsed_url['host']) ? $parsed_url['host'] : '';
 			// change only wordpress non-admin links - not links reffering to other domains

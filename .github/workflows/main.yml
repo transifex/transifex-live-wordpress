@@ -47,7 +47,10 @@ jobs:
 
     - name: Install system packages
       run: |
-        sudo apt-get update
+        # The ondrej/php PPA (added by setup-php) changed its repository
+        # "Label", which makes apt block the update until the change is
+        # acknowledged. --allow-releaseinfo-change accepts the new metadata.
+        sudo apt-get update --allow-releaseinfo-change
         sudo apt-get install -y apache2 libapache2-mod-fcgid nodejs php8.1-fpm
         sudo a2enmod rewrite actions fcgid alias proxy_fcgi setenvif
         sudo a2enconf php8.1-fpm
