@@ -125,7 +125,7 @@ class Transifex_Live_Integration_Javascript {
 			$case_map = '';
 			$subdomain_pattern = $this->subdomain_pattern;
 			$source_language = $this->source_language;
-			$language_map = json_decode( $this->language_map, true )[0];
+			$language_map = json_decode( $this->language_map, true )[0] ?? array();
 						$escaped_subdomain_pattern = str_replace('/','\/',$subdomain_pattern);
 			foreach ($language_map as $key => $value) {
 				$case_map .= "case '$value': return '$key'; break; ";
