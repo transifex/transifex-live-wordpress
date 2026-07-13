@@ -71,7 +71,7 @@ Ex. $updated_content = apply_filters('tx_link', $original_content);
 == Changelog ==
 
 = 1.3.52 =
-Fix permaling memory issue
+Fix Permalink settings memory issue
 
 = 1.3.51 =
 Fix PHP warning in PHP v8+ environments
