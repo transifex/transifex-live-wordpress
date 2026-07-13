@@ -79,6 +79,10 @@ It is also recommended  to use [widgets](https://codex.wordpress.org/Widgets_API
 
 
 == Changelog ==
+
+= 1.3.52 =
+Fix permaling memory issue
+
 = 1.3.51 =
 Fix PHP warning in PHP v8+ environments
 
