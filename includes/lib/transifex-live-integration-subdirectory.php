@@ -42,7 +42,7 @@ class Transifex_Live_Integration_Subdirectory {
 		$this->rewrite_options = [ ];
 		$this->languages_regex = $settings['languages_regex'];
 		$this->source_language = $settings['source_language'];
-		$this->languages_map = json_decode( $settings['language_map'], true )[0];
+		$this->languages_map = json_decode( $settings['language_map'], true )[0] ?? array();
 		$this->lang = false;
 		if ( isset( $rewrite_options['add_rewrites_post'] ) ) {
 			$this->rewrite_options[] = ($rewrite_options['add_rewrites_post']) ? 'post' : '';
@@ -246,24 +246,37 @@ class Transifex_Live_Integration_Subdirectory {
 				$rules['%lang%/' . $has_archive_slug . '?$'] = 'index.php?post_type=' . $post_type . '&lang=$matches[1]';
 			}
 
-			$posts = get_posts(array(
+			// Query only the post IDs, never the full WP_Post objects. The full
+			// objects carry post_content, which is the bulk of the memory cost
+			// when a post type has a large catalog of big posts. We only need
+			// the ID (for the permalink and the `p=` rule) and the slug; the
+			// type is already known from the outer loop.
+			$post_ids = get_posts(array(
 				'post_type' => $post_type,
-				'numberposts' => -1
+				'numberposts' => -1,
+				'fields' => 'ids',
+				'no_found_rows' => true,
+				'update_post_meta_cache' => false,
+				'update_post_term_cache' => false,
 			));
-			foreach ($posts as $post) {
-				if ($slug ||
-					($post->post_type == 'post' || $post->post_type == 'page')
-				) {
-					$current_permalink = get_permalink($post->ID);
+			foreach ($post_ids as $post_id) {
+				if ($slug || $post_type === 'post' || $post_type === 'page') {
+					$current_permalink = get_permalink($post_id);
 					$parsed_url = parse_url($current_permalink);
-					$path = trim($parsed_url['path'], '/');
+					$path = isset($parsed_url['path']) ? trim($parsed_url['path'], '/') : '';
 					if ($post_type === 'post') {
-						$rules['%lang%/' . $path . '?$'] = 'index.php?lang=$matches[1]&name=' . $post->post_name;
+						$rules['%lang%/' . $path . '?$'] = 'index.php?lang=$matches[1]&name=' . get_post_field('post_name', $post_id, 'raw');
 					} elseif ($post_type === 'page') {
-						$rules['%lang%/' . $path . '?$'] = 'index.php?lang=$matches[1]&pagename=' . $post->post_name;
+						$rules['%lang%/' . $path . '?$'] = 'index.php?lang=$matches[1]&pagename=' . get_post_field('post_name', $post_id, 'raw');
 					} else {
-						$rules['%lang%/' . $path . '?$'] = 'index.php?lang=$matches[1]&post_type=' . $post->post_type . '&p=' . $post->ID;
+						$rules['%lang%/' . $path . '?$'] = 'index.php?lang=$matches[1]&post_type=' . $post_type . '&p=' . $post_id;
 					}
+					// get_permalink()/get_post_field() load the full post into
+					// the object cache. Drop it once this post is processed so
+					// the cache does not grow to hold the entire catalog, which
+					// would otherwise reintroduce the OOM risk we avoid by
+					// querying only IDs.
+					clean_post_cache($post_id);
 				}
 			}
         }

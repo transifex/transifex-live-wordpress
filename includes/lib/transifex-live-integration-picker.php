@@ -55,7 +55,7 @@ class Transifex_Live_Integration_Picker {
 			$source_language, $is_subdirectory_install
 	) {
 		Plugin_Debug::logTrace();
-		$this->language_map = json_decode( $language_map, true )[0];
+		$this->language_map = json_decode( $language_map, true )[0] ?? array();
 		$this->tokenized_url = $tokenized_url;
 		$this->enable_picker = $enable_picker;
 		$this->source_language = $source_language;

@@ -209,7 +209,7 @@ class Transifex_Live_Integration_Admin {
 		Plugin_Debug::logTrace();
 
 		if ( isset( $settings['transifex_live_transifex_settings']['settings'] ) ) {
-			$p = json_decode( $settings['transifex_live_transifex_settings']['settings'], true )['production']['picker'];
+			$p = json_decode( $settings['transifex_live_transifex_settings']['settings'], true )['production']['picker'] ?? null;
 			$settings['transifex_live_settings']['enable_picker'] = ($p !== 'no-picker') ? true : false;
 		}
 

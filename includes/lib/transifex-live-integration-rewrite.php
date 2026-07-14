@@ -49,7 +49,7 @@ class Transifex_Live_Integration_Rewrite {
 		$this->rewrite_options = [ ];
 		$this->languages_regex = $settings['languages_regex'];
 		$this->source_language = $settings['source_language'];
-		$this->languages_map = json_decode( $settings['language_map'], true )[0];
+		$this->languages_map = json_decode( $settings['language_map'], true )[0] ?? array();
 		$this->lang = false; // need to wait before initting
 		if ( isset( $rewrite_options['add_rewrites_post'] ) ) {
 			$this->rewrite_options[] = ($rewrite_options['add_rewrites_post']) ? 'post' : '';
@@ -176,7 +176,7 @@ class Transifex_Live_Integration_Rewrite {
 		if ( count( $m ) > 1 ) {
 			$link = str_replace( $m[1], $lang, $m[0] );
 		} else {
-			$site_host = parse_url($this->wp_services->get_site_url())['host'];
+			$site_host = parse_url($this->wp_services->get_site_url())['host'] ?? '';
 			$parsed_url = parse_url($link);
 			$link_host = isset($parsed_url['host']) ? $parsed_url['host'] : '';
 			// change only wordpress non-admin links - not links reffering to other domains
@@ -186,8 +186,9 @@ class Transifex_Live_Integration_Rewrite {
 				/* Check if the path starts with the language code,
 				* otherwise prepend it. */
 				$parsed = parse_url( $link );
-				if ( substr($parsed['path'], 1, strlen($lang))  != $lang ) {
-					$parsed['path'] = '/' . $lang . $parsed['path'];
+				$current_path = $parsed['path'] ?? '';
+				if ( substr($current_path, 1, strlen($lang))  != $lang ) {
+					$parsed['path'] = '/' . $lang . $current_path;
 				}
 				$link = Transifex_Live_Integration_Util::unparse_url( $parsed );
 			}
