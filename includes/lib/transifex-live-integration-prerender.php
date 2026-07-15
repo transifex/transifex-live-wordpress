@@ -166,9 +166,11 @@ STATUS;
 		$lang = urlencode($_SERVER['HTTP_X_TRANSIFEX_LANG']);
 
 		$debug_html = '<!--' . "\n";
+		$debug_html .= 'HTTP_X_TRANSIFEX_LANG: ' . $lang . "\n";
 		$page_url = home_url( $wp->request );
 		if ( !empty($lang) ) {
 			$page_url = Transifex_Live_Integration_Util::replace_lang_subdomain($page_url, $lang);
+			header('X-Transifex-Lang: ' . $lang);
 		}
 		if (preg_match("/^.*\.(js|css|xml|less|png|jpg|jpeg|gif|pdf|doc|txt|ico|rss|zip|mp3|rar|exe|wmv|doc|avi|ppt|mpg|mpeg|tif|wav|mov|psd|ai|xls|mp4|m4a|swf|dat|dmg|iso|flv|m4v|torrent|ttf|woff|svg|eot)$/i", $page_url)) {
 			return $output;
