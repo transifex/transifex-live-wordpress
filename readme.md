@@ -70,6 +70,9 @@ Ex. $updated_content = apply_filters('tx_link', $original_content);
 
 == Changelog ==
 
+= 1.3.53 =
+Fix keys for picker settings retrieval
+
 = 1.3.52 =
 Fix Permalink settings memory issue
 
