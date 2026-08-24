@@ -4,7 +4,7 @@ Contributors: txmatthew, ThemeBoy, brooksx
 Tags: transifex, localize, localization, multilingual, international, SEO
 Requires at least: 3.5.2
 Tested up to: 6.9.1
-Stable tag: 1.3.52
+Stable tag: 1.3.53
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -79,6 +79,9 @@ It is also recommended  to use [widgets](https://codex.wordpress.org/Widgets_API
 
 
 == Changelog ==
+
+= 1.3.53 =
+Fix keys for picker settings retrieval
 
 = 1.3.52 =
 Fix Permalink settings memory issue/m
