@@ -64,6 +64,22 @@ class Transifex_Live_Integration_Admin_Util {
 	}
 
 	/**
+	 * Returns whether the picker library should be enabled, based on the picker
+	 * setting Transifex reports for the environment this site points at.
+	 * The settings payload carries a block per environment, so reading the
+	 * production block on a staging site reports the wrong picker.
+	 * @param string $transifex_settings JSON settings payload from Transifex
+	 * @param bool $enable_staging Whether the site points at the staging environment
+	 * @return bool Returns true unless the environment explicitly has no picker
+	 */
+	static function calc_enable_picker( $transifex_settings, $enable_staging ) {
+		Plugin_Debug::logTrace();
+		$env = ($enable_staging) ? 'staging' : 'production';
+		$picker = json_decode( $transifex_settings, true )[$env]['picker'] ?? null;
+		return ($picker !== 'no-picker');
+	}
+
+	/**
 	 * Renders subdirectory rewrite options
 	 * @param array $options Array of options...usually these will be loaded from defaults
 	 */
