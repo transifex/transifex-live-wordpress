@@ -271,7 +271,12 @@ class Transifex_Live_Integration_Admin {
 		}
 
 		if ( isset( $settings['transifex_live_options'] ) ) {
-			update_option( 'transifex_live_options', $settings['transifex_live_options'] );
+			update_option(
+				'transifex_live_options',
+				Transifex_Live_Integration_Admin_Util::normalize_rewrite_options(
+					$settings['transifex_live_options']
+				)
+			);
 		}
 
 		if ( isset( $settings['transifex_live_transifex_settings'] ) ) {

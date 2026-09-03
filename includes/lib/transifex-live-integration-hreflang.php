@@ -71,31 +71,34 @@ class Transifex_Live_Integration_Hreflang {
 
 	public function check_rewrite_options() {
 		Plugin_Debug::logTrace();
-		if ( isset( $this->rewrite_options['add_rewrites_post'] ) && is_single() ) {
+		// These test the value rather than the presence of the key: options are
+		// now stored for every rewrite type, so a disabled one is present with
+		// a falsy value instead of being missing.
+		if ( !empty( $this->rewrite_options['add_rewrites_post'] ) && is_single() ) {
 			return true;
 		}
-		if ( isset( $this->rewrite_options['add_rewrites_root'] ) && is_home() ) {
+		if ( !empty( $this->rewrite_options['add_rewrites_root'] ) && is_home() ) {
 			return true;
 		}
-		if ( isset( $this->rewrite_options['add_rewrites_date'] ) && is_archive() ) {
+		if ( !empty( $this->rewrite_options['add_rewrites_date'] ) && is_archive() ) {
 			return true;
 		}
-		if ( isset( $this->rewrite_options['add_rewrites_page'] ) && is_page() ) {
+		if ( !empty( $this->rewrite_options['add_rewrites_page'] ) && is_page() ) {
 			return true;
 		}
-		if ( isset( $this->rewrite_options['add_rewrites_author'] ) && is_author() ) {
+		if ( !empty( $this->rewrite_options['add_rewrites_author'] ) && is_author() ) {
 			return true;
 		}
-		if ( isset( $this->rewrite_options['add_rewrites_tag'] ) && is_tag() ) {
+		if ( !empty( $this->rewrite_options['add_rewrites_tag'] ) && is_tag() ) {
 			return true;
 		}
-		if ( isset( $this->rewrite_options['add_rewrites_category'] ) && is_category() ) {
+		if ( !empty( $this->rewrite_options['add_rewrites_category'] ) && is_category() ) {
 			return true;
 		}
-		if ( isset( $this->rewrite_options['add_rewrites_search'] ) && is_search() ) {
+		if ( !empty( $this->rewrite_options['add_rewrites_search'] ) && is_search() ) {
 			return true;
 		}
-		if ( isset( $this->rewrite_options['add_rewrites_feed'] ) && is_feed() ) {
+		if ( !empty( $this->rewrite_options['add_rewrites_feed'] ) && is_feed() ) {
 			return true;
 		}
 		return false;
