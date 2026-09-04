@@ -70,6 +70,11 @@ Ex. $updated_content = apply_filters('tx_link', $original_content);
 
 == Changelog ==
 
+= 1.3.54 =
+Fix URL options showing as enabled on the settings screen while switched off
+Localize custom menu item links
+Keep REST API urls out of the language prefix
+
 = 1.3.53 =
 Fix keys for picker settings retrieval
 
