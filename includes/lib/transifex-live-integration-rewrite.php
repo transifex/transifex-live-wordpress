@@ -144,6 +144,31 @@ class Transifex_Live_Integration_Rewrite {
 
 
 	/*
+	 * Checks whether a path addresses the WP REST API.
+	 *
+	 * WP builds REST urls out of home_url(), so they arrive at the link filters
+	 * like any other url, but no rewrite rule serves them under a language
+	 * prefix: a prefixed one misses the REST API and answers with a 404 page,
+	 * which breaks anything on the page that expects JSON.
+	 *
+	 * The prefix is looked for as a whole path segment, wherever it sits. It is
+	 * not always the first one: an install served from a subdirectory carries
+	 * the site path ahead of it, and permalinks holding index.php carry that.
+	 * Matching a whole segment rather than a bare substring still leaves a page
+	 * whose slug merely opens with the prefix to be localized as usual.
+	 * @param string $path The path component of the url
+	 * @return bool Returns true when the path addresses the REST API
+	 */
+	static function is_rest_route( $path ) {
+		$prefix = ( function_exists( 'rest_get_url_prefix' ) ) ? rest_get_url_prefix() : 'wp-json';
+		$segment = '/' . $prefix;
+		if ( false !== strpos( $path, $segment . '/' ) ) {
+			return true;
+		}
+		return ( substr( $path, -strlen( $segment ) ) === $segment );
+	}
+
+	/*
 	 * This function takes any WP link and associated language configuration and returns a localized url
 	 *
 	 * @param string $lang Current language
@@ -182,6 +207,7 @@ class Transifex_Live_Integration_Rewrite {
 			// change only wordpress non-admin links - not links reffering to other domains
 			if ( $link_host === $site_host && strpos($link, '/wp-admin') === false
 				&& strpos($link, '/wp-content/uploads') === false
+				&& !self::is_rest_route( $parsed_url['path'] ?? '' )
 			) {
 				/* Check if the path starts with the language code,
 				* otherwise prepend it. */
@@ -398,6 +424,28 @@ class Transifex_Live_Integration_Rewrite {
 			$string = str_replace($match, $retlink, $string);
 		}
 		return $string;
+	}
+
+	/*
+	 * WP wp_setup_nav_menu_item filter, localizes menu items that carry a URL
+	 * of their own.
+	 *
+	 * Menu items pointing at a post, page, term or archive take their URL from
+	 * the matching WP link function, so the filters above already localize
+	 * them. A custom link instead carries the URL typed into the menu editor,
+	 * which no link filter ever sees, leaving it in the source language.
+	 * @param object $menu_item The menu item object
+	 * @return object Returns the filtered menu item
+	 */
+	function nav_menu_item_hook( $menu_item ) {
+		if ( !isset( $menu_item->type ) || 'custom' !== $menu_item->type ) {
+			return $menu_item;
+		}
+		if ( !isset( $menu_item->url ) || !Transifex_Live_Integration_Validators::is_hard_link_ok( $menu_item->url ) ) {
+			return $menu_item;
+		}
+		$menu_item->url = $this->reverse_hard_link( $this->lang, $menu_item->url, $this->languages_map, $this->source_language, $this->rewrite_pattern );
+		return $menu_item;
 	}
 
 	/*

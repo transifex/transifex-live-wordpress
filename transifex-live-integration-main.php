@@ -31,11 +31,11 @@ class Transifex_Live_Integration {
 
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-static-factory.php';
 
-		$rewrite_options = get_option( 'transifex_live_options', array() );
-		if ( !$rewrite_options ) {
-
-			$rewrite_options = Transifex_Live_Integration_Defaults::options_values();
-		}
+		// Resolved rather than read raw, so every option carries a value here
+		// and the checks below can test it instead of the presence of its key.
+		$rewrite_options = Transifex_Live_Integration_Defaults::resolve_options_values(
+			get_option( 'transifex_live_options', false )
+		);
 
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/admin/transifex-live-integration-admin-util.php';
 		add_action( 'wp_before_admin_bar_render', [ 'Transifex_Live_Integration_Admin_Util', 'wp_before_admin_bar_render_hook' ] );
@@ -139,7 +139,7 @@ class Transifex_Live_Integration {
 				add_shortcode( 'detect_language', [$rewrite,'detect_language'] );
 				add_shortcode( 'is_language', [$rewrite,'is_language'] );
 			}
-			if ( isset( $rewrite_options['add_rewrites_reverse_template_links'] ) ) {
+			if ( !empty( $rewrite_options['add_rewrites_reverse_template_links'] ) ) {
 				Plugin_Debug::logTrace( 'adding reverse template links' );
 				add_action( 'wp', [ $rewrite, 'wp_hook' ] );
 				add_filter( 'pre_post_link', [$rewrite, 'pre_post_link_hook' ], 10, 3 );
@@ -160,6 +160,10 @@ class Transifex_Live_Integration {
 
 				// Add filters for custom post types
 				add_filter( 'post_type_link', [$rewrite, 'post_link_hook'], 10, 3 );
+
+				// Menu items holding their own URL are not covered by any of
+				// the link filters above
+				add_filter( 'wp_setup_nav_menu_item', [$rewrite, 'nav_menu_item_hook'], 10, 1 );
 			}
 		}
 		$subdirectory = Transifex_Live_Integration_Static_Factory::create_subdirectory( $settings, $rewrite_options );

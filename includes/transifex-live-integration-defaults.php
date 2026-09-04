@@ -32,6 +32,41 @@ class Transifex_Live_Integration_Defaults {
 	}
 
 	/**
+	 * Stores an explicit value for every known rewrite option.
+	 *
+	 * A browser leaves unticked checkboxes out of the submission, so a saved
+	 * payload names only the enabled options. Writing the missing ones as 0
+	 * keeps "switched off" tellable apart from "never saved".
+	 * @param array $options The rewrite options as posted by the form
+	 * @return array Every known rewrite option, as 1 or 0
+	 */
+	static function fill_options_values( $options ) {
+		$filled = [];
+		foreach (array_keys( self::options_values() ) as $key) {
+			$filled[$key] = ( !empty( $options[$key] ) ) ? 1 : 0;
+		}
+		return $filled;
+	}
+
+	/**
+	 * Reads the stored rewrite options into a value for every known option.
+	 *
+	 * Only a site that has never saved gets the defaults. Once a payload has
+	 * been stored, an option missing from it was unticked on the settings
+	 * screen, so it has to read as off: laying the defaults over a stored
+	 * payload would switch the options that default to on back on, and no
+	 * untick would ever stick.
+	 * @param mixed $stored_options The stored options, or empty when never saved
+	 * @return array Every known rewrite option, as 1 or 0
+	 */
+	static function resolve_options_values( $stored_options ) {
+		if ( empty( $stored_options ) || !is_array( $stored_options ) ) {
+			return self::options_values();
+		}
+		return self::fill_options_values( $stored_options );
+	}
+
+	/**
 	 * Returns default option text display for subdirectory rewrites
 	 * @param string $key The option key value stored to the database
 	 * @return string Returns the text string

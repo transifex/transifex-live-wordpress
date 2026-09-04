@@ -27,18 +27,19 @@ class Transifex_Live_Integration_Admin {
 	}
 
 	/**
-	 * Loads subdirectory options from db, merges with default if any are missing
+	 * Loads subdirectory options from db, defaulting only a site that has never
+	 * saved them.
+	 *
+	 * This has to resolve them the same way the front end does. Laying the
+	 * defaults over a stored payload rendered an unticked option as ticked,
+	 * leaving the screen disagreeing with the site's behaviour.
 	 * @return array List of all key->value settings
 	 */
 	static function load_rewrite_options() {
 		Plugin_Debug::logTrace();
-		$db_opt_settings = get_option( 'transifex_live_options', array() );
-		if ( !$db_opt_settings ) {
-
-			$opt_settings = Transifex_Live_Integration_Defaults::options_values();
-		}
-
-		return array_merge( Transifex_Live_Integration_Defaults::options_values(), $db_opt_settings );
+		return Transifex_Live_Integration_Defaults::resolve_options_values(
+			get_option( 'transifex_live_options', false )
+		);
 	}
 
 	/**
@@ -271,7 +272,12 @@ class Transifex_Live_Integration_Admin {
 		}
 
 		if ( isset( $settings['transifex_live_options'] ) ) {
-			update_option( 'transifex_live_options', $settings['transifex_live_options'] );
+			update_option(
+				'transifex_live_options',
+				Transifex_Live_Integration_Defaults::fill_options_values(
+					$settings['transifex_live_options']
+				)
+			);
 		}
 
 		if ( isset( $settings['transifex_live_transifex_settings'] ) ) {
