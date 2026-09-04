@@ -149,22 +149,23 @@ class Transifex_Live_Integration_Rewrite {
 	 * WP builds REST urls out of home_url(), so they arrive at the link filters
 	 * like any other url, but no rewrite rule serves them under a language
 	 * prefix: a prefixed one misses the REST API and answers with a 404 page,
-	 * which breaks anything on the page that expects JSON. Matched against the
-	 * start of the path, so a post whose slug opens with the prefix is left to
-	 * be localized as usual.
+	 * which breaks anything on the page that expects JSON.
+	 *
+	 * The prefix is looked for as a whole path segment, wherever it sits. It is
+	 * not always the first one: an install served from a subdirectory carries
+	 * the site path ahead of it, and permalinks holding index.php carry that.
+	 * Matching a whole segment rather than a bare substring still leaves a page
+	 * whose slug merely opens with the prefix to be localized as usual.
 	 * @param string $path The path component of the url
 	 * @return bool Returns true when the path addresses the REST API
 	 */
 	static function is_rest_route( $path ) {
 		$prefix = ( function_exists( 'rest_get_url_prefix' ) ) ? rest_get_url_prefix() : 'wp-json';
-		// The second form covers the "almost pretty" permalinks that carry
-		// index.php in the path.
-		foreach ( array( '/' . $prefix, '/index.php/' . $prefix ) as $rest_base ) {
-			if ( $path === $rest_base || 0 === strpos( $path, $rest_base . '/' ) ) {
-				return true;
-			}
+		$segment = '/' . $prefix;
+		if ( false !== strpos( $path, $segment . '/' ) ) {
+			return true;
 		}
-		return false;
+		return ( substr( $path, -strlen( $segment ) ) === $segment );
 	}
 
 	/*

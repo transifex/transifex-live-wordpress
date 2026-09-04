@@ -31,14 +31,10 @@ class Transifex_Live_Integration {
 
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/transifex-live-integration-static-factory.php';
 
-		// The settings screen only submits the boxes that are ticked, so a saved
-		// options array carries just the enabled keys. Merging the defaults on
-		// top of it keeps the front end in agreement with what the settings
-		// screen shows, which merges them as well. Without this, an option that
-		// defaults to on reads as off here the moment anything else is saved.
-		$rewrite_options = array_merge(
-			Transifex_Live_Integration_Defaults::options_values(),
-			get_option( 'transifex_live_options', array() )
+		// Resolved rather than read raw, so every option carries a value here
+		// and the checks below can test it instead of the presence of its key.
+		$rewrite_options = Transifex_Live_Integration_Defaults::resolve_options_values(
+			get_option( 'transifex_live_options', false )
 		);
 
 		include_once TRANSIFEX_LIVE_INTEGRATION_DIRECTORY_BASE . '/includes/admin/transifex-live-integration-admin-util.php';

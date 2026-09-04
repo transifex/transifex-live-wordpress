@@ -80,25 +80,6 @@ class Transifex_Live_Integration_Admin_Util {
 	}
 
 	/**
-	 * Stores an explicit value for every rewrite option.
-	 *
-	 * A browser omits unticked checkboxes from the submission, so saving the
-	 * raw payload leaves the disabled options missing from the stored array.
-	 * Code that reads them then cannot tell "switched off" apart from "never
-	 * saved", which silently disables the options that default to on.
-	 * @param array $submitted_options The rewrite options as posted by the form
-	 * @return array Every known rewrite option, as 1 or 0
-	 */
-	static function normalize_rewrite_options( $submitted_options ) {
-		Plugin_Debug::logTrace();
-		$normalized = array();
-		foreach (array_keys( Transifex_Live_Integration_Defaults::options_values() ) as $key) {
-			$normalized[$key] = ( !empty( $submitted_options[$key] ) ) ? 1 : 0;
-		}
-		return $normalized;
-	}
-
-	/**
 	 * Renders subdirectory rewrite options
 	 * @param array $options Array of options...usually these will be loaded from defaults
 	 */

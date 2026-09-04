@@ -81,7 +81,8 @@ It is also recommended  to use [widgets](https://codex.wordpress.org/Widgets_API
 == Changelog ==
 
 = 1.3.54 =
-Fix localized links being dropped from templates and custom menu items
+Fix URL options showing as enabled on the settings screen while switched off
+Localize custom menu item links
 Keep REST API urls out of the language prefix
 
 = 1.3.53 =

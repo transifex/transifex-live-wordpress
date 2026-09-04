@@ -22,6 +22,13 @@ class IsRestRouteTest extends BaseTestCase
         // Permalinks that carry index.php in the path
         '/index.php/wp-json',
         '/index.php/wp-json/wp/v2/posts',
+        // A site served from a subdirectory puts its path ahead of the prefix,
+        // so the prefix is not always the first segment.
+        '/cms/wp-json',
+        '/cms/wp-json/',
+        '/cms/wp-json/wp/v2/posts',
+        '/cms/index.php/wp-json/wp/v2/posts',
+        '/deep/er/path/wp-json/wp/v2/media',
         ];
 
         foreach ($rest_paths as $path) {
@@ -34,9 +41,9 @@ class IsRestRouteTest extends BaseTestCase
 
     public function testContentPathsAreLeftAlone()
     {
-        // A slug that opens with the prefix belongs to a page like any other, so
-        // the prefix has to match the start of the path rather than appear
-        // anywhere in it.
+        // A slug that merely opens with the prefix belongs to a page like any
+        // other, so the prefix has to match a whole path segment rather than
+        // turn up anywhere as a substring.
         $content_paths = [
         '',
         '/',
@@ -44,6 +51,8 @@ class IsRestRouteTest extends BaseTestCase
         '/blog/wp-json-guide/',
         '/wp-jsonp/',
         '/de/wp-json-explained/',
+        '/cms/wp-jsonp/',
+        '/news/wp-json2/',
         ];
 
         foreach ($content_paths as $path) {
