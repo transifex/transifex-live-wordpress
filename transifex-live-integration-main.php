@@ -164,6 +164,12 @@ class Transifex_Live_Integration {
 				// Menu items holding their own URL are not covered by any of
 				// the link filters above
 				add_filter( 'wp_setup_nav_menu_item', [$rewrite, 'nav_menu_item_hook'], 10, 1 );
+				// Setup can run (and be cached) before the request language is
+				// known; this rewrites the href at the point it is printed.
+				add_filter( 'nav_menu_link_attributes', [$rewrite, 'nav_menu_link_attributes_hook'], 10, 1 );
+				// Block markup (buttons, navigation, etc.) is not passed through
+				// the_content on block themes, so run the same href rewrite there.
+				add_filter( 'render_block', [$rewrite, 'the_content_hook'], 10, 1 );
 			}
 		}
 		$subdirectory = Transifex_Live_Integration_Static_Factory::create_subdirectory( $settings, $rewrite_options );

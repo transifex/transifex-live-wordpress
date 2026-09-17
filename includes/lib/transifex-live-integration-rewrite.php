@@ -139,9 +139,128 @@ class Transifex_Live_Integration_Rewrite {
 
 	function wp_hook() {
 		Plugin_Debug::logTrace();
-		$this->lang = get_query_var( 'lang' );
+		$this->lang = $this->resolve_current_language();
 	}
 
+	/*
+	 * Resolves the language of the current request.
+	 *
+	 * @return string|false The URL language code, or false when it cannot be told
+	 */
+	function resolve_current_language() {
+		if ( !empty( $this->lang ) && $this->lang !== $this->source_language ) {
+			return $this->lang;
+		}
+		$query_lang = '';
+		if ( function_exists( 'get_query_var' ) ) {
+			$query_lang = get_query_var( 'lang' );
+		}
+		if ( !empty( $query_lang ) && $query_lang !== $this->source_language ) {
+			$this->lang = $query_lang;
+			return $this->lang;
+		}
+		$from_request = self::detect_lang_from_path(
+			$_SERVER['REQUEST_URI'] ?? '',
+			array_values( $this->languages_map ?: array() ),
+			parse_url( $this->wp_services->get_site_url(), PHP_URL_PATH ) ?? ''
+		);
+		if ( !empty( $from_request ) ) {
+			$this->lang = $from_request;
+			return $this->lang;
+		}
+		if ( !empty( $query_lang ) ) {
+			$this->lang = $query_lang;
+			return $this->lang;
+		}
+		return $this->lang;
+	}
+
+	/*
+	 * Reads a language code off the first path segment of a request URI.
+	 *
+	 * @param string $request_uri The request URI, including query string
+	 * @param array $language_codes URL language codes (values of the language map)
+	 * @param string $site_path Path prefix of the site url, if any
+	 * @return string The matching language code, or an empty string
+	 */
+	static function detect_lang_from_path( $request_uri, $language_codes, $site_path = '' ) {
+		$path = parse_url( $request_uri, PHP_URL_PATH );
+		if ( empty( $path ) || empty( $language_codes ) ) {
+			return '';
+		}
+		$site_path = rtrim( (string) $site_path, '/' );
+		if ( $site_path !== '' && ( $path === $site_path || strpos( $path, $site_path . '/' ) === 0 ) ) {
+			$path = substr( $path, strlen( $site_path ) );
+			if ( $path === '' ) {
+				$path = '/';
+			}
+		}
+		$segments = explode( '/', trim( $path, '/' ) );
+		$first = $segments[0] ?? '';
+		if ( $first !== '' && in_array( $first, $language_codes, true ) ) {
+			return $first;
+		}
+		return '';
+	}
+
+	/*
+	 * Whether two hosts refer to the same site.
+	 *
+	 * @param string $host_a A hostname
+	 * @param string $host_b Another hostname
+	 * @return bool Returns true when the hosts should be treated as the same site
+	 */
+	static function hosts_match( $host_a, $host_b ) {
+		if ( $host_a === '' || $host_b === '' ) {
+			return false;
+		}
+		return self::normalize_host( $host_a ) === self::normalize_host( $host_b );
+	}
+
+	/*
+	 * Strips a leading www. so host comparisons are not sensitive to it.
+	 * 
+	 * @param string $host A hostname
+	 * @return string The normalized hostname
+	 */
+	static function normalize_host( $host ) {
+		$host = strtolower( (string) $host );
+		if ( strpos( $host, 'www.' ) === 0 ) {
+			$host = substr( $host, 4 );
+		}
+		return $host;
+	}
+
+	/*
+	 * Inserts a language code as a path segment, after any site subdirectory.
+	 *
+	 * @param string $path The URL path
+	 * @param string $lang The URL language code
+	 * @param string $site_path Path prefix of the site url, if any
+	 * @return string The path with the language segment inserted
+	 */
+	static function prepend_lang_to_path( $path, $lang, $site_path = '' ) {
+		if ( $path === '' || $path === null ) {
+			$path = '/';
+		}
+		$site_path = rtrim( (string) $site_path, '/' );
+		$prefix = '';
+		$rest = $path;
+		if ( $site_path !== '' && ( $path === $site_path || strpos( $path, $site_path . '/' ) === 0 ) ) {
+			$prefix = $site_path;
+			$rest = substr( $path, strlen( $site_path ) );
+			if ( $rest === '' ) {
+				$rest = '/';
+			}
+		}
+		if ( $rest === '/' . $lang || strpos( $rest, '/' . $lang . '/' ) === 0 ) {
+			return $path;
+		}
+		if ( isset( $rest[0] ) && $rest[0] !== '/' ) {
+			$rest = '/' . $rest;
+		}
+		return $prefix . '/' . $lang . $rest;
+	}
 
 	/*
 	 * Checks whether a path addresses the WP REST API.
@@ -190,6 +309,9 @@ class Transifex_Live_Integration_Rewrite {
 			}
 		}
 
+		if ( empty( $lang ) ) {
+			$lang = $this->resolve_current_language();
+		}
 		if ( empty( $lang ) || empty( $languages_map ) ) {
 			return $link;
 		}
@@ -201,22 +323,26 @@ class Transifex_Live_Integration_Rewrite {
 		if ( count( $m ) > 1 ) {
 			$link = str_replace( $m[1], $lang, $m[0] );
 		} else {
-			$site_host = parse_url($this->wp_services->get_site_url())['host'] ?? '';
+			$site_url = $this->wp_services->get_site_url();
+			$site_host = parse_url($site_url)['host'] ?? '';
+			$site_path = parse_url($site_url, PHP_URL_PATH) ?? '';
 			$parsed_url = parse_url($link);
 			$link_host = isset($parsed_url['host']) ? $parsed_url['host'] : '';
+			$current_path = $parsed_url['path'] ?? '';
+			$scheme = isset($parsed_url['scheme']) ? strtolower($parsed_url['scheme']) : '';
+			if ( $scheme !== '' && $scheme !== 'http' && $scheme !== 'https' ) {
+				return $link;
+			}
+			// Same-site absolute links, and root-relative ones with no host.
+			$is_same_site = ( $link_host === '' && $current_path !== '' )
+				|| self::hosts_match( $link_host, $site_host );
 			// change only wordpress non-admin links - not links reffering to other domains
-			if ( $link_host === $site_host && strpos($link, '/wp-admin') === false
+			if ( $is_same_site && strpos($link, '/wp-admin') === false
 				&& strpos($link, '/wp-content/uploads') === false
-				&& !self::is_rest_route( $parsed_url['path'] ?? '' )
+				&& !self::is_rest_route( $current_path )
 			) {
-				/* Check if the path starts with the language code,
-				* otherwise prepend it. */
-				$parsed = parse_url( $link );
-				$current_path = $parsed['path'] ?? '';
-				if ( substr($current_path, 1, strlen($lang))  != $lang ) {
-					$parsed['path'] = '/' . $lang . $current_path;
-				}
-				$link = Transifex_Live_Integration_Util::unparse_url( $parsed );
+				$parsed_url['path'] = self::prepend_lang_to_path( $current_path, $lang, $site_path );
+				$link = Transifex_Live_Integration_Util::unparse_url( $parsed_url );
 			}
 		}
 		return $link;
@@ -234,7 +360,7 @@ class Transifex_Live_Integration_Rewrite {
 		if ( !Transifex_Live_Integration_Validators::is_permalink_ok( $permalink ) ) {
 			return $permalink;
 		}
-		$lang = $this->lang;
+		$lang = $this->resolve_current_language();
 		$p = $permalink;
 		if ( $lang ) {
 			$p = ($this->source_language !== $lang) ? $lang . $permalink : $permalink;
@@ -390,6 +516,7 @@ class Transifex_Live_Integration_Rewrite {
 		// remove early and add late this filter to avoid recursion when calculating home urls
 		remove_filter('home_url', array($this, 'home_url_hook'));
 		$link = $url;
+		$this->resolve_current_language();
 
 		// Appending suffix `/` to home url to pass `is_hard_link_ok()` check and rewrite it.
 		if ($this->lang && $this->lang !== $this->source_language) {
@@ -446,6 +573,20 @@ class Transifex_Live_Integration_Rewrite {
 		}
 		$menu_item->url = $this->reverse_hard_link( $this->lang, $menu_item->url, $this->languages_map, $this->source_language, $this->rewrite_pattern );
 		return $menu_item;
+	}
+
+	/*
+	 * WP nav_menu_link_attributes filter, localizes the href at render time.
+	 *
+	 * @param array $atts The HTML attributes of the menu link
+	 * @return array Returns the filtered attributes
+	 */
+	function nav_menu_link_attributes_hook( $atts ) {
+		if ( empty( $atts['href'] ) || !Transifex_Live_Integration_Validators::is_hard_link_ok( $atts['href'] ) ) {
+			return $atts;
+		}
+		$atts['href'] = $this->reverse_hard_link( $this->lang, $atts['href'], $this->languages_map, $this->source_language, $this->rewrite_pattern );
+		return $atts;
 	}
 
 	/*
