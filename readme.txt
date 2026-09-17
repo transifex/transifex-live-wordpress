@@ -4,7 +4,7 @@ Contributors: txmatthew, ThemeBoy, brooksx
 Tags: transifex, localize, localization, multilingual, international, SEO
 Requires at least: 3.5.2
 Tested up to: 6.9.1
-Stable tag: 1.3.54
+Stable tag: 1.3.55
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -79,6 +79,10 @@ It is also recommended  to use [widgets](https://codex.wordpress.org/Widgets_API
 
 
 == Changelog ==
+
+= 1.3.55 =
+Keep language prefixes on template, menu, and block links after switching language
+Localize links in shortcode output, including page builder headers, footers and popups rendered outside the post content
 
 = 1.3.54 =
 Fix URL options showing as enabled on the settings screen while switched off

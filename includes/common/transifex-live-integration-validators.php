@@ -20,6 +20,11 @@ class Transifex_Live_Integration_Validators {
 			Plugin_Debug::logTrace( 'failed validator' );
 			return false;
 		}
+		// Root-relative paths are same-site links; they just never contain a scheme.
+		$is_root_relative = ( isset( $link[0] ) && $link[0] === '/' && !( isset( $link[1] ) && $link[1] === '/' ) );
+		if ( $is_root_relative ) {
+			return true;
+		}
 		if ( false === stripos( $link, 'http' ) ) {
 			Plugin_Debug::logTrace( 'failed validator contains http' );
 			return false;

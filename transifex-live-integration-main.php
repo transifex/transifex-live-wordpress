@@ -141,6 +141,9 @@ class Transifex_Live_Integration {
 			}
 			if ( !empty( $rewrite_options['add_rewrites_reverse_template_links'] ) ) {
 				Plugin_Debug::logTrace( 'adding reverse template links' );
+				// Takes the language once the request is routed, ahead of 'wp',
+				// and never before WP has read home_url() to parse the request
+				add_action( 'parse_request', [ $rewrite, 'parse_request_hook' ] );
 				add_action( 'wp', [ $rewrite, 'wp_hook' ] );
 				add_filter( 'pre_post_link', [$rewrite, 'pre_post_link_hook' ], 10, 3 );
 				add_filter( 'term_link', [$rewrite, 'term_link_hook' ], 10, 3 );
@@ -164,6 +167,15 @@ class Transifex_Live_Integration {
 				// Menu items holding their own URL are not covered by any of
 				// the link filters above
 				add_filter( 'wp_setup_nav_menu_item', [$rewrite, 'nav_menu_item_hook'], 10, 1 );
+				// Setup can run (and be cached) before the request language is
+				// known; this rewrites the href at the point it is printed.
+				add_filter( 'nav_menu_link_attributes', [$rewrite, 'nav_menu_link_attributes_hook'], 10, 1 );
+				// Block markup (buttons, navigation, etc.) is not passed through
+				// the_content on block themes, so run the same href rewrite there.
+				add_filter( 'render_block', [$rewrite, 'render_block_hook'], 10, 2 );
+				// Page builder layouts (Divi Theme Builder headers and footers,
+				// popups) are rendered as shortcodes outside the_content.
+				add_filter( 'do_shortcode_tag', [$rewrite, 'do_shortcode_tag_hook'], 10, 2 );
 			}
 		}
 		$subdirectory = Transifex_Live_Integration_Static_Factory::create_subdirectory( $settings, $rewrite_options );
