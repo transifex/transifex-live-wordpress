@@ -131,10 +131,128 @@ class Transifex_Live_Integration_Hreflang {
         		$arr['href'] = $url_map[$language];
 			}
 			$arr['hreflang'] = $hreflang_map[$language];
+			// the code the lang query var holds for this language
+			$arr['code'] = $language_map[$language] ?? $language;
       		$arr['is_source'] = ($language === $source);
 			array_push( $ret, $arr );
 		}
 		return $ret;
+	}
+
+	/*
+	 * Checks whether the canonical URLs setting has been switched off
+	 * @return bool Returns true when no canonical must be rendered or changed
+	 */
+	public function canonical_urls_disabled() {
+		return !empty( $this->settings['canonical_urls'] );
+	}
+
+	/*
+	 * Checks whether an SEO plugin prints the canonical tag itself.
+	 *
+	 * Two canonical tags that disagree are ignored or misread by search
+	 * engines, so when one of these is active its canonical is localized
+	 * through seo_canonical_hook() instead of printing a second one.
+	 * @return bool Returns true when Yoast SEO or Rank Math is active
+	 */
+	static function seo_plugin_prints_canonical() {
+		return defined( 'WPSEO_VERSION' ) || defined( 'RANK_MATH_VERSION' );
+	}
+
+	/*
+	 * Finds the url of the translation for a language.
+	 *
+	 * @param string $lang The current language code
+	 * @param array $hreflangs The entries built by generate_languages_hreflang()
+	 * @return string|null The translated url, or null for the source language
+	 */
+	static function translated_url( $lang, $hreflangs ) {
+		if ( empty( $lang ) ) {
+			return null;
+		}
+		foreach ($hreflangs as $hreflang) {
+			if ( empty( $hreflang['is_source'] ) && isset( $hreflang['code'] ) && $hreflang['code'] === $lang ) {
+				return $hreflang['href'];
+			}
+		}
+		return null;
+	}
+
+	/*
+	 * The canonical url of the current page: its own url in the current language.
+	 *
+	 * @param string $lang The current language code
+	 * @param string $source_url The url of the page in the source language
+	 * @param array $hreflangs The entries built by generate_languages_hreflang()
+	 * @return string The canonical url
+	 */
+	static function canonical_url( $lang, $source_url, $hreflangs ) {
+		$translated = self::translated_url( $lang, $hreflangs );
+		return ( $translated !== null ) ? $translated : $source_url;
+	}
+
+	/*
+	 * Points a canonical printed by another plugin at the current translation.
+	 *
+	 * SEO plugins build the canonical from their own stored permalink, which
+	 * is the source language url, so on a translated page it declares the
+	 * source page canonical. Only a canonical that addresses the current
+	 * page is changed: one set by hand to another page is left as it is.
+	 * @param string $canonical The canonical url printed by the other plugin
+	 * @param string $lang The current language code
+	 * @param string $source_url The url of the page in the source language
+	 * @param array $hreflangs The entries built by generate_languages_hreflang()
+	 * @return string The canonical url to print
+	 */
+	static function localize_canonical( $canonical, $lang, $source_url, $hreflangs ) {
+		$translated = self::translated_url( $lang, $hreflangs );
+		if ( $translated === null ) {
+			return $canonical;
+		}
+		$key = self::url_key( $canonical );
+		if ( $key === self::url_key( $source_url ) || $key === self::url_key( $translated ) ) {
+			return $translated;
+		}
+		return $canonical;
+	}
+
+	/*
+	 * Reduces a url to what identifies the page, for comparing urls
+	 * that differ only in scheme, a leading www. or a trailing slash.
+	 * @param string $url A url
+	 * @return string The comparable form of the url
+	 */
+	static function url_key( $url ) {
+		$parts = parse_url( (string) $url );
+		if ( $parts === false ) {
+			return (string) $url;
+		}
+		$host = strtolower( $parts['host'] ?? '' );
+		if ( strpos( $host, 'www.' ) === 0 ) {
+			$host = substr( $host, 4 );
+		}
+		$key = $host . rtrim( $parts['path'] ?? '', '/' );
+		if ( isset( $parts['query'] ) ) {
+			$key .= '?' . $parts['query'];
+		}
+		return $key;
+	}
+
+	/*
+	 * WP wpseo_canonical and rank_math/frontend/canonical filters,
+	 * localizes the canonical the SEO plugin prints.
+	 * @param string $canonical The canonical url
+	 * @return string The filtered canonical url
+	 */
+	public function seo_canonical_hook( $canonical ) {
+		if ( !is_string( $canonical ) || $canonical === '' ) {
+			return $canonical;
+		}
+		$urls = $this->current_page_urls();
+		if ( !$urls ) {
+			return $canonical;
+		}
+		return self::localize_canonical( $canonical, $urls['lang'], $urls['source_url'], $urls['hreflangs'] );
 	}
 
 	/**
@@ -142,11 +260,53 @@ class Transifex_Live_Integration_Hreflang {
 	 */
 	public function render_hreflang() {
 		Plugin_Debug::logTrace();
+		$urls = $this->current_page_urls();
+		if ( !$urls ) {
+			return false;
+		}
+		$source_url = $urls['source_url'];
+		$source_hreflang = $urls['source_hreflang'];
+		$hreflang_out = <<<SOURCE
+<link rel="alternate" href="$source_url" hreflang="$source_hreflang"/>\n
+SOURCE;
+		foreach ($urls['hreflangs'] as $hreflang) {
+			if ( $hreflang['is_source'] ) {
+				continue;
+			}
+			$href_attr = $hreflang['href'];
+			$hreflang_attr = $hreflang['hreflang'];
+			$hreflang_out .= <<<HREFLANG
+<link rel="alternate" href="$href_attr" hreflang="$hreflang_attr"/>\n
+HREFLANG;
+		}
+		$hreflang_out .= <<<XDEFAULT
+<link rel="alternate" href="$source_url" hreflang="x-default"/>\n
+XDEFAULT;
+		if ( !$this->canonical_urls_disabled() && !self::seo_plugin_prints_canonical() ) {
+			$canonical_url = self::canonical_url( $urls['lang'], $source_url, $urls['hreflangs'] );
+			// WP prints its own canonical on single posts and pages later in
+			// wp_head; this one replaces it for every page type.
+			remove_action( 'wp_head', 'rel_canonical' );
+			$hreflang_out .= <<<CANONICAL
+<link rel="canonical" href="$canonical_url"/>\n
+CANONICAL;
+		}
+		echo $hreflang_out;
+		return true;
+	}
+
+	/*
+	 * Works out the current page's url in each language.
+	 *
+	 * @return array|false The current language, the source url and hreflang,
+	 *   and the entries for every language, or false when the page type is
+	 *   not localized
+	 */
+	private function current_page_urls() {
 		if ( !($this->check_rewrite_options()) ) {
 			return false;
 		}
 		global $wp;
-		$disable_canonical_urls = isset($this->settings['canonical_urls']) ? $this->settings['canonical_urls'] : false;
 		$lang = get_query_var( 'lang' );
 		$url_path = add_query_arg( array(), $wp->request );
 		if ( $this->url_option_name == 'subdomain' ) {
@@ -164,50 +324,25 @@ class Transifex_Live_Integration_Hreflang {
 		$source_url_path = ltrim( $source_url_path, '/' );
 		$unslashed_source_url = $site_url . $source_url_path;
 		$source_url = rtrim( $unslashed_source_url, '/' ) . '/';
-		$hreflang_out = '';
 		$hreflangs = $this->generate_languages_hreflang( $source_url_path, $this->languages, $this->language_map, $this->hreflang_map  );
-    $source_hreflang = '';
-
-    foreach ($hreflangs as $index => $hreflang) {
-        if ($hreflang['is_source']) {
-            $source_hreflang = $hreflang['hreflang'];
-            unset($hreflangs[$index]);
-            break;
-        }
-    }
-    // If source_hreflang is not found,
-    // use the source language as default
-    if (empty($source_hreflang)) {
-        $source_hreflang = $source;
-    }
-		$hreflang_out .= <<<SOURCE
-<link rel="alternate" href="$source_url" hreflang="$source_hreflang"/>\n
-SOURCE;
+		$source_hreflang = '';
 		foreach ($hreflangs as $hreflang) {
-			$href_attr = $hreflang['href'];
-			$hreflang_attr = $hreflang['hreflang'];
-			$hreflang_out .= <<<HREFLANG
-<link rel="alternate" href="$href_attr" hreflang="$hreflang_attr"/>\n
-HREFLANG;
+			if ( $hreflang['is_source'] ) {
+				$source_hreflang = $hreflang['hreflang'];
+				break;
+			}
 		}
-      $hreflang_out .= <<<XDEFAULT
-<link rel="alternate" href="$source_url" hreflang="x-default"/>\n
-XDEFAULT;
-    if (!$disable_canonical_urls) {
-      $canonical_url = home_url('/');
-      foreach ($hreflangs as $hreflang) {
-          if (!empty($url_path) && strpos($hreflang['href'], $url_path) !== false) {
-            $canonical_url = $hreflang['href'];
-            break;
-          } else {}
-      }
-
-      $hreflang_out .= <<<CANONICAL
-  <link rel="canonical" href="$canonical_url"/>\n
-  CANONICAL;
-    }
-		echo $hreflang_out;
-		return true;
+		// If source_hreflang is not found,
+		// use the source language as default
+		if ( empty( $source_hreflang ) ) {
+			$source_hreflang = $source;
+		}
+		return array(
+			'lang' => $lang,
+			'source_url' => $source_url,
+			'source_hreflang' => $source_hreflang,
+			'hreflangs' => $hreflangs,
+		);
 	}
 }
 

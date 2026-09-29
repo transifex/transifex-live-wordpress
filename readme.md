@@ -70,6 +70,10 @@ Ex. $updated_content = apply_filters('tx_link', $original_content);
 
 == Changelog ==
 
+= 1.3.55 =
+Fix translated pages being declared canonical for source language pages
+Print a single canonical tag, localizing the one from Yoast SEO or Rank Math instead of adding a second one
+
 = 1.3.54 =
 Fix URL options showing as enabled on the settings screen while switched off
 Localize custom menu item links
