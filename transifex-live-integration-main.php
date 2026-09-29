@@ -115,6 +115,12 @@ class Transifex_Live_Integration {
 			($hreflang) ? Plugin_Debug::logTrace( 'adding hreflang' ) : Plugin_Debug::logTrace( 'skipping hreflang' );
 			if ( $hreflang ) {
 				add_action( 'wp_head', [ $hreflang, 'render_hreflang' ], 1 );
+				if ( !$hreflang->canonical_urls_disabled() ) {
+					// SEO plugins print the canonical themselves, pointing at the
+					// source language page; these localize it instead.
+					add_filter( 'wpseo_canonical', [ $hreflang, 'seo_canonical_hook' ] );
+					add_filter( 'rank_math/frontend/canonical', [ $hreflang, 'seo_canonical_hook' ] );
+				}
 			}
 
 			$picker = Transifex_Live_Integration_Static_Factory::create_picker( $settings );

@@ -4,7 +4,7 @@ Contributors: txmatthew, ThemeBoy, brooksx
 Tags: transifex, localize, localization, multilingual, international, SEO
 Requires at least: 3.5.2
 Tested up to: 6.9.1
-Stable tag: 1.3.54
+Stable tag: 1.3.55
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -79,6 +79,10 @@ It is also recommended  to use [widgets](https://codex.wordpress.org/Widgets_API
 
 
 == Changelog ==
+
+= 1.3.55 =
+Fix translated pages being declared canonical for source language pages
+Print a single canonical tag, localizing the one from Yoast SEO or Rank Math instead of adding a second one
 
 = 1.3.54 =
 Fix URL options showing as enabled on the settings screen while switched off
