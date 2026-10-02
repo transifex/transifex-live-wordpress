@@ -8,6 +8,7 @@ class ReverseHardLinkTest extends BaseTestCase {
 
 	function setUp(): void {
 		include_once './includes/common/plugin-debug.php';
+		include_once './includes/transifex-live-integration-util.php';
 		include_once './includes/lib/transifex-live-integration-rewrite.php';
 		include_once './includes/lib/transifex-live-integration-wp-services.php';
 
@@ -118,6 +119,60 @@ class ReverseHardLinkTest extends BaseTestCase {
 				'souce_lang' => 'en',
 				'pattern' => '/http:\/\/www.mydomain.com\/(cn|de)\//',
 				'result' => 'http://www.another.com/page-markup-and-formatting-de'
+			],
+			[ //13 www vs bare host still localizes
+				'host' => 'http://www.mydomain.com',
+				'lang' => 'de',
+				'link' => 'http://mydomain.com/about',
+				'languages_map' => ["de_DE" => "de" ],
+				'souce_lang' => 'en',
+				'pattern' => '/http:\/\/www.mydomain.com\/(de)\//',
+				'result' => 'http://mydomain.com/de/about'
+			],
+			[ //14 root-relative path
+				'host' => 'http://www.mydomain.com',
+				'lang' => 'de',
+				'link' => '/about/',
+				'languages_map' => ["de_DE" => "de" ],
+				'souce_lang' => 'en',
+				'pattern' => '/http:\/\/www.mydomain.com\/(de)\//',
+				'result' => '/de/about/'
+			],
+			[ //15 slug that merely opens with the language code still gets a prefix
+				'host' => 'http://www.mydomain.com',
+				'lang' => 'de',
+				'link' => 'http://www.mydomain.com/design',
+				'languages_map' => ["de_DE" => "de" ],
+				'souce_lang' => 'en',
+				'pattern' => '/http:\/\/www.mydomain.com\/(de)\//',
+				'result' => 'http://www.mydomain.com/de/design'
+			],
+			[ //16 already prefixed path is left alone
+				'host' => 'http://www.mydomain.com',
+				'lang' => 'de',
+				'link' => 'http://www.mydomain.com/de/about',
+				'languages_map' => ["de_DE" => "de" ],
+				'souce_lang' => 'en',
+				'pattern' => '#http://www.mydomain.com/%LANG%/.*#',
+				'result' => 'http://www.mydomain.com/de/about'
+			],
+			[ //17 language sits after a site subdirectory
+				'host' => 'http://www.mydomain.com/cms',
+				'lang' => 'de',
+				'link' => 'http://www.mydomain.com/cms/about',
+				'languages_map' => ["de_DE" => "de" ],
+				'souce_lang' => 'en',
+				'pattern' => '/http:\/\/www.mydomain.com\/cms\/(de)\//',
+				'result' => 'http://www.mydomain.com/cms/de/about'
+			],
+			[ //18 mailto is left alone
+				'host' => 'http://www.mydomain.com',
+				'lang' => 'de',
+				'link' => 'mailto:hello@mydomain.com',
+				'languages_map' => ["de_DE" => "de" ],
+				'souce_lang' => 'en',
+				'pattern' => '/http:\/\/www.mydomain.com\/(de)\//',
+				'result' => 'mailto:hello@mydomain.com'
 			]
 		];
 	}
