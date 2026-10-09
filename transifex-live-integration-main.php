@@ -193,6 +193,7 @@ class Transifex_Live_Integration {
 				switch ($option) {
 					case 'post';
 						add_filter( 'post_rewrite_rules', [ $subdirectory, 'post_rewrite_rules_hook' ] );
+						add_filter( 'rewrite_rules_array', [ $subdirectory, 'rewrite_rules_array_hook' ] );
 						break;
 					case 'date';
 						add_filter( 'date_rewrite_rules', [ $subdirectory, 'date_rewrite_rules_hook' ] );
