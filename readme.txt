@@ -83,6 +83,7 @@ It is also recommended  to use [widgets](https://codex.wordpress.org/Widgets_API
 = 1.3.55 =
 Keep language prefixes on template, menu, and block links after switching language
 Localize links in shortcode output, including page builder headers, footers and popups rendered outside the post content
+Add language subdirectory rules for custom taxonomy archives
 
 = 1.3.54 =
 Fix URL options showing as enabled on the settings screen while switched off

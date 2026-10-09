@@ -193,9 +193,10 @@ class Transifex_Live_Integration_Subdirectory {
 		$custom_types_array = array();
 		$custom_types_array = apply_filters('transifex_generate_rewrite_rules', $custom_types_array);
 
-		// Get rules for custom post type
+		// Get rules for custom post types and custom taxonomies
 		$custom_post_types_rewrite_rules = $this->custom_slug_rewrite_rules_hook();
-		$custom_types_array = array_merge($custom_post_types_rewrite_rules, $custom_types_array);
+		$custom_taxonomies_rewrite_rules = $this->custom_taxonomy_rewrite_rules_hook();
+		$custom_types_array = array_merge($custom_post_types_rewrite_rules, $custom_taxonomies_rewrite_rules, $custom_types_array);
 		foreach($custom_types_array as $custom_type_regex => $custom_type_action){
 			// Replace the lang placeholder with the language regex for this configuation
 			$custom_type_regex = str_replace("%lang%", $this->languages_regex, $custom_type_regex);
@@ -282,6 +283,44 @@ class Transifex_Live_Integration_Subdirectory {
         }
         return $rules;
     }
+
+	/**
+	 * Generates rewrite rules for the term archives of custom taxonomies.
+	 *
+	 * Built-in categories and tags get theirs from the category and tag
+	 * rewrite filters, but a taxonomy registered by a theme or plugin has
+	 * none, so its localized term archives would 404. The rules are built
+	 * from the taxonomy's own permastruct, the one WP builds its term links
+	 * and source language rules from, so a front base and hierarchical term
+	 * paths come out the same way.
+	 *
+	 * @return array An array of generated rewrite rules for custom taxonomies.
+	 */
+	function custom_taxonomy_rewrite_rules_hook() {
+		global $wp_rewrite;
+		$rules = array();
+		$taxonomies = get_taxonomies( array( '_builtin' => false, 'public' => true ), 'objects' );
+		foreach ($taxonomies as $taxonomy) {
+			if ( empty( $taxonomy->rewrite ) ) {
+				continue;
+			}
+			// Empty when permalinks are plain or the taxonomy has no rewrite
+			$struct = $wp_rewrite->get_extra_permastruct( $taxonomy->name );
+			if ( empty( $struct ) ) {
+				continue;
+			}
+			// Same term regex WP registers for the taxonomy's rewrite tag
+			$term_regex = ( !empty( $taxonomy->rewrite['hierarchical'] ) ) ? '(.+?)' : '([^/]+)';
+			$path = trim( str_replace( '%' . $taxonomy->name . '%', $term_regex, $struct ), '/' );
+			$query = ( !empty( $taxonomy->query_var ) )
+				? $taxonomy->query_var . '=$matches[2]'
+				: 'taxonomy=' . $taxonomy->name . '&term=$matches[2]';
+			// Paged rule first: a hierarchical term regex would swallow /page/N
+			$rules['%lang%/' . $path . '/page/?([0-9]{1,})/?$'] = 'index.php?' . $query . '&paged=$matches[3]&lang=$matches[1]';
+			$rules['%lang%/' . $path . '/?$'] = 'index.php?' . $query . '&lang=$matches[1]';
+		}
+		return $rules;
+	}
 
 	/**
 	 * Function to build page permastructs
