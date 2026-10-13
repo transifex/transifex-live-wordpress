@@ -26,10 +26,11 @@ class PostTypeArchiveRewriteRulesTest extends BaseTestCase
 
 	protected function tearDown(): void
 	{
-		unset( $GLOBALS['tx_test_post_types'] );
+		unset( $GLOBALS['tx_test_post_types'], $GLOBALS['wp_rewrite'] );
 	}
 
-	private function postType( $has_archive, $rewrite = false )
+	// WP fills in the rewrite slug and with_front on registration
+	private function postType( $has_archive, $rewrite = [ 'slug' => 'newsroom', 'with_front' => true ] )
 	{
 		$post_type = new stdClass();
 		$post_type->has_archive = $has_archive;
@@ -37,9 +38,10 @@ class PostTypeArchiveRewriteRulesTest extends BaseTestCase
 		return $post_type;
 	}
 
-	private function subdirectory( $post_types )
+	private function subdirectory( $post_types, $front = '/' )
 	{
 		$GLOBALS['tx_test_post_types'] = $post_types;
+		$GLOBALS['wp_rewrite'] = (object) [ 'front' => $front ];
 		return \Codeception\Stub::make( Transifex_Live_Integration_Subdirectory::class, [ 'languages_regex' => '(de|fr)' ], $this );
 	}
 
@@ -55,13 +57,35 @@ class PostTypeArchiveRewriteRulesTest extends BaseTestCase
 	public function testArchiveSlugPrecedence()
 	{
 		$rules = $this->subdirectory( [
-			'event' => $this->postType( 'whats-on' , [ 'slug' => 'events' ] ),
-			'book' => $this->postType( true, [ 'slug' => 'library/books' ] ),
-			'internal' => $this->postType( false, [ 'slug' => 'internal' ] ),
+			'event' => $this->postType( 'whats-on' , [ 'slug' => 'events', 'with_front' => true ] ),
+			'book' => $this->postType( true, [ 'slug' => 'library/books', 'with_front' => true ] ),
+			'internal' => $this->postType( false, [ 'slug' => 'internal', 'with_front' => true ] ),
 		] )->post_type_archive_rewrite_rules();
 		$this->assertSame( 'index.php?post_type=event&lang=$matches[1]', $rules['%lang%/whats-on/?$'] );
 		$this->assertSame( 'index.php?post_type=book&lang=$matches[1]', $rules['%lang%/library/books/?$'] );
 		$this->assertCount( 4, $rules );
+	}
+
+	public function testArchiveIsBehindThePermalinkFront()
+	{
+		$rules = $this->subdirectory( [
+			'newsroom' => $this->postType( true ),
+			'event' => $this->postType( true, [ 'slug' => 'events', 'with_front' => false ] ),
+		], '/blog/' )->post_type_archive_rewrite_rules();
+		$this->assertSame( [
+			'%lang%/blog/newsroom/page/?([0-9]{1,})/?$',
+			'%lang%/blog/newsroom/?$',
+			'%lang%/events/page/?([0-9]{1,})/?$',
+			'%lang%/events/?$',
+		], array_keys( $rules ) );
+	}
+
+	public function testPostTypesWithoutRewriteGetNoArchiveRules()
+	{
+		// WP links these archives as ?post_type=faq, a /de/faq/ rule on top
+		// would only shadow a page with that slug
+		$rules = $this->subdirectory( [ 'faq' => $this->postType( true, false ) ] )->post_type_archive_rewrite_rules();
+		$this->assertSame( [], $rules );
 	}
 
 	public function testArchiveRulesGoAboveThePageRules()

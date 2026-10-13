@@ -197,6 +197,7 @@ class Transifex_Live_Integration_Subdirectory {
 		$custom_post_types_rewrite_rules = $this->custom_slug_rewrite_rules_hook();
 		$custom_taxonomies_rewrite_rules = $this->custom_taxonomy_rewrite_rules_hook();
 		$custom_types_array = array_merge($custom_post_types_rewrite_rules, $custom_taxonomies_rewrite_rules, $custom_types_array);
+		$rewrite_array = array();
 		foreach($custom_types_array as $custom_type_regex => $custom_type_action){
 			// Replace the lang placeholder with the language regex for this configuation
 			$custom_type_regex = str_replace("%lang%", $this->languages_regex, $custom_type_regex);
@@ -227,6 +228,26 @@ class Transifex_Live_Integration_Subdirectory {
 			$slug = '';
 			if (!empty($post_type_object->rewrite['slug'])) {
 				$slug = $post_type_object->rewrite['slug'];
+			}
+
+			// Handle archive templates of custom post types. Kept as is for
+			// existing sites; post_type_archive_rewrite_rules adds the rules
+			// that match WP's own archive URLs ahead of the page rules.
+			if (!empty($post_type_object->has_archive)) {
+				if (is_string($post_type_object->has_archive)) {
+					// If has_archive is a string, use it directly as the slug
+					$has_archive_slug = $post_type_object->has_archive;
+				} else {
+					// If has_archive is boolean, check if a custom slug is defined
+					// in the rewrite parameter, otherwise use the post type
+					if ($slug) {
+						$has_archive_slug = $slug;
+					} else {
+						$has_archive_slug = $post_type;
+					}
+				}
+
+				$rules['%lang%/' . $has_archive_slug . '?$'] = 'index.php?post_type=' . $post_type . '&lang=$matches[1]';
 			}
 
 			// Query only the post IDs, never the full WP_Post objects. The full
@@ -269,14 +290,20 @@ class Transifex_Live_Integration_Subdirectory {
 	/**
 	 * Generates rewrite rules for the archives of post types with has_archive.
 	 *
+	 * The archive path is built the way WP builds its own archive rules and
+	 * links: only for post types with a rewrite, and behind the permalink
+	 * front (e.g. /blog/) unless the post type sets with_front to false.
+	 *
 	 * @return array An array of generated rewrite rules for post type archives.
 	 */
 	function post_type_archive_rewrite_rules() {
+		global $wp_rewrite;
 		$rules = array();
 		$post_types = array_merge(get_post_types(array('_builtin' => false)), array('post', 'page'));
 		foreach ($post_types as $post_type) {
 			$post_type_object = get_post_type_object($post_type);
-			if (empty($post_type_object->has_archive)) {
+			// Without a rewrite WP has no pretty archive URL, its link is ?post_type=
+			if (empty($post_type_object->has_archive) || empty($post_type_object->rewrite)) {
 				continue;
 			}
 			if (is_string($post_type_object->has_archive)) {
@@ -290,6 +317,13 @@ class Transifex_Live_Integration_Subdirectory {
 				$has_archive_slug = $post_type;
 			}
 			$has_archive_slug = trim($has_archive_slug, '/');
+			if (!empty($post_type_object->rewrite['with_front']) && !empty($wp_rewrite->front)) {
+				// The front is '/' for most permalink structures, which adds nothing
+				$front = trim($wp_rewrite->front, '/');
+				if ($front !== '') {
+					$has_archive_slug = $front . '/' . $has_archive_slug;
+				}
+			}
 			$rules['%lang%/' . $has_archive_slug . '/page/?([0-9]{1,})/?$'] = 'index.php?post_type=' . $post_type . '&paged=$matches[2]&lang=$matches[1]';
 			$rules['%lang%/' . $has_archive_slug . '/?$'] = 'index.php?post_type=' . $post_type . '&lang=$matches[1]';
 		}
@@ -335,7 +369,7 @@ class Transifex_Live_Integration_Subdirectory {
 	function custom_taxonomy_rewrite_rules_hook() {
 		global $wp_rewrite;
 		$rules = array();
-		$taxonomies = get_taxonomies( array( '_builtin' => false, 'public' => true ), 'objects' );
+		$taxonomies = get_taxonomies( array( '_builtin' => false, 'publicly_queryable' => true ), 'objects' );
 		foreach ($taxonomies as $taxonomy) {
 			if ( empty( $taxonomy->rewrite ) ) {
 				continue;

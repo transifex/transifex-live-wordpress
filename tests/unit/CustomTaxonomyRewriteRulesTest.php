@@ -5,6 +5,7 @@ include_once __DIR__ .'/BaseTestCase.php';
 // Stands in for WP's taxonomy registry, filled per test.
 if ( !function_exists( 'get_taxonomies' ) ) {
 	function get_taxonomies( ...$args ) {
+		$GLOBALS['tx_test_taxonomy_args'] = $args;
 		return $GLOBALS['tx_test_taxonomies'] ?? array();
 	}
 }
@@ -20,7 +21,7 @@ class CustomTaxonomyRewriteRulesTest extends BaseTestCase
 
 	protected function tearDown(): void
 	{
-		unset( $GLOBALS['tx_test_taxonomies'], $GLOBALS['wp_rewrite'] );
+		unset( $GLOBALS['tx_test_taxonomies'], $GLOBALS['tx_test_taxonomy_args'], $GLOBALS['wp_rewrite'] );
 	}
 
 	private function taxonomy( $name, $rewrite, $query_var )
@@ -58,6 +59,14 @@ class CustomTaxonomyRewriteRulesTest extends BaseTestCase
 			'%lang%/resource-category/([^/]+)/page/?([0-9]{1,})/?$' => 'index.php?resource-category=$matches[2]&paged=$matches[3]&lang=$matches[1]',
 			'%lang%/resource-category/([^/]+)/?$' => 'index.php?resource-category=$matches[2]&lang=$matches[1]',
 		], $rules );
+	}
+
+	public function testPubliclyQueryableTaxonomiesAreIncluded()
+	{
+		// WP serves term archives of taxonomies that are publicly queryable
+		// but not public, so they need localized rules too
+		$this->rulesFor( [], [] );
+		$this->assertSame( [ [ '_builtin' => false, 'publicly_queryable' => true ], 'objects' ], $GLOBALS['tx_test_taxonomy_args'] );
 	}
 
 	public function testHierarchicalTermPathsAndFrontBase()
