@@ -193,9 +193,11 @@ class Transifex_Live_Integration_Subdirectory {
 		$custom_types_array = array();
 		$custom_types_array = apply_filters('transifex_generate_rewrite_rules', $custom_types_array);
 
-		// Get rules for custom post type
+		// Get rules for custom post types and custom taxonomies
 		$custom_post_types_rewrite_rules = $this->custom_slug_rewrite_rules_hook();
-		$custom_types_array = array_merge($custom_post_types_rewrite_rules, $custom_types_array);
+		$custom_taxonomies_rewrite_rules = $this->custom_taxonomy_rewrite_rules_hook();
+		$custom_types_array = array_merge($custom_post_types_rewrite_rules, $custom_taxonomies_rewrite_rules, $custom_types_array);
+		$rewrite_array = array();
 		foreach($custom_types_array as $custom_type_regex => $custom_type_action){
 			// Replace the lang placeholder with the language regex for this configuation
 			$custom_type_regex = str_replace("%lang%", $this->languages_regex, $custom_type_regex);
@@ -228,7 +230,9 @@ class Transifex_Live_Integration_Subdirectory {
 				$slug = $post_type_object->rewrite['slug'];
 			}
 
-			// Handle archive templates of custom post types
+			// Handle archive templates of custom post types. Kept as is for
+			// existing sites; post_type_archive_rewrite_rules adds the rules
+			// that match WP's own archive URLs ahead of the page rules.
 			if (!empty($post_type_object->has_archive)) {
 				if (is_string($post_type_object->has_archive)) {
 					// If has_archive is a string, use it directly as the slug
@@ -282,6 +286,111 @@ class Transifex_Live_Integration_Subdirectory {
         }
         return $rules;
     }
+
+	/**
+	 * Generates rewrite rules for the archives of post types with has_archive.
+	 *
+	 * The archive path is built the way WP builds its own archive rules and
+	 * links: only for post types with a rewrite, and behind the permalink
+	 * front (e.g. /blog/) unless the post type sets with_front to false.
+	 *
+	 * @return array An array of generated rewrite rules for post type archives.
+	 */
+	function post_type_archive_rewrite_rules() {
+		global $wp_rewrite;
+		$rules = array();
+		$post_types = array_merge(get_post_types(array('_builtin' => false)), array('post', 'page'));
+		foreach ($post_types as $post_type) {
+			$post_type_object = get_post_type_object($post_type);
+			// Without a rewrite WP has no pretty archive URL, its link is ?post_type=
+			if (empty($post_type_object->has_archive) || empty($post_type_object->rewrite)) {
+				continue;
+			}
+			if (is_string($post_type_object->has_archive)) {
+				// If has_archive is a string, use it directly as the slug
+				$has_archive_slug = $post_type_object->has_archive;
+			} elseif (!empty($post_type_object->rewrite['slug'])) {
+				// If has_archive is boolean, use the custom slug defined
+				// in the rewrite parameter, otherwise the post type
+				$has_archive_slug = $post_type_object->rewrite['slug'];
+			} else {
+				$has_archive_slug = $post_type;
+			}
+			$has_archive_slug = trim($has_archive_slug, '/');
+			if (!empty($post_type_object->rewrite['with_front']) && !empty($wp_rewrite->front)) {
+				// The front is '/' for most permalink structures, which adds nothing
+				$front = trim($wp_rewrite->front, '/');
+				if ($front !== '') {
+					$has_archive_slug = $front . '/' . $has_archive_slug;
+				}
+			}
+			$rules['%lang%/' . $has_archive_slug . '/page/?([0-9]{1,})/?$'] = 'index.php?post_type=' . $post_type . '&paged=$matches[2]&lang=$matches[1]';
+			$rules['%lang%/' . $has_archive_slug . '/?$'] = 'index.php?post_type=' . $post_type . '&lang=$matches[1]';
+		}
+		return $rules;
+	}
+
+	/**
+	 * Callback function to the WP rewrite_rules_array
+	 *
+	 * Moves the localized post type archive rules to the top, the same place
+	 * WP puts its own archive rules. Below the localized page rules, an
+	 * archive whose slug is also the slug of a page or attachment would be
+	 * matched as that page instead, e.g. /de/newsroom/ serving the
+	 * attachment named "newsroom".
+	 *
+	 * @param array $rules Associative array of rewrite rules in WP.
+	 * @return array Returns filtered rules
+	 */
+	function rewrite_rules_array_hook( $rules ) {
+		Plugin_Debug::logTrace();
+		if ( !Transifex_Live_Integration_Validators::is_rules_ok( $rules ) ) {
+			return $rules;
+		}
+		$archive_rules = array();
+		foreach ($this->post_type_archive_rewrite_rules() as $regex => $action) {
+			$archive_rules[str_replace('%lang%', $this->languages_regex, $regex)] = $action;
+		}
+		return array_merge( $archive_rules, $rules );
+	}
+
+	/**
+	 * Generates rewrite rules for the term archives of custom taxonomies.
+	 *
+	 * Built-in categories and tags get theirs from the category and tag
+	 * rewrite filters, but a taxonomy registered by a theme or plugin has
+	 * none, so its localized term archives would 404. The rules are built
+	 * from the taxonomy's own permastruct, the one WP builds its term links
+	 * and source language rules from, so a front base and hierarchical term
+	 * paths come out the same way.
+	 *
+	 * @return array An array of generated rewrite rules for custom taxonomies.
+	 */
+	function custom_taxonomy_rewrite_rules_hook() {
+		global $wp_rewrite;
+		$rules = array();
+		$taxonomies = get_taxonomies( array( '_builtin' => false, 'publicly_queryable' => true ), 'objects' );
+		foreach ($taxonomies as $taxonomy) {
+			if ( empty( $taxonomy->rewrite ) ) {
+				continue;
+			}
+			// Empty when permalinks are plain or the taxonomy has no rewrite
+			$struct = $wp_rewrite->get_extra_permastruct( $taxonomy->name );
+			if ( empty( $struct ) ) {
+				continue;
+			}
+			// Same term regex WP registers for the taxonomy's rewrite tag
+			$term_regex = ( !empty( $taxonomy->rewrite['hierarchical'] ) ) ? '(.+?)' : '([^/]+)';
+			$path = trim( str_replace( '%' . $taxonomy->name . '%', $term_regex, $struct ), '/' );
+			$query = ( !empty( $taxonomy->query_var ) )
+				? $taxonomy->query_var . '=$matches[2]'
+				: 'taxonomy=' . $taxonomy->name . '&term=$matches[2]';
+			// Paged rule first: a hierarchical term regex would swallow /page/N
+			$rules['%lang%/' . $path . '/page/?([0-9]{1,})/?$'] = 'index.php?' . $query . '&paged=$matches[3]&lang=$matches[1]';
+			$rules['%lang%/' . $path . '/?$'] = 'index.php?' . $query . '&lang=$matches[1]';
+		}
+		return $rules;
+	}
 
 	/**
 	 * Function to build page permastructs
