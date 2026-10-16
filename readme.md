@@ -70,6 +70,12 @@ Ex. $updated_content = apply_filters('tx_link', $original_content);
 
 == Changelog ==
 
+= 1.3.55 =
+Keep language prefixes on template, menu, and block links after switching language
+Localize links in shortcode output, including page builder headers, footers and popups rendered outside the post content
+Add language subdirectory rules for custom taxonomy archives
+Fix localized post type archives being served as a page or attachment with the same slug
+
 = 1.3.54 =
 Fix URL options showing as enabled on the settings screen while switched off
 Localize custom menu item links
